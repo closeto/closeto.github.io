@@ -2,9 +2,9 @@
 <html>
 <head>
   <meta charset="utf-8">
-  <title>PE文件格式——简介 | 欢迎来到closeto的博客</title>
+  <title>PE文件格式—简介 | 欢迎来到closeto的博客</title>
   <meta name="keywords" content=" 2022 , 文件格式 ">
-  <meta name="description" content="PE文件格式——简介 | 欢迎来到closeto的博客">
+  <meta name="description" content="PE文件格式—简介 | 欢迎来到closeto的博客">
     <meta name="viewport" content="width=device-width, initial-scale=1, maximum-scale=1">
 <meta name="description" content="Welcome to Hexo! This is your very first post. Check documentation for more info. If you get any problems when using Hexo, you can find the answer in troubleshooting or you can ask me on GitHub. Quick">
 <meta property="og:type" content="article">
@@ -212,7 +212,7 @@
            href="/2023/04/10/PE%E6%96%87%E4%BB%B6%E6%A0%BC%E5%BC%8F%E2%80%94%E7%AE%80%E4%BB%8B/"
            data-tag="2022,文件格式"
            data-author="" >
-            <span class="post-title" title="PE文件格式——简介">PE文件格式——简介</span>
+            <span class="post-title" title="PE文件格式—简介">PE文件格式—简介</span>
             <span class="post-date" title="2023-04-10 10:48:36">2023/04/10</span>
         </a>
         
@@ -236,7 +236,7 @@
     <div class="pjax">
         <article id="post-PE文件格式—简介" class="article article-type-post" itemscope itemprop="blogPost">
     
-        <h1 class="article-title">PE文件格式——简介</h1>
+        <h1 class="article-title">PE文件格式—简介</h1>
     
     <div class="article-meta">
         
@@ -264,7 +264,7 @@
     <div class="article-meta">
         <!-- 修改了原始显示，原始显示更新日期为悬浮 -->
         <!-- 
-            发布时间 : <time class="date" title='最后更新: 2023-08-21 20:04:31'>2023-04-10 10:48</time>
+            发布时间 : <time class="date" title='最后更新: 2023-08-21 22:35:12'>2023-04-10 10:48</time>
          -->
 
         
@@ -292,7 +292,7 @@
     
     <div class="toc-ref">
     
-        <ol class="toc"><li class="toc-item toc-level-1"><a class="toc-link" href="#0x00-%E5%88%9D%E8%AF%86"><span class="toc-text">0x00-初识</span></a></li><li class="toc-item toc-level-1"><a class="toc-link" href="#0x01-VA%E3%80%81RVA%E3%80%81FOA"><span class="toc-text">0x01-VA、RVA、FOA</span></a></li><li class="toc-item toc-level-1"><a class="toc-link" href="#0x02%E2%AD%90%E9%87%8D%E8%A6%81%E7%BB%93%E6%9E%84%E4%BD%93"><span class="toc-text">0x02⭐重要结构体</span></a></li></ol>
+        <ol class="toc"><li class="toc-item toc-level-1"><a class="toc-link" href="#0x00-%E5%88%9D%E8%AF%86"><span class="toc-text">0x00-初识</span></a></li><li class="toc-item toc-level-1"><a class="toc-link" href="#0x01-%E2%AD%90%E9%87%8D%E8%A6%81%E7%BB%93%E6%9E%84%E4%BD%93"><span class="toc-text">0x01-⭐重要结构体</span></a><ol class="toc-child"><li class="toc-item toc-level-2"><a class="toc-link" href="#DOS-HEADER"><span class="toc-text">DOS_HEADER</span></a></li><li class="toc-item toc-level-2"><a class="toc-link" href="#DOS-STUB-DosStub"><span class="toc-text">DOS_STUB DosStub</span></a></li><li class="toc-item toc-level-2"><a class="toc-link" href="#NT-HEADERS"><span class="toc-text">NT_HEADERS</span></a><ol class="toc-child"><li class="toc-item toc-level-3"><a class="toc-link" href="#FILE-HEADER"><span class="toc-text">FILE_HEADER</span></a></li><li class="toc-item toc-level-3"><a class="toc-link" href="#OPTIONAL-HEADER32"><span class="toc-text">OPTIONAL_HEADER32</span></a><ol class="toc-child"><li class="toc-item toc-level-4"><a class="toc-link" href="#DATA-DIRECTORY"><span class="toc-text">DATA_DIRECTORY</span></a></li></ol></li></ol></li><li class="toc-item toc-level-2"><a class="toc-link" href="#%E2%AD%90SECTION-HEADER"><span class="toc-text">⭐SECTION_HEADER</span></a></li><li class="toc-item toc-level-2"><a class="toc-link" href="#%E2%AD%90IMAGE-EXPORT-DIRECTORY"><span class="toc-text">⭐IMAGE_EXPORT_DIRECTORY</span></a></li><li class="toc-item toc-level-2"><a class="toc-link" href="#%E2%AD%90BASE-RELOCATION"><span class="toc-text">⭐BASE_RELOCATION</span></a></li><li class="toc-item toc-level-2"><a class="toc-link" href="#%E2%AD%90IMPORT-DESCRIPTOR"><span class="toc-text">⭐IMPORT_DESCRIPTOR</span></a><ol class="toc-child"><li class="toc-item toc-level-3"><a class="toc-link" href="#THUNK-DATA32"><span class="toc-text">THUNK_DATA32</span></a></li><li class="toc-item toc-level-3"><a class="toc-link" href="#IMPORT-BY-NAME"><span class="toc-text">IMPORT_BY_NAME</span></a></li></ol></li><li class="toc-item toc-level-2"><a class="toc-link" href="#%E2%AD%90BOUND-IMPORT-DESCRIPTOR"><span class="toc-text">⭐BOUND_IMPORT_DESCRIPTOR</span></a><ol class="toc-child"><li class="toc-item toc-level-3"><a class="toc-link" href="#BOUND-FORWARDER-REF"><span class="toc-text">BOUND_FORWARDER_REF</span></a></li></ol></li></ol></li><li class="toc-item toc-level-1"><a class="toc-link" href="#0x02-PE%E6%96%87%E4%BB%B6%E5%9B%BE"><span class="toc-text">0x02-PE文件图</span></a></li><li class="toc-item toc-level-1"><a class="toc-link" href="#0x03-%E5%8F%82%E8%80%83%E4%BF%A1%E6%81%AF"><span class="toc-text">0x03-参考信息</span></a></li></ol>
     
 <style>
     .left-col .switch-btn,
@@ -308,17 +308,150 @@
     
     <div class="article-entry" itemprop="articleBody">
       
-        <h1 id="0x00-初识"><a href="#0x00-初识" class="headerlink" title="0x00-初识"></a>0x00-初识</h1><p>​		PE (Portable Executable) 文件格式是<strong>Windows操作系统</strong>上的标准<strong>可执行文件格式</strong>，通俗易懂将就是<code>.sys（驱动程序）</code>、<code>.lib（静态链接库）</code>、<code>.DLL（动态链接库）</code>、<code>.exe（可执行程序）</code>等。PE文件格式在Windows操作系统中被广泛使用，它定义了文件的结构、头部信息、节表等内容，使操作系统能够加载、执行和管理这些文件。</p>
+        <h1 id="0x00-初识"><a href="#0x00-初识" class="headerlink" title="0x00-初识"></a>0x00-初识</h1><p>​		👆<font color="blue"> <strong>本小节仅了解PE文件是什么、有什么作用、有哪些重要的结构体，结构体字段可否修改和作用。详细结构体介绍以及其它操作在本系列文章后续。</strong></font>👆</p>
+<p>​		PE (Portable Executable) 文件格式是<strong>Windows操作系统</strong>上的标准<strong>可执行文件格式</strong>，通俗易懂将就是<code>.sys（驱动程序）</code>、<code>.lib（静态链接库）</code>、<code>.DLL（动态链接库）</code>、<code>.exe（可执行程序）</code>等。PE文件格式在Windows操作系统中被广泛使用，它定义了文件的结构、头部信息、节表等内容，使操作系统能够加载、执行和管理这些文件。</p>
 <p>​		PE文件主要分为如下几部分：DOS头、PE头、节表、数据目录、节数据、附件调试信息（DEBUG程序会有）。</p>
 <p><img src="/./images/PE01.jpg"></p>
 <p>​		将任意程序拖入<strong>010Editor</strong>（更加直观的看到PE文件信息）得到其文件的详细信息，示例如下：</p>
 <p><img src="/./images/PE02.jpg"></p>
-<h1 id="0x01-VA、RVA、FOA"><a href="#0x01-VA、RVA、FOA" class="headerlink" title="0x01-VA、RVA、FOA"></a>0x01-VA、RVA、FOA</h1><p><strong>VA：</strong> 虚拟内存地址（Virtual Address）PE 文件被操作系统加载进内存后的地址。</p>
-<p><strong>RVA：</strong> 程序在内存中的偏移地址（Relative Virual Address）   _IMAGE_SECTION_HEADER.VirtualAddress</p>
-<p><strong>FOA：</strong>程序在文件，硬盘中的偏移地址（File Offset Address）_IMAGE_SECTION_HEADER.PointerToRawData</p>
-<p>VA &#x3D; ImageBase + RVA<br>RVA &#x3D; VA - ImageBase<br>FOA &#x3D; 所在的节 + RVA</p>
-<p>（详细计算过程在“实验部分”）</p>
-<h1 id="0x02⭐重要结构体"><a href="#0x02⭐重要结构体" class="headerlink" title="0x02⭐重要结构体"></a>0x02⭐重要结构体</h1><p>了解PE文件，一定要记住如下几个字段：<br>        IMAGE_DOS_HEADER			   （记录了PE文件的信息）<br>        IMAGE_NT_HEADERS				（节表的数量、建立时间）<br>        IMAGE_SECTION_HEADER	   （什么类型的文件的是sys、dll还是exe，RVA和节属性）<br>        IMAGE_SECTION_DATA			（节数据）<br>        IMAGE_IMPORT_DESCRIPTOR（导入名称表，当前PE使用了多少函数）<br>        IMAGE_EXPORT_DESCRIPTOR（导出名称表，当前PE导出了多少函数）</p>
+<h1 id="0x01-⭐重要结构体"><a href="#0x01-⭐重要结构体" class="headerlink" title="0x01-⭐重要结构体"></a>0x01-⭐重要结构体</h1><p>了解PE文件，一定要记住如下几个字段：<br>        IMAGE_DOS_HEADER			   （）<br>        IMAGE_NT_HEADERS				（节表的数量、建立时间）<br>        IMAGE_SECTION_HEADER	   （什么类型的文件的是sys、dll还是exe，RVA和节属性）<br>        IMAGE_SECTION_DATA			（节数据）<br>        IMAGE_IMPORT_DESCRIPTOR（导入名称表，当前PE使用了多少函数）<br>        IMAGE_EXPORT_DESCRIPTOR（导出名称表，当前PE导出了多少函数）</p>
+<h2 id="DOS-HEADER"><a href="#DOS-HEADER" class="headerlink" title="DOS_HEADER"></a>DOS_HEADER</h2><p>该结构体字段如下，<strong>记录了PE文件的信息</strong></p>
+<figure class="highlight c++"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br><span class="line">11</span><br><span class="line">12</span><br><span class="line">13</span><br><span class="line">14</span><br><span class="line">15</span><br><span class="line">16</span><br><span class="line">17</span><br><span class="line">18</span><br><span class="line">19</span><br><span class="line">20</span><br><span class="line">21</span><br></pre></td><td class="code"><pre><span class="line"><span class="keyword">typedef</span> <span class="keyword">struct</span> <span class="title class_">_IMAGE_DOS_HEADER</span> &#123;      <span class="comment">// DOS .EXE header</span></span><br><span class="line">    WORD   e_magic;                     <span class="comment">// 必须为4D 5A(MZ)，标志为PE文件</span></span><br><span class="line">    WORD   e_cblp;                      <span class="comment">// 文件最后页的字节数【X】</span></span><br><span class="line">    WORD   e_cp;                        <span class="comment">// 文件页数【X】</span></span><br><span class="line">    WORD   e_crlc;                      <span class="comment">// 重定向元数个数【X】</span></span><br><span class="line">    WORD   e_cparhdr;                   <span class="comment">// 头部尺寸，以段落为单位【X】</span></span><br><span class="line">    WORD   e_minalloc;                  <span class="comment">// 所需最小附加段【X】</span></span><br><span class="line">    WORD   e_maxalloc;                  <span class="comment">// 所需最大附加段【X】</span></span><br><span class="line">    WORD   e_ss;                        <span class="comment">// I初始相对偏移【X】</span></span><br><span class="line">    WORD   e_sp;                        <span class="comment">// 初始SP【X】</span></span><br><span class="line">    WORD   e_csum;                      <span class="comment">// 校验和【X】</span></span><br><span class="line">    WORD   e_ip;                        <span class="comment">// 初始IP【X】</span></span><br><span class="line">    WORD   e_cs;                        <span class="comment">// 初始CS【X】</span></span><br><span class="line">    WORD   e_lfarlc;                    <span class="comment">// 重分配表文件地址【X】</span></span><br><span class="line">    WORD   e_ovno;                      <span class="comment">// 覆盖号【X】</span></span><br><span class="line">    WORD   e_res[<span class="number">4</span>];                    <span class="comment">// 保留字s【X】</span></span><br><span class="line">    WORD   e_oemid;                     <span class="comment">// OEM identifier (for e_oeminfo) 【X】</span></span><br><span class="line">    WORD   e_oeminfo;                   <span class="comment">// OEM information; e_oemid specific【X】</span></span><br><span class="line">    WORD   e_res2[<span class="number">10</span>];                  <span class="comment">// 保留【X】</span></span><br><span class="line">    LONG   e_lfanew;                    <span class="comment">// PE头的偏移地址</span></span><br><span class="line">  &#125; IMAGE_DOS_HEADER, *PIMAGE_DOS_HEADER;</span><br></pre></td></tr></table></figure>
+
+<h2 id="DOS-STUB-DosStub"><a href="#DOS-STUB-DosStub" class="headerlink" title="DOS_STUB DosStub"></a>DOS_STUB DosStub</h2><p>无实际意义。新增节区空间不足时，可以将其删除，移动NT头到DOS_STUB</p>
+<p>该字段可以做<code>特殊手脚</code></p>
+<h2 id="NT-HEADERS"><a href="#NT-HEADERS" class="headerlink" title="NT_HEADERS"></a>NT_HEADERS</h2><p><strong>NT_HEADERS—&gt;FILE_HEADER—&gt;OPTIONAL_HEADER32</strong></p>
+<p>NT头又包含两个子结构体：<code>IMAGE_FILE_HEADER</code>、<code>IMAGE_OPTIONAL_HEADER32</code>（又包含了IMAGE_DATA_DIRECTORY）</p>
+<figure class="highlight c++"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br></pre></td><td class="code"><pre><span class="line"><span class="keyword">typedef</span> <span class="keyword">struct</span> <span class="title class_">_IMAGE_NT_HEADERS</span> &#123;</span><br><span class="line">  DWORD Signature;           			 	<span class="comment">//**固定值，PE\0\0(50 45 00 00)** </span></span><br><span class="line">  IMAGE_FILE_HEADER FileHeader;     	 	<span class="comment">//文件头</span></span><br><span class="line">  IMAGE_OPTIONAL_HEADER32 OptionalHeader; 	<span class="comment">//可选头</span></span><br><span class="line">&#125; IMAGE_NT_HEADERS32, *PIMAGE_NT_HEADERS32;</span><br><span class="line"><span class="number">32</span>位下长度<span class="number">248</span>，<span class="number">64</span>位下长度<span class="number">264</span></span><br></pre></td></tr></table></figure>
+
+<h3 id="FILE-HEADER"><a href="#FILE-HEADER" class="headerlink" title="FILE_HEADER"></a>FILE_HEADER</h3><p>描述了节区的数量，是32位还是64位</p>
+<figure class="highlight c++"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br><span class="line">11</span><br><span class="line">12</span><br><span class="line">13</span><br><span class="line">14</span><br><span class="line">15</span><br><span class="line">16</span><br><span class="line">17</span><br><span class="line">18</span><br></pre></td><td class="code"><pre><span class="line">标准PE头</span><br><span class="line"><span class="keyword">typedef</span> <span class="keyword">struct</span> <span class="title class_">_IMAGE_FILE_HEADER</span> &#123;</span><br><span class="line">  WORD  Machine;</span><br><span class="line">  WORD  NumberOfSections;</span><br><span class="line">  DWORD TimeDateStamp;</span><br><span class="line">  DWORD PointerToSymbolTable;</span><br><span class="line">  DWORD NumberOfSymbols;</span><br><span class="line">  WORD  SizeOfOptionalHeader;</span><br><span class="line">  WORD  Characteristics;</span><br><span class="line">&#125; IMAGE_FILE_HEADER, *PIMAGE_FILE_HEADER;</span><br><span class="line"></span><br><span class="line">Machine：操作系统类型，i86=<span class="number">014</span>C，i64=<span class="number">0200</span>，a64=<span class="number">8664</span></span><br><span class="line">NumberOfSections：节的个数，每个节大小为<span class="number">28</span>H(<span class="number">40</span>)字节</span><br><span class="line">TimeDateStamp：文件建立时间，<span class="number">1970.1</span><span class="number">.1</span>开始</span><br><span class="line">PointerToSymbolTable：符号表偏移【X？】</span><br><span class="line">NumberOfSymbols： 符号数目【X？】</span><br><span class="line">SizeOfOptionalHeader：可选PE头大小，<span class="number">32</span>位默认E0h，<span class="number">64</span>位默认F0h。可自定义</span><br><span class="line">Characteristics：标志集合，标志是否为DLL，若为DLL则必为<span class="number">2</span>XXX</span><br></pre></td></tr></table></figure>
+
+<h3 id="OPTIONAL-HEADER32"><a href="#OPTIONAL-HEADER32" class="headerlink" title="OPTIONAL_HEADER32"></a>OPTIONAL_HEADER32</h3><figure class="highlight c++"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br><span class="line">11</span><br><span class="line">12</span><br><span class="line">13</span><br><span class="line">14</span><br><span class="line">15</span><br><span class="line">16</span><br><span class="line">17</span><br><span class="line">18</span><br><span class="line">19</span><br><span class="line">20</span><br><span class="line">21</span><br><span class="line">22</span><br><span class="line">23</span><br><span class="line">24</span><br><span class="line">25</span><br><span class="line">26</span><br><span class="line">27</span><br><span class="line">28</span><br><span class="line">29</span><br><span class="line">30</span><br><span class="line">31</span><br><span class="line">32</span><br><span class="line">33</span><br><span class="line">34</span><br></pre></td><td class="code"><pre><span class="line">可选PE头，固定长度E0（<span class="number">224</span>）行=<span class="number">16</span>*<span class="number">14</span></span><br><span class="line"><span class="keyword">typedef</span> <span class="keyword">struct</span> _IMAGE_OPTIONAL_HEADER &#123;</span><br><span class="line">  WORD                 Magic;</span><br><span class="line">  BYTE                 MajorLinkerVersion;</span><br><span class="line">  BYTE                 MinorLinkerVersion;</span><br><span class="line">  DWORD                SizeOfCode;</span><br><span class="line">  DWORD                SizeOfInitializedData;</span><br><span class="line">  DWORD                SizeOfUninitializedData;</span><br><span class="line">  DWORD                AddressOfEntryPoint;</span><br><span class="line">  DWORD                BaseOfCode;</span><br><span class="line">  DWORD                BaseOfData;</span><br><span class="line">  DWORD                ImageBase;</span><br><span class="line">  DWORD                SectionAlignment;</span><br><span class="line">  DWORD                FileAlignment;</span><br><span class="line">  WORD                 MajorOperatingSystemVersion;</span><br><span class="line">  WORD                 MinorOperatingSystemVersion;</span><br><span class="line">  WORD                 MajorImageVersion;</span><br><span class="line">  WORD                 MinorImageVersion;</span><br><span class="line">  WORD                 MajorSubsystemVersion;</span><br><span class="line">  WORD                 MinorSubsystemVersion;</span><br><span class="line">  DWORD                Win32VersionValue;</span><br><span class="line">  DWORD                SizeOfImage;</span><br><span class="line">  DWORD                SizeOfHeaders;</span><br><span class="line">  DWORD                CheckSum;</span><br><span class="line">  WORD                 Subsystem;</span><br><span class="line">  WORD                 DllCharacteristics;</span><br><span class="line">  DWORD                SizeOfStackReserve;</span><br><span class="line">  DWORD                SizeOfStackCommit;</span><br><span class="line">  DWORD                SizeOfHeapReserve;</span><br><span class="line">  DWORD                SizeOfHeapCommit;</span><br><span class="line">  DWORD                LoaderFlags;</span><br><span class="line">  DWORD                NumberOfRvaAndSizes;</span><br><span class="line">  IMAGE_DATA_DIRECTORY DataDirectory[IMAGE_NUMBEROF_DIRECTORY_ENTRIES];</span><br><span class="line">&#125; IMAGE_OPTIONAL_HEADER32, *PIMAGE_OPTIONAL_HEADER32;</span><br></pre></td></tr></table></figure>
+
+<p>Magic：⭐应用程序类型，32&#x3D;10b，64&#x3D;20b，iso&#x3D;107<br>MajorLinkerVersion：【X】<br>MinorLinkerVersion：【X】<br>SizeOfCode：代码段的大小（以字节为单位）【X】<br>SizeOfInitializedData：已初始化数据段的大小（以字节为单位）【X】<br>SizeOfUninitializedData：未初始化数据段的大小（以字节为单位）【X】<br>AddressOfEntryPoint：代码入口RVA地址，程序的执行处<br>BaseOfCode：可执行代码起始位置，意义并不大【X】<br>BaseOfData：初始化数据起始位置，意义不大【X】<br>ImageBase：载入程序首选VA地址，意义不大<br>SectionAlignment：节的内存对齐大小，1000h<br>FileAlignment：节的文件对齐大小，200h<br>MajorOperatingSystemVersion：【X】<br>MinorOperatingSystemVersion：【X】<br>MajorImageVersion：【X】<br>MinorImageVersion：【X】<br>MajorSubsystemVersion：【X】<br>MinorSubsystemVersion：【X】<br>Win32VersionValue：必须为0<br>SizeOfImage：程序调入后占用的内存大小（新增节区也得修改这个值）<br>SizeOfHeaders：头文件的长度之和，文件对齐倍数（dos头+dossub+NT头+节表）<br>CheckSum：校验和<br>Subsystem：执行PE文件的子系统GUI或CUI，1&#x3D;驱动、2&#x3D;GUI，3&#x3D;CUI<br>DllCharacteristics：DLL调用的实际<br>SizeOfStackReserve：为堆栈保留的字节数<br>SizeOfStackCommit：为堆栈提交的字节数。<br>SizeOfHeapReserve：为本地堆保留的字节数<br>SizeOfHeapCommit：为本地堆提交的字节数<br>LoaderFlags：装载标志，调试相关<br>NumberOfRvaAndSizes：数据目录项，一般为16<br>IMAGE_DATA_DIRECTORY数据目录表</p>
+<h4 id="DATA-DIRECTORY"><a href="#DATA-DIRECTORY" class="headerlink" title="DATA_DIRECTORY"></a>DATA_DIRECTORY</h4><p>数据目录结构体</p>
+<figure class="highlight c++"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br></pre></td><td class="code"><pre><span class="line">数据目录表共计长度：<span class="number">16</span> X <span class="number">8</span>=<span class="number">128</span>字节，共包含数据目录<span class="number">16</span>个</span><br><span class="line"><span class="meta">#<span class="keyword">define</span> IMAGE_NUMBEROF_DIRECTORY_ENTRIES    16</span></span><br><span class="line">IMAGE_DATA_DIRECTORY DataDirectory[IMAGE_NUMBEROF_DIRECTORY_ENTRIES];</span><br><span class="line"><span class="keyword">typedef</span> <span class="keyword">struct</span> <span class="title class_">_IMAGE_DATA_DIRECTORY</span> &#123;</span><br><span class="line">    DWORD   VirtualAddress;</span><br><span class="line">    DWORD   Size;</span><br><span class="line">&#125; IMAGE_DATA_DIRECTORY, *PIMAGE_DATA_DIRECTORY;</span><br></pre></td></tr></table></figure>
+
+<p>VirtualAddress：RVA地址（内存中的偏移）<br>Size：大小【X】</p>
+<p>⭐【数据目标表顺序】每个表大小8字节</p>
+<p>[00]Export</p>
+<p>[01]Import</p>
+<p>[02]Resource</p>
+<p>[03]Execption</p>
+<p>[04]Security</p>
+<p>[05]BaseRelocationTable</p>
+<p>[06]DebugDirectory</p>
+<p>[07]CopyrightOrArchitectureSpecificData</p>
+<p>[08]GlobalPtr</p>
+<p>[09]TLSDirectory</p>
+<p>[10]LoadConfigurationDirectory</p>
+<p>[11]BoundImportDirectory</p>
+<p>[12]ImportAddressTable</p>
+<p>[13]DelayLoadImportDescriptions</p>
+<p>[14]COMRuntimedescriptor</p>
+<p>[15]Reserved</p>
+<h2 id="⭐SECTION-HEADER"><a href="#⭐SECTION-HEADER" class="headerlink" title="⭐SECTION_HEADER"></a>⭐SECTION_HEADER</h2><figure class="highlight c++"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br><span class="line">11</span><br><span class="line">12</span><br><span class="line">13</span><br><span class="line">14</span><br><span class="line">15</span><br><span class="line">16</span><br></pre></td><td class="code"><pre><span class="line"><span class="meta">#<span class="keyword">define</span> IMAGE_SIZEOF_SHORT_NAME              8</span></span><br><span class="line"><span class="keyword">typedef</span> <span class="keyword">struct</span> <span class="title class_">_IMAGE_SECTION_HEADER</span> &#123;</span><br><span class="line">    BYTE    Name[IMAGE_SIZEOF_SHORT_NAME];</span><br><span class="line">    <span class="keyword">union</span> &#123;</span><br><span class="line">            DWORD   PhysicalAddress;</span><br><span class="line">            DWORD   VirtualSize;</span><br><span class="line">    &#125; Misc;</span><br><span class="line">    DWORD   VirtualAddress;</span><br><span class="line">    DWORD   SizeOfRawData;</span><br><span class="line">    DWORD   PointerToRawData;</span><br><span class="line">    DWORD   PointerToRelocations;</span><br><span class="line">    DWORD   PointerToLinenumbers;</span><br><span class="line">    WORD    NumberOfRelocations;</span><br><span class="line">    WORD    NumberOfLinenumbers;</span><br><span class="line">    DWORD   Characteristics;</span><br><span class="line">&#125; IMAGE_SECTION_HEADER, *PIMAGE_SECTION_HEADER;</span><br></pre></td></tr></table></figure>
+
+<p>Name：节的名字8 Byte，以ASCII字符‘\0’结尾</p>
+<p>Misc：公共体， EXE&#x3D;节的实际大小，OBJ&#x3D;本节物理地址,不准确【X?】。</p>
+<p>节未对齐前的大小（可以理解为文件&#x2F;内存中未对其的大小）</p>
+<p>VirtualAddress：<strong>（RVA）节在内存中的偏移地址。加上ImageBase才是在内存中的真实地址</strong></p>
+<p>SizeOfRawData：<strong>节在文件中对齐后的大小</strong></p>
+<p>PointerToRawData：从头‘MZ’开始数，数SizeOfRawData就是节的开始（节在文件中开始的偏移）</p>
+<p>PointerToRelocations：OBJ文件中使用，EXE无实意【X】</p>
+<p>PointerToLinenumbers：行号表位置，调试使用【X】</p>
+<p>NumberOfRelocations：OBJ文件中使用，EXE无实意【X】</p>
+<p>NumberOfLinenumbers：行号表中行号的数量，调试使用【X】</p>
+<p>Characteristics：<font color="red"><strong>节属性（读写执行）</strong></font></p>
+<h2 id="⭐IMAGE-EXPORT-DIRECTORY"><a href="#⭐IMAGE-EXPORT-DIRECTORY" class="headerlink" title="⭐IMAGE_EXPORT_DIRECTORY"></a>⭐IMAGE_EXPORT_DIRECTORY</h2><figure class="highlight c++"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br><span class="line">11</span><br><span class="line">12</span><br><span class="line">13</span><br><span class="line">14</span><br></pre></td><td class="code"><pre><span class="line"><span class="keyword">typedef</span> <span class="keyword">struct</span> <span class="title class_">_IMAGE_EXPORT_DIRECTORY</span> &#123;</span><br><span class="line">    DWORD   Characteristics;</span><br><span class="line">    DWORD   TimeDateStamp;</span><br><span class="line">    WORD    MajorVersion;</span><br><span class="line">    WORD    MinorVersion;</span><br><span class="line">    DWORD   Name;</span><br><span class="line">    DWORD   Base;</span><br><span class="line">    DWORD   NumberOfFunctions;</span><br><span class="line">    DWORD   NumberOfNames;</span><br><span class="line">    DWORD   AddressOfFunctions;     <span class="comment">// RVA from base of image</span></span><br><span class="line">    DWORD   AddressOfNames;         <span class="comment">// RVA from base of image</span></span><br><span class="line">    DWORD   AddressOfNameOrdinals;  <span class="comment">// RVA from base of image</span></span><br><span class="line">&#125; IMAGE_EXPORT_DIRECTORY, *PIMAGE_EXPORT_DIRECTORY;</span><br><span class="line"></span><br></pre></td></tr></table></figure>
+
+<p>Characteristics：未使用</p>
+<p>TimeDateStamp：时间戳，从1970.01.01开始过了多少秒</p>
+<p>MajorVersion：未使用</p>
+<p>MinorVersion：未使用</p>
+<p>Name：<font color="red"><strong>指向该导出表文件名字符串</strong></font></p>
+<p>Base：<font color="red"><strong>导出函数起始序号</strong></font></p>
+<p>NumberOfFunctions：<font color="red"><strong>所有导出函数的个数(不准确，最大序号 – 最小序号)</strong></font></p>
+<p>NumberOfNames：<font color="red"><strong>以函数名字导出的函数个数</strong></font></p>
+<p>AddressOfFunctions：<font color="red"><strong>导出函数地址表RVA</strong></font></p>
+<p>（连续；指向函数的地址；函数地址表可以和函数名字表不等长，不同函数指向同一地址）</p>
+<p>（AddressFunctions的大小&#x3D;AddressFunctions×NumberOfFunctions）</p>
+<p>AddressOfNames：<font color="red"><strong>导出函数名称表RVA</strong></font></p>
+<p>（连续；指向函数名称的地址，不同函数名可以指向同意函数地址）</p>
+<p>（AddressOfNames的大小&#x3D;AddressOfNames×NumberOfname）</p>
+<p>AddressOfNameOrdinals：<font color="red"><strong>导出函数序号表RVA</strong></font></p>
+<p>（可以不连续；和函数名称表等长；Base + 序号&#x3D;真正导出序号；函数可以以序号形式导出，隐藏名字不便于反编译）</p>
+<p>（AddressOfNameOrdinals的大小&#x3D;AddressOfNameOrdinals×NumberOfname）</p>
+<p><font color="red"><strong>按函数名——查找导出函数过程：</strong></font></p>
+<p>1、 AddressOfNames-》查找对应函数名所在的序号&#x2F;索引</p>
+<p>2、 AddressOfNameOrdinals-》查找对应序号&#x2F;索引处的值</p>
+<p>3、 AddressOfFunctions-》将导出函数表序号处的值作为偏移，该处就是函数的地址</p>
+<p><strong>示例：找到函数Fn5地址为，地址表中第4个</strong></p>
+<h2 id="⭐BASE-RELOCATION"><a href="#⭐BASE-RELOCATION" class="headerlink" title="⭐BASE_RELOCATION"></a>⭐BASE_RELOCATION</h2><p>【重定位表】需要修改的“绝对地址”的地方都在哪里，内存中以1000h为一页，即需要修改的页与重定位表数量相等</p>
+<p>typedef struct _IMAGE_BASE_RELOCATION {</p>
+<p>  DWORD  VirtualAddress;</p>
+<p>  DWORD  SizeOfBlock;</p>
+<p>&#x2F;&#x2F; WORD  TypeOffset[1];</p>
+<p>} IMAGE_BASE_RELOCATION;</p>
+<p>typedef IMAGE_BASE_RELOCATION UNALIGNED * PIMAGE_BASE_RELOCATION;</p>
+<p>内存以1000h进行分页</p>
+<p>VirtualAddress：需要修改的地方的Base（RVA），重定位表VirtualAddress为内存页的Base</p>
+<p>SizeOfBlock：记录当前块的大小。<font color="red"><strong>块中的每个数据长度2字节，代表有多少个数据需要修复。</strong></font></p>
+<p>重定位表的数量：当前表+ SizeOfBlock&#x3D;第二块表的起始位置。当VirtualAddress &#x3D; SizeOfBlock &#x3D; 0时表示结束</p>
+<p><font color="red"><strong>注意：A、重定位表保证自身程序地址的正确性</strong></font></p>
+<p><strong>重定位修复计算</strong></p>
+<p>SizeOfBlock中<strong>高4位等于3（0011）</strong>时，才需要修改，否则不需要</p>
+<p><img src="/.%5Cimages%5CPE03.jpg"></p>
+<p><font color="red"><strong>DLL</strong>肯定提供重定位表、<strong>EXE</strong>可能提供重定位表。</font></p>
+<h2 id="⭐IMPORT-DESCRIPTOR"><a href="#⭐IMPORT-DESCRIPTOR" class="headerlink" title="⭐IMPORT_DESCRIPTOR"></a>⭐IMPORT_DESCRIPTOR</h2><p>该结构体又有两个子结构体：THUNK_DATA32、IMPORT_BY_NAME</p>
+<figure class="highlight c++"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br></pre></td><td class="code"><pre><span class="line"><span class="keyword">typedef</span> <span class="keyword">struct</span> <span class="title class_">_IMAGE_IMPORT_DESCRIPTOR</span> &#123;</span><br><span class="line">    <span class="keyword">union</span> &#123;</span><br><span class="line">        DWORD   Characteristics;            </span><br><span class="line">        DWORD   OriginalFirstThunk;   </span><br><span class="line">    DWORD   TimeDateStamp;             </span><br><span class="line">    DWORD   ForwarderChain;</span><br><span class="line">    DWORD   Name;</span><br><span class="line">    DWORD   FirstThunk; addresses)</span><br><span class="line">&#125; IMAGE_IMPORT_DESCRIPTOR;</span><br><span class="line"><span class="keyword">typedef</span> IMAGE_IMPORT_DESCRIPTOR UNALIGNED *PIMAGE_IMPORT_DESCRIPTOR;</span><br></pre></td></tr></table></figure>
+
+<p>Characteristics | OriginalFirstThunk：<font color="red">RVA指向IMAGE_THUNK_DATA32结构数组（又名INT表：导入名称表，当前模块使用了该Dll多少函数）</font></p>
+<p>TimeDateStamp：时间戳，[0]&#x3D;未绑定，[-1&#x2F;FFFFFFFF]已绑定，绑定时间为IMAGE_BOUND_IMPORT_DESCRIPTOR的TimeDate</p>
+<p>ForwarderChain：无意义？</p>
+<p>Name：RVA，指向DLL名字，名字以00结尾</p>
+<p>FirstThunk：<font color="red">RVA，指向IMAGE_THUNK_DATA结构数组（又名IAT表：导入地址表，，当前模块使用了该Dll多少函数）</font></p>
+<p><font color="red">RVA，指向IMAGE_THUNK_DATA结构数组（又名IAT表：导入地址表，，当前模块使用了该Dll多少函数）</font></p>
+<p>⭐<strong>注意：</strong>⭐</p>
+<p><strong>①</strong> <strong>导入表有很对个，当结构全“00”时，标志导入表结束</strong></p>
+<p><strong>②</strong> <strong>OriginaFirstThunk****和FirstThunk都为0时表示结束</strong></p>
+<p><strong>A、</strong> <strong>IAT****表和INT表加载前，结构&#x2F;内容相同，都存储RVA，都指向IMAGE_IMPORT_BY_NAME(此表明确了是按名称导入还是序号导入)。</strong></p>
+<p><strong>B、</strong> *<em>IAT</em>***表和INT表加载后，结构相同，内容不同，都存储RVA。但INT存地址，IAT存函数名</p>
+<p>⭐<strong>一个exe根据导入表中的描述加载dll</strong></p>
+<p>下图为： *<em>IAT</em>***表和INT表加载前</p>
+<p><img src="/.%5Cimages%5CPE04.jpg"></p>
+<p>下图为：*<em>IAT</em>***表和INT表加载后</p>
+<p><img src="/.%5Cimages%5CPE05.jpg" alt="image-20230821221442913"></p>
+<h3 id="THUNK-DATA32"><a href="#THUNK-DATA32" class="headerlink" title="THUNK_DATA32"></a>THUNK_DATA32</h3><figure class="highlight c++"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br></pre></td><td class="code"><pre><span class="line"><span class="keyword">typedef</span> <span class="keyword">struct</span> <span class="title class_">_IMAGE_THUNK_DATA32</span> &#123;</span><br><span class="line">    <span class="keyword">union</span> &#123;</span><br><span class="line">        DWORD ForwarderString;      <span class="comment">// PBYTE </span></span><br><span class="line">        DWORD Function;             <span class="comment">// PDWORD</span></span><br><span class="line">        DWORD Ordinal;</span><br><span class="line">        DWORD AddressOfData;        <span class="comment">// PIMAGE_IMPORT_BY_NAME</span></span><br><span class="line">    &#125; u1;</span><br><span class="line">&#125; IMAGE_THUNK_DATA32;</span><br><span class="line"><span class="keyword">typedef</span> IMAGE_THUNK_DATA32 * PIMAGE_THUNK_DATA32;</span><br><span class="line"></span><br></pre></td></tr></table></figure>
+
+<p><font color="red"> <strong>整个结构占用4字节（DWORD）</strong></font></p>
+<p>ForwarderString：</p>
+<p>Function：</p>
+<p>Ordinal：序号</p>
+<p>AddressOfData：指向IMAGE_IMPORT_BY_NAME</p>
+<p><font color="red"> <strong>注意：</strong></font></p>
+<p>A、 高32位&#x3D;1，则按序号导出，剩余31位为序号</p>
+<p>B、 高32位≠1，是指向IMAGE_IMPORT_BY_NAME的RVA</p>
+<p>C、 结构为全“00”时表示结束</p>
+<p>D、 该结构指明了是引用函数的方式（以序号导入还是以函数名导入）</p>
+<h3 id="IMPORT-BY-NAME"><a href="#IMPORT-BY-NAME" class="headerlink" title="IMPORT_BY_NAME"></a>IMPORT_BY_NAME</h3><figure class="highlight c++"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br></pre></td><td class="code"><pre><span class="line"><span class="keyword">typedef</span> <span class="keyword">struct</span> <span class="title class_">_IMAGE_IMPORT_BY_NAME</span> &#123;</span><br><span class="line">    WORD    Hint;</span><br><span class="line">    CHAR   Name[<span class="number">1</span>];</span><br><span class="line">&#125; IMAGE_IMPORT_BY_NAME, *PIMAGE_IMPORT_BY_NAME;</span><br></pre></td></tr></table></figure>
+
+<p>Hint：可能为空，编译器决定。不为空时，是函数在导出表中的索引(导出表-地址表中的索引)</p>
+<p>Name[1]：函数名称一字节，以00结尾。找到第一个字母到结尾00处就是函数名</p>
+<h2 id="⭐BOUND-IMPORT-DESCRIPTOR"><a href="#⭐BOUND-IMPORT-DESCRIPTOR" class="headerlink" title="⭐BOUND_IMPORT_DESCRIPTOR"></a>⭐BOUND_IMPORT_DESCRIPTOR</h2><p>绑定导入表，含有一个子结构BOUND_FORWARDER_REF</p>
+<p>当<code>IMAGE_BOUND_IMPORT_DESCRIPTOR</code>结构中的<code>TimeDateStamp</code>与DLL文件标准PE头中的<code>TimeDateStamp</code>值不相符时（或者DLL需要重定位的时候），程序在装载完成后才会修改对应DLL的导入表结构中的IAT表中的数据（⭐检查是否需要进行重定位）</p>
+<figure class="highlight c++"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br></pre></td><td class="code"><pre><span class="line"><span class="keyword">typedef</span> <span class="keyword">struct</span> <span class="title class_">_IMAGE_BOUND_IMPORT_DESCRIPTOR</span> &#123;</span><br><span class="line">    DWORD   TimeDateStamp;</span><br><span class="line">    WORD    OffsetModuleName;</span><br><span class="line">    WORD    NumberOfModuleForwarderRefs;</span><br><span class="line"><span class="comment">// Array of zero or more IMAGE_BOUND_FORWARDER_REF follows</span></span><br><span class="line">&#125; IMAGE_BOUND_IMPORT_DESCRIPTOR,  *PIMAGE_BOUND_IMPORT_DESCRIPTOR;</span><br><span class="line"></span><br></pre></td></tr></table></figure>
+
+<p><font color="red"> <strong>位于数据目录第12项，DLL的描述信息</strong></font></p>
+<p>TimeDateStamp：时间戳，判断DLL是否被绑定<br>OffsetModuleName：DLL的名字<br>NumberOfModuleForwarderRefs：该DLL所以依赖dll的个数。X代表在该结构下还有X个IMAGE_BOUND_FORWARDER_REF结构</p>
+<p>注意：<br>①  NumberOfModuleForwarderRefs有值，则在IMAGE_BOUND_FORWARDER_REF后为全0结构时，则表示IMAGE_BOUND_IMPORT_DESCRIPTOR依赖DLL结束<br>②  获取值会出问题：所有结构的值都得加上第一个，第一个DESCRIPTOR值+OffsetModuleName<br>③  RVA转FOA时会出问题：判断RVA是否&lt;400（文件对齐为400），小于400则不做修改</p>
+<p>公式：</p>
+<h3 id="BOUND-FORWARDER-REF"><a href="#BOUND-FORWARDER-REF" class="headerlink" title="BOUND_FORWARDER_REF"></a>BOUND_FORWARDER_REF</h3><figure class="highlight c++"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br></pre></td><td class="code"><pre><span class="line"><span class="keyword">typedef</span> <span class="keyword">struct</span> <span class="title class_">_IMAGE_BOUND_FORWARDER_REF</span> &#123;</span><br><span class="line">    DWORD   TimeDateStamp;</span><br><span class="line">    WORD    OffsetModuleName;</span><br><span class="line">    WORD    Reserved;</span><br><span class="line">&#125; IMAGE_BOUND_FORWARDER_REF, *PIMAGE_BOUND_FORWARDER_REF;</span><br><span class="line"></span><br><span class="line">TimeDateStamp：时间戳</span><br><span class="line">OffsetModuleName：DLL名字</span><br><span class="line">Reserved：保留，无意义</span><br></pre></td></tr></table></figure>
+
+<h1 id="0x02-PE文件图"><a href="#0x02-PE文件图" class="headerlink" title="0x02-PE文件图"></a>0x02-PE文件图</h1><p>需要请下载高清</p>
+<p><img src="/./images/PE06.png"></p>
+<h1 id="0x03-参考信息"><a href="#0x03-参考信息" class="headerlink" title="0x03-参考信息"></a>0x03-参考信息</h1><p>《Windows核心编程》</p>
 
       
        <hr><span style="font-style: italic;color: gray;"> 转载请注明来源，欢迎对文章进行指正，联系邮箱 vou0515@gmail.com </span>
