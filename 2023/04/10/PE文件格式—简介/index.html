@@ -2,9 +2,9 @@
 <html>
 <head>
   <meta charset="utf-8">
-  <title>Hello World | 欢迎来到closeto的博客</title>
-  <meta name="keywords" content="">
-  <meta name="description" content="Hello World | 欢迎来到closeto的博客">
+  <title>PE文件格式——简介 | 欢迎来到closeto的博客</title>
+  <meta name="keywords" content=" 2022 , 文件格式 ">
+  <meta name="description" content="PE文件格式——简介 | 欢迎来到closeto的博客">
     <meta name="viewport" content="width=device-width, initial-scale=1, maximum-scale=1">
 <meta name="description" content="Welcome to Hexo! This is your very first post. Check documentation for more info. If you get any problems when using Hexo, you can find the answer in troubleshooting or you can ask me on GitHub. Quick">
 <meta property="og:type" content="article">
@@ -234,24 +234,41 @@
 </aside>
 <div id="post">
     <div class="pjax">
-        <article id="post-hello-world" class="article article-type-post" itemscope itemprop="blogPost">
+        <article id="post-PE文件格式—简介" class="article article-type-post" itemscope itemprop="blogPost">
     
-        <h1 class="article-title">Hello World</h1>
+        <h1 class="article-title">PE文件格式——简介</h1>
     
     <div class="article-meta">
         
         
         
+        <span class="book">
+            <i class="iconfont icon-category"></i>
+            
+            
+            <a  data-rel="Windows相关">Windows相关</a>
+            
+        </span>
+        
+        
+        <span class="tag">
+            <i class="iconfont icon-tag"></i>
+            
+            <a class="color5">2022</a>
+            
+            <a class="color5">文件格式</a>
+            
+        </span>
         
     </div>
     <div class="article-meta">
         <!-- 修改了原始显示，原始显示更新日期为悬浮 -->
         <!-- 
-            发布时间 : <time class="date" title='最后更新: 2023-08-21 20:04:31'>2023-08-21 17:06</time>
+            发布时间 : <time class="date" title='最后更新: 2023-08-21 20:04:31'>2023-04-10 10:48</time>
          -->
 
         
-            发布时间 : 2023-08-21 17:06</time>
+            发布时间 : 2023-04-10 10:48</time>
         <br>
 
         
@@ -275,7 +292,7 @@
     
     <div class="toc-ref">
     
-        <ol class="toc"><li class="toc-item toc-level-2"><a class="toc-link" href="#Quick-Start"><span class="toc-text">Quick Start</span></a><ol class="toc-child"><li class="toc-item toc-level-3"><a class="toc-link" href="#Create-a-new-post"><span class="toc-text">Create a new post</span></a></li><li class="toc-item toc-level-3"><a class="toc-link" href="#Run-server"><span class="toc-text">Run server</span></a></li><li class="toc-item toc-level-3"><a class="toc-link" href="#Generate-static-files"><span class="toc-text">Generate static files</span></a></li><li class="toc-item toc-level-3"><a class="toc-link" href="#Deploy-to-remote-sites"><span class="toc-text">Deploy to remote sites</span></a></li></ol></li></ol>
+        <ol class="toc"><li class="toc-item toc-level-1"><a class="toc-link" href="#0x00-%E5%88%9D%E8%AF%86"><span class="toc-text">0x00-初识</span></a></li><li class="toc-item toc-level-1"><a class="toc-link" href="#0x01-VA%E3%80%81RVA%E3%80%81FOA"><span class="toc-text">0x01-VA、RVA、FOA</span></a></li><li class="toc-item toc-level-1"><a class="toc-link" href="#0x02%E2%AD%90%E9%87%8D%E8%A6%81%E7%BB%93%E6%9E%84%E4%BD%93"><span class="toc-text">0x02⭐重要结构体</span></a></li></ol>
     
 <style>
     .left-col .switch-btn,
@@ -291,19 +308,17 @@
     
     <div class="article-entry" itemprop="articleBody">
       
-        <p>Welcome to <a target="_blank" rel="noopener" href="https://hexo.io/">Hexo</a>! This is your very first post. Check <a target="_blank" rel="noopener" href="https://hexo.io/docs/">documentation</a> for more info. If you get any problems when using Hexo, you can find the answer in <a target="_blank" rel="noopener" href="https://hexo.io/docs/troubleshooting.html">troubleshooting</a> or you can ask me on <a target="_blank" rel="noopener" href="https://github.com/hexojs/hexo/issues">GitHub</a>.</p>
-<h2 id="Quick-Start"><a href="#Quick-Start" class="headerlink" title="Quick Start"></a>Quick Start</h2><h3 id="Create-a-new-post"><a href="#Create-a-new-post" class="headerlink" title="Create a new post"></a>Create a new post</h3><figure class="highlight bash"><table><tr><td class="gutter"><pre><span class="line">1</span><br></pre></td><td class="code"><pre><span class="line">$ hexo new <span class="string">&quot;My New Post&quot;</span></span><br></pre></td></tr></table></figure>
-
-<p>More info: <a target="_blank" rel="noopener" href="https://hexo.io/docs/writing.html">Writing</a></p>
-<h3 id="Run-server"><a href="#Run-server" class="headerlink" title="Run server"></a>Run server</h3><figure class="highlight bash"><table><tr><td class="gutter"><pre><span class="line">1</span><br></pre></td><td class="code"><pre><span class="line">$ hexo server</span><br></pre></td></tr></table></figure>
-
-<p>More info: <a target="_blank" rel="noopener" href="https://hexo.io/docs/server.html">Server</a></p>
-<h3 id="Generate-static-files"><a href="#Generate-static-files" class="headerlink" title="Generate static files"></a>Generate static files</h3><figure class="highlight bash"><table><tr><td class="gutter"><pre><span class="line">1</span><br></pre></td><td class="code"><pre><span class="line">$ hexo generate</span><br></pre></td></tr></table></figure>
-
-<p>More info: <a target="_blank" rel="noopener" href="https://hexo.io/docs/generating.html">Generating</a></p>
-<h3 id="Deploy-to-remote-sites"><a href="#Deploy-to-remote-sites" class="headerlink" title="Deploy to remote sites"></a>Deploy to remote sites</h3><figure class="highlight bash"><table><tr><td class="gutter"><pre><span class="line">1</span><br></pre></td><td class="code"><pre><span class="line">$ hexo deploy</span><br></pre></td></tr></table></figure>
-
-<p>More info: <a target="_blank" rel="noopener" href="https://hexo.io/docs/one-command-deployment.html">Deployment</a></p>
+        <h1 id="0x00-初识"><a href="#0x00-初识" class="headerlink" title="0x00-初识"></a>0x00-初识</h1><p>​		PE (Portable Executable) 文件格式是<strong>Windows操作系统</strong>上的标准<strong>可执行文件格式</strong>，通俗易懂将就是<code>.sys（驱动程序）</code>、<code>.lib（静态链接库）</code>、<code>.DLL（动态链接库）</code>、<code>.exe（可执行程序）</code>等。PE文件格式在Windows操作系统中被广泛使用，它定义了文件的结构、头部信息、节表等内容，使操作系统能够加载、执行和管理这些文件。</p>
+<p>​		PE文件主要分为如下几部分：DOS头、PE头、节表、数据目录、节数据、附件调试信息（DEBUG程序会有）。</p>
+<p><img src="/./images/PE01.jpg"></p>
+<p>​		将任意程序拖入<strong>010Editor</strong>（更加直观的看到PE文件信息）得到其文件的详细信息，示例如下：</p>
+<p><img src="/./images/PE02.jpg"></p>
+<h1 id="0x01-VA、RVA、FOA"><a href="#0x01-VA、RVA、FOA" class="headerlink" title="0x01-VA、RVA、FOA"></a>0x01-VA、RVA、FOA</h1><p><strong>VA：</strong> 虚拟内存地址（Virtual Address）PE 文件被操作系统加载进内存后的地址。</p>
+<p><strong>RVA：</strong> 程序在内存中的偏移地址（Relative Virual Address）   _IMAGE_SECTION_HEADER.VirtualAddress</p>
+<p><strong>FOA：</strong>程序在文件，硬盘中的偏移地址（File Offset Address）_IMAGE_SECTION_HEADER.PointerToRawData</p>
+<p>VA &#x3D; ImageBase + RVA<br>RVA &#x3D; VA - ImageBase<br>FOA &#x3D; 所在的节 + RVA</p>
+<p>（详细计算过程在“实验部分”）</p>
+<h1 id="0x02⭐重要结构体"><a href="#0x02⭐重要结构体" class="headerlink" title="0x02⭐重要结构体"></a>0x02⭐重要结构体</h1><p>了解PE文件，一定要记住如下几个字段：<br>        IMAGE_DOS_HEADER			   （记录了PE文件的信息）<br>        IMAGE_NT_HEADERS				（节表的数量、建立时间）<br>        IMAGE_SECTION_HEADER	   （什么类型的文件的是sys、dll还是exe，RVA和节属性）<br>        IMAGE_SECTION_DATA			（节数据）<br>        IMAGE_IMPORT_DESCRIPTOR（导入名称表，当前PE使用了多少函数）<br>        IMAGE_EXPORT_DESCRIPTOR（导出名称表，当前PE导出了多少函数）</p>
 
       
        <hr><span style="font-style: italic;color: gray;"> 转载请注明来源，欢迎对文章进行指正，联系邮箱 vou0515@gmail.com </span>
