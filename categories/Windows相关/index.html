@@ -6,25 +6,17 @@
   <meta name="keywords" content="">
   <meta name="description" content="欢迎来到closeto的博客">
     <meta name="viewport" content="width=device-width, initial-scale=1, maximum-scale=1">
-<meta name="description" content="0x00-初识​		👆 本小节仅了解PE文件是什么、有什么作用、有哪些重要的结构体，结构体字段可否修改和作用。详细结构体介绍以及其它操作在本系列文章后续。👆 ​		PE (Portable Executable) 文件格式是Windows操作系统上的标准可执行文件格式，通俗易懂将就是.sys（驱动程序）、.lib（静态链接库）、.DLL（动态链接库）、.exe（可执行程序）等。PE文件格式在W">
+<meta name="description" content="个人学习记录">
 <meta property="og:type" content="article">
-<meta property="og:title" content="PE文件格式—简介">
-<meta property="og:url" content="https://closeto.github.io/2022/04/10/PE%E6%96%87%E4%BB%B6%E6%A0%BC%E5%BC%8F%E2%80%94%E7%AE%80%E4%BB%8B/index.html">
+<meta property="og:title" content="欢迎来到closeto的博客">
+<meta property="og:url" content="https://closeto.github.io/2023/08/22/ShellCode%E5%85%A5%E9%97%A8%E5%88%B0%E6%94%BE%E5%BC%83%E2%80%94%E7%9B%B8%E5%BC%83/index.html">
 <meta property="og:site_name" content="欢迎来到closeto的博客">
-<meta property="og:description" content="0x00-初识​		👆 本小节仅了解PE文件是什么、有什么作用、有哪些重要的结构体，结构体字段可否修改和作用。详细结构体介绍以及其它操作在本系列文章后续。👆 ​		PE (Portable Executable) 文件格式是Windows操作系统上的标准可执行文件格式，通俗易懂将就是.sys（驱动程序）、.lib（静态链接库）、.DLL（动态链接库）、.exe（可执行程序）等。PE文件格式在W">
+<meta property="og:description" content="个人学习记录">
 <meta property="og:locale" content="zh_CN">
-<meta property="og:image" content="https://closeto.github.io/images/PE01.jpg">
-<meta property="og:image" content="https://closeto.github.io/images/PE02.jpg">
-<meta property="og:image" content="https://closeto.github.io/images/PE03.jpg">
-<meta property="og:image" content="https://closeto.github.io/images/PE04.jpg">
-<meta property="og:image" content="https://closeto.github.io/images/PE05.jpg">
-<meta property="og:image" content="https://closeto.github.io/images/PE06.png">
-<meta property="article:published_time" content="2022-04-10T02:48:36.000Z">
+<meta property="article:published_time" content="2023-08-22T07:31:34.915Z">
 <meta property="article:author" content="closeto">
-<meta property="article:tag" content="2022">
-<meta property="article:tag" content="文件格式">
+<meta property="article:tag" content="学习记录">
 <meta name="twitter:card" content="summary">
-<meta name="twitter:image" content="https://closeto.github.io/images/PE01.jpg">
 
 
 <link rel="icon" href="/img/ico.png">
@@ -109,7 +101,7 @@
     <li>
         <div class="all active" data-rel="全部文章">全部文章
             
-                <small>(1)</small>
+                <small>(4)</small>
             
         </div>
     </li>
@@ -121,7 +113,7 @@
         <div data-rel="Windows相关">
             
             Windows相关
-            <small>(1)</small>
+            <small>(3)</small>
         </div>
         
     </li>
@@ -145,7 +137,7 @@
         
     </div>
 </div>
-<input type="hidden" id="yelog_site_posts_number" value="1">
+<input type="hidden" id="yelog_site_posts_number" value="4">
 
 <div style="display: none">
     <span id="busuanzi_value_site_uv"></span>
@@ -199,6 +191,14 @@
                 <i class="iconfont icon-tag"></i><a>文件格式</a>
             </li>
         
+            <li class="article-tag-list-item">
+                <i class="iconfont icon-tag"></i><a>Bin</a>
+            </li>
+        
+            <li class="article-tag-list-item">
+                <i class="iconfont icon-tag"></i><a>ShellCode</a>
+            </li>
+        
     </div>
 
 </div>
@@ -207,12 +207,39 @@
     <nav id="title-list-nav">
         
         
+        <a  class="全部文章 "
+           href="/2023/08/22/ShellCode%E5%85%A5%E9%97%A8%E5%88%B0%E6%94%BE%E5%BC%83%E2%80%94%E7%9B%B8%E5%BC%83/"
+           data-tag=""
+           data-author="" >
+            <span class="post-title" title=""></span>
+            <span class="post-date" title="2023-08-22 15:31:34">2023/08/22</span>
+        </a>
+        
+        
         <a  class="全部文章 Windows相关 "
            href="/2022/04/10/PE%E6%96%87%E4%BB%B6%E6%A0%BC%E5%BC%8F%E2%80%94%E7%AE%80%E4%BB%8B/"
            data-tag="2022,文件格式"
            data-author="" >
             <span class="post-title" title="PE文件格式—简介">PE文件格式—简介</span>
             <span class="post-date" title="2022-04-10 10:48:36">2022/04/10</span>
+        </a>
+        
+        
+        <a  class="全部文章 Windows相关 "
+           href="/2022/04/10/ShellCode%E5%85%A5%E9%97%A8%E5%88%B0%E6%94%BE%E5%BC%83%E2%80%94%E7%9B%B8%E9%81%87/"
+           data-tag="2022,文件格式"
+           data-author="" >
+            <span class="post-title" title="PE文件格式—简介">PE文件格式—简介</span>
+            <span class="post-date" title="2022-04-10 10:48:36">2022/04/10</span>
+        </a>
+        
+        
+        <a  class="全部文章 Windows相关 "
+           href="/2022/01/15/ShellCode%E5%85%A5%E9%97%A8%E5%88%B0%E6%94%BE%E5%BC%83%E2%80%94%E7%9B%B8%E7%9F%A5/"
+           data-tag="2022,ShellCode,Bin"
+           data-author="" >
+            <span class="post-title" title="ShellCode入门到放弃—相知">ShellCode入门到放弃—相知</span>
+            <span class="post-date" title="2022-01-15 12:12:12">2022/01/15</span>
         </a>
         
         <div id="no-item-tips">
