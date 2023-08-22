@@ -1,0 +1,730 @@
+<!DOCTYPE html>
+<html>
+<head>
+  <meta charset="utf-8">
+  <title>Windows痕迹擦除 | 欢迎来到closeto的博客</title>
+  <meta name="keywords" content=" 2022 , 内网 , 渗透测试 , Windows ">
+  <meta name="description" content="Windows痕迹擦除 | 欢迎来到closeto的博客">
+    <meta name="viewport" content="width=device-width, initial-scale=1, maximum-scale=1">
+<meta name="description" content="0x00-初识​		👆 本小节仅了解PE文件是什么、有什么作用、有哪些重要的结构体，结构体字段可否修改和作用。详细结构体介绍以及其它操作在本系列文章后续。👆 ​		PE (Portable Executable) 文件格式是Windows操作系统上的标准可执行文件格式，通俗易懂将就是.sys（驱动程序）、.lib（静态链接库）、.DLL（动态链接库）、.exe（可执行程序）等。PE文件格式在W">
+<meta property="og:type" content="article">
+<meta property="og:title" content="PE文件格式—简介">
+<meta property="og:url" content="https://closeto.github.io/2022/04/10/PE%E6%96%87%E4%BB%B6%E6%A0%BC%E5%BC%8F%E2%80%94%E7%AE%80%E4%BB%8B/index.html">
+<meta property="og:site_name" content="欢迎来到closeto的博客">
+<meta property="og:description" content="0x00-初识​		👆 本小节仅了解PE文件是什么、有什么作用、有哪些重要的结构体，结构体字段可否修改和作用。详细结构体介绍以及其它操作在本系列文章后续。👆 ​		PE (Portable Executable) 文件格式是Windows操作系统上的标准可执行文件格式，通俗易懂将就是.sys（驱动程序）、.lib（静态链接库）、.DLL（动态链接库）、.exe（可执行程序）等。PE文件格式在W">
+<meta property="og:locale" content="zh_CN">
+<meta property="og:image" content="https://closeto.github.io/images/PE01.jpg">
+<meta property="og:image" content="https://closeto.github.io/images/PE02.jpg">
+<meta property="og:image" content="https://closeto.github.io/images/PE03.jpg">
+<meta property="og:image" content="https://closeto.github.io/images/PE04.jpg">
+<meta property="og:image" content="https://closeto.github.io/images/PE05.jpg">
+<meta property="og:image" content="https://closeto.github.io/images/PE06.png">
+<meta property="article:published_time" content="2022-04-10T02:48:36.000Z">
+<meta property="article:author" content="closeto">
+<meta property="article:tag" content="2022">
+<meta property="article:tag" content="文件格式">
+<meta name="twitter:card" content="summary">
+<meta name="twitter:image" content="https://closeto.github.io/images/PE01.jpg">
+
+
+<link rel="icon" href="/img/ico.png">
+
+<link href="/css/style.css?v=1.1.0" rel="stylesheet">
+
+<link href="/css/hl_theme/atom-light.css?v=1.1.0" rel="stylesheet">
+
+<link href="//cdn.jsdelivr.net/npm/animate.css@4.1.0/animate.min.css" rel="stylesheet">
+
+<script src="//cdn.jsdelivr.net/npm/jquery@3.5.1/dist/jquery.min.js"></script>
+<script src="/js/titleTip.js?v=1.1.0" ></script>
+
+<script src="//cdn.jsdelivr.net/npm/highlightjs@9.16.2/highlight.pack.min.js"></script>
+<script>
+    hljs.initHighlightingOnLoad();
+</script>
+
+<script src="//cdn.jsdelivr.net/npm/nprogress@0.2.0/nprogress.min.js"></script>
+
+
+
+<script src="/js/iconfont.js?v=1.1.0" ></script>
+
+<meta name="generator" content="Hexo 6.3.0"></head>
+<div style="display: none">
+  <input class="theme_disqus_on" value="false">
+  <input class="theme_preload_comment" value="">
+  <input class="theme_blog_path" value="">
+  <input id="theme_shortcut" value="true" />
+  <input id="theme_highlight_on" value="true" />
+  <input id="theme_code_copy" value="true" />
+</div>
+
+
+
+<body>
+<aside class="nav">
+    <div class="nav-left">
+        <a href="/"
+   class="avatar_target">
+    <img class="avatar"
+         src="/img/user.png"/>
+</a>
+<div class="author">
+    <span>closeto</span>
+</div>
+
+<div class="icon">
+    
+        
+            <a title="github"
+               href="https://github.com/closeto"
+               target="_blank">
+                
+                    <svg class="iconfont-svg" aria-hidden="true">
+                        <use xlink:href="#icon-github"></use>
+                    </svg>
+                
+            </a>
+        
+    
+        
+            <a title="email"
+               href="mailto:vou0515@gmail.com"
+               target="_blank">
+                
+                    <svg class="iconfont-svg" aria-hidden="true">
+                        <use xlink:href="#icon-email"></use>
+                    </svg>
+                
+            </a>
+        
+    
+</div>
+
+
+
+
+
+<ul>
+    <li>
+        <div class="all active" data-rel="全部文章">全部文章
+            
+                <small>(7)</small>
+            
+        </div>
+    </li>
+    
+        
+            
+                
+    <li>
+        <div data-rel="内网安全">
+            
+            内网安全
+            <small>(2)</small>
+        </div>
+        
+    </li>
+
+            
+        
+    
+        
+            
+                
+    <li>
+        <div data-rel="Windows相关">
+            
+            Windows相关
+            <small>(4)</small>
+        </div>
+        
+    </li>
+
+            
+        
+    
+        
+            
+                
+    <li>
+        <div data-rel="考证学习">
+            
+            考证学习
+            <small>(1)</small>
+        </div>
+        
+    </li>
+
+            
+        
+    
+</ul>
+<div class="left-bottom">
+    <div class="menus">
+        
+            
+    </div>
+    <div>
+        
+            <a class="about  "
+               target="_blank"
+                    
+               href="https://github.com/closeto">关于</a>
+        
+        
+    </div>
+</div>
+<input type="hidden" id="yelog_site_posts_number" value="7">
+
+<div style="display: none">
+    <span id="busuanzi_value_site_uv"></span>
+    <span id="busuanzi_value_site_pv"></span>
+</div>
+
+    </div>
+    <div class="nav-right">
+        <div class="friends-area">
+    <div class="friends-title">
+        友情链接
+        <i class="iconfont icon-left"></i>
+    </div>
+    <div class="friends-content">
+        <ul>
+            
+            <li><a target="_blank" href="/url">名字列表</a></li>
+            
+        </ul>
+    </div>
+</div>
+        <div class="title-list">
+    <div class="right-top">
+        <div id="default-panel">
+            <i class="iconfont icon-search" data-title="搜索 快捷键 i"></i>
+            <div class="right-title">全部文章</div>
+            <i class="iconfont icon-file-tree" data-title="切换到大纲视图 快捷键 w"></i>
+        </div>
+        <div id="search-panel">
+            <i class="iconfont icon-left" data-title="返回"></i>
+            <input id="local-search-input" autocomplete="off"/>
+            <label class="border-line" for="input"></label>
+            <i class="iconfont icon-case-sensitive" data-title="大小写敏感"></i>
+            <i class="iconfont icon-tag" data-title="标签"></i>
+        </div>
+        <div id="outline-panel" style="display: none">
+            <div class="right-title">大纲</div>
+            <i class="iconfont icon-list" data-title="切换到文章列表"></i>
+        </div>
+    </div>
+
+    <div class="tags-list">
+    <input id="tag-search" />
+    <div class="tag-wrapper">
+        
+            <li class="article-tag-list-item">
+                <i class="iconfont icon-tag"></i><a>2022</a>
+            </li>
+        
+            <li class="article-tag-list-item">
+                <i class="iconfont icon-tag"></i><a>2023</a>
+            </li>
+        
+            <li class="article-tag-list-item">
+                <i class="iconfont icon-tag"></i><a>内网</a>
+            </li>
+        
+            <li class="article-tag-list-item">
+                <i class="iconfont icon-tag"></i><a>软考</a>
+            </li>
+        
+            <li class="article-tag-list-item">
+                <i class="iconfont icon-tag"></i><a>渗透测试</a>
+            </li>
+        
+            <li class="article-tag-list-item">
+                <i class="iconfont icon-tag"></i><a>文件格式</a>
+            </li>
+        
+            <li class="article-tag-list-item">
+                <i class="iconfont icon-tag"></i><a>中级</a>
+            </li>
+        
+            <li class="article-tag-list-item">
+                <i class="iconfont icon-tag"></i><a>Bin</a>
+            </li>
+        
+            <li class="article-tag-list-item">
+                <i class="iconfont icon-tag"></i><a>Linux</a>
+            </li>
+        
+            <li class="article-tag-list-item">
+                <i class="iconfont icon-tag"></i><a>ShellCode</a>
+            </li>
+        
+            <li class="article-tag-list-item">
+                <i class="iconfont icon-tag"></i><a>Windows</a>
+            </li>
+        
+    </div>
+
+</div>
+
+    
+    <nav id="title-list-nav">
+        
+        
+        <a  class="全部文章 Windows相关 "
+           href="/2022/04/10/PE%E6%96%87%E4%BB%B6%E6%A0%BC%E5%BC%8F%E2%80%94%E7%AE%80%E4%BB%8B/"
+           data-tag="2022,文件格式"
+           data-author="" >
+            <span class="post-title" title="PE文件格式—简介">PE文件格式—简介</span>
+            <span class="post-date" title="2022-04-10 10:48:36">2022/04/10</span>
+        </a>
+        
+        
+        <a  class="全部文章 内网安全 "
+           href="/2022/02/19/Linux%E7%97%95%E8%BF%B9%E6%93%A6%E9%99%A4/"
+           data-tag="2022,内网,渗透测试,Linux"
+           data-author="" >
+            <span class="post-title" title="Linux痕迹擦除">Linux痕迹擦除</span>
+            <span class="post-date" title="2022-02-19 00:00:00">2022/02/19</span>
+        </a>
+        
+        
+        <a  class="全部文章 内网安全 "
+           href="/2022/02/18/Windows%E7%97%95%E8%BF%B9%E6%93%A6%E9%99%A4/"
+           data-tag="2022,内网,渗透测试,Windows"
+           data-author="" >
+            <span class="post-title" title="Windows痕迹擦除">Windows痕迹擦除</span>
+            <span class="post-date" title="2022-02-18 00:00:00">2022/02/18</span>
+        </a>
+        
+        
+        <a  class="全部文章 Windows相关 "
+           href="/2022/01/18/ShellCode%E5%85%A5%E9%97%A8%E5%88%B0%E6%94%BE%E5%BC%83%E2%80%94%E7%9B%B8%E5%BC%83/"
+           data-tag="2022,ShellCode,Bin"
+           data-author="" >
+            <span class="post-title" title="ShellCode入门到放弃—相弃">ShellCode入门到放弃—相弃</span>
+            <span class="post-date" title="2022-01-18 17:30:00">2022/01/18</span>
+        </a>
+        
+        
+        <a  class="全部文章 考证学习 "
+           href="/2022/01/18/%E8%BD%AF%E8%80%83%E4%B8%AD%E7%BA%A7%E2%80%94%E4%BF%A1%E6%81%AF%E5%AE%89%E5%85%A8%E5%B7%A5%E7%A8%8B%E5%B8%88/"
+           data-tag="2023,软考,中级"
+           data-author="" >
+            <span class="post-title" title="软考中级—信息安全工程师">软考中级—信息安全工程师</span>
+            <span class="post-date" title="2022-01-18 14:30:00">2022/01/18</span>
+        </a>
+        
+        
+        <a  class="全部文章 Windows相关 "
+           href="/2022/01/15/ShellCode%E5%85%A5%E9%97%A8%E5%88%B0%E6%94%BE%E5%BC%83%E2%80%94%E7%9B%B8%E7%9F%A5/"
+           data-tag="2022,ShellCode,Bin"
+           data-author="" >
+            <span class="post-title" title="ShellCode入门到放弃—相知">ShellCode入门到放弃—相知</span>
+            <span class="post-date" title="2022-01-15 12:12:12">2022/01/15</span>
+        </a>
+        
+        
+        <a  class="全部文章 Windows相关 "
+           href="/2022/01/10/ShellCode%E5%85%A5%E9%97%A8%E5%88%B0%E6%94%BE%E5%BC%83%E2%80%94%E7%9B%B8%E9%81%87/"
+           data-tag="2022,ShellCode,Bin"
+           data-author="" >
+            <span class="post-title" title="ShellCode入门到放弃—相遇">ShellCode入门到放弃—相遇</span>
+            <span class="post-date" title="2022-01-10 09:30:00">2022/01/10</span>
+        </a>
+        
+        <div id="no-item-tips">
+
+        </div>
+    </nav>
+    <div id="outline-list">
+    </div>
+</div>
+
+    </div>
+    <div class="hide-list">
+        <div class="semicircle" data-title="切换全屏 快捷键 s">
+            <div class="brackets first"><</div>
+            <div class="brackets">&gt;</div>
+        </div>
+    </div>
+</aside>
+<div id="post">
+    <div class="pjax">
+        <article id="post-Windows痕迹擦除" class="article article-type-post" itemscope itemprop="blogPost">
+    
+        <h1 class="article-title">Windows痕迹擦除</h1>
+    
+    <div class="article-meta">
+        
+        
+        
+        <span class="book">
+            <i class="iconfont icon-category"></i>
+            
+            
+            <a  data-rel="内网安全">内网安全</a>
+            
+        </span>
+        
+        
+        <span class="tag">
+            <i class="iconfont icon-tag"></i>
+            
+            <a class="color5">2022</a>
+            
+            <a class="color3">内网</a>
+            
+            <a class="color5">渗透测试</a>
+            
+            <a class="color3">Windows</a>
+            
+        </span>
+        
+    </div>
+    <div class="article-meta">
+        <!-- 修改了原始显示，原始显示更新日期为悬浮 -->
+        <!-- 
+            发布时间 : <time class="date" title='最后更新: 2023-08-22 17:07:44'>2022-02-18 00:00</time>
+         -->
+
+        
+            发布时间 : 2022-02-18 00:00</time>
+        <br>
+
+        
+    </div>
+    <div class="article-meta">
+        
+        
+        <span id="busuanzi_container_page_pv">
+            阅读 :<span id="busuanzi_value_page_pv">
+                <span class="count-comment">
+                    <span class="spinner">
+                      <div class="cube1"></div>
+                      <div class="cube2"></div>
+                    </span>
+                </span>
+            </span>
+        </span>
+        
+        
+    </div>
+    
+    <div class="toc-ref">
+    
+        <ol class="toc"><li class="toc-item toc-level-1"><a class="toc-link" href="#Windows%E7%97%95%E8%BF%B9%E6%93%A6%E9%99%A4"><span class="toc-text">Windows痕迹擦除</span></a><ol class="toc-child"><li class="toc-item toc-level-2"><a class="toc-link" href="#%E7%B3%BB%E7%BB%9F%E6%97%A5%E5%BF%97"><span class="toc-text">系统日志</span></a></li><li class="toc-item toc-level-2"><a class="toc-link" href="#%E8%BF%9C%E7%A8%8B%E6%A1%8C%E9%9D%A2%E8%BF%9E%E6%8E%A5"><span class="toc-text">远程桌面连接</span></a></li><li class="toc-item toc-level-2"><a class="toc-link" href="#%E6%96%87%E4%BB%B6%E6%90%9C%E7%B4%A2%E8%AE%B0%E5%BD%95"><span class="toc-text">文件搜索记录</span></a></li><li class="toc-item toc-level-2"><a class="toc-link" href="#%E6%96%87%E4%BB%B6%E6%B5%8F%E8%A7%88%E8%AE%B0%E5%BD%95"><span class="toc-text">文件浏览记录</span></a></li><li class="toc-item toc-level-2"><a class="toc-link" href="#%E6%9C%80%E8%BF%91%E8%AE%BF%E9%97%AE%E8%AE%B0%E5%BD%95"><span class="toc-text">最近访问记录</span></a></li><li class="toc-item toc-level-2"><a class="toc-link" href="#%E8%BF%90%E8%A1%8C%E5%91%BD%E4%BB%A4%E8%AE%B0%E5%BD%95"><span class="toc-text">运行命令记录</span></a></li><li class="toc-item toc-level-2"><a class="toc-link" href="#%E6%B5%8F%E8%A7%88%E5%99%A8%E8%AE%B0%E5%BD%95-IE"><span class="toc-text">浏览器记录-IE</span></a></li><li class="toc-item toc-level-2"><a class="toc-link" href="#%E6%B5%8F%E8%A7%88%E5%99%A8%E8%AE%B0%E5%BD%95-Chrome"><span class="toc-text">浏览器记录-Chrome</span></a></li><li class="toc-item toc-level-2"><a class="toc-link" href="#%E6%B5%8F%E8%A7%88%E5%99%A8%E8%AE%B0%E5%BD%95-Firefox"><span class="toc-text">浏览器记录-Firefox</span></a></li><li class="toc-item toc-level-2"><a class="toc-link" href="#%E6%96%87%E4%BB%B6%E4%BC%AA%E8%A3%85"><span class="toc-text">文件伪装</span></a></li><li class="toc-item toc-level-2"><a class="toc-link" href="#%E4%BF%AE%E6%94%B9%E6%96%87%E4%BB%B6%E6%97%B6%E9%97%B4"><span class="toc-text">修改文件时间</span></a></li><li class="toc-item toc-level-2"><a class="toc-link" href="#%E6%96%87%E4%BB%B6%E9%9A%90%E8%97%8F"><span class="toc-text">文件隐藏</span></a></li><li class="toc-item toc-level-2"><a class="toc-link" href="#%E6%96%87%E4%BB%B6%E6%93%A6%E9%99%A4"><span class="toc-text">文件擦除</span></a></li></ol></li><li class="toc-item toc-level-1"><a class="toc-link" href="#Windows%E6%A3%80%E6%9F%A5%E7%82%B9-%E5%AF%B9%E6%8A%97"><span class="toc-text">Windows检查点(对抗)</span></a><ol class="toc-child"><li class="toc-item toc-level-2"><a class="toc-link" href="#%E7%AB%AF%E5%8F%A3%E4%BF%A1%E6%81%AF"><span class="toc-text">端口信息</span></a></li><li class="toc-item toc-level-2"><a class="toc-link" href="#%E5%86%85%E5%AD%98%E5%8F%96%E8%AF%81"><span class="toc-text">内存取证</span></a></li><li class="toc-item toc-level-2"><a class="toc-link" href="#%E6%96%87%E4%BB%B6%E4%BC%AA%E8%A3%85-1"><span class="toc-text">文件伪装</span></a></li><li class="toc-item toc-level-2"><a class="toc-link" href="#%E5%91%BD%E4%BB%A4%E8%A1%8C%E8%AE%B0%E5%BD%95"><span class="toc-text">命令行记录</span></a></li><li class="toc-item toc-level-2"><a class="toc-link" href="#%E6%9C%80%E8%BF%91%E8%AE%BF%E9%97%AE%E6%96%87%E4%BB%B6%E8%AE%B0%E5%BD%95"><span class="toc-text">最近访问文件记录</span></a></li><li class="toc-item toc-level-2"><a class="toc-link" href="#%E6%B3%A8%E5%86%8C%E8%A1%A8"><span class="toc-text">注册表</span></a></li><li class="toc-item toc-level-2"><a class="toc-link" href="#%E7%B3%BB%E7%BB%9F%E6%97%A5%E5%BF%97-1"><span class="toc-text">系统日志</span></a></li><li class="toc-item toc-level-2"><a class="toc-link" href="#%E5%B8%B8%E7%94%A8%E5%B7%A5%E5%85%B7"><span class="toc-text">常用工具</span></a></li></ol></li><li class="toc-item toc-level-1"><a class="toc-link" href="#%E5%85%B6%E4%BB%96"><span class="toc-text">其他</span></a></li></ol>
+    
+<style>
+    .left-col .switch-btn,
+    .left-col .switch-area {
+        display: none;
+    }
+    .toc-level-3 i,
+    .toc-level-3 ol {
+        display: none !important;
+    }
+</style>
+</div>
+    
+    <div class="article-entry" itemprop="articleBody">
+      
+        <h1 id="Windows痕迹擦除"><a href="#Windows痕迹擦除" class="headerlink" title="Windows痕迹擦除"></a>Windows痕迹擦除</h1><h2 id="系统日志"><a href="#系统日志" class="headerlink" title="系统日志"></a>系统日志</h2><table>
+<thead>
+<tr>
+<th>类型</th>
+<th>默认路径</th>
+</tr>
+</thead>
+<tbody><tr>
+<td>系统日志</td>
+<td>C:\Windows\System32\Winevt\Logs\System.evtx</td>
+</tr>
+<tr>
+<td>安全日志</td>
+<td>C:\Windows\System32\Winevt\Logs\Security.evtx</td>
+</tr>
+<tr>
+<td>应用日志</td>
+<td>C:\Windows\System32\Winevt\Logs\Application.evtx</td>
+</tr>
+</tbody></table>
+<p><strong>全部清除</strong></p>
+<figure class="highlight plaintext"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br><span class="line">11</span><br><span class="line">12</span><br><span class="line">13</span><br></pre></td><td class="code"><pre><span class="line">【方式一】</span><br><span class="line">通过eventvwr打开事件查看器，在右边的操作一栏中，选择Clear Log...</span><br><span class="line"></span><br><span class="line">【方式二】</span><br><span class="line">PS：CMD需要管理员权限</span><br><span class="line">PowerShell -Command &quot;&amp; &#123;Clear-Eventlog -Log Application,System,Security&#125;&quot;</span><br><span class="line">PowerShell -Command &quot;&amp; &#123;Get-WinEvent -ListLog Application,System,Security -Force | % &#123;Wevtutil.exe cl $_.Logname&#125;&#125;&quot;</span><br><span class="line"></span><br><span class="line">【方式三】</span><br><span class="line">PS：需要管理员权限运行</span><br><span class="line">Clear-Eventlog -Log Application,System,Security</span><br><span class="line">Get-WinEvent -ListLog Application,System,Security -Force | % &#123;Wevtutil.exe cl $_.Logname&#125;</span><br><span class="line"></span><br></pre></td></tr></table></figure>
+
+<p><strong>定向清除</strong></p>
+<p>使用工具Phant0m，项目地址：<a target="_blank" rel="noopener" href="https://github.com/hlldz/Invoke-Phant0m">https://github.com/hlldz/Phant0m</a></p>
+<figure class="highlight plaintext"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br><span class="line">11</span><br><span class="line">12</span><br><span class="line">13</span><br></pre></td><td class="code"><pre><span class="line">【注意】</span><br><span class="line">1、老版本使用powershell，需要管理员权限</span><br><span class="line"># 查看当前ps脚本的执行策略</span><br><span class="line">Get-ExecutionPolicy</span><br><span class="line"># 设置ps脚本禁止执行（默认）</span><br><span class="line">Set-ExecutionPolicy Restricted</span><br><span class="line"># 设置ps脚本可执行</span><br><span class="line">Set-ExecutionPolicy RemoteSigned</span><br><span class="line"></span><br><span class="line">2、新版本自己编译运行</span><br><span class="line">待日志清除后要恢复日志服务，命令是net start evevtlog</span><br><span class="line"></span><br><span class="line"></span><br></pre></td></tr></table></figure>
+
+<p><strong>手动清除</strong></p>
+<p>首先利用powershell命令找出日志记录服务（eventlog）对应的进程PID，然后<code>KILL线程</code></p>
+<figure class="highlight plaintext"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br></pre></td><td class="code"><pre><span class="line">Get-WmiObject -Class win32_service -Filter &quot;name = &#x27;eventlog&#x27;&quot;</span><br><span class="line">或</span><br><span class="line">Get-CimInstance -ClassName win32_service -Filter &quot;name = &#x27;eventlog&#x27;&quot;</span><br><span class="line"></span><br><span class="line">【示例】</span><br><span class="line">PS C:\Users\guagua&gt; Get-CimInstance -ClassName win32_service -Filter &quot;name = &#x27;eventlog&#x27;&quot;</span><br><span class="line">ProcessId Name     StartMode State   Status ExitCode</span><br><span class="line">--------- ----     --------- -----   ------ --------</span><br><span class="line">2032      EventLog Auto      Running OK     0</span><br><span class="line"></span><br></pre></td></tr></table></figure>
+
+<p>PS：操作后不会再记录事件日志信息，但重启服务后恢复正常</p>
+<h2 id="远程桌面连接"><a href="#远程桌面连接" class="headerlink" title="远程桌面连接"></a><strong>远程桌面连接</strong></h2><p><strong>删除缓存</strong></p>
+<p>缓存文件默认为<code>C:\Users\Administrator\Documents\Default.rdp</code>，已隐藏，可到用户的Document目录下，文件夹选项选择隐藏文件可见，然后删除，也可以用cmd命令删除，注意这样删除的是全部的连接记录：</p>
+<figure class="highlight plaintext"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br></pre></td><td class="code"><pre><span class="line">cd C:\Users\Administrator\Documents\</span><br><span class="line">attrib Default.rdp -s -h</span><br><span class="line">del Default.rdp	</span><br><span class="line"></span><br></pre></td></tr></table></figure>
+
+<p><strong>删除注册表</strong></p>
+<p>对应注册表项为HKEY_CURRENT_USER\Software\Microsoft\Terminal Server Client\Default\和HKEY_CURRENT_USER\Software\Microsoft\Terminal Server Client\Servers\，可以用regedit打开注册表编辑器，找到这两个键，在右边定向删除对应的值，也可以用cmd命令将其全部清除：</p>
+<figure class="highlight plaintext"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br></pre></td><td class="code"><pre><span class="line">reg delete &quot;HKCU\Software\Microsoft\Terminal Server Client\Default&quot; /f</span><br><span class="line">reg delete &quot;HKCU\Software\Microsoft\Terminal Server Client\Servers&quot; /f</span><br><span class="line"></span><br></pre></td></tr></table></figure>
+
+<p>注意：<code>reg delete</code>默认是将该注册表项和其所有值以及子项全部都删除，如果只将该注册表项下的所有值都删除，不删除该注册表项和其子项，要用<code>reg delete /va</code>。</p>
+<h2 id="文件搜索记录"><a href="#文件搜索记录" class="headerlink" title="文件搜索记录"></a>文件搜索记录</h2><p>打开注册表编辑器，找到该键并删除对应的值。</p>
+<figure class="highlight plaintext"><table><tr><td class="gutter"><pre><span class="line">1</span><br></pre></td><td class="code"><pre><span class="line">HKEY_CURRENT_USER\Software\Microsoft\Windows\CurrentVersion\Explorer\WordWheelQuery</span><br></pre></td></tr></table></figure>
+
+<h2 id="文件浏览记录"><a href="#文件浏览记录" class="headerlink" title="文件浏览记录"></a>文件浏览记录</h2><p>打开注册表编辑器，找到该键并删除对应的值。</p>
+<figure class="highlight plaintext"><table><tr><td class="gutter"><pre><span class="line">1</span><br></pre></td><td class="code"><pre><span class="line">HKEY_CURRENT_USER\SOFTWARE\Microsoft\Windows\CurrentVersion\Explorer\TypedPaths</span><br></pre></td></tr></table></figure>
+
+<h2 id="最近访问记录"><a href="#最近访问记录" class="headerlink" title="最近访问记录"></a>最近访问记录</h2><p>文件管理器-》查看-》选项-》最近访问</p>
+<h2 id="运行命令记录"><a href="#运行命令记录" class="headerlink" title="运行命令记录"></a>运行命令记录</h2><p>打开注册表编辑器，找到该键并删除对应的值。</p>
+<figure class="highlight plaintext"><table><tr><td class="gutter"><pre><span class="line">1</span><br></pre></td><td class="code"><pre><span class="line">HKEY_CURRENT_USER\SOFTWARE\Microsoft\Windows\CurrentVersion\Explorer\RunMRU</span><br></pre></td></tr></table></figure>
+
+<h2 id="浏览器记录-IE"><a href="#浏览器记录-IE" class="headerlink" title="浏览器记录-IE"></a>浏览器记录-IE</h2><figure class="highlight plaintext"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br></pre></td><td class="code"><pre><span class="line">【日志】</span><br><span class="line">C:\Users\**\AppData\Local\Microsoft\Windows\History</span><br><span class="line"></span><br><span class="line">【缓存】</span><br><span class="line">C:\Users\**\AppData\Local\Microsoft\Windows\Temporary Internet Files\</span><br><span class="line"></span><br><span class="line">【Cookies】</span><br><span class="line">C:\Users\**\AppData\Roaming\Microsoft\Windows\Cookies\</span><br><span class="line"></span><br></pre></td></tr></table></figure>
+
+<h2 id="浏览器记录-Chrome"><a href="#浏览器记录-Chrome" class="headerlink" title="浏览器记录-Chrome"></a>浏览器记录-Chrome</h2><figure class="highlight plaintext"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br></pre></td><td class="code"><pre><span class="line">【浏览记录】	</span><br><span class="line">C:\Users\Administrator\AppData\Local\Google\Chrome\User Data\Default\history</span><br><span class="line"></span><br><span class="line">【缓存文件】	</span><br><span class="line">C:\Users\Administrator\AppData\Local\Google\Chrome\User Data\Default\Cache\</span><br><span class="line"></span><br><span class="line">【Cookies】	</span><br><span class="line">C:\Users\Administrator\AppData\Local\Google\Chrome\User Data\Default\Cookies</span><br><span class="line"></span><br></pre></td></tr></table></figure>
+
+<h2 id="浏览器记录-Firefox"><a href="#浏览器记录-Firefox" class="headerlink" title="浏览器记录-Firefox"></a>浏览器记录-Firefox</h2><figure class="highlight plaintext"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br></pre></td><td class="code"><pre><span class="line">【浏览记录】	C:\Users\Administrator\AppData\Roaming\Mozilla\Firefox\Profiles\70rs4c5d.default-release\places.sqlite</span><br><span class="line">【缓存文件】	C:\Users\Administrator\AppData\Local\Mozilla\Firefox\Profiles\70rs4c5d.default-release\cache2\</span><br><span class="line">【Cookies】	C:\Users\Administrator\AppData\Roaming\Mozilla\Firefox\Profiles\afn7ww6q.default-release\cookies.sqlite</span><br><span class="line"></span><br></pre></td></tr></table></figure>
+
+<h2 id="文件伪装"><a href="#文件伪装" class="headerlink" title="文件伪装"></a><strong>文件伪装</strong></h2><p>查看文件创建时间、修改时间、上次访问时间</p>
+<figure class="highlight plaintext"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br></pre></td><td class="code"><pre><span class="line">(ls &quot;C:\temp\test.exe&quot;).CreationTIme</span><br><span class="line">(ls &quot;C:\temp\test.exe&quot;).LastWriteTime</span><br><span class="line">(ls &quot;C:\temp\test.exe&quot;).LastAccessTime</span><br><span class="line"></span><br><span class="line">PS：dir命令以及文件夹目录中显示的时间都是文件的修改时间LastWriteTime。</span><br></pre></td></tr></table></figure>
+
+<p>修改文件的创建时间、修改时间、上次访问时间：</p>
+<figure class="highlight plaintext"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br></pre></td><td class="code"><pre><span class="line">(ls &quot;C:\temp\test.exe&quot;).CreationTIme = &quot;2020年12月12日12:12:12&quot;</span><br><span class="line">(ls &quot;C:\temp\test.exe&quot;).LastWriteTime = &quot;2020年12月12日12:12:12&quot;</span><br><span class="line">(ls &quot;C:\temp\test.exe&quot;).LastAccessTime = &quot;2020年12月12日12:12:12&quot;</span><br><span class="line"></span><br></pre></td></tr></table></figure>
+
+<h2 id="修改文件时间"><a href="#修改文件时间" class="headerlink" title="修改文件时间"></a>修改文件时间</h2><p>查看文件属性信息，包括文件的创建时间、修改时间、上次访问时间：</p>
+<figure class="highlight plaintext"><table><tr><td class="gutter"><pre><span class="line">1</span><br></pre></td><td class="code"><pre><span class="line">Get-ItemProperty -Path &quot;C:\temp\test.exe&quot; | Format-list -Property *</span><br></pre></td></tr></table></figure>
+
+<p>修改文件的创建时间、修改时间、上次访问时间：</p>
+<figure class="highlight plaintext"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br></pre></td><td class="code"><pre><span class="line">Set-ItemProperty -Path &quot;C:\temp\test.exe&quot; -Name CreationTIme -Value &quot;2011-11-11 11:11:11&quot;</span><br><span class="line">Set-ItemProperty -Path &quot;C:\temp\test.exe&quot; -Name LastWriteTime -Value &quot;2011-11-11 11:11:11&quot;</span><br><span class="line">Set-ItemProperty -Path &quot;C:\temp\test.exe&quot; -Name LastAccessTime -Value &quot;2011-11-11 11:11:11&quot;</span><br><span class="line"></span><br></pre></td></tr></table></figure>
+
+
+
+<h2 id="文件隐藏"><a href="#文件隐藏" class="headerlink" title="文件隐藏"></a>文件隐藏</h2><p>{管理员权限最佳}</p>
+<p>方法一：attrib命令</p>
+<p>上传后利用attrib命令改变文件属性，命令格式：<br>attrib [+R | -R] [+A | -A ] [+S | -S] [+H | -H] [[drive:] [path] filename] [&#x2F;S [&#x2F;D]]</p>
+<figure class="highlight plaintext"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br></pre></td><td class="code"><pre><span class="line">+  增加属性</span><br><span class="line">-  减少属性</span><br><span class="line">R  只读文件属性</span><br><span class="line">A  存档文件属性</span><br><span class="line">S  系统文件属性</span><br><span class="line">H  隐藏文件属性</span><br><span class="line">/S 处理当前文件夹及其子文件夹中的匹配文件</span><br><span class="line">/D 也处理文件夹</span><br></pre></td></tr></table></figure>
+
+<p>示例</p>
+<figure class="highlight plaintext"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br></pre></td><td class="code"><pre><span class="line">【文件隐藏】</span><br><span class="line">attrib +r +a +s +h C:\temp\test.exe</span><br><span class="line">或者</span><br><span class="line">attrib +r +a +s +h C:\temp\test.exe &amp; attrib +r +a +s +h C:\temp</span><br><span class="line"></span><br><span class="line">【删除文件隐藏】</span><br><span class="line">attrib -r -a -s -h C:\temp</span><br><span class="line">或者</span><br><span class="line">attrib -r -a -s -h C:\temp &amp; rmdir C:\temp /s /q</span><br></pre></td></tr></table></figure>
+
+<p>注意：文件中看到隐藏文件是灰色的、 使用”dir &#x2F;a“命令可以看到</p>
+<p>方式二：ADS隐写</p>
+<p>1</p>
+<figure class="highlight plaintext"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br></pre></td><td class="code"><pre><span class="line"># 隐藏ADS</span><br><span class="line">type C:\temp\test.exe &gt; C:\Windows:2.exe</span><br><span class="line"></span><br><span class="line"># 先切换到ADS所在目录，再运行</span><br><span class="line"># Windows 10 Pro 10.0.19042、Windows Server 2016 Datacenter 10.0.14393 测试可行</span><br><span class="line">powershell -c &quot;cd C:\; .\Windows:2.exe&quot;</span><br><span class="line"></span><br></pre></td></tr></table></figure>
+
+<p>2</p>
+<figure class="highlight plaintext"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br></pre></td><td class="code"><pre><span class="line"># 隐藏ADS</span><br><span class="line">type C:\temp\test.exe &gt; C:\users\Jim\desktop\test.txt:1.exe</span><br><span class="line"></span><br><span class="line"># 先切换到ADS所在目录，再运行</span><br><span class="line"># Windows 10 Pro 10.0.19042、Windows Server 2016 Datacenter 10.0.14393 测试可行</span><br><span class="line">powershell -c &quot;cd C:\users\Jim\desktop; .\test.txt:1.exe&quot;</span><br><span class="line"></span><br></pre></td></tr></table></figure>
+
+<p>如果要将文件ADS删除，需要将文件转换为FAT、FAT32等其他文件系统格式，或是借助第三方工具如：<a target="_blank" rel="noopener" href="https://docs.microsoft.com/zh-cn/sysinternals/downloads/sysinternals-suite">SysinternalsSuite</a>工具包中的 <strong><code>Streams</code></strong> ，使用方法如下：</p>
+<figure class="highlight plaintext"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br></pre></td><td class="code"><pre><span class="line">【★★可行】</span><br><span class="line"># 查看文件/目录ADS</span><br><span class="line">Streams.exe -s &lt;DIR|FILE&gt;</span><br><span class="line"></span><br><span class="line"># 删除文件/目录ADS</span><br><span class="line">Streams.exe -d &lt;DIR|FILE&gt;</span><br><span class="line"></span><br></pre></td></tr></table></figure>
+
+<h2 id="文件擦除"><a href="#文件擦除" class="headerlink" title="文件擦除"></a>文件擦除</h2><p>Cipher擦除覆写</p>
+<p><code>cipher /W:directory</code>：从整个卷上可用的磁盘空间中覆写数据，从而覆盖已删除文件的硬盘空间，这样之前删除的数据<strong>顶多能够恢复文件名，但是恢复数据几乎是不可能的</strong>。</p>
+<p>Format格式化覆写</p>
+<p><code>format volume /P:count</code>：将volume卷上每个扇区清零，此后该卷将被改写count次，且每次使用不同的随机数。</p>
+<p>例如<code>format D: /P:10</code>表示把D盘用随机数格式化后再覆写10次</p>
+<h1 id="Windows检查点-对抗"><a href="#Windows检查点-对抗" class="headerlink" title="Windows检查点(对抗)"></a>Windows检查点(对抗)</h1><h2 id="端口信息"><a href="#端口信息" class="headerlink" title="端口信息"></a>端口信息</h2><figure class="highlight plaintext"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br></pre></td><td class="code"><pre><span class="line">tasklist </span><br><span class="line">netstat -ano</span><br></pre></td></tr></table></figure>
+
+<h2 id="内存取证"><a href="#内存取证" class="headerlink" title="内存取证"></a>内存取证</h2><figure class="highlight plaintext"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br></pre></td><td class="code"><pre><span class="line">Volatility</span><br><span class="line">Rekall</span><br></pre></td></tr></table></figure>
+
+<h2 id="文件伪装-1"><a href="#文件伪装-1" class="headerlink" title="文件伪装"></a>文件伪装</h2><figure class="highlight plaintext"><table><tr><td class="gutter"><pre><span class="line">1</span><br></pre></td><td class="code"><pre><span class="line">svhost在system32下属于正常，反之</span><br></pre></td></tr></table></figure>
+
+<h2 id="命令行记录"><a href="#命令行记录" class="headerlink" title="命令行记录"></a>命令行记录</h2><figure class="highlight plaintext"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br></pre></td><td class="code"><pre><span class="line">cmd历史记录：</span><br><span class="line">  C:\Users\o~^\AppData\Local\Microsoft\Windows\History</span><br></pre></td></tr></table></figure>
+
+<h2 id="最近访问文件记录"><a href="#最近访问文件记录" class="headerlink" title="最近访问文件记录"></a>最近访问文件记录</h2><figure class="highlight plaintext"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br></pre></td><td class="code"><pre><span class="line">C:\Users\o~^\AppData\Roaming\Microsoft\Windows\		用户对系统的操作等</span><br><span class="line">C:\Users\o~^\AppData\Roaming\Microsoft\Windows\Recent		Windows最近访问的文件</span><br><span class="line">C:\Users\o~^\AppData\Roaming\Microsoft\Office\Recent		OFFICE打开历史记录</span><br><span class="line">\HKEY_CURRENT_USER\SOFTWARE\Microsoft\Windows\CurrentVersion\Explorer\RecentDocs</span><br><span class="line">HKEY_CURRENT_USER\SOFTWARE\Microsoft\Office\16.0	</span><br></pre></td></tr></table></figure>
+
+<h2 id="注册表"><a href="#注册表" class="headerlink" title="注册表"></a>注册表</h2><figure class="highlight plaintext"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br></pre></td><td class="code"><pre><span class="line">查看系统安装信息等：</span><br><span class="line">  \HKEY_LOCAL_MACHINE\SOFTWARE\Microsoft\Windows NT\CurrentVersion\</span><br><span class="line"></span><br><span class="line">运行程序记录：需使用WinprefetchView解密（ROT13加密）</span><br><span class="line">  \HKEY_CURRENT_USER\SOFTWARE\Microsoft\Windows\CurrentVersion\Explorer\UserAssist</span><br><span class="line">  或</span><br><span class="line">  C:\Windows\Prefetch</span><br></pre></td></tr></table></figure>
+
+<h2 id="系统日志-1"><a href="#系统日志-1" class="headerlink" title="系统日志"></a>系统日志</h2><p>Windows系统所有事件日志：eventvwr.msc<br>  C:\Windows\System32\winevt\Logs		该文件夹下记录所有系统日志（登录、程序运行、增删用户等）</p>
+<figure class="highlight plaintext"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br></pre></td><td class="code"><pre><span class="line"> ★移动设备事件日志：</span><br><span class="line">EventID=20001 &amp; 20003</span><br><span class="line"> 	文件为：Microsoft-Windows-Kernel-PnP%4Configuration</span><br><span class="line"> 远程桌面日志：</span><br><span class="line">Microsoft-Windows-TerminalServices-LocalSessionManager%4Operational</span><br><span class="line">Microsoft-Windows-TerminalServices-RemoteSessionManager%4Operational</span><br></pre></td></tr></table></figure>
+
+
+
+<h2 id="常用工具"><a href="#常用工具" class="headerlink" title="常用工具"></a>常用工具</h2><figure class="highlight plaintext"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br></pre></td><td class="code"><pre><span class="line">winPrefetchView		打开*.pf文件（快捷启动的软件产生的）</span><br><span class="line">dumplt.exe			内存取证工具</span><br><span class="line">volatility			内存取证后的分析工具</span><br><span class="line">nirlauncher.exe		分析浏览器的历史纪录</span><br></pre></td></tr></table></figure>
+
+
+
+<h1 id="其他"><a href="#其他" class="headerlink" title="其他"></a>其他</h1><p>防止双重启（lili密码）<br>        cat &#x2F;etc&#x2F;lilo.conf</p>
+<figure class="highlight plaintext"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br><span class="line">11</span><br><span class="line">12</span><br><span class="line">13</span><br><span class="line">14</span><br><span class="line">15</span><br><span class="line">16</span><br><span class="line">17</span><br><span class="line">18</span><br><span class="line">19</span><br><span class="line">20</span><br><span class="line">21</span><br><span class="line">22</span><br><span class="line">23</span><br><span class="line">24</span><br></pre></td><td class="code"><pre><span class="line">【Mysql&gt;5.6日志】</span><br><span class="line">可利用UDF进行提权</span><br><span class="line">set global general_log = on       开启日志记录（当outfile、dumpfile无法导出shell时，可配合日志文件getshell）</span><br><span class="line">set global general_log_file = &#x27;&#x27;  设置日志文件保存路径（通常保存到web目录）</span><br><span class="line">select * from mysql.func</span><br><span class="line"></span><br><span class="line">【MSSQL日志】</span><br><span class="line">当获取权限为“SA”时可利用xp_cmdshell进行提权</span><br><span class="line"></span><br><span class="line"></span><br><span class="line">【ORACLE日志】</span><br><span class="line">racle日志，因为oracle数据库的特性，可以自定义函数，这个给入侵者提权带来了便利，因此对oracle数据库进行溯源时，可执行以下sql语句进行排查</span><br><span class="line">select * from USER_OBJECTS where OBJECT_TYPE = &#x27;FUNCTION&#x27;     #排查自定义的函数</span><br><span class="line">select * from USER_PROCEDURES                                 #排查用户自定义的资源，包括函数和对象</span><br><span class="line">select * from USER_SOURCE where NAME = &#x27;GETSHELL&#x27;             #获取前面排查出来的可疑对象的源代码</span><br><span class="line"></span><br><span class="line">请求状态：状态码“200”</span><br><span class="line">上传的数据：“POST/PUT&quot;</span><br><span class="line">跳转后台：状态码”302“</span><br><span class="line">JAVA反序列化：状态码”500“</span><br><span class="line">SQL注入：select、union</span><br><span class="line">XSS：”script“</span><br><span class="line">weblogic：wls-wsat/CoordinatorPortType</span><br><span class="line">fastjson：jdbcRowSetlmpl</span><br></pre></td></tr></table></figure>
+
+
+
+
+      
+       <hr><span style="font-style: italic;color: gray;"> 转载请注明来源，欢迎对文章进行指正，联系邮箱 vou0515@gmail.com </span>
+    </div>
+</article>
+
+
+
+
+
+
+
+    
+
+
+
+
+    </div>
+    <div class="copyright">
+        <p class="footer-entry">
+    ©2023 closeto
+</p>
+<p class="footer-entry">Built with Hexo</p>
+
+    </div>
+    <div class="full-toc">
+        <button class="full" data-title="切换全屏 快捷键 s"><span class="min "></span></button>
+<a class="" id="rocket" ></a>
+
+    </div>
+</div>
+
+</body>
+<script src="/js/jquery.pjax.js?v=1.1.0" ></script>
+
+<script src="/js/script.js?v=1.1.0" ></script>
+<script>
+    var img_resize = 'default';
+    function initArticle() {
+        /*渲染对应的表格样式*/
+        
+            $("#post .pjax table").addClass("green_title");
+        
+
+        /*渲染打赏样式*/
+        
+
+        /*高亮代码块行号*/
+        
+
+        /*访问数量*/
+        
+        $.getScript("//busuanzi.ibruce.info/busuanzi/2.3/busuanzi.pure.mini.js");
+        
+
+        /*代码高亮，行号对齐*/
+        $('.pre-numbering').css('line-height',$('.has-numbering').css('line-height'));
+
+        
+        
+        /* 渲染*/
+        function HTMLDecode(text) {
+            var temp = document.createElement("div");
+            temp.innerHTML = text;
+            var output = temp.innerText || temp.textContent;
+            temp = null;
+            return output;
+        }
+        if (window.mermaid){
+            window.mermaid = null
+        }
+        $.getScript("//cdn.jsdelivr.net/npm/mermaid@8.4.2/dist/mermaid.min.js", function () {
+            var mermaidOptions = JSON.parse(HTMLDecode("{&#34;theme&#34;:&#34;default&#34;,&#34;startOnLoad&#34;:true,&#34;flowchart&#34;:{&#34;useMaxWidth&#34;:false,&#34;htmlLabels&#34;:true}}"))
+            if (window.mermaid) {
+                mermaid.initialize(mermaidOptions)
+                mermaid.contentLoaded()
+            }
+        })
+        
+    }
+
+    /*打赏页面隐藏与展示*/
+    
+
+</script>
+
+<!--加入行号的高亮代码块样式-->
+
+<!--自定义样式设置-->
+<style>
+    
+    
+    .nav {
+        width: 562px;
+    }
+    .nav.fullscreen {
+        margin-left: -562px;
+    }
+    .nav-left {
+        width: 140px;
+    }
+    
+    
+    @media screen and (max-width: 1468px) {
+        .nav {
+            width: 492px;
+        }
+        .nav.fullscreen {
+            margin-left: -492px;
+        }
+        .nav-left {
+            width: 100px;
+        }
+    }
+    
+    
+    @media screen and (max-width: 1024px) {
+        .nav {
+            width: 492px;
+            margin-left: -492px
+        }
+        .nav.fullscreen {
+            margin-left: 0;
+        }
+    }
+    
+    @media screen and (max-width: 426px) {
+        .nav {
+            width: 100%;
+        }
+        .nav-left {
+            width: 100%;
+        }
+    }
+    
+    
+    .nav-right .title-list nav a .post-title, .nav-right .title-list #local-search-result a .post-title {
+        color: #383636;
+    }
+    
+    
+    .nav-right .title-list nav a .post-date, .nav-right .title-list #local-search-result a .post-date {
+        color: #5e5e5f;
+    }
+    
+    
+    .nav-right nav a.hover, #local-search-result a.hover{
+        background-color: #e2e0e0;
+    }
+    
+    
+
+    /*列表样式*/
+    
+
+    /* 背景图样式 */
+    
+    
+
+
+    /*引用块样式*/
+    
+
+    /*文章列表背景图*/
+    
+
+    
+</style>
+
+
+
+
+
+
+
+</html>

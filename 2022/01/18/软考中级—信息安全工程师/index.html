@@ -1,0 +1,849 @@
+<!DOCTYPE html>
+<html>
+<head>
+  <meta charset="utf-8">
+  <title>软考中级—信息安全工程师 | 欢迎来到closeto的博客</title>
+  <meta name="keywords" content=" 2023 , 软考 , 中级 ">
+  <meta name="description" content="软考中级—信息安全工程师 | 欢迎来到closeto的博客">
+    <meta name="viewport" content="width=device-width, initial-scale=1, maximum-scale=1">
+<meta name="description" content="0x00-初识​		👆 本小节仅了解PE文件是什么、有什么作用、有哪些重要的结构体，结构体字段可否修改和作用。详细结构体介绍以及其它操作在本系列文章后续。👆 ​		PE (Portable Executable) 文件格式是Windows操作系统上的标准可执行文件格式，通俗易懂将就是.sys（驱动程序）、.lib（静态链接库）、.DLL（动态链接库）、.exe（可执行程序）等。PE文件格式在W">
+<meta property="og:type" content="article">
+<meta property="og:title" content="PE文件格式—简介">
+<meta property="og:url" content="https://closeto.github.io/2022/04/10/PE%E6%96%87%E4%BB%B6%E6%A0%BC%E5%BC%8F%E2%80%94%E7%AE%80%E4%BB%8B/index.html">
+<meta property="og:site_name" content="欢迎来到closeto的博客">
+<meta property="og:description" content="0x00-初识​		👆 本小节仅了解PE文件是什么、有什么作用、有哪些重要的结构体，结构体字段可否修改和作用。详细结构体介绍以及其它操作在本系列文章后续。👆 ​		PE (Portable Executable) 文件格式是Windows操作系统上的标准可执行文件格式，通俗易懂将就是.sys（驱动程序）、.lib（静态链接库）、.DLL（动态链接库）、.exe（可执行程序）等。PE文件格式在W">
+<meta property="og:locale" content="zh_CN">
+<meta property="og:image" content="https://closeto.github.io/images/PE01.jpg">
+<meta property="og:image" content="https://closeto.github.io/images/PE02.jpg">
+<meta property="og:image" content="https://closeto.github.io/images/PE03.jpg">
+<meta property="og:image" content="https://closeto.github.io/images/PE04.jpg">
+<meta property="og:image" content="https://closeto.github.io/images/PE05.jpg">
+<meta property="og:image" content="https://closeto.github.io/images/PE06.png">
+<meta property="article:published_time" content="2022-04-10T02:48:36.000Z">
+<meta property="article:author" content="closeto">
+<meta property="article:tag" content="2022">
+<meta property="article:tag" content="文件格式">
+<meta name="twitter:card" content="summary">
+<meta name="twitter:image" content="https://closeto.github.io/images/PE01.jpg">
+
+
+<link rel="icon" href="/img/ico.png">
+
+<link href="/css/style.css?v=1.1.0" rel="stylesheet">
+
+<link href="/css/hl_theme/atom-light.css?v=1.1.0" rel="stylesheet">
+
+<link href="//cdn.jsdelivr.net/npm/animate.css@4.1.0/animate.min.css" rel="stylesheet">
+
+<script src="//cdn.jsdelivr.net/npm/jquery@3.5.1/dist/jquery.min.js"></script>
+<script src="/js/titleTip.js?v=1.1.0" ></script>
+
+<script src="//cdn.jsdelivr.net/npm/highlightjs@9.16.2/highlight.pack.min.js"></script>
+<script>
+    hljs.initHighlightingOnLoad();
+</script>
+
+<script src="//cdn.jsdelivr.net/npm/nprogress@0.2.0/nprogress.min.js"></script>
+
+
+
+<script src="/js/iconfont.js?v=1.1.0" ></script>
+
+<meta name="generator" content="Hexo 6.3.0"></head>
+<div style="display: none">
+  <input class="theme_disqus_on" value="false">
+  <input class="theme_preload_comment" value="">
+  <input class="theme_blog_path" value="">
+  <input id="theme_shortcut" value="true" />
+  <input id="theme_highlight_on" value="true" />
+  <input id="theme_code_copy" value="true" />
+</div>
+
+
+
+<body>
+<aside class="nav">
+    <div class="nav-left">
+        <a href="/"
+   class="avatar_target">
+    <img class="avatar"
+         src="/img/user.png"/>
+</a>
+<div class="author">
+    <span>closeto</span>
+</div>
+
+<div class="icon">
+    
+        
+            <a title="github"
+               href="https://github.com/closeto"
+               target="_blank">
+                
+                    <svg class="iconfont-svg" aria-hidden="true">
+                        <use xlink:href="#icon-github"></use>
+                    </svg>
+                
+            </a>
+        
+    
+        
+            <a title="email"
+               href="mailto:vou0515@gmail.com"
+               target="_blank">
+                
+                    <svg class="iconfont-svg" aria-hidden="true">
+                        <use xlink:href="#icon-email"></use>
+                    </svg>
+                
+            </a>
+        
+    
+</div>
+
+
+
+
+
+<ul>
+    <li>
+        <div class="all active" data-rel="全部文章">全部文章
+            
+                <small>(7)</small>
+            
+        </div>
+    </li>
+    
+        
+            
+                
+    <li>
+        <div data-rel="内网安全">
+            
+            内网安全
+            <small>(2)</small>
+        </div>
+        
+    </li>
+
+            
+        
+    
+        
+            
+                
+    <li>
+        <div data-rel="Windows相关">
+            
+            Windows相关
+            <small>(4)</small>
+        </div>
+        
+    </li>
+
+            
+        
+    
+        
+            
+                
+    <li>
+        <div data-rel="考证学习">
+            
+            考证学习
+            <small>(1)</small>
+        </div>
+        
+    </li>
+
+            
+        
+    
+</ul>
+<div class="left-bottom">
+    <div class="menus">
+        
+            
+    </div>
+    <div>
+        
+            <a class="about  "
+               target="_blank"
+                    
+               href="https://github.com/closeto">关于</a>
+        
+        
+    </div>
+</div>
+<input type="hidden" id="yelog_site_posts_number" value="7">
+
+<div style="display: none">
+    <span id="busuanzi_value_site_uv"></span>
+    <span id="busuanzi_value_site_pv"></span>
+</div>
+
+    </div>
+    <div class="nav-right">
+        <div class="friends-area">
+    <div class="friends-title">
+        友情链接
+        <i class="iconfont icon-left"></i>
+    </div>
+    <div class="friends-content">
+        <ul>
+            
+            <li><a target="_blank" href="/url">名字列表</a></li>
+            
+        </ul>
+    </div>
+</div>
+        <div class="title-list">
+    <div class="right-top">
+        <div id="default-panel">
+            <i class="iconfont icon-search" data-title="搜索 快捷键 i"></i>
+            <div class="right-title">全部文章</div>
+            <i class="iconfont icon-file-tree" data-title="切换到大纲视图 快捷键 w"></i>
+        </div>
+        <div id="search-panel">
+            <i class="iconfont icon-left" data-title="返回"></i>
+            <input id="local-search-input" autocomplete="off"/>
+            <label class="border-line" for="input"></label>
+            <i class="iconfont icon-case-sensitive" data-title="大小写敏感"></i>
+            <i class="iconfont icon-tag" data-title="标签"></i>
+        </div>
+        <div id="outline-panel" style="display: none">
+            <div class="right-title">大纲</div>
+            <i class="iconfont icon-list" data-title="切换到文章列表"></i>
+        </div>
+    </div>
+
+    <div class="tags-list">
+    <input id="tag-search" />
+    <div class="tag-wrapper">
+        
+            <li class="article-tag-list-item">
+                <i class="iconfont icon-tag"></i><a>2022</a>
+            </li>
+        
+            <li class="article-tag-list-item">
+                <i class="iconfont icon-tag"></i><a>2023</a>
+            </li>
+        
+            <li class="article-tag-list-item">
+                <i class="iconfont icon-tag"></i><a>内网</a>
+            </li>
+        
+            <li class="article-tag-list-item">
+                <i class="iconfont icon-tag"></i><a>软考</a>
+            </li>
+        
+            <li class="article-tag-list-item">
+                <i class="iconfont icon-tag"></i><a>渗透测试</a>
+            </li>
+        
+            <li class="article-tag-list-item">
+                <i class="iconfont icon-tag"></i><a>文件格式</a>
+            </li>
+        
+            <li class="article-tag-list-item">
+                <i class="iconfont icon-tag"></i><a>中级</a>
+            </li>
+        
+            <li class="article-tag-list-item">
+                <i class="iconfont icon-tag"></i><a>Bin</a>
+            </li>
+        
+            <li class="article-tag-list-item">
+                <i class="iconfont icon-tag"></i><a>Linux</a>
+            </li>
+        
+            <li class="article-tag-list-item">
+                <i class="iconfont icon-tag"></i><a>ShellCode</a>
+            </li>
+        
+            <li class="article-tag-list-item">
+                <i class="iconfont icon-tag"></i><a>Windows</a>
+            </li>
+        
+    </div>
+
+</div>
+
+    
+    <nav id="title-list-nav">
+        
+        
+        <a  class="全部文章 Windows相关 "
+           href="/2022/04/10/PE%E6%96%87%E4%BB%B6%E6%A0%BC%E5%BC%8F%E2%80%94%E7%AE%80%E4%BB%8B/"
+           data-tag="2022,文件格式"
+           data-author="" >
+            <span class="post-title" title="PE文件格式—简介">PE文件格式—简介</span>
+            <span class="post-date" title="2022-04-10 10:48:36">2022/04/10</span>
+        </a>
+        
+        
+        <a  class="全部文章 内网安全 "
+           href="/2022/02/19/Linux%E7%97%95%E8%BF%B9%E6%93%A6%E9%99%A4/"
+           data-tag="2022,内网,渗透测试,Linux"
+           data-author="" >
+            <span class="post-title" title="Linux痕迹擦除">Linux痕迹擦除</span>
+            <span class="post-date" title="2022-02-19 00:00:00">2022/02/19</span>
+        </a>
+        
+        
+        <a  class="全部文章 内网安全 "
+           href="/2022/02/18/Windows%E7%97%95%E8%BF%B9%E6%93%A6%E9%99%A4/"
+           data-tag="2022,内网,渗透测试,Windows"
+           data-author="" >
+            <span class="post-title" title="Windows痕迹擦除">Windows痕迹擦除</span>
+            <span class="post-date" title="2022-02-18 00:00:00">2022/02/18</span>
+        </a>
+        
+        
+        <a  class="全部文章 Windows相关 "
+           href="/2022/01/18/ShellCode%E5%85%A5%E9%97%A8%E5%88%B0%E6%94%BE%E5%BC%83%E2%80%94%E7%9B%B8%E5%BC%83/"
+           data-tag="2022,ShellCode,Bin"
+           data-author="" >
+            <span class="post-title" title="ShellCode入门到放弃—相弃">ShellCode入门到放弃—相弃</span>
+            <span class="post-date" title="2022-01-18 17:30:00">2022/01/18</span>
+        </a>
+        
+        
+        <a  class="全部文章 考证学习 "
+           href="/2022/01/18/%E8%BD%AF%E8%80%83%E4%B8%AD%E7%BA%A7%E2%80%94%E4%BF%A1%E6%81%AF%E5%AE%89%E5%85%A8%E5%B7%A5%E7%A8%8B%E5%B8%88/"
+           data-tag="2023,软考,中级"
+           data-author="" >
+            <span class="post-title" title="软考中级—信息安全工程师">软考中级—信息安全工程师</span>
+            <span class="post-date" title="2022-01-18 14:30:00">2022/01/18</span>
+        </a>
+        
+        
+        <a  class="全部文章 Windows相关 "
+           href="/2022/01/15/ShellCode%E5%85%A5%E9%97%A8%E5%88%B0%E6%94%BE%E5%BC%83%E2%80%94%E7%9B%B8%E7%9F%A5/"
+           data-tag="2022,ShellCode,Bin"
+           data-author="" >
+            <span class="post-title" title="ShellCode入门到放弃—相知">ShellCode入门到放弃—相知</span>
+            <span class="post-date" title="2022-01-15 12:12:12">2022/01/15</span>
+        </a>
+        
+        
+        <a  class="全部文章 Windows相关 "
+           href="/2022/01/10/ShellCode%E5%85%A5%E9%97%A8%E5%88%B0%E6%94%BE%E5%BC%83%E2%80%94%E7%9B%B8%E9%81%87/"
+           data-tag="2022,ShellCode,Bin"
+           data-author="" >
+            <span class="post-title" title="ShellCode入门到放弃—相遇">ShellCode入门到放弃—相遇</span>
+            <span class="post-date" title="2022-01-10 09:30:00">2022/01/10</span>
+        </a>
+        
+        <div id="no-item-tips">
+
+        </div>
+    </nav>
+    <div id="outline-list">
+    </div>
+</div>
+
+    </div>
+    <div class="hide-list">
+        <div class="semicircle" data-title="切换全屏 快捷键 s">
+            <div class="brackets first"><</div>
+            <div class="brackets">&gt;</div>
+        </div>
+    </div>
+</aside>
+<div id="post">
+    <div class="pjax">
+        <article id="post-软考中级—信息安全工程师" class="article article-type-post" itemscope itemprop="blogPost">
+    
+        <h1 class="article-title">软考中级—信息安全工程师</h1>
+    
+    <div class="article-meta">
+        
+        
+        
+        <span class="book">
+            <i class="iconfont icon-category"></i>
+            
+            
+            <a  data-rel="考证学习">考证学习</a>
+            
+        </span>
+        
+        
+        <span class="tag">
+            <i class="iconfont icon-tag"></i>
+            
+            <a class="color5">2023</a>
+            
+            <a class="color3">软考</a>
+            
+            <a class="color3">中级</a>
+            
+        </span>
+        
+    </div>
+    <div class="article-meta">
+        <!-- 修改了原始显示，原始显示更新日期为悬浮 -->
+        <!-- 
+            发布时间 : <time class="date" title='最后更新: 2023-08-22 17:07:44'>2022-01-18 14:30</time>
+         -->
+
+        
+            发布时间 : 2022-01-18 14:30</time>
+        <br>
+
+        
+    </div>
+    <div class="article-meta">
+        
+        
+        <span id="busuanzi_container_page_pv">
+            阅读 :<span id="busuanzi_value_page_pv">
+                <span class="count-comment">
+                    <span class="spinner">
+                      <div class="cube1"></div>
+                      <div class="cube2"></div>
+                    </span>
+                </span>
+            </span>
+        </span>
+        
+        
+    </div>
+    
+    <div class="toc-ref">
+    
+        <ol class="toc"><li class="toc-item toc-level-1"><a class="toc-link" href="#%E4%B8%80%E3%80%81%E7%BD%91%E7%BB%9C%E4%BF%A1%E6%81%AF%E5%AE%89%E5%85%A8%E6%A6%82%E8%BF%B0"><span class="toc-text">一、网络信息安全概述</span></a></li><li class="toc-item toc-level-1"><a class="toc-link" href="#%E4%BA%8C%E3%80%81%E7%BD%91%E7%BB%9C%E6%94%BB%E5%87%BB%E5%8E%9F%E7%90%86%E4%B8%8E%E5%B8%B8%E7%94%A8%E6%96%B9%E6%B3%95"><span class="toc-text">二、网络攻击原理与常用方法</span></a></li><li class="toc-item toc-level-1"><a class="toc-link" href="#%E4%B8%89%E3%80%81%E5%AF%86%E7%A0%81%E5%AD%A6%E5%9F%BA%E6%9C%AC%E7%90%86%E8%AE%BA"><span class="toc-text">三、密码学基本理论</span></a></li><li class="toc-item toc-level-1"><a class="toc-link" href="#%E5%9B%9B%E3%80%81%E7%BD%91%E7%BB%9C%E5%AE%89%E5%85%A8%E4%BD%93%E7%B3%BB%E4%B8%8E%E7%BD%91%E7%BB%9C%E5%AE%89%E5%85%A8%E6%A8%A1%E5%9E%8B"><span class="toc-text">四、网络安全体系与网络安全模型</span></a></li><li class="toc-item toc-level-1"><a class="toc-link" href="#%E4%BA%94%E3%80%81%E7%89%A9%E7%90%86%E4%B8%8E%E7%8E%AF%E5%A2%83%E5%AE%89%E5%85%A8%E6%8A%80%E6%9C%AF"><span class="toc-text">五、物理与环境安全技术</span></a></li><li class="toc-item toc-level-1"><a class="toc-link" href="#%E5%85%AD%E3%80%81%E8%AE%A4%E8%AF%81%E6%8A%80%E6%9C%AF%E5%8E%9F%E7%90%86%E4%B8%8E%E5%BA%94%E7%94%A8"><span class="toc-text">六、认证技术原理与应用</span></a></li><li class="toc-item toc-level-1"><a class="toc-link" href="#%E4%B8%83%E3%80%81%E8%AE%BF%E9%97%AE%E6%8E%A7%E5%88%B6%E6%8A%80%E6%9C%AF%E5%8E%9F%E7%90%86%E4%B8%8E%E5%BA%94%E7%94%A8"><span class="toc-text">七、访问控制技术原理与应用</span></a></li><li class="toc-item toc-level-1"><a class="toc-link" href="#%E5%85%AB%E3%80%81%E9%98%B2%E7%81%AB%E5%A2%99%E6%8A%80%E6%9C%AF%E5%8E%9F%E7%90%86%E4%B8%8E%E5%BA%94%E7%94%A8"><span class="toc-text">八、防火墙技术原理与应用</span></a></li><li class="toc-item toc-level-1"><a class="toc-link" href="#%E4%B9%9D%E3%80%81VPN-%E6%8A%80%E6%9C%AF%E5%8E%9F%E7%90%86%E4%B8%8E%E5%BA%94%E7%94%A8"><span class="toc-text">九、VPN 技术原理与应用</span></a></li><li class="toc-item toc-level-1"><a class="toc-link" href="#%E5%8D%81%E3%80%81%E4%BE%B5%E6%A3%80%E6%B5%8B%E6%8A%80%E6%9C%AF%E5%8E%9F%E7%90%86%E4%B8%8E%E5%BA%94%E7%94%A8"><span class="toc-text">十、侵检测技术原理与应用</span></a></li><li class="toc-item toc-level-1"><a class="toc-link" href="#%E5%8D%81%E4%B8%80%E3%80%81%E7%BD%91%E7%BB%9C%E7%89%A9%E7%90%86%E9%9A%94%E7%A6%BB%E6%8A%80%E6%9C%AF%E5%8E%9F%E7%90%86%E4%B8%8E%E5%BA%94%E7%94%A8"><span class="toc-text">十一、网络物理隔离技术原理与应用</span></a></li><li class="toc-item toc-level-1"><a class="toc-link" href="#%E5%8D%81%E4%BA%8C%E3%80%81%E7%BD%91%E7%BB%9C%E5%AE%89%E5%85%A8%E5%AE%A1%E8%AE%A1%E6%8A%80%E6%9C%AF%E5%8E%9F%E7%90%86%E4%B8%8E%E5%BA%94%E7%94%A8"><span class="toc-text">十二、网络安全审计技术原理与应用</span></a></li><li class="toc-item toc-level-1"><a class="toc-link" href="#%E5%8D%81%E4%B8%89%E3%80%81%E7%BD%91%E7%BB%9C%E5%AE%89%E5%85%A8%E6%BC%8F%E6%B4%9E%E9%98%B2%E6%8A%A4%E6%8A%80%E6%9C%AF%E5%8E%9F%E7%90%86%E4%B8%8E%E5%BA%94%E7%94%A8"><span class="toc-text">十三、网络安全漏洞防护技术原理与应用</span></a></li><li class="toc-item toc-level-1"><a class="toc-link" href="#%E5%8D%81%E5%9B%9B%E3%80%81%E6%81%B6%E6%84%8F%E4%BB%A3%E7%A0%81%E9%98%B2%E8%8C%83%E6%8A%80%E6%9C%AF%E5%8E%9F%E7%90%86"><span class="toc-text">十四、恶意代码防范技术原理</span></a></li><li class="toc-item toc-level-1"><a class="toc-link" href="#%E5%8D%81%E4%BA%94%E3%80%81%E7%BD%91%E7%BB%9C%E5%AE%89%E5%85%A8%E4%B8%BB%E5%8A%A8%E9%98%B2%E5%BE%A1-%E6%8A%80%E6%9C%AF%E4%B8%8E%E5%BA%94%E7%94%A8"><span class="toc-text">十五、网络安全主动防御 技术与应用</span></a></li><li class="toc-item toc-level-1"><a class="toc-link" href="#%E5%8D%81%E5%85%AD%E3%80%81%E7%BD%91%E7%BB%9C%E5%AE%89%E5%85%A8%E9%A3%8E%E9%99%A9%E8%AF%84%E4%BC%B0%E6%8A%80%E6%9C%AF%E5%8E%9F%E7%90%86%E4%B8%8E%E5%BA%94%E7%94%A8"><span class="toc-text">十六、网络安全风险评估技术原理与应用</span></a></li><li class="toc-item toc-level-1"><a class="toc-link" href="#%E5%8D%81%E4%B8%83%E3%80%81%E7%BD%91%E7%BB%9C%E5%AE%89%E5%85%A8%E5%BA%94%E6%80%A5%E5%93%8D%E5%BA%94%E6%8A%80%E6%9C%AF%E5%8E%9F%E7%90%86%E4%B8%8E%E5%BA%94%E7%94%A8"><span class="toc-text">十七、网络安全应急响应技术原理与应用</span></a></li><li class="toc-item toc-level-1"><a class="toc-link" href="#%E5%8D%81%E5%85%AB%E3%80%81%E7%BD%91%E7%BB%9C%E5%AE%89%E5%85%A8%E6%B5%8B%E8%AF%84%E6%8A%80%E6%9C%AF%E4%B8%8E%E6%A0%87%E5%87%86"><span class="toc-text">十八、网络安全测评技术与标准</span></a></li><li class="toc-item toc-level-1"><a class="toc-link" href="#%E5%8D%81%E4%B9%9D%E3%80%81%E6%93%8D%E4%BD%9C%E7%B3%BB%E7%BB%9F%E5%AE%89%E5%85%A8%E4%BF%9D%E6%8A%A4"><span class="toc-text">十九、操作系统安全保护</span></a></li><li class="toc-item toc-level-1"><a class="toc-link" href="#%E4%BA%8C%E5%8D%81%E3%80%81%E6%95%B0%E6%8D%AE%E5%BA%93%E7%B3%BB%E7%BB%9F%E5%AE%89%E5%85%A8"><span class="toc-text">二十、数据库系统安全</span></a></li><li class="toc-item toc-level-1"><a class="toc-link" href="#%E4%BA%8C%E5%8D%81%E4%B8%80%E3%80%81%E7%BD%91%E7%BB%9C%E8%AE%BE%E5%A4%87%E5%AE%89%E5%85%A8"><span class="toc-text">二十一、网络设备安全</span></a></li><li class="toc-item toc-level-1"><a class="toc-link" href="#%E4%BA%8C%E5%8D%81%E4%BA%8C%E3%80%81%E7%BD%91%E7%AB%99%E9%9C%80%E6%B1%82%E5%88%86%E6%9E%90%E4%B8%8E%E5%AE%89%E5%85%A8%E4%BF%9D%E6%8A%A4%E5%B7%A5%E7%A8%8B"><span class="toc-text">二十二、网站需求分析与安全保护工程</span></a></li><li class="toc-item toc-level-1"><a class="toc-link" href="#%E4%BA%8C%E5%8D%81%E4%B8%89%E3%80%81%E4%BA%91%E8%AE%A1%E7%AE%97%E5%AE%89%E5%85%A8%E9%9C%80%E6%B1%82%E4%B8%8E%E5%AE%89%E5%85%A8%E4%BF%9D%E6%8A%A4%E5%B7%A5%E7%A8%8B"><span class="toc-text">二十三、云计算安全需求与安全保护工程</span></a></li><li class="toc-item toc-level-1"><a class="toc-link" href="#%E4%BA%8C%E5%8D%81%E5%9B%9B%E3%80%81%E5%B7%A5%E6%8E%A7%E5%AE%89%E5%85%A8%E9%9C%80%E6%B1%82%E5%88%86%E6%9E%90%E4%B8%8E%E5%AE%89%E5%85%A8%E4%BF%9D%E6%8A%A4%E5%B7%A5%E7%A8%8B"><span class="toc-text">二十四、工控安全需求分析与安全保护工程</span></a></li></ol>
+    
+<style>
+    .left-col .switch-btn,
+    .left-col .switch-area {
+        display: none;
+    }
+    .toc-level-3 i,
+    .toc-level-3 ol {
+        display: none !important;
+    }
+</style>
+</div>
+    
+    <div class="article-entry" itemprop="articleBody">
+      
+        <h1 id="一、网络信息安全概述"><a href="#一、网络信息安全概述" class="headerlink" title="一、网络信息安全概述"></a>一、网络信息安全概述</h1><p>发展：通信保密、计算机安全、信息保障、可信计算等</p>
+<p>信息安全安全属性：机密性、完整性、可用性、、抗抵赖性、可控性</p>
+<p>网络安全定义：采取必要措施，防范对网络的攻击、入侵、干扰、破坏和非法使用以及意外事故，是网络处于稳定可靠运行的状态，以保障数据的完整、保密、可用</p>
+<p>网络安全变化</p>
+<figure class="highlight plaintext"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br></pre></td><td class="code"><pre><span class="line">1、单维度 到 多维度(网络空间、物理空间、社会空间)</span><br><span class="line">2、单一性技术 到 综合性(法律法规、政策、产业、管理)</span><br><span class="line">3、时间维度 到 整个生命周期</span><br></pre></td></tr></table></figure>
+
+<p>《国家网络空间战略》2016年发布<br>《中华人民共和国网络安全法》2017年6月1日实施</p>
+<p>网络信息化后存在的十二个问题</p>
+<figure class="highlight plaintext"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br><span class="line">11</span><br><span class="line">12</span><br><span class="line">13</span><br><span class="line">14</span><br><span class="line">15</span><br><span class="line">16</span><br><span class="line">17</span><br><span class="line">18</span><br><span class="line">19</span><br><span class="line">20</span><br><span class="line">21</span><br></pre></td><td class="code"><pre><span class="line">【1】网络强依赖性及网络安全关联风险凸显</span><br><span class="line">		社会各个方面对网络信息系统的依赖度高，容易产生级联或蝴蝶效应</span><br><span class="line">【2】网络信息产品供应链与安全质量风险</span><br><span class="line">		多国外产品或服务依赖度高、网络信息产品安全质量问题</span><br><span class="line">【3】网络信息产品技术同质性与技术滥用风险</span><br><span class="line">		软硬件具有高度同质性，缺乏多样性，易触发大规模网安事件</span><br><span class="line">【4】网络安全建设与管理发展不平衡、不充分风险</span><br><span class="line">		缺乏总体设计，网安机制难以有效运行</span><br><span class="line">【5】网络数据安全风险</span><br><span class="line">		数据安全</span><br><span class="line">【6】高级持续威胁风险</span><br><span class="line">		APT攻击</span><br><span class="line">【7】恶意代码风险</span><br><span class="line">		僵死、木马、蠕虫</span><br><span class="line">【8】软件代码和安全漏洞风险</span><br><span class="line">		人为漏洞</span><br><span class="line">【9】人员网络安全意识</span><br><span class="line">		安全意识</span><br><span class="line">【10】络信息技术复杂性和运营安全风险</span><br><span class="line">【11】网络地下黑产经济风险</span><br><span class="line">【12】网络间谍与网络战风险</span><br></pre></td></tr></table></figure>
+
+<p>网络信息安全基本属性主要有：机密性、完整性、可用性、抗抵赖性和可控性</p>
+<p>网络信息安全基本具备能力：防御、监测、应急和恢复</p>
+<p>网络信息安全基本技术需求</p>
+<figure class="highlight plaintext"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br><span class="line">11</span><br><span class="line">12</span><br><span class="line">13</span><br><span class="line">14</span><br><span class="line">15</span><br><span class="line">16</span><br><span class="line">17</span><br><span class="line">18</span><br><span class="line">19</span><br><span class="line">20</span><br></pre></td><td class="code"><pre><span class="line">【物理环境安全】</span><br><span class="line">		环境安全、设备安全、存储介质安全</span><br><span class="line">【网络信息安全认证】</span><br><span class="line">		标识鉴别网络资源访问者的身份的真实性，防止用户假冒身份访问网络资源</span><br><span class="line">【网络信息访问控制】</span><br><span class="line">		限制非法用户获取或使用网络资源</span><br><span class="line">		防止合法用户滥用权限，越权访问网络资源。</span><br><span class="line">【网络信息安全保密】</span><br><span class="line">		网络信息系统采用安全分区、数据防泄露技术、物理隔离技术等，确保与非可信的网络进行安全隔离，防止敏感信息泄露及外部攻击</span><br><span class="line">【网络信息安全漏洞扫描】</span><br><span class="line">		配备弱点或漏洞扫描系统，用以检测网络中是否存在安全漏洞</span><br><span class="line">【恶意代码防护】</span><br><span class="line">		网络是病毒、蠕虫、特洛伊木马等恶意代码最好、最快的传播途径之 一</span><br><span class="line">【网络信息内容安全】</span><br><span class="line">		网络信息内容安全技术主要有垃圾邮件过滤、 IP 地址 /URL 过滤、自然语言分析处理等</span><br><span class="line">【网络信息安全监测与预警】</span><br><span class="line">		网络安全监测的作用在千发现综合网系统入侵活动和检查安全保护措施的有效性</span><br><span class="line">【网络信息安全应急响应】</span><br><span class="line">		采取一些措施来保障在出现意外的情况下，恢复网络系统的正常运转。同时，对千网络攻击行为进行电子取证，打击网络犯罪活动</span><br><span class="line"></span><br></pre></td></tr></table></figure>
+
+<p>网络信息安全管理内容与方法</p>
+<figure class="highlight plaintext"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br><span class="line">11</span><br><span class="line">12</span><br><span class="line">13</span><br><span class="line">14</span><br><span class="line">15</span><br><span class="line">16</span><br><span class="line">17</span><br><span class="line">18</span><br><span class="line">19</span><br><span class="line">20</span><br><span class="line">21</span><br><span class="line">22</span><br></pre></td><td class="code"><pre><span class="line">【网络信息安全管理概念】</span><br><span class="line">		风险分析、密码算法、身份认证、访问控制、安全审计、漏洞扫描、防火墙、入侵检测和应急响应等</span><br><span class="line">【网络信息安全管理方法】</span><br><span class="line">		风险管理、等级保护、纵深防御、层次化保护、应急响应以及 POCA (Plan-Do-Check-Act) 方法</span><br><span class="line">【网络信息安全管理依据】</span><br><span class="line">		国际：ISO/IEC27001、GDPR、CC</span><br><span class="line">		国内：GBI 7859 、 GB/T22080</span><br><span class="line">【网络信息安全管理要素】</span><br><span class="line">		降低网络管理对象的风险，图1.2</span><br><span class="line">★【网络估息安全管理流程】</span><br><span class="line">		步骤 1, 确定网络信息安全管理对象；</span><br><span class="line">		步骤 2, 评估网络信息安全管理对象的价值；</span><br><span class="line">		步骤 3, 识别网络信息安全管理对象的威胁；</span><br><span class="line">		步骤 4, 识别网络信息安全管理对象的脆弱性；</span><br><span class="line">		步骤 5, 确定网络信息安全管理对象的风险级别；</span><br><span class="line">		步骤 6, 制定网络信息安全防范体系及防范措施；</span><br><span class="line">		步骤 7, 实施和落实网络信息安全防范措施；</span><br><span class="line">		步骤 8, 运行／维护网络信息安全设备、配置。</span><br><span class="line">【网络信息安全管理工具】</span><br><span class="line">		网络安全管理平台（简称 SOC) 、 网络安全态势感知系统、网络安全协议分析器、上网行为管理等各种类型</span><br><span class="line">【网络信息安全管理评估】</span><br><span class="line">		安全管理评估有网络安全等级保护测评、信息安全管理体系认证（简称 ISMS) 、系统安全工程能力成熟度模型（简称 SSE-CMM)</span><br></pre></td></tr></table></figure>
+
+<p><img src="/./images/image-20230103123911779.png" alt="image-20230103123911779"></p>
+<p><img src="/./images/image-20230103134341750.png" alt="image-20230103134341750"></p>
+<p>网络信息安全法律与政策文件</p>
+<figure class="highlight plaintext"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br><span class="line">11</span><br><span class="line">12</span><br><span class="line">13</span><br><span class="line">14</span><br><span class="line">15</span><br><span class="line">16</span><br><span class="line">17</span><br><span class="line">18</span><br><span class="line">19</span><br><span class="line">20</span><br><span class="line">21</span><br><span class="line">22</span><br><span class="line">23</span><br><span class="line">24</span><br><span class="line">25</span><br><span class="line">26</span><br><span class="line">27</span><br><span class="line">28</span><br><span class="line">29</span><br><span class="line">30</span><br><span class="line">31</span><br><span class="line">32</span><br><span class="line">33</span><br><span class="line">34</span><br><span class="line">35</span><br><span class="line">36</span><br><span class="line">37</span><br><span class="line">38</span><br><span class="line">39</span><br><span class="line">40</span><br><span class="line">41</span><br><span class="line">42</span><br><span class="line">43</span><br></pre></td><td class="code"><pre><span class="line">【网络信息安全基本法律与国家战略】</span><br><span class="line">		《中华人民共和国国家安全法》</span><br><span class="line">		《中华人民共和国网络安全法》 </span><br><span class="line">		《全国人民代表大会常务委员会关千加强网络信息保护的决定》</span><br><span class="line">		《国家网络空间安全战略》</span><br><span class="line">		《网络空间国际合作战略》</span><br><span class="line">【网络安全等级保护】</span><br><span class="line">		《信息安全技术网络安全等级保护基本要求》</span><br><span class="line">		《信息安全技术网络安全等级保护安全设计技术要求》</span><br><span class="line">		《信息安全技术网络安全等级保护实施指南》</span><br><span class="line">		《信息安全技术网络安全等级保护测评过程指南》</span><br><span class="line">		《信息安全技术网络安全等级保护测试评估技术指南》</span><br><span class="line">		《信息安全技术网络安全等级保护测评要求》</span><br><span class="line">【国家密码管理制度】</span><br><span class="line">		《中华人民共和国密码法》</span><br><span class="line">		《商用密码管理条例》</span><br><span class="line">		《商用密码科研管理规定》</span><br><span class="line">		《商用密码产品生产管理规定》</span><br><span class="line">		《境外组织和个人在华使用密码产品管理办法》</span><br><span class="line">		《信息安全等级保护商用密码管理办法》</span><br><span class="line">		《信息安全等级保护商用密码管理办法实施意见》</span><br><span class="line">		《信息安全等级保护商用密码技术实施要求》</span><br><span class="line">【网络产品和服务审查】</span><br><span class="line">		《中华人民共和国国家安全法》</span><br><span class="line">		《中华人民共和国网络安全法》</span><br><span class="line">		《网络产品和服务安全审查办法》</span><br><span class="line">		《信息安全技术网络产品和服务安全通用要求（征求意见稿）》 </span><br><span class="line">		《信息安全技术信息技术产品安全检测机构条件和行为准则》 </span><br><span class="line">		《信息安全技术信息技术产品安全可控评价指标（第 1~5 部分）》</span><br><span class="line">		《网络关键设备和网络安全专用产品目录》</span><br><span class="line">【网络安全产品管理】</span><br><span class="line">PS：出具安全产品销售许可等证书</span><br><span class="line">		国家保密科技测评中心(内网安全产品)</span><br><span class="line">		中国信息安全认证中心</span><br><span class="line">		国家网络与信息系统安全产品质量监督检验中心</span><br><span class="line">		公安部计算机信息系统安全产品质量监督检验中心</span><br><span class="line">		国际：1S0/IEC 15408</span><br><span class="line">【互联网域名安全管理】</span><br><span class="line">		《互联网域名管理办法》</span><br><span class="line">		《国务院办公厅关千加强政府网站域名管理的通知》 </span><br><span class="line">【工业控制估息安全制度】</span><br><span class="line">【个人信息和重要数据保护制度】</span><br><span class="line">【网络安全标准规范与测评】</span><br></pre></td></tr></table></figure>
+
+
+
+<h1 id="二、网络攻击原理与常用方法"><a href="#二、网络攻击原理与常用方法" class="headerlink" title="二、网络攻击原理与常用方法"></a>二、网络攻击原理与常用方法</h1><p>常见的危害行为有四个基本 类型： (1) 信息泄露攻击； (2) 完整性破坏攻击； (3) 拒绝服务攻击； (4) 非法使用攻击。</p>
+<p>网络攻击概念</p>
+<figure class="highlight plaintext"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br></pre></td><td class="code"><pre><span class="line">【攻击者】</span><br><span class="line">		间谍、恐怖主义者、黑客、职业犯罪分子、公司职员和破 坏者</span><br><span class="line">【攻击工具】</span><br><span class="line">		用户命令、脚本或程序、自治主体、电磁泄漏</span><br><span class="line">【攻击访问】</span><br><span class="line">		合法、非法 | 授权、未授权</span><br><span class="line">【攻击效果】</span><br><span class="line">		破坏信息、泄露信息、窃取服务、拒绝服务</span><br><span class="line">【攻击意图】</span><br><span class="line">		黑客、间谍、恐怖主义、公司职员、职业犯罪分子、破坏者</span><br></pre></td></tr></table></figure>
+
+<p>网络攻击模型</p>
+<figure class="highlight plaintext"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br></pre></td><td class="code"><pre><span class="line">【攻击树模型】</span><br><span class="line">		优点：行费效分析或者概率分析、建模复杂的攻击场景</span><br><span class="line">		缺点：；不能用来建模循环事件、不适合大规模网络</span><br><span class="line">【MITRE ATT &amp;CK 模型】</span><br><span class="line">【网络杀伤链 (Kill Chain) 模型】</span><br><span class="line"></span><br></pre></td></tr></table></figure>
+
+<p>网络攻击发展</p>
+<figure class="highlight plaintext"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br></pre></td><td class="code"><pre><span class="line">网络攻击工具智能化、自动化</span><br><span class="line">网络攻击者群体普适化</span><br><span class="line">网络攻击目标多样化和隐蔽性</span><br><span class="line">网络攻击计算资源获取方便</span><br><span class="line">网络攻击活动持续性强化</span><br><span class="line">网络攻击速度加快</span><br><span class="line">网络攻击影响扩大</span><br><span class="line">网络攻击主体组织化</span><br></pre></td></tr></table></figure>
+
+<p>端口扫描：全连接、半连接、SYN、ID头信息扫描、SYN|ACK扫描、FIN扫描、NULL扫描(标志位空)、XMAS(标志位全1)</p>
+<h1 id="三、密码学基本理论"><a href="#三、密码学基本理论" class="headerlink" title="三、密码学基本理论"></a>三、密码学基本理论</h1><p>2005 《中华人民共和国电子签名法》<br>2019 《中华人民共和国密码法》</p>
+<p><strong>密码安全分析</strong></p>
+<figure class="highlight plaintext"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br></pre></td><td class="code"><pre><span class="line">(1) 唯密文攻击 (ciphertext-only attack) 。密码分析者只拥有一个或多个用同一个密钥加密的密文，没有其他可利用的信息。</span><br><span class="line"></span><br><span class="line">(2) 已知明文攻击 (known-plaintext attack) 。密码分析者仅知道当前密钥下的一些明文及所对应的密文。</span><br><span class="line"></span><br><span class="line">(3) 选择明文攻击 (chosen-plaintext attack) 。密码分析者能够得到当前密钥下自己选定的明文所对应的密文。</span><br><span class="line"></span><br><span class="line">(4) 密文验证攻击 (ciphertext verification attack) 。密码分析者对于任何选定的密文，能够得到该密文“是否合法”的判断。</span><br><span class="line"></span><br><span class="line">(5) 选择密文攻击 (chosen-ciphertext attack) 。除了挑战密文外，密码分析者能够得到任何选定的密文所对应的明文。</span><br></pre></td></tr></table></figure>
+
+<p><strong>加密算法——国际</strong></p>
+<figure class="highlight plaintext"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br><span class="line">11</span><br><span class="line">12</span><br><span class="line">13</span><br><span class="line">14</span><br><span class="line">15</span><br></pre></td><td class="code"><pre><span class="line">【DES(数据加密标准)】分组加密</span><br><span class="line">	明文64bit、密钥长度56bit</span><br><span class="line">	</span><br><span class="line">【TEDA(三重DES)】分组加密</span><br><span class="line">	DES三次加密解密</span><br><span class="line">	</span><br><span class="line">【IDEA(是国际数据加密算法)】分组加密</span><br><span class="line">	明文&amp;密文64bit、密钥128bit</span><br><span class="line">	</span><br><span class="line">【RSA(非对称加密算法)】</span><br><span class="line"></span><br><span class="line">【】</span><br><span class="line"></span><br><span class="line">【】</span><br><span class="line"></span><br></pre></td></tr></table></figure>
+
+<p>AES(Advanced Encryption Standard)高级加密标准</p>
+<figure class="highlight plaintext"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br></pre></td><td class="code"><pre><span class="line">• 密码必须是没有密级的，绝不能像商业秘密那样来保护它；</span><br><span class="line">• 算法的全部描述必须公开披露；</span><br><span class="line">• 密码必须可以在世界范围内免费使用；</span><br><span class="line">• 密码系统支持至少 128 比特长的分组；</span><br><span class="line">• 密码支持的密钥长度至少为 128 192 256 比特；</span><br></pre></td></tr></table></figure>
+
+<p><strong>加密算法——国内</strong></p>
+<figure class="highlight plaintext"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br></pre></td><td class="code"><pre><span class="line">SMl 对称加密，分组长度和密钥长度都为 128 比特</span><br><span class="line">SM4 对称加密，分组长度和密钥长度都为 128 比特</span><br><span class="line">SM2 非对称加密，用于公钥加密算法、密钥交换协议、数字签名算法（国家标准推荐使用素数域 256位椭圆曲线）</span><br><span class="line">SM3 杂凑算法，杂凑值长度为 256 比特</span><br><span class="line">SM9 标识密码算法</span><br></pre></td></tr></table></figure>
+
+<p>【Hash算法】</p>
+<figure class="highlight plaintext"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br><span class="line">11</span><br><span class="line">12</span><br><span class="line">13</span><br><span class="line">14</span><br><span class="line">15</span><br></pre></td><td class="code"><pre><span class="line">【解释】够将任意长度的信息转换成固定长度的哈希值（又称数字 摘要或消息摘要）</span><br><span class="line"></span><br><span class="line">【Hash函数满足条件】</span><br><span class="line">		(l) 的输入可以是任意长度的消息或文件 M;</span><br><span class="line">		(2) 的输出的长度是固定的；</span><br><span class="line">		(3) 给定 M, 计算 h(M) 是容易的；</span><br><span class="line">		(4) 给定 的描述，找两个不同的消息 Ml M2, 使得 h(M1)=h(M2) 是计算上不可行的。</span><br><span class="line"></span><br><span class="line">【Hash算法——MD5(Message Digest Algorithm5)】</span><br><span class="line">		输入512位数据块、输出128位消息摘要</span><br><span class="line">【Hash算法——SHA(Secure Hash Algorithm)】</span><br><span class="line">		输入512位数据块、输出160|224|256|512位消息摘要</span><br><span class="line">【Hash算法——SM3】</span><br><span class="line">		输入分组512位数据块、输出256位消息摘要</span><br><span class="line"></span><br></pre></td></tr></table></figure>
+
+<p>数字签名条件</p>
+<figure class="highlight plaintext"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br></pre></td><td class="code"><pre><span class="line">(1) 非否认。签名者事后不能否认自己的签名。</span><br><span class="line">(2) 真实性。接收者能验证签名，而任何其他人都不能伪造签名。</span><br><span class="line">(3) 可鉴别性。当双方关于签名的真伪发生争执时，第三方能解决双方之间发生的争执。</span><br></pre></td></tr></table></figure>
+
+<p>密钥管理：生成、存储、分发、使用、更新、撤销、备份、恢复、销毁、审计</p>
+<p>【数字证书】</p>
+<figure class="highlight plaintext"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br><span class="line">11</span><br><span class="line">12</span><br><span class="line">13</span><br><span class="line">14</span><br><span class="line">15</span><br><span class="line">16</span><br><span class="line">17</span><br><span class="line">18</span><br><span class="line">19</span><br><span class="line">20</span><br><span class="line">21</span><br></pre></td><td class="code"><pre><span class="line">[解释]</span><br><span class="line">		数字证书 (Dital Certificate) 也称公钥证书，由证书认证机构 (CA) 签名</span><br><span class="line">		包含公开密钥拥有者信息、公开密钥、签发者信息、有效期以及扩展信息</span><br><span class="line">[信息格式]</span><br><span class="line">		version 				版本号</span><br><span class="line">		seria!Number 			序列号</span><br><span class="line">		signature 				签名算法</span><br><span class="line">		1ssuer 					颁发者</span><br><span class="line">		validity 				有效日期</span><br><span class="line">		subject 				主体</span><br><span class="line">		subjectPublicKeylnfo 	体公钥信息</span><br><span class="line">		issuerUniqueID 			颁发者唯一标识符</span><br><span class="line">		subjectUniqueID 		主体唯一标识符</span><br><span class="line">		extensions 				扩展项</span><br><span class="line">[分类]</span><br><span class="line">		所属：个人证书、机构证书、设备证书，</span><br><span class="line">		用途：签名证书、加密证书。（签名证书用于证明签名公钥的数字证书。加密证书用于证明加密公钥的数字证书。）</span><br><span class="line">[管理]</span><br><span class="line">		PKI技术建立数字证书认证系统（简称为 CA ）</span><br><span class="line">		CA 提供数字证书的申请、审核、签发、查询、发布以及证书吊销等全生命周期的管理服务。</span><br><span class="line"></span><br></pre></td></tr></table></figure>
+
+<p>安全协议</p>
+<figure class="highlight plaintext"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br></pre></td><td class="code"><pre><span class="line">【Diffie-Hellman（DH密钥交换协议）】</span><br><span class="line">【SSH Secure Shell（SSH安全外壳）】传输层协议提供算法协商和密钥交换、支持端口转发</span><br></pre></td></tr></table></figure>
+
+<p>密码技术常见应用场景类型：网络用户、物理和环境、网络和通信、设备和计算、应用和数据、业务应用创新</p>
+<p>路由器安全引用参考：口令管理、远程安全访问、路由信息交换</p>
+<h1 id="四、网络安全体系与网络安全模型"><a href="#四、网络安全体系与网络安全模型" class="headerlink" title="四、网络安全体系与网络安全模型"></a>四、网络安全体系与网络安全模型</h1><p>网络安全体系特征：整体性、协同性、过程性、全面性、适应性</p>
+<p>网络安全体系用途（体现）</p>
+<figure class="highlight plaintext"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br></pre></td><td class="code"><pre><span class="line">(1) 系统性化解网络安全风险，确保业务待续开展并将损失降到最低限度；</span><br><span class="line">(2) 强化工作人员的网络安全意识，规范组织、个人的网络安全行为；</span><br><span class="line">(3) 对组织的网络资产进行全面系统的保护，维持竞争优势；</span><br><span class="line">(4) 组织的商业合作；</span><br><span class="line">(5) 组织的网络安全管理体系认证，证明组织有能力保障重要信息，能提高组织的知名度与信任度。</span><br></pre></td></tr></table></figure>
+
+<p>网络安全体系相关安全模型</p>
+<figure class="highlight plaintext"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br><span class="line">11</span><br><span class="line">12</span><br><span class="line">13</span><br><span class="line">14</span><br><span class="line">15</span><br><span class="line">16</span><br><span class="line">17</span><br><span class="line">18</span><br><span class="line">19</span><br><span class="line">20</span><br><span class="line">21</span><br><span class="line">22</span><br><span class="line">23</span><br><span class="line">24</span><br><span class="line">25</span><br><span class="line">26</span><br><span class="line">27</span><br><span class="line">28</span><br><span class="line">29</span><br><span class="line">30</span><br><span class="line">31</span><br><span class="line">32</span><br><span class="line">33</span><br><span class="line">34</span><br><span class="line">35</span><br><span class="line">36</span><br><span class="line">37</span><br><span class="line">38</span><br><span class="line">39</span><br><span class="line">40</span><br><span class="line">41</span><br><span class="line">42</span><br><span class="line">43</span><br><span class="line">44</span><br><span class="line">45</span><br><span class="line">46</span><br><span class="line">47</span><br><span class="line">48</span><br><span class="line">49</span><br><span class="line">50</span><br><span class="line">51</span><br><span class="line">52</span><br><span class="line">53</span><br><span class="line">54</span><br><span class="line">55</span><br><span class="line">56</span><br><span class="line">57</span><br><span class="line">58</span><br><span class="line">59</span><br><span class="line">60</span><br><span class="line">61</span><br><span class="line">62</span><br><span class="line">63</span><br><span class="line">64</span><br><span class="line">65</span><br><span class="line">66</span><br><span class="line">67</span><br><span class="line">68</span><br><span class="line">69</span><br><span class="line">70</span><br><span class="line">71</span><br><span class="line">72</span><br></pre></td><td class="code"><pre><span class="line">PS：主体=用户，客体=其它</span><br><span class="line">【BLP——机密性模型】（Bell-LaPadula）</span><br><span class="line">	用途：防止非授权信息的扩散，从而保证系统的安全。 </span><br><span class="line">	特性：</span><br><span class="line">		简单安全性：[读]主体只能向下读，不能向上读（主体安全级别 ≥ 客体）</span><br><span class="line">		*特性：	[写]主体只能向上写，不能向下写（客体保密级 ≥ 主体）</span><br><span class="line"></span><br><span class="line">【BiBa——完整性模型】</span><br><span class="line">	用途：防止非授权修改系统信息，以保护系统的信息完整性</span><br><span class="line">	特性：</span><br><span class="line">		简单安全性：[读]主体不能向下读（主体完整性级别 ≥ 客体）</span><br><span class="line">		*特性：	[写]主体不能向上写（主体完整性级别 ≤ 客体）</span><br><span class="line">		调用特性：  级别不同，不能调用(读写)</span><br><span class="line"></span><br><span class="line">【信息流摸型】（简称FM）</span><br><span class="line">	用途：千分析系统的隐蔽通道，防止敏感信息通过隐蔽通道泄露（地权限读取高权限）</span><br><span class="line">	FM=(N, P, SC, ⓧ，-&gt;） </span><br><span class="line">	N=客体集、P=进程集、SC=安全类型集、ⓧ=支持的结合|交换的二进制运算符、-&gt;=关系流</span><br><span class="line"></span><br><span class="line">【PDRR——信息保障模型】（Protection Detection Recovery Response）</span><br><span class="line">	解释：强调信息安全保障的四个重要环节</span><br><span class="line">	组成：</span><br><span class="line">		保护（Protection）主要有：加密机制、数据签名机制、访问控制机制、认证机制、信息隐藏、防火墙技术等。</span><br><span class="line">		检测（Detection）的内容主要有入侵检测、系统脆弱性检测、数据完整性检测、攻击性检测等。</span><br><span class="line">		恢复（Recovery) 的内容主要有数据备份、数据修复、系统恢复等。</span><br><span class="line">		响应（Response）的内容主要有应急策略、应急机制、应急手段、入侵过程分析及安全状态评估等。</span><br><span class="line"></span><br><span class="line">【P2DRR——信息保障模型】</span><br><span class="line">	组成：策略 (Policy) 、防护 (Protection) 、检测 (Detection) 、响应(Response) </span><br><span class="line"></span><br><span class="line">【WPDRRC——信息保障模型】</span><br><span class="line">	组成：预警、保护、检测、响应、恢复、反击</span><br><span class="line">	网络安全能力主要是：预警能力、保护能力、检测能力、响应能力、恢复能力、反击能力。</span><br><span class="line"></span><br><span class="line">【CMM——能力成熟度模型】</span><br><span class="line">	作用：对一个组织机构的能力进行成熟度评估的模型</span><br><span class="line">	级别：</span><br><span class="line">		1级－非正式执行：具备随机、无序、被动的过程；</span><br><span class="line">		2级－计划跟踪：具备主动、非体系化的过程；</span><br><span class="line">		3级－充分定义：具备正式的、规范的过程；</span><br><span class="line">		4级－晕化控制：具备可量化的过程；</span><br><span class="line">		5级－持续优化：具备可待续优化的过程。</span><br><span class="line"></span><br><span class="line">【SSE-CMM——能力成熟度模型】(Systems Security Engineering Capability Maturity Model) </span><br><span class="line">	组成;括工程过程类 (Engineering) 、组织过程类 (Organization) 、项目过程类 (Project)</span><br><span class="line"></span><br><span class="line">【数据安全能力成熟度模型——能力成熟度模型】</span><br><span class="line">	组织建设 数据安全组织机构的架构建立、职责分配和沟通协作；</span><br><span class="line">	制度流程 组织机构关键数据安全领域的制度规范和流程落地建设；</span><br><span class="line">	技术工具 通过技术手段和产品工具固化安全要求或自动化实现安全工作；</span><br><span class="line">	人员能力一一执行数据安全工作的人员的意识及专业能力。</span><br><span class="line"></span><br><span class="line">【 软件安全能力成熟度模型——能力成熟度模型】</span><br><span class="line">    • CMMl 级—补丁修补；</span><br><span class="line">    • CMM2 级——渗透测试、安全代码评审；</span><br><span class="line">    • CMM3 漏洞评估、代码分析、安全编码标准；</span><br><span class="line">    • CMM4 软件安全风险识别、 SDLC 实施不同安全检查点；</span><br><span class="line">    • CMM5 改进软件安全风险覆盖率 评估安全差距</span><br><span class="line"></span><br><span class="line">【纵深防御橾型】</span><br><span class="line">	用途：是将信息网络安全防护措施有机组合起来，针对保护对象，部署合适的安全措施，形成多道保护线，各安全防护措施互相支持和补救，阻断攻击者的威胁</span><br><span class="line"></span><br><span class="line">【分层防护模型】</span><br><span class="line">	用途：以 OSI 层模型为参考，对保护对象进行层次化保护，</span><br><span class="line"></span><br><span class="line">【等级保护橾型】</span><br><span class="line">	作用：结合系统面临的风险、系统特定的安全保护要求和成本开销等因素，将其划分成不同的安全保护等级，采取相应的安全保护措施，以保障信息和信息系统的安全</span><br><span class="line"></span><br><span class="line">【网络生存模型】</span><br><span class="line">	作用：抵抗(Resistance) 、识别 (Recognition) 和恢复 (Recovery)</span><br><span class="line"></span><br><span class="line"></span><br></pre></td></tr></table></figure>
+
+<p><img src="/./images/image-20230106100807835.png" alt="image-20230106100807835"></p>
+<p><img src="/./images/image-20230106102247460.png"><img src="/./images/image-20230106102304930.png"></p>
+<p><img src="/./images/image-20230106104629993.png" alt="image-20230106104629993"></p>
+<p><img src="/./images/image-20230106104810979.png" alt="image-20230106104810979"></p>
+<p><img src="/./images/image-20230106105623535.png" alt="image-20230106105623535"></p>
+<p><img src="/./images/image-20230106105658305.png" alt="image-20230106105658305"></p>
+<p>网络安全体系建立原则</p>
+<figure class="highlight plaintext"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br></pre></td><td class="code"><pre><span class="line">系统性和动态性原则</span><br><span class="line">纵深防护与协作性原则</span><br><span class="line">网络安全风险和分级保护原则</span><br><span class="line">标准化与一致性原则</span><br><span class="line">技术与管理相结合原则</span><br><span class="line">安全第一，预防为主原则</span><br><span class="line">安全与发展同步，业务与安全等同</span><br><span class="line">人机物融合和产业发展原则</span><br></pre></td></tr></table></figure>
+
+<p>网络安全策略具备的条件</p>
+<figure class="highlight plaintext"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br></pre></td><td class="code"><pre><span class="line">• 涉及范围：该文件内容涉及的主题、组织区域、技术系统；</span><br><span class="line">• 有效期：策略文件适用期限；</span><br><span class="line">• 所有者：规定本策略文件的所有者，由其负责维护策略文件，以及保证文件的完整性，策略文件由所有者签署而正式生效；</span><br><span class="line">• 责任：在本策略文件覆盖的范围内，确定每个安全单元的责任人；</span><br><span class="line">• 参考文件：引用的参考文件，比如安全计划；</span><br><span class="line">• 策略主体内容：这是策略文件中最重要的部分，规定具体的策略内容；</span><br><span class="line">• 复查：规定对本策略文件的复查事宜，包括是否进行复查、具体复查时间、复查方式等；</span><br><span class="line">• 违规处理：对千不遵守本策略文件条款内容的处理办法；</span><br></pre></td></tr></table></figure>
+
+<h1 id="五、物理与环境安全技术"><a href="#五、物理与环境安全技术" class="headerlink" title="五、物理与环境安全技术"></a>五、物理与环境安全技术</h1><p>物理安全防护</p>
+<figure class="highlight plaintext"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br></pre></td><td class="code"><pre><span class="line">【返沪类型】</span><br><span class="line">	设备物理安全：硬件(木马)、安全漏洞、温度湿度影响设备运行</span><br><span class="line">	环境物理安全：防火、防水、防电、防震、防鼠虫害、防电磁、防静电、安全供电</span><br><span class="line">	系统物理安全</span><br><span class="line">《信息系统物理安全技术要求(GB/T21052 2007)》将等级划分为四级，越高越好</span><br><span class="line"></span><br></pre></td></tr></table></figure>
+
+<p>机房安全分析与防护</p>
+<figure class="highlight plaintext"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br></pre></td><td class="code"><pre><span class="line">(1) 主要工作房间：主机房、终端室等；</span><br><span class="line">(2) 第一类辅助房间：低压配电间、不间断电源室、蓄电池室、空调机室、发电机室、气体钢瓶室、监控室等；</span><br><span class="line">(3) 类辅助房间：资料室、维修室、技术人员办公室；</span><br><span class="line">(4) 类辅助房间：储藏室、缓冲间、技术人员休息室、盟洗室等</span><br><span class="line">等价划分：A ＞ B ＞ C</span><br></pre></td></tr></table></figure>
+
+<p>网络通信线路安全：信线路被切断、电磁干扰、泄露信息</p>
+<p>设备实体防护威胁：环境关联安全威胁、被盗取或损害、电磁干扰、非法外联、</p>
+<p>存储介质安全威胁：恶意代码、设备故障、非法删除、数据泄露、管理缺陷</p>
+<h1 id="六、认证技术原理与应用"><a href="#六、认证技术原理与应用" class="headerlink" title="六、认证技术原理与应用"></a>六、认证技术原理与应用</h1><p>认证的概念：认证是 个实体向另外一个实体证明其所声称的身份的过程<br>认证的组成：标识、鉴别<br>鉴别的方式：鉴别一般是利用口令、电子签名、数字证书、令牌、生物特征、行为表现等相关数字化凭 证对实体所声称的属性进行识别验证的过程</p>
+<p>认证依据</p>
+<figure class="highlight plaintext"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br></pre></td><td class="code"><pre><span class="line">【解释】</span><br><span class="line">		是指用于确认实体（声称者）身份的真实性或者其拥有的属性的凭证</span><br><span class="line">【种类】</span><br><span class="line">		所知道的秘密信息、所拥有的实物凭证、所具有的生物特征、所表现的行为特征</span><br><span class="line"></span><br></pre></td></tr></table></figure>
+
+<p><strong>认证类型——单向认证</strong><br>        解释：验证者对声称者进行单方面的鉴别，而声称者不需要识别验 证者的身份。</p>
+<p><img src="/./images/image-20230117145130833.png"></p>
+<p><strong>认证类型——双向认证</strong><br>        解释：验证者对声称者进行单方面的鉴别，同时，声称者也对验证 者的身份进行确认。参与认证的实体双方互为验证者</p>
+<pre><code> ![](./images/image-20230117145225875.png)
+</code></pre>
+<p><strong>认证类型——第三方认证</strong><br>        解释：是指两个实体在鉴别过程中通过可信的第三方来实现。可信的第三方简称TTP(Trusted Third Party)</p>
+<p><img src="/./images/image-20230117145340819.png" alt="image-20230117145340819"></p>
+<p>认证技术方法</p>
+<figure class="highlight plaintext"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br><span class="line">11</span><br><span class="line">12</span><br><span class="line">13</span><br><span class="line">14</span><br><span class="line">15</span><br><span class="line">16</span><br><span class="line">17</span><br><span class="line">18</span><br><span class="line">19</span><br><span class="line">20</span><br><span class="line">21</span><br><span class="line">22</span><br><span class="line">23</span><br><span class="line">24</span><br><span class="line">25</span><br><span class="line">26</span><br><span class="line">27</span><br><span class="line">28</span><br><span class="line">29</span><br><span class="line">30</span><br><span class="line">31</span><br><span class="line">32</span><br><span class="line">33</span><br><span class="line">34</span><br><span class="line">35</span><br><span class="line">36</span><br><span class="line">37</span><br><span class="line">38</span><br><span class="line">39</span><br><span class="line">40</span><br><span class="line">41</span><br><span class="line">42</span><br><span class="line">43</span><br><span class="line">44</span><br></pre></td><td class="code"><pre><span class="line">【口令技术】</span><br><span class="line">		口令认证是基于用户所知道的秘密而进行的认证技术，是网络常见的身份认证方法</span><br><span class="line">		口令易泄露</span><br><span class="line"></span><br><span class="line">【智能卡技术】</span><br><span class="line">		一种带有存储器和微处理器的集成电路卡，能够安全存储认证信息，并具有一定的计算能力</span><br><span class="line">		卡片易丢失、伪造等</span><br><span class="line">		</span><br><span class="line">【基千生物特征认证技术】</span><br><span class="line">		是利用人类生物特征来进行验证（指纹、人脸、视网膜、语音）</span><br><span class="line"></span><br><span class="line">【Kerberos 认证技术】</span><br><span class="line">		是使用密钥加密为客户端／服务器应用程序提供强身份认证。</span><br><span class="line">		其技术原理是利用对称密码技术，使用可信的第三方来为应用服务器提供认证服务，并在用户和服务器之间建立安全信道。</span><br><span class="line"></span><br><span class="line">【公钥基础设施 (PKI) 技术】</span><br><span class="line">		CA：负责颁发证书，证书中含有实体名、公钥以及实体的其他身份信息（CA是第三方证书授权、PKI是公钥密码管理体系）</span><br><span class="line">		PKI：创建、管理、存储、分发和撤销公钥证书所需要的硬件、软件、人员、策略和过程的安全服务设施。</span><br><span class="line">			提供身份认证、完整性保护、数字签名、会话加密管理、密钥恢复。、</span><br><span class="line">		PKI组成：</span><br><span class="line">			CA（证书授权机构）：证书的颁发、废止和更新、认证机构负责签发、管理和撤销一组终端用户的证书。</span><br><span class="line">			RA（证书登记权威机构）：将公钥和对应的证书持有者的身份及其他属性联系起来，进行注册和担保</span><br><span class="line">             终端实体（End Entity）：认证对象</span><br><span class="line">			客户端：PKI服务的使用者</span><br><span class="line">			目录服务器：CA 通常使用一个目录服务器，提供证书管理和分发的服务。</span><br><span class="line"></span><br><span class="line">【单点登录】</span><br><span class="line">		只需要进行 次身份认证，就可以根据这次登录的认证身份访问授权资源</span><br><span class="line">		录解决了用户访问使用不同系统时，需要输入不同系统的口令以及保管口令问题，简化了认证管理工作。</span><br><span class="line"></span><br><span class="line">【基千人机识别认证技术】(Completely Automated Public Turing test to tell Computers and Humans Apart) </span><br><span class="line">		通过人机互动的形式验证访问者</span><br><span class="line"></span><br><span class="line"></span><br><span class="line">【多因素认证技术】</span><br><span class="line">		使用多种鉴别信息进行组合，以提升认证的安全强度（认证通常称为双因素认证或多因素认证）</span><br><span class="line"></span><br><span class="line">【基千行为的身份鉴别技术】</span><br><span class="line">		通过分析用户的基本信息，获取用户个体画像，进而动态监控用户状态以判定用户身份</span><br><span class="line"></span><br><span class="line">【快速在线认证 (FIDO)】</span><br><span class="line">		使用标准公钥加密技术来提供强身份验证、</span><br><span class="line">		是保护用户隐私，不提供跟踪用户的信息，用户生物识别信息不离开用户的设备</span><br><span class="line">		</span><br></pre></td></tr></table></figure>
+
+<p>认证主要产品</p>
+<figure class="highlight plaintext"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br><span class="line">11</span><br></pre></td><td class="code"><pre><span class="line">【生物认证】</span><br><span class="line">		利用指纹、人脸、语音等生物信息对人的身份进行鉴别</span><br><span class="line">【系统安全增强】</span><br><span class="line">		采用的多因素认证技术通常是 盘＋口令、智能卡＋口令、生物信息＋口令等。</span><br><span class="line">【电子认证服务】</span><br><span class="line">		PKI技术、数字证书、电子认证服务产品</span><br><span class="line">【网络准入控制】</span><br><span class="line">		基千 802.lX 协议、 Radius 协议、 VPN</span><br><span class="line">【身份认证网关】</span><br><span class="line">		利用数字证书、数据同步、网络服务重定向等技术，提供集中、统一的认证服务，形成身份认证中心。</span><br><span class="line"></span><br></pre></td></tr></table></figure>
+
+<p>认证指标</p>
+<figure class="highlight plaintext"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br></pre></td><td class="code"><pre><span class="line">(1) 密码算法支持：认证技术主要依赖于密码技术，常见的密码算法类型有 DES/3DES AES SHA-1 RSA SM1/SM2/SM3/SM4</span><br><span class="line">(2) 认证准确性：认证产品的认假率、拒真率。</span><br><span class="line">(3) 用户支持数量：认证产品最大承载的用户数噩</span><br><span class="line">(4) 安全保障级别：认证产品的安全保障措施、安全可靠程度、抵抗攻击能力等。</span><br></pre></td></tr></table></figure>
+
+<p><img src="/./images/image-20230118101602019.png" alt="image-20230118101602019"></p>
+<h1 id="七、访问控制技术原理与应用"><a href="#七、访问控制技术原理与应用" class="headerlink" title="七、访问控制技术原理与应用"></a>七、访问控制技术原理与应用</h1><p>访问控制概念：一定约束条件下，用户才能使用<br>访问控制目标：防止非法用户进入系统；即禁止合法用户的越权访问</p>
+<p>访问控制模型组成：主体、参考监视器、客体、访问控制数据库、审计库</p>
+<p><img src="/./images/image-20230118222155365.png" alt="image-20230118222155365"></p>
+<p><strong>访问控制类型</strong></p>
+<figure class="highlight plaintext"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br><span class="line">11</span><br><span class="line">12</span><br><span class="line">13</span><br><span class="line">14</span><br><span class="line">15</span><br><span class="line">16</span><br></pre></td><td class="code"><pre><span class="line">【自主访问控制】(Discretionary Access Control, DAC)</span><br><span class="line">	基于行的自主访问控制：在每个主体上都附加一个该主体可访问的客体的明细表，能力、前缀、口令</span><br><span class="line">		能力表：具有何种访问模式（读、写、执行）</span><br><span class="line">		前缀表：受保护客体名和主体对它的访问权限</span><br><span class="line">		口令表：。主体在对客体进行访问前，必须向系统提供该客体的口令</span><br><span class="line">	基于列的自主访问控制</span><br><span class="line">		保护位：对所有主体、主体组以及客体的拥有者指明一个访问模式集合，通常以比特在每个客体上都附加一个主体明细表，表示访问控制矩阵位来表示访问权限。 </span><br><span class="line">		ACL：在每个客体上都附加一个主体明细表，表示访问控制矩阵</span><br><span class="line"></span><br><span class="line">【强制访问控制】(Mandatory Access Control, MAC)</span><br><span class="line">	解释：系统根据主体和客体的安全属性，以强制方式控制主体对客体的访问</span><br><span class="line"></span><br><span class="line">【基千角色的访问控制】</span><br><span class="line">	</span><br><span class="line">【基于属性的访问控制】(Attribute Based Access Control)</span><br><span class="line">	控制方法是根据主体的属性、客体的属性、环境的条件以及访问策略对主体的请求操作进行授权许可或拒绝</span><br></pre></td></tr></table></figure>
+
+<p>访问控制——策略设计<br>        (1) 不同网络应用的安全需求，如内部用户访问还是外部用户；<br>        (2) 所有和应用相关的信息的确认，如通信端口号、 IP 地址等；<br>        (3) 网络信息传播和授权策略 如信息的安全级别和分类；<br>        (4) 不同系统的访问控制和信息分类策略之间的一致性；<br>        (5) 关于保护数据和服务的有关法规和合同义务；<br>        (6) 访问权限的更新和维护。</p>
+<p>访问控制——访问控制规则<br>        1、基千用户身份的访问控制规则<br>        2、基于角色的访问控制规则<br>        3、基于地址的访问控制规则<br>        4、基千时间的访问控制规则<br>        5、基千异常事件的访问控制规则<br>        6、基千服务数量的访问控制规则</p>
+<h1 id="八、防火墙技术原理与应用"><a href="#八、防火墙技术原理与应用" class="headerlink" title="八、防火墙技术原理与应用"></a>八、防火墙技术原理与应用</h1><p>防火墙区域：公共外部网络、内联网、外联网、DMZ<br>防火墙工作原理：根据 定的安全规则来控制流过 防火墙的网络包，如禁止或转发，能够屏蔽被保护网络内部的信息、结构和运行状况，从 而起到网络安全屏障的作用<br>防火墙策略：白名单、黑名单<br>防火墙功能：过滤非安全网络访问、限制网络访问、网络访问审计、网络访问审计、协同防御<br>防火墙类型：包过滤、状态检查技术、应用服务代理、网络地址转换技术、Web 防火墙技术、数据库防火墙技术、 工控防火墙技术、下一代防火墙</p>
+<p>防火墙关键技术</p>
+<figure class="highlight plaintext"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br></pre></td><td class="code"><pre><span class="line">【深度包检测】 (Deep Packet Inspection, DPI)</span><br><span class="line">		对包的数据内容进行检查，深入应用层分析。 </span><br><span class="line">【操作系统】</span><br><span class="line">		防火墙的运行依赖千操作系统，操作系统的安全性直接影响防火墙的自身安全</span><br><span class="line">【网络协议分析】</span><br><span class="line">		</span><br></pre></td></tr></table></figure>
+
+<p><img src="/./images/image-20230118224448903.png" alt="image-20230118224448903"></p>
+<p>防火墙性能指标</p>
+<figure class="highlight plaintext"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br></pre></td><td class="code"><pre><span class="line">【最大吞吐量】</span><br><span class="line">	检查防火墙在只有一条默认允许规则和不丢包的情况下达到的最大吞吐速率，如网络层吞吐量、 HTTP 吞吐晕、 SQL 吞吐量；</span><br><span class="line">【最大连接速率】</span><br><span class="line">	TCP 新建连接速率、 HTTP 请求速率、 SQL 请求速率；</span><br><span class="line">【最大规则数】</span><br><span class="line">	检查在添加大数量访问规则的情况下，防火墙性能变化状况；</span><br><span class="line">【并发连接数】</span><br><span class="line">	防火墙在单位时间内所能建立的最大 TCP 连接数，每秒的连接数</span><br><span class="line"></span><br></pre></td></tr></table></figure>
+
+<p><strong>Iptables使用</strong></p>
+<p>iptales [table] [command] [chain] [parameter] [target]<br>【table】<br>iptables -t filter</p>
+<p>【command】<br>-A 在指定链的末尾添加（append）一条新的规则<br>-D 删除（delete）指定链中的某一条规则，可以按规则序号和内容删除<br>-I 在指定链中插入（insert）一条新的规则，默认在第一行添加<br>-R 修改、替换（replace）指定链中的某一条规则，可以按规则序号和内容替换<br>-L 列出（list）指定链中所有的规则进行查看<br>-E 重命名用户定义的链，不改变链本身<br>-F 清空（flush）<br>-N 新建（new-chain）一条用户自己定义的规则链<br>-X 删除指定表中用户自定义的规则链（delete-chain）<br>-P 设置指定链的默认策略（policy）<br>-Z 将所有表的所有链的字节和数据包计数器清零<br>-n 使用数字形式（numeric）显示输出结果<br>-v 查看规则表详细信息（verbose）的信息<br>-V 查看版本(version)<br>-h 获取帮助（help）</p>
+<p>【chain】<br>INPUT、FORWARD、OUTPUT、PREROUTING、POSTROUTING</p>
+<p>【parameter】<br>-p 协议<br>-s&#x2F;-d 主机名、ip地址<br>-i&#x2F;-o 网络接口名<br>–sport<br>–dport</p>
+<figure class="highlight plaintext"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br><span class="line">11</span><br><span class="line">12</span><br><span class="line">13</span><br><span class="line">14</span><br><span class="line">15</span><br><span class="line">16</span><br><span class="line">17</span><br><span class="line">18</span><br><span class="line">19</span><br><span class="line">20</span><br><span class="line">21</span><br><span class="line">22</span><br><span class="line">23</span><br><span class="line">24</span><br><span class="line">25</span><br><span class="line">26</span><br><span class="line">27</span><br><span class="line">28</span><br><span class="line">29</span><br><span class="line">30</span><br><span class="line">31</span><br><span class="line">32</span><br><span class="line">33</span><br></pre></td><td class="code"><pre><span class="line">查看防火墙所有列表：iptables --list</span><br><span class="line">查看各表中的规则命令：iptables -t filter --list</span><br><span class="line">查看指定表中的规则命令：iptables -t mangle/nat/raw --list</span><br><span class="line">清除所有规则：ipatbles --flush、iptables -F</span><br><span class="line">清除指定表中的规则命令：iptables -t mangle/nat/raw -F</span><br><span class="line">增删改后需要保存才能永久生效：service iptables save</span><br><span class="line">接收目标端口为22的数据包：iptables -A INPUT -i eth0 -p tcp --dport 22 -j ACCEPT</span><br><span class="line">拒绝所有其他数据包：iptables -A INPUT -j DROP</span><br><span class="line">配置默认链策略：iptables -P INPUT DROP;iptables -P FORWARD DROP;iptables -P OUTPUT DROP</span><br><span class="line"></span><br><span class="line">允许远程主机进行SSH连接</span><br><span class="line">iptables -A INPUT -i eth0 -p tcp --dport 22 -m state --state NEW,ESTABLISHED -j ACCEPT</span><br><span class="line">iptables -A OUTPUT -o eth0 -p tcp --sport 22 -m state --state ESTABLISHED -j ACCEPT</span><br><span class="line"></span><br><span class="line">允许本地主机进行SSH连接</span><br><span class="line">iptables -A OUTPUT -o eth0 -p tcp --dport 22 -m state --state NEW,ESTABLISHED -j ACCEPT</span><br><span class="line">iptables -A INPUT -i eth0 -p tcp --sport 22 -m state --state ESTABLISHED -j ACCEPT</span><br><span class="line"></span><br><span class="line">允许HTTP请求</span><br><span class="line">iptables -A INPUT -i eth0 -p tcp --dport 80 -m state --state NEW,ESTABLISHED -j ACCEPT</span><br><span class="line">iptables -A OUTPUT -o eth0 -p tcp --sport 80 -m state --state ESTABLISHED -j ACCEPT</span><br><span class="line"></span><br><span class="line">把本地的mysql 3306端口映射出去变成63306:</span><br><span class="line">iptables -t nat -R PREROUTING 4 -s 源IP地址 -p tcp -m tcp --dport 63306 -j DNAT --to-destination 127.0.0.1:3306</span><br><span class="line">PS：4表示编号，</span><br><span class="line"></span><br><span class="line"></span><br><span class="line"></span><br><span class="line"></span><br><span class="line"></span><br><span class="line"></span><br><span class="line"></span><br><span class="line"></span><br></pre></td></tr></table></figure>
+
+<h1 id="九、VPN-技术原理与应用"><a href="#九、VPN-技术原理与应用" class="headerlink" title="九、VPN 技术原理与应用"></a>九、VPN 技术原理与应用</h1><p><strong>VPN解释：</strong>把需要经过公共网传递的报文 (packet) 加密处理后，再由公共网络发送到目的</p>
+<p>VPN安全功能</p>
+<figure class="highlight plaintext"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br></pre></td><td class="code"><pre><span class="line">• 保密性服务 (Confidentiality) :防止传输的信息被监听；</span><br><span class="line">• 完整性服务 (Integrity) :防止传输的信息被修改；</span><br><span class="line">• 认证服务 (Authentication) ：提供用户和设备的访问认证，防止非法接入。</span><br></pre></td></tr></table></figure>
+
+<p>VPN发展产品发展特点</p>
+<figure class="highlight plaintext"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br></pre></td><td class="code"><pre><span class="line">客户端简化，出现“零客户端“安装模式；</span><br><span class="line">网关一体化，综合集成多种接入模式，融合多种安全机制和安全功能；</span><br><span class="line">产品演变成可信网络产品</span><br><span class="line">提供标准安全管理数据接口，能够纳入 SOC 中心进行管理控制。</span><br></pre></td></tr></table></figure>
+
+<p>VPN类型</p>
+<figure class="highlight plaintext"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br></pre></td><td class="code"><pre><span class="line">。链路层 VPN 的实现方式有 ATM Frame Relay 、多协议标签交换MPLS; </span><br><span class="line">。网络层 VPN 的实现方式有受控路由过滤、隧道技术；</span><br><span class="line">。传输层 VPN 则通过 SSL 来实现。</span><br></pre></td></tr></table></figure>
+
+<p>VPN认证方式</p>
+<figure class="highlight plaintext"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br></pre></td><td class="code"><pre><span class="line">【用户身份认证】</span><br><span class="line"></span><br><span class="line">【数据完整性和合法性认证】</span><br><span class="line"></span><br></pre></td></tr></table></figure>
+
+<p>VPN协议——IpSec（Internet Protocol Security）</p>
+<figure class="highlight plaintext"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br><span class="line">11</span><br><span class="line">12</span><br><span class="line">13</span><br><span class="line">14</span><br><span class="line">15</span><br><span class="line">16</span><br><span class="line">17</span><br><span class="line">18</span><br><span class="line">19</span><br><span class="line">20</span><br><span class="line">21</span><br></pre></td><td class="code"><pre><span class="line">【Authentication Header, 简称 AH】</span><br><span class="line">	解释：IPAH 是一种安全协议，又称为认证头协议</span><br><span class="line">	作用：保证 IP 包的完整性和提供数据源认证，为 IP 数据报文提供无连接的完整性、数据源鉴别和抗重放攻击服务</span><br><span class="line">	原理：</span><br><span class="line"></span><br><span class="line">【封装安全有效负荷 (Encapsulatin Security Payload，简称ESP】</span><br><span class="line">	解释：IP ESP 也是 种安全协议，其用途在于保证 IP 包的保密性，而 IPAH 不能提供 IP 包的保密性服务 </span><br><span class="line">	作用：</span><br><span class="line">		1、IPESP 的基本方法是将 IP 包做加密处理，对整个 IP 包或 IP 的数据域进行安全封装，并生成带有 ESP 协议信息的 IP 包，然后将新的 IP 包发送到通信的接收方</span><br><span class="line">		2、接收方收到后，对ESP 进行解密，去掉 ESP 再将原来的 IP 包或更高层协议的数据像普通的 IP 包那样进行处理。 </span><br><span class="line">		3、AH ESP 体制可以合用，也可以分用。</span><br><span class="line"></span><br><span class="line">【AH、ESP有两种工作模式】</span><br><span class="line">	透明模式：只保护 IP 包中的数据域</span><br><span class="line">	隧道模式：则保护 IP 包的包头和数据域。</span><br><span class="line">			在隧道模式下，将创建新的 IP 包头，并把旧的 IP 包（指需做安全处理的 IP 包）作为新的 IP 包数据</span><br><span class="line"></span><br><span class="line">【密钥交换协议】</span><br><span class="line">	解释：基千 IPSec 技术的主要优点是它的透明性，安全服务的提供不需要更改应用程序，增加网络安全管理难度和降低网络传输性能。</span><br><span class="line">	协议：互联网密钥交换协议(IKE)、互联网安全关联与密钥管理协议 ISAK.MP、密钥交换协议 Oakley</span><br><span class="line"></span><br></pre></td></tr></table></figure>
+
+<p>VPN协议——SSL（Secure Sockets Layer）</p>
+<figure class="highlight plaintext"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br><span class="line">11</span><br><span class="line">12</span><br></pre></td><td class="code"><pre><span class="line">【解释】</span><br><span class="line">	是一种应用千传输层的安全协议，用千构建客户端和服务端之间的安全通道</span><br><span class="line">	SSL 协议是介千应用层和 TCP 层之间的安全通信协议</span><br><span class="line"></span><br><span class="line">【作用】</span><br><span class="line">	其主要目的在于两个应用层之间相互通信时，使被传送的信息具有保密性及可靠性</span><br><span class="line"></span><br><span class="line">【SSL三种安全通信服务】</span><br><span class="line">	(1) 保密性通信。握手协议产生秘密密钥 (secret key) 后才开始加 、解密数据 数据的加、解密使用对称式密码算法，例如 DES AES 等。</span><br><span class="line">	(2) 点对点之间的身份认证。采用非对称式密码算法，例如 RSA DSS 等。</span><br><span class="line">	(3) 可靠性通信。信息传送时包含信息完整性检查，使用有密钥保护的消息认证码 (Message Authentication Code, 简称 MAC) MAC 的计算采用安全杂凑函数，例如 SHA MD5</span><br><span class="line"></span><br></pre></td></tr></table></figure>
+
+<p>VPN协议——其它不常用协议</p>
+<figure class="highlight plaintext"><table><tr><td class="gutter"><pre><span class="line">1</span><br></pre></td><td class="code"><pre><span class="line">PPTP、L2TP</span><br></pre></td></tr></table></figure>
+
+<h1 id="十、侵检测技术原理与应用"><a href="#十、侵检测技术原理与应用" class="headerlink" title="十、侵检测技术原理与应用"></a>十、侵检测技术原理与应用</h1><p>入侵是指未经授权蓄意尝试访问信息、篡改信息， 使系统不可用的行为<br>入侵检测模型最早由<strong>Dennning</strong>提出，该模型主要根据主机系统的审计记录数据，生 成有关系统的若干轮廓，并监测轮廓的变化差异，发现系统的入侵行为</p>
+<p><img src="/./images/image-20230130114652912.png" alt="image-20230130114652912"></p>
+<p>入侵检测组成：由事件产生器 (event generators) 、事件分析器 (event analyzers) 、响应单元 (response units) 、事件数据库 (event atabases) </p>
+<p><img src="/./images/image-20230130114842046.png" alt="image-20230130114842046"></p>
+<p>入侵检测的作用</p>
+<figure class="highlight plaintext"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br></pre></td><td class="code"><pre><span class="line">(1) 发现受保护系统中的入侵行为或异常行为；</span><br><span class="line">(2) 检验安全保护措施的有效性；</span><br><span class="line">(3) 分析受保护系统所面临的威胁；</span><br><span class="line">(4) 有利千阻止安全事件扩大，及时报警触发网络安全应急响应；</span><br><span class="line">(5) 可以为网络安全策略的制定提供重要指导；</span><br><span class="line">(6) 报警信息可用作网络犯罪取证。</span><br></pre></td></tr></table></figure>
+
+<p>入侵检测方法</p>
+<figure class="highlight plaintext"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br><span class="line">11</span><br><span class="line">12</span><br><span class="line">13</span><br><span class="line">14</span><br><span class="line">15</span><br><span class="line">16</span><br><span class="line">17</span><br><span class="line">18</span><br><span class="line">19</span><br><span class="line">20</span><br></pre></td><td class="code"><pre><span class="line">【基千误用的人侵检测技术】基于特征的入侵检测方法</span><br><span class="line">	基于条件概率的特征检测方法</span><br><span class="line">	基千状态迁移的特征检测方法</span><br><span class="line">	基千键盘监控的特征检测方法</span><br><span class="line"></span><br><span class="line">【基千异常的人侵检测技术】</span><br><span class="line">	基千统计的异常检测方法</span><br><span class="line">	基千模式预测的异常检测方法</span><br><span class="line">	基千文本分类的异常检测方法</span><br><span class="line">	基千贝叶斯推理的异常检测方法</span><br><span class="line"></span><br><span class="line">【其它】</span><br><span class="line">	基千规范的检测方法</span><br><span class="line">	基千生物免疫的检测方法</span><br><span class="line">	基千攻击诱骗的检测方法</span><br><span class="line">	基千入侵报警的关联检测方法</span><br><span class="line">	基千沙箱动态分析的检测方法</span><br><span class="line">	基千大数据分析的检测方法</span><br><span class="line">	</span><br><span class="line"></span><br></pre></td></tr></table></figure>
+
+<h1 id="十一、网络物理隔离技术原理与应用"><a href="#十一、网络物理隔离技术原理与应用" class="headerlink" title="十一、网络物理隔离技术原理与应用"></a>十一、网络物理隔离技术原理与应用</h1><p>网络物理隔离目的：强化网络安全的保障，增强涉密网络的安全性，但是不能完全确保网 络的安全性</p>
+<p>网络物理隔离应对的安全风险：网络非法外联、U盘摆渡攻击、<br>网络物理隔离存在的安全风险：产品安全漏洞、通过声波|热量|电磁波|红外光等形势传递出去<br>网络物理隔离系统分类——按照隔离的对象</p>
+<figure class="highlight plaintext"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br></pre></td><td class="code"><pre><span class="line">【单点隔离系统】</span><br><span class="line">	主要是保护单独的计算机系统，防止外部直接攻击和干扰</span><br><span class="line"></span><br><span class="line">【区域隔离系统】</span><br><span class="line">	对的是网络环境，防止外部攻击内部保护网络。</span><br><span class="line"></span><br></pre></td></tr></table></figure>
+
+<p>网络物理隔离系统分类——按信息传递方向</p>
+<figure class="highlight plaintext"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br></pre></td><td class="code"><pre><span class="line">双向网络物理隔离系统</span><br><span class="line">单向网络物理隔离系统</span><br><span class="line"></span><br></pre></td></tr></table></figure>
+
+<p>网路物理隔离实现技术</p>
+<figure class="highlight plaintext"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br><span class="line">11</span><br><span class="line">12</span><br><span class="line">13</span><br><span class="line">14</span><br><span class="line">15</span><br><span class="line">16</span><br><span class="line">17</span><br><span class="line">18</span><br><span class="line">19</span><br><span class="line">20</span><br><span class="line">21</span><br><span class="line">22</span><br><span class="line">23</span><br></pre></td><td class="code"><pre><span class="line">【专用计算机上网 | 多PC】</span><br><span class="line">	内外网技术及分开，绝对的物理隔离</span><br><span class="line"></span><br><span class="line">【外网代理服务】</span><br><span class="line">	用多台计算机充当服务器，下载文件后再将文件手动录入内网</span><br><span class="line">	</span><br><span class="line">【内外网线路切换器】</span><br><span class="line">	一个物理开关</span><br><span class="line"></span><br><span class="line">【单硬盘内外分区|双硬盘】</span><br><span class="line">	基于软件实现？需要重启进行内外网切换</span><br><span class="line">【网闸】</span><br><span class="line">	从物理层面进行隔离；但恶意程序存在于文档或驱动中无法进行隔离</span><br><span class="line"></span><br><span class="line">【协议隔离】</span><br><span class="line">	协议隔离，对原有协议中的数据进行剥离后重组</span><br><span class="line"></span><br><span class="line">【单向传输】</span><br><span class="line">	发送和接受只能以单工方式工作</span><br><span class="line"></span><br><span class="line">【信息摆渡】</span><br><span class="line">	物理传输信道只在传输进行时存在</span><br><span class="line"></span><br></pre></td></tr></table></figure>
+
+<p>物理隔离产品</p>
+<figure class="highlight plaintext"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br></pre></td><td class="code"><pre><span class="line">终端隔离产品———————双硬盘隔离卡</span><br><span class="line">网络隔离产品———————网闸</span><br><span class="line">网络单项导入产品————单向网闸、单向光闸</span><br><span class="line"></span><br></pre></td></tr></table></figure>
+
+<p><img src="/./images/image-20230202111536645.png" alt="image-20230202111536645"></p>
+<p><img src="/./images/image-20230202111652396.png" alt="image-20230202111652396"></p>
+<p><img src="/./images/image-20230202111723173.png" alt="image-20230202111723173"></p>
+<h1 id="十二、网络安全审计技术原理与应用"><a href="#十二、网络安全审计技术原理与应用" class="headerlink" title="十二、网络安全审计技术原理与应用"></a>十二、网络安全审计技术原理与应用</h1><p>网络安全审计：指对网络信息系统的安全相关活动信息进行获取、记录、存储、分析和利 用的工作</p>
+<p><img src="/./images/image-20230202113045371.png" alt="image-20230202113045371"></p>
+<p>《中华人民共和国网络安全法》2017年6月1日正式实施，日志保存≥180天<br>系统日志采集：SNMP-Trap、SysLog等方式<br>网络流量采集：端口镜像、NetStream、NetFlow、网络分流器<br>网络审计技术：字符串匹配、全文搜索、数据关联、统计报表、可视化分析、</p>
+<p>网络安全审计产品主要功能</p>
+<figure class="highlight plaintext"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br></pre></td><td class="code"><pre><span class="line">【网络流量采集】</span><br><span class="line">	获取网上通信流量信息，按照协议类型及采集规则保存流量数据</span><br><span class="line">	</span><br><span class="line">【网络流量数据挖掘分析】</span><br><span class="line">	采集到的网络流量数据进行挖掘，提取网络流量信息，形成网络审计记录（HTTP、POP3、NetBios、Telnet、DNS）</span><br><span class="line"></span><br></pre></td></tr></table></figure>
+
+<h1 id="十三、网络安全漏洞防护技术原理与应用"><a href="#十三、网络安全漏洞防护技术原理与应用" class="headerlink" title="十三、网络安全漏洞防护技术原理与应用"></a>十三、网络安全漏洞防护技术原理与应用</h1><p><img src="/./images/image-20230202114208064.png" alt="image-20230202114208064"></p>
+<p>漏洞来源——非技术性安全漏洞的主要来源</p>
+<figure class="highlight plaintext"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br></pre></td><td class="code"><pre><span class="line">(1) 网络安全责任主体不明确。组织中缺少针对网络安全负责任的机构，或者是网络安全机构不健全，导致网络安全措施缺少责任部门落实。</span><br><span class="line">(2) 网络安全策略不完备。组织中缺少或者没有形成一套规范的网络信息安全策略。</span><br><span class="line">(3) 网络安全操作技能不足。组织中缺少对工作人员的网络安全职责规范要求，没有制度化的安全意识和技能培训机制。</span><br><span class="line">(4) 网络安全监督缺失。组织中缺少强有力的网络信息安全监督机制，网络信息安全策略的实施无法落实，无法掌握网络安全态势。</span><br><span class="line">(5) 网络安全特权控制不完备。网络信息系统中存在特权账号，缺少对超级用户权限的审计和约束，从而引发内部安全威胁。</span><br></pre></td></tr></table></figure>
+
+<p>漏洞来源——技术性安全漏洞的主要来源</p>
+<figure class="highlight plaintext"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br></pre></td><td class="code"><pre><span class="line">(1) 设计错误 (Design Error) 。由于系统或软件程序设计错误而导致的安全漏洞。例如，TCP/IP 协议设计错误导致的 IP 地址可以伪造。</span><br><span class="line">(2) 输入验证错误 (Input Validation Error) 。由于未对用户输入数据的合法性进行验证，使攻击者非法进入系统。</span><br><span class="line">(3) 缓冲区溢出 (Buffer Overflow) 。输入程序缓冲区的数据超过其规定长度，造成缓冲区溢出，破坏程序正常的堆栈，使程序执行其他代码。</span><br><span class="line">(4) 意外情况处置错误 (Exceptional Condition Handling Error) 。由千程序在实现逻辑中没有考虑到一些意外情况，而导致运行出错。</span><br><span class="line">(5) 访问验证错误 (Access Validation Error) 。由于程序的访问验证部分存在某些逻辑错误，使攻击者可以绕过访问控制进入系统。</span><br><span class="line">(6) 配置错误 (Configuration Error) 。由于系统和应用的配置有误，或配置参数、访问权限、策略安装位置有误。</span><br><span class="line">(7) 竞争条件 (Race Cond on) 。由于程序处理文件等实体在时序和同步方面存在问题，存在一个短暂的时机使攻击者能够施以外来的影响。</span><br><span class="line">(8) 环境错误 (Condition Error) 。由于一些环境变晕的错误或恶意设置造成的安全漏洞。</span><br></pre></td></tr></table></figure>
+
+<p><strong>国内外网络安全漏洞信息发布有以下平台：</strong></p>
+<ul>
+<li><p>CERT：CERT (Computer Emergency Response Team) 组织建立于 1988 年，是世界上第一个计算机安全应急响应组织，其主要的工作任务是提供入侵事件响应与处理。目前，该组织也发布漏洞信息。</p>
+</li>
+<li><p>Security Focus Vulnerability Database：Security Focus Vulnerability Database 是由 Security Focus 公司开发维护的漏洞信息库，它将许多原本零零散散的、与计算机安全相关的讨论结果加以结构化整理，组成了一个数据库。</p>
+</li>
+<li><p>中国国家信息安全漏洞库 (CNNVD)：CNNVD 是中国信息安全测评中心（以下简称 “测评中心”) 为切实履行漏洞分析和风险评估职能，负责建设运维的国家级信息安全漏洞数据管理平台，旨在为国家信息安全保障提供服务。经过几年的建设与运营， CNNVD 在信息安全漏洞搜集、重大漏洞信息通报、高危漏洞安全消控等方面发挥了重大作用，为国家重要行业和关键基础设施的安全保障工作提供了重要的技术支撑和数据支持。</p>
+</li>
+<li><p>国家信息安全漏洞共享平台 (CNVD)：国家信息安全漏洞共享平台 (CNVD) 是由国家计算机网络应急技术处理协调中心联合国内重要的信息系统单位、基础电信运营商、网络安全厂商、软件厂商和互联网企业建立的信息安全漏洞信息共享知识库。 CNVD 已建立起软件安全漏洞统一收集验证、预警发布及应急处置体系，发布了《国家信息安全漏洞共享平台章程》。</p>
+</li>
+<li><p>中文漏洞信息库（CVE）：CVE 的英文全称是 “Common Vulnerabilities &amp; Exposures” 通用漏洞披露。CVE 就好像是一个字典表，为广泛认同的信息安全漏洞或者已经暴露出来的弱点给出一个公共的名称。使用一个共同的名字，可以帮助用户在各自独立的各种漏洞数据库中和漏洞评估工具中共享数据，虽然这些工具很难整合在一起。这样就使得 CVE 成为了安全信息共享的 “关键字”。如果在一个漏洞报告中指明的一个漏洞，如果有 CVE 名称，你就可以快速地在任何其它 CVE 兼容的数据库中找到相应修补的信息，解决安全问题。</p>
+</li>
+</ul>
+<h1 id="十四、恶意代码防范技术原理"><a href="#十四、恶意代码防范技术原理" class="headerlink" title="十四、恶意代码防范技术原理"></a>十四、恶意代码防范技术原理</h1><p>恶意代码：违背目标系统安全策略的程序代码，会造成 目标系统信息泄露、资源滥用，破坏系统的完整性及可用性</p>
+<p>恶意代码种类：计 算机病毒 (Computer Virus) 、蠕虫 (Worms) 、特洛伊木马 (Trojan Horse) 逻辑炸弹 (Logic Bombs 入细菌 (Bacteria) 恶意脚本 (Malicious Scripts) 和恶意 ActiveX 控件、间谍软件 (Spyware) 等。</p>
+<p><img src="/./images/image-20230206101706410.png" alt="image-20230206101706410"></p>
+<p>恶意代码作用过程：入侵系统、维持或提升已有权限、隐藏、潜伏、破坏、</p>
+<p><img src="/./images/image-20230206104446082.png" alt="image-20230206104446082"></p>
+<p>恶意代码常用技术：静态静态反调试、加密技术、模糊变换(伪指令重编译、指令压缩)</p>
+<p><img src="/./images/image-20230206105552707.png" alt="image-20230206105552707"></p>
+<p>计算机病毒检测：(文件)比较法、搜索法、特征字符识别法、分析法</p>
+<h1 id="十五、网络安全主动防御-技术与应用"><a href="#十五、网络安全主动防御-技术与应用" class="headerlink" title="十五、网络安全主动防御 技术与应用"></a>十五、网络安全主动防御 技术与应用</h1><p>隐私保护类型：身份隐私、属性隐私、社交关系隐私、位置轨迹隐私</p>
+<h1 id="十六、网络安全风险评估技术原理与应用"><a href="#十六、网络安全风险评估技术原理与应用" class="headerlink" title="十六、网络安全风险评估技术原理与应用"></a>十六、网络安全风险评估技术原理与应用</h1><p>网络安全风险评估橾式</p>
+<figure class="highlight plaintext"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br></pre></td><td class="code"><pre><span class="line">【自评估】</span><br><span class="line">	自评估是网络系统拥有者依靠自身力量，对自有的网络系统进行的风险评估活动。</span><br><span class="line"></span><br><span class="line">【检查评估】</span><br><span class="line">	检查评估由网络安全主管机关或业务主管机关发起，旨在依据已经颁布的安全法规、安全标准或安全管理规定等进行检查评估。</span><br><span class="line"></span><br><span class="line">【委托评估】</span><br><span class="line">	委托评估是指网络系统使用单位委托具有风险评估能力的专业评估机构实施的评估活动。</span><br><span class="line"></span><br></pre></td></tr></table></figure>
+
+<p><img src="/./images/image-20230208140557988.png" alt="image-20230208140557988"></p>
+<p>网络安全风险计算方法</p>
+<figure class="highlight plaintext"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br></pre></td><td class="code"><pre><span class="line">【定性计算方法】</span><br><span class="line">	将风险评估中的资产、威胁、脆弱性等各要素的相关属性进行主观评估，然后再给出风险计算结果</span><br><span class="line">【定量计算方法】</span><br><span class="line">	将资产、威胁、脆弱性等量化为数据，然后再进行风险的量化计算，通常以经济损失、影响范围大小等进行呈现</span><br><span class="line">【综合计算方法】</span><br><span class="line">	结合定性和定量方法，将风险评估的资产、威胁、脆弱性、安全事件损失等各要素进行量化赋值，然后选用合适的计算方法进行风险计算</span><br></pre></td></tr></table></figure>
+
+<h1 id="十七、网络安全应急响应技术原理与应用"><a href="#十七、网络安全应急响应技术原理与应用" class="headerlink" title="十七、网络安全应急响应技术原理与应用"></a>十七、网络安全应急响应技术原理与应用</h1><h1 id="十八、网络安全测评技术与标准"><a href="#十八、网络安全测评技术与标准" class="headerlink" title="十八、网络安全测评技术与标准"></a>十八、网络安全测评技术与标准</h1><h1 id="十九、操作系统安全保护"><a href="#十九、操作系统安全保护" class="headerlink" title="十九、操作系统安全保护"></a>十九、操作系统安全保护</h1><p>《信息安全技术操作系统安全技术要求 (GB&#x2F;T 20272 2019) 》分为五级：用户自主保护级、系统审计保护级、安全标记保护级、结构化保护级、访问验证保护级</p>
+<p>操作系统的安全需求几个方面：</p>
+<figure class="highlight plaintext"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br></pre></td><td class="code"><pre><span class="line">(1) 标识和鉴别。能够唯一标识系统中的用户，并进行身份真实性鉴别。</span><br><span class="line">(2) 访问控制。按照系统安全策略，对用户的操作进行资源访问控制，防止用户对计算机资源的非法访问（窃取、篡改和破坏）。</span><br><span class="line">(3) 系统资源安全。能够保护系统中信息及数据的完整性、保密性、可用性。</span><br><span class="line">(4) 网络安全。能够进行网络访问控制，保证网络通信数据安全及网络服务的可用性。</span><br><span class="line">(5) 抗攻击。具有系统运行监督机制，防御恶意代码攻击。</span><br><span class="line">(6) 自身安全。操作系统具有自身安全保护机制，确保系统安全和完整性，具有可信恢复能力。</span><br></pre></td></tr></table></figure>
+
+<p>操作系统安全机制：硬件安全、标识与鉴别、访问控制、最小特权管理、可信路径、安全审计、系统安全增强</p>
+<h1 id="二十、数据库系统安全"><a href="#二十、数据库系统安全" class="headerlink" title="二十、数据库系统安全"></a>二十、数据库系统安全</h1><p>数据库安全威胁：授权误用、逻辑推断和汇聚、伪装、旁路控制、隐蔽信道、SQL注入攻击、数据库口令密码破解、数据库介质攻击</p>
+<h1 id="二十一、网络设备安全"><a href="#二十一、网络设备安全" class="headerlink" title="二十一、网络设备安全"></a>二十一、网络设备安全</h1><p>交换机安全威胁</p>
+<figure class="highlight plaintext"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br><span class="line">11</span><br></pre></td><td class="code"><pre><span class="line">【MAC地址泛洪】</span><br><span class="line">	通过伪造大量的虚假 MAC 地址发往交换机,MAC表被填满了后不再学习，导致交换机泛洪转发MAC</span><br><span class="line"></span><br><span class="line">【ARP欺骗】</span><br><span class="line">	发送虚假 ARP 包更新被攻击主机上的 ARP 缓存，进行地址欺骗，干扰交换机的正常运行</span><br><span class="line"></span><br><span class="line">【口令威胁】</span><br><span class="line">	通过口令猜测、网络监听、密码破解等技术手段获取交换机口令认证信息，从而非授权访问交换机设备。</span><br><span class="line"></span><br><span class="line">【漏洞利用】</span><br><span class="line">	攻击者利用交换机的漏洞信息，导致拒绝服务、非授权访问、信息泄露、会话劫持。</span><br></pre></td></tr></table></figure>
+
+<p>路由器安全威胁</p>
+<figure class="highlight plaintext"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br><span class="line">11</span><br><span class="line">12</span><br><span class="line">13</span><br><span class="line">14</span><br></pre></td><td class="code"><pre><span class="line">【漏洞利用】</span><br><span class="line">	网络设备厂商的路由器漏洞被攻击者利用，导致拒绝服务、非授权访问、信息泄露、会话劫持、安全旁路。</span><br><span class="line"></span><br><span class="line">【口令安全威胁】</span><br><span class="line">	路由器的口令认证存在安全隐患，导致攻击者可以猜测口令，监听口令，破解口令文件。</span><br><span class="line"></span><br><span class="line">【路由协议安全威胁】</span><br><span class="line">	路由器接收恶意路由协议包，导致路由服务混乱。</span><br><span class="line"></span><br><span class="line">【DoS/DDoS 威胁】</span><br><span class="line">	攻击者利用 TCP/IP 协议漏洞或路由器的漏洞，对路由器发起拒绝服务攻击</span><br><span class="line"></span><br><span class="line">【依赖性威胁】</span><br><span class="line">	攻击者破坏路由器所依赖的服务或环境，导致路由器非正常运行</span><br></pre></td></tr></table></figure>
+
+<h1 id="二十二、网站需求分析与安全保护工程"><a href="#二十二、网站需求分析与安全保护工程" class="headerlink" title="二十二、网站需求分析与安全保护工程"></a>二十二、网站需求分析与安全保护工程</h1><h1 id="二十三、云计算安全需求与安全保护工程"><a href="#二十三、云计算安全需求与安全保护工程" class="headerlink" title="二十三、云计算安全需求与安全保护工程"></a>二十三、云计算安全需求与安全保护工程</h1><p>云计算特征</p>
+<figure class="highlight plaintext"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br></pre></td><td class="code"><pre><span class="line">IT 资源以服务的形式提供</span><br><span class="line">多租户共享 IT 资源</span><br><span class="line">IT 资源按需定制与按用付费</span><br><span class="line">IT 资源可伸缩性部署</span><br></pre></td></tr></table></figure>
+
+<p>云计算安全分析：云端安全威胁、云“管“安全威胁、云计算平台安全威胁</p>
+<h1 id="二十四、工控安全需求分析与安全保护工程"><a href="#二十四、工控安全需求分析与安全保护工程" class="headerlink" title="二十四、工控安全需求分析与安全保护工程"></a>二十四、工控安全需求分析与安全保护工程</h1>
+      
+       <hr><span style="font-style: italic;color: gray;"> 转载请注明来源，欢迎对文章进行指正，联系邮箱 vou0515@gmail.com </span>
+    </div>
+</article>
+
+
+
+
+
+
+
+    
+
+
+
+
+    </div>
+    <div class="copyright">
+        <p class="footer-entry">
+    ©2023 closeto
+</p>
+<p class="footer-entry">Built with Hexo</p>
+
+    </div>
+    <div class="full-toc">
+        <button class="full" data-title="切换全屏 快捷键 s"><span class="min "></span></button>
+<a class="" id="rocket" ></a>
+
+    </div>
+</div>
+
+</body>
+<script src="/js/jquery.pjax.js?v=1.1.0" ></script>
+
+<script src="/js/script.js?v=1.1.0" ></script>
+<script>
+    var img_resize = 'default';
+    function initArticle() {
+        /*渲染对应的表格样式*/
+        
+            $("#post .pjax table").addClass("green_title");
+        
+
+        /*渲染打赏样式*/
+        
+
+        /*高亮代码块行号*/
+        
+
+        /*访问数量*/
+        
+        $.getScript("//busuanzi.ibruce.info/busuanzi/2.3/busuanzi.pure.mini.js");
+        
+
+        /*代码高亮，行号对齐*/
+        $('.pre-numbering').css('line-height',$('.has-numbering').css('line-height'));
+
+        
+        
+        /* 渲染*/
+        function HTMLDecode(text) {
+            var temp = document.createElement("div");
+            temp.innerHTML = text;
+            var output = temp.innerText || temp.textContent;
+            temp = null;
+            return output;
+        }
+        if (window.mermaid){
+            window.mermaid = null
+        }
+        $.getScript("//cdn.jsdelivr.net/npm/mermaid@8.4.2/dist/mermaid.min.js", function () {
+            var mermaidOptions = JSON.parse(HTMLDecode("{&#34;theme&#34;:&#34;default&#34;,&#34;startOnLoad&#34;:true,&#34;flowchart&#34;:{&#34;useMaxWidth&#34;:false,&#34;htmlLabels&#34;:true}}"))
+            if (window.mermaid) {
+                mermaid.initialize(mermaidOptions)
+                mermaid.contentLoaded()
+            }
+        })
+        
+    }
+
+    /*打赏页面隐藏与展示*/
+    
+
+</script>
+
+<!--加入行号的高亮代码块样式-->
+
+<!--自定义样式设置-->
+<style>
+    
+    
+    .nav {
+        width: 562px;
+    }
+    .nav.fullscreen {
+        margin-left: -562px;
+    }
+    .nav-left {
+        width: 140px;
+    }
+    
+    
+    @media screen and (max-width: 1468px) {
+        .nav {
+            width: 492px;
+        }
+        .nav.fullscreen {
+            margin-left: -492px;
+        }
+        .nav-left {
+            width: 100px;
+        }
+    }
+    
+    
+    @media screen and (max-width: 1024px) {
+        .nav {
+            width: 492px;
+            margin-left: -492px
+        }
+        .nav.fullscreen {
+            margin-left: 0;
+        }
+    }
+    
+    @media screen and (max-width: 426px) {
+        .nav {
+            width: 100%;
+        }
+        .nav-left {
+            width: 100%;
+        }
+    }
+    
+    
+    .nav-right .title-list nav a .post-title, .nav-right .title-list #local-search-result a .post-title {
+        color: #383636;
+    }
+    
+    
+    .nav-right .title-list nav a .post-date, .nav-right .title-list #local-search-result a .post-date {
+        color: #5e5e5f;
+    }
+    
+    
+    .nav-right nav a.hover, #local-search-result a.hover{
+        background-color: #e2e0e0;
+    }
+    
+    
+
+    /*列表样式*/
+    
+
+    /* 背景图样式 */
+    
+    
+
+
+    /*引用块样式*/
+    
+
+    /*文章列表背景图*/
+    
+
+    
+</style>
+
+
+
+
+
+
+
+</html>

