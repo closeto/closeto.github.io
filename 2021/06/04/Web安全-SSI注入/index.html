@@ -1,0 +1,976 @@
+<!DOCTYPE html>
+<html>
+<head>
+  <meta charset="utf-8">
+  <title>SSI注入 | 欢迎来到closeto的博客</title>
+  <meta name="keywords" content=" 2021 , Web ">
+  <meta name="description" content="SSI注入 | 欢迎来到closeto的博客">
+    <meta name="viewport" content="width=device-width, initial-scale=1, maximum-scale=1">
+<meta name="description" content="SUID提权查找S权限：find &#x2F; -perm -u&#x3D;s -type f 2&gt;&#x2F;dev&#x2F;null UID三类： 123S UID：授予文件权限，允许普通用户执行root文件Real UID：执行该进程的用户实际的UID，谁通过shell运行就是谁Effective UID：程序实际操作时生效的UID，一般在进程启动时，直接由Real UID复制而来。">
+<meta property="og:type" content="article">
+<meta property="og:title" content="Linux提权">
+<meta property="og:url" content="https://closeto.github.io/2023/08/24/%E5%86%85%E7%BD%91%E6%B8%97%E9%80%8F-Linux%E6%8F%90%E6%9D%83/index.html">
+<meta property="og:site_name" content="欢迎来到closeto的博客">
+<meta property="og:description" content="SUID提权查找S权限：find &#x2F; -perm -u&#x3D;s -type f 2&gt;&#x2F;dev&#x2F;null UID三类： 123S UID：授予文件权限，允许普通用户执行root文件Real UID：执行该进程的用户实际的UID，谁通过shell运行就是谁Effective UID：程序实际操作时生效的UID，一般在进程启动时，直接由Real UID复制而来。">
+<meta property="og:locale" content="zh_CN">
+<meta property="og:image" content="https://closeto.github.io/images/image-20220913221850697.png">
+<meta property="og:image" content="https://closeto.github.io/images/image-20220912231256193.png">
+<meta property="og:image" content="https://closeto.github.io/images/image-20220912231817462.png">
+<meta property="article:published_time" content="2023-08-24T09:17:21.052Z">
+<meta property="article:author" content="closeto">
+<meta property="article:tag" content="内网">
+<meta property="article:tag" content="渗透测试">
+<meta property="article:tag" content="2021">
+<meta name="twitter:card" content="summary">
+<meta name="twitter:image" content="https://closeto.github.io/images/image-20220913221850697.png">
+
+
+<link rel="icon" href="/img/ico.png">
+
+<link href="/css/style.css?v=1.1.0" rel="stylesheet">
+
+<link href="/css/hl_theme/atom-light.css?v=1.1.0" rel="stylesheet">
+
+<link href="//cdn.jsdelivr.net/npm/animate.css@4.1.0/animate.min.css" rel="stylesheet">
+
+<script src="//cdn.jsdelivr.net/npm/jquery@3.5.1/dist/jquery.min.js"></script>
+<script src="/js/titleTip.js?v=1.1.0" ></script>
+
+<script src="//cdn.jsdelivr.net/npm/highlightjs@9.16.2/highlight.pack.min.js"></script>
+<script>
+    hljs.initHighlightingOnLoad();
+</script>
+
+<script src="//cdn.jsdelivr.net/npm/nprogress@0.2.0/nprogress.min.js"></script>
+
+
+
+<script src="/js/iconfont.js?v=1.1.0" ></script>
+
+<meta name="generator" content="Hexo 6.3.0"></head>
+<div style="display: none">
+  <input class="theme_disqus_on" value="false">
+  <input class="theme_preload_comment" value="">
+  <input class="theme_blog_path" value="">
+  <input id="theme_shortcut" value="true" />
+  <input id="theme_highlight_on" value="true" />
+  <input id="theme_code_copy" value="true" />
+</div>
+
+
+
+<body>
+<aside class="nav">
+    <div class="nav-left">
+        <a href="/"
+   class="avatar_target">
+    <img class="avatar"
+         src="/img/user.png"/>
+</a>
+<div class="author">
+    <span>closeto</span>
+</div>
+
+<div class="icon">
+    
+        
+            <a title="github"
+               href="https://github.com/closeto"
+               target="_blank">
+                
+                    <svg class="iconfont-svg" aria-hidden="true">
+                        <use xlink:href="#icon-github"></use>
+                    </svg>
+                
+            </a>
+        
+    
+        
+            <a title="email"
+               href="mailto:vou0515@gmail.com"
+               target="_blank">
+                
+                    <svg class="iconfont-svg" aria-hidden="true">
+                        <use xlink:href="#icon-email"></use>
+                    </svg>
+                
+            </a>
+        
+    
+</div>
+
+
+
+
+
+<ul>
+    <li>
+        <div class="all active" data-rel="全部文章">全部文章
+            
+                <small>(38)</small>
+            
+        </div>
+    </li>
+    
+        
+            
+                
+    <li>
+        <div data-rel="Web安全">
+            
+            Web安全
+            <small>(17)</small>
+        </div>
+        
+    </li>
+
+            
+        
+    
+        
+            
+                
+    <li>
+        <div data-rel="内网安全">
+            
+            内网安全
+            <small>(10)</small>
+        </div>
+        
+    </li>
+
+            
+        
+    
+        
+            
+                
+    <li>
+        <div data-rel="Windows相关">
+            
+            Windows相关
+            <small>(4)</small>
+        </div>
+        
+    </li>
+
+            
+        
+    
+        
+            
+                
+    <li>
+        <div data-rel="Linux相关">
+            
+            Linux相关
+            <small>(1)</small>
+        </div>
+        
+    </li>
+
+            
+        
+    
+        
+            
+                
+    <li>
+        <div data-rel="其它">
+            
+            其它
+            <small>(3)</small>
+        </div>
+        
+    </li>
+
+            
+        
+    
+        
+            
+                
+    <li>
+        <div data-rel="考证学习">
+            
+            考证学习
+            <small>(1)</small>
+        </div>
+        
+    </li>
+
+            
+        
+    
+</ul>
+<div class="left-bottom">
+    <div class="menus">
+        
+            
+    </div>
+    <div>
+        
+            <a class="about  "
+               target="_blank"
+                    
+               href="https://github.com/closeto">关于</a>
+        
+        
+    </div>
+</div>
+<input type="hidden" id="yelog_site_posts_number" value="38">
+
+<div style="display: none">
+    <span id="busuanzi_value_site_uv"></span>
+    <span id="busuanzi_value_site_pv"></span>
+</div>
+
+    </div>
+    <div class="nav-right">
+        <div class="friends-area">
+    <div class="friends-title">
+        友情链接
+        <i class="iconfont icon-left"></i>
+    </div>
+    <div class="friends-content">
+        <ul>
+            
+            <li><a target="_blank" href="/url">名字列表</a></li>
+            
+        </ul>
+    </div>
+</div>
+        <div class="title-list">
+    <div class="right-top">
+        <div id="default-panel">
+            <i class="iconfont icon-search" data-title="搜索 快捷键 i"></i>
+            <div class="right-title">全部文章</div>
+            <i class="iconfont icon-file-tree" data-title="切换到大纲视图 快捷键 w"></i>
+        </div>
+        <div id="search-panel">
+            <i class="iconfont icon-left" data-title="返回"></i>
+            <input id="local-search-input" autocomplete="off"/>
+            <label class="border-line" for="input"></label>
+            <i class="iconfont icon-case-sensitive" data-title="大小写敏感"></i>
+            <i class="iconfont icon-tag" data-title="标签"></i>
+        </div>
+        <div id="outline-panel" style="display: none">
+            <div class="right-title">大纲</div>
+            <i class="iconfont icon-list" data-title="切换到文章列表"></i>
+        </div>
+    </div>
+
+    <div class="tags-list">
+    <input id="tag-search" />
+    <div class="tag-wrapper">
+        
+            <li class="article-tag-list-item">
+                <i class="iconfont icon-tag"></i><a>2021</a>
+            </li>
+        
+            <li class="article-tag-list-item">
+                <i class="iconfont icon-tag"></i><a>2022</a>
+            </li>
+        
+            <li class="article-tag-list-item">
+                <i class="iconfont icon-tag"></i><a>2023</a>
+            </li>
+        
+            <li class="article-tag-list-item">
+                <i class="iconfont icon-tag"></i><a>内网</a>
+            </li>
+        
+            <li class="article-tag-list-item">
+                <i class="iconfont icon-tag"></i><a>软考</a>
+            </li>
+        
+            <li class="article-tag-list-item">
+                <i class="iconfont icon-tag"></i><a>渗透测试</a>
+            </li>
+        
+            <li class="article-tag-list-item">
+                <i class="iconfont icon-tag"></i><a>文件格式</a>
+            </li>
+        
+            <li class="article-tag-list-item">
+                <i class="iconfont icon-tag"></i><a>中级</a>
+            </li>
+        
+            <li class="article-tag-list-item">
+                <i class="iconfont icon-tag"></i><a>Bin</a>
+            </li>
+        
+            <li class="article-tag-list-item">
+                <i class="iconfont icon-tag"></i><a>Linux</a>
+            </li>
+        
+            <li class="article-tag-list-item">
+                <i class="iconfont icon-tag"></i><a>ShellCode</a>
+            </li>
+        
+            <li class="article-tag-list-item">
+                <i class="iconfont icon-tag"></i><a>Web</a>
+            </li>
+        
+            <li class="article-tag-list-item">
+                <i class="iconfont icon-tag"></i><a>Windows</a>
+            </li>
+        
+    </div>
+
+</div>
+
+    
+    <nav id="title-list-nav">
+        
+        
+        <a  class="全部文章 内网安全 "
+           href="/2023/08/24/%E5%86%85%E7%BD%91%E6%B8%97%E9%80%8F-Linux%E6%8F%90%E6%9D%83/"
+           data-tag="内网,渗透测试,2021"
+           data-author="" >
+            <span class="post-title" title="Linux提权">Linux提权</span>
+            <span class="post-date" title="2023-08-24 17:17:21">2023/08/24</span>
+        </a>
+        
+        
+        <a  class="全部文章 "
+           href="/2023/08/24/WL%E7%AB%AF%E5%8F%A3%E6%B5%81%E9%87%8F%E8%BD%AC%E5%8F%91/"
+           data-tag=""
+           data-author="" >
+            <span class="post-title" title=""></span>
+            <span class="post-date" title="2023-08-24 14:33:17">2023/08/24</span>
+        </a>
+        
+        
+        <a  class="全部文章 Linux相关 "
+           href="/2023/03/10/busybox%E6%90%AD%E5%BB%BA%E6%9C%80%E5%B0%8FLinux/"
+           data-tag="Linux,2023"
+           data-author="" >
+            <span class="post-title" title="Busybox搭建最小Linux">Busybox搭建最小Linux</span>
+            <span class="post-date" title="2023-03-10 12:30:00">2023/03/10</span>
+        </a>
+        
+        
+        <a  class="全部文章 其它 "
+           href="/2022/07/19/Nginx%E6%97%A5%E5%BF%97%E6%A0%BC%E5%BC%8F/"
+           data-tag="2022"
+           data-author="" >
+            <span class="post-title" title="Nginx日志格式">Nginx日志格式</span>
+            <span class="post-date" title="2022-07-19 00:00:00">2022/07/19</span>
+        </a>
+        
+        
+        <a  class="全部文章 其它 "
+           href="/2022/05/07/UTF-8%E9%9D%9E%E6%9C%80%E7%9F%AD%E5%BD%A2%E5%BC%8F&%E7%BC%96%E7%A0%81%E5%AE%89%E5%85%A8%E9%97%AE%E9%A2%98/"
+           data-tag="2022"
+           data-author="" >
+            <span class="post-title" title="UTF8编码安全">UTF8编码安全</span>
+            <span class="post-date" title="2022-05-07 00:00:00">2022/05/07</span>
+        </a>
+        
+        
+        <a  class="全部文章 Windows相关 "
+           href="/2022/04/10/ShellCode%E5%85%A5%E9%97%A8%E5%88%B0%E6%94%BE%E5%BC%83%E2%80%94%E7%9B%B8%E9%81%87/"
+           data-tag="2022,ShellCode,Bin"
+           data-author="" >
+            <span class="post-title" title="ShellCode入门到放弃—相遇">ShellCode入门到放弃—相遇</span>
+            <span class="post-date" title="2022-04-10 19:30:00">2022/04/10</span>
+        </a>
+        
+        
+        <a  class="全部文章 Windows相关 "
+           href="/2022/04/10/PE%E6%96%87%E4%BB%B6%E6%A0%BC%E5%BC%8F%E2%80%94%E7%AE%80%E4%BB%8B/"
+           data-tag="2022,文件格式"
+           data-author="" >
+            <span class="post-title" title="PE文件格式—简介">PE文件格式—简介</span>
+            <span class="post-date" title="2022-04-10 10:48:36">2022/04/10</span>
+        </a>
+        
+        
+        <a  class="全部文章 内网安全 "
+           href="/2022/03/10/%E5%86%85%E7%BD%91%E6%B8%97%E9%80%8F-Redis%E6%9C%AA%E6%8E%88%E6%9D%83/"
+           data-tag="2022,内网,渗透测试"
+           data-author="" >
+            <span class="post-title" title="Redis未授权">Redis未授权</span>
+            <span class="post-date" title="2022-03-10 14:30:00">2022/03/10</span>
+        </a>
+        
+        
+        <a  class="全部文章 内网安全 "
+           href="/2022/02/19/Linux%E7%97%95%E8%BF%B9%E6%93%A6%E9%99%A4/"
+           data-tag="2022,内网,渗透测试,Linux"
+           data-author="" >
+            <span class="post-title" title="Linux痕迹擦除">Linux痕迹擦除</span>
+            <span class="post-date" title="2022-02-19 00:00:00">2022/02/19</span>
+        </a>
+        
+        
+        <a  class="全部文章 内网安全 "
+           href="/2022/02/18/Windows%E7%97%95%E8%BF%B9%E6%93%A6%E9%99%A4/"
+           data-tag="2022,内网,渗透测试,Windows"
+           data-author="" >
+            <span class="post-title" title="Windows痕迹擦除">Windows痕迹擦除</span>
+            <span class="post-date" title="2022-02-18 00:00:00">2022/02/18</span>
+        </a>
+        
+        
+        <a  class="全部文章 内网安全 "
+           href="/2022/02/14/Windows%E4%BF%A1%E6%81%AF%E6%94%B6%E9%9B%86/"
+           data-tag="2022,内网,渗透测试,Windows"
+           data-author="" >
+            <span class="post-title" title="Windows信息收集">Windows信息收集</span>
+            <span class="post-date" title="2022-02-14 00:00:00">2022/02/14</span>
+        </a>
+        
+        
+        <a  class="全部文章 内网安全 "
+           href="/2022/02/13/Linux%E4%BF%A1%E6%81%AF%E6%94%B6%E9%9B%86/"
+           data-tag="2022,内网,渗透测试,Linux"
+           data-author="" >
+            <span class="post-title" title="Linux信息收集">Linux信息收集</span>
+            <span class="post-date" title="2022-02-13 00:00:00">2022/02/13</span>
+        </a>
+        
+        
+        <a  class="全部文章 Windows相关 "
+           href="/2022/01/18/ShellCode%E5%85%A5%E9%97%A8%E5%88%B0%E6%94%BE%E5%BC%83%E2%80%94%E7%9B%B8%E5%BC%83/"
+           data-tag="2022,ShellCode,Bin"
+           data-author="" >
+            <span class="post-title" title="ShellCode入门到放弃—相弃">ShellCode入门到放弃—相弃</span>
+            <span class="post-date" title="2022-01-18 17:30:00">2022/01/18</span>
+        </a>
+        
+        
+        <a  class="全部文章 考证学习 "
+           href="/2022/01/18/%E8%BD%AF%E8%80%83%E4%B8%AD%E7%BA%A7%E2%80%94%E4%BF%A1%E6%81%AF%E5%AE%89%E5%85%A8%E5%B7%A5%E7%A8%8B%E5%B8%88/"
+           data-tag="2023,软考,中级"
+           data-author="" >
+            <span class="post-title" title="软考中级—信息安全工程师">软考中级—信息安全工程师</span>
+            <span class="post-date" title="2022-01-18 14:30:00">2022/01/18</span>
+        </a>
+        
+        
+        <a  class="全部文章 Windows相关 "
+           href="/2022/01/15/ShellCode%E5%85%A5%E9%97%A8%E5%88%B0%E6%94%BE%E5%BC%83%E2%80%94%E7%9B%B8%E7%9F%A5/"
+           data-tag="2022,ShellCode,Bin"
+           data-author="" >
+            <span class="post-title" title="ShellCode入门到放弃—相知">ShellCode入门到放弃—相知</span>
+            <span class="post-date" title="2022-01-15 12:12:12">2022/01/15</span>
+        </a>
+        
+        
+        <a  class="全部文章 内网安全 "
+           href="/2021/11/10/%E5%86%85%E7%BD%91%E6%B8%97%E9%80%8F_%E5%AF%86%E7%A0%81%E6%8F%90%E5%8F%96/"
+           data-tag="内网,渗透测试,2021"
+           data-author="" >
+            <span class="post-title" title="终端管理工具密码获取">终端管理工具密码获取</span>
+            <span class="post-date" title="2021-11-10 14:30:00">2021/11/10</span>
+        </a>
+        
+        
+        <a  class="全部文章 内网安全 "
+           href="/2021/11/04/%E5%86%85%E7%BD%91%E6%B8%97%E9%80%8F-Linux%E5%8F%8D%E5%BC%B9Shell/"
+           data-tag="内网,渗透测试,2021"
+           data-author="" >
+            <span class="post-title" title="Linux反弹Shell">Linux反弹Shell</span>
+            <span class="post-date" title="2021-11-04 14:30:00">2021/11/04</span>
+        </a>
+        
+        
+        <a  class="全部文章 内网安全 "
+           href="/2021/10/19/%E5%86%85%E7%BD%91%E5%AE%89%E5%85%A8-%E6%B5%81%E9%87%8F%E7%89%B9%E5%BE%81NPS%E3%80%81FRP/"
+           data-tag="内网,渗透测试,2021"
+           data-author="" >
+            <span class="post-title" title="流量特征NPS、FRP">流量特征NPS、FRP</span>
+            <span class="post-date" title="2021-10-19 14:30:00">2021/10/19</span>
+        </a>
+        
+        
+        <a  class="全部文章 内网安全 "
+           href="/2021/09/10/%E5%86%85%E7%BD%91%E5%AE%89%E5%85%A8-docker%E6%9C%AA%E6%8E%88%E6%9D%83/"
+           data-tag="内网,渗透测试,2021"
+           data-author="" >
+            <span class="post-title" title="docker未授权">docker未授权</span>
+            <span class="post-date" title="2021-09-10 14:30:00">2021/09/10</span>
+        </a>
+        
+        
+        <a  class="全部文章 Web安全 "
+           href="/2021/07/25/web%E5%AE%89%E5%85%A8-Xpath%E6%B3%A8%E5%85%A5/"
+           data-tag="2021,Web"
+           data-author="" >
+            <span class="post-title" title="Xpath注入">Xpath注入</span>
+            <span class="post-date" title="2021-07-25 00:00:00">2021/07/25</span>
+        </a>
+        
+        
+        <a  class="全部文章 Web安全 "
+           href="/2021/07/16/Web%E5%AE%89%E5%85%A8-SQL%E6%B3%A8%E5%85%A5/"
+           data-tag="2021,Web"
+           data-author="" >
+            <span class="post-title" title="SQL注入">SQL注入</span>
+            <span class="post-date" title="2021-07-16 00:00:00">2021/07/16</span>
+        </a>
+        
+        
+        <a  class="全部文章 Web安全 "
+           href="/2021/06/19/Web%E5%AE%89%E5%85%A8-%E6%96%87%E4%BB%B6%E4%B8%8A%E4%BC%A0%E6%BC%8F%E6%B4%9E/"
+           data-tag="2021,Web"
+           data-author="" >
+            <span class="post-title" title="文件上传漏洞">文件上传漏洞</span>
+            <span class="post-date" title="2021-06-19 00:00:00">2021/06/19</span>
+        </a>
+        
+        
+        <a  class="全部文章 Web安全 "
+           href="/2021/06/08/Web%E5%AE%89%E5%85%A8-PHP%E5%BA%8F%E5%88%97%E5%8C%96&%E5%8F%8D%E5%BA%8F%E5%88%97%E5%8C%96/"
+           data-tag="2021,Web"
+           data-author="" >
+            <span class="post-title" title="PHP序列化与反序列化">PHP序列化与反序列化</span>
+            <span class="post-date" title="2021-06-08 00:00:00">2021/06/08</span>
+        </a>
+        
+        
+        <a  class="全部文章 Web安全 "
+           href="/2021/06/04/Web%E5%AE%89%E5%85%A8-SSI%E6%B3%A8%E5%85%A5/"
+           data-tag="2021,Web"
+           data-author="" >
+            <span class="post-title" title="SSI注入">SSI注入</span>
+            <span class="post-date" title="2021-06-04 00:00:00">2021/06/04</span>
+        </a>
+        
+        
+        <a  class="全部文章 "
+           href="/2021/06/02/docker%E5%B8%B8%E7%94%A8%E5%91%BD%E4%BB%A4/"
+           data-tag="Linux,2021"
+           data-author="" >
+            <span class="post-title" title="Docker常用命令">Docker常用命令</span>
+            <span class="post-date" title="2021-06-02 00:00:00">2021/06/02</span>
+        </a>
+        
+        
+        <a  class="全部文章 Web安全 "
+           href="/2021/05/25/Web%E5%AE%89%E5%85%A8-%E6%96%87%E4%BB%B6%E5%8C%85%E5%90%AB%E6%BC%8F%E6%B4%9E/"
+           data-tag="2021,Web"
+           data-author="" >
+            <span class="post-title" title="文件包含漏洞">文件包含漏洞</span>
+            <span class="post-date" title="2021-05-25 00:00:00">2021/05/25</span>
+        </a>
+        
+        
+        <a  class="全部文章 Web安全 "
+           href="/2021/04/19/Web%E5%AE%89%E5%85%A8-%E8%B6%8A%E6%9D%83/"
+           data-tag="2021,Web"
+           data-author="" >
+            <span class="post-title" title="越权">越权</span>
+            <span class="post-date" title="2021-04-19 00:00:00">2021/04/19</span>
+        </a>
+        
+        
+        <a  class="全部文章 Web安全 "
+           href="/2021/04/06/Web%E5%AE%89%E5%85%A8-Xxe/"
+           data-tag="2021,Web"
+           data-author="" >
+            <span class="post-title" title="XXE">XXE</span>
+            <span class="post-date" title="2021-04-06 00:00:00">2021/04/06</span>
+        </a>
+        
+        
+        <a  class="全部文章 Web安全 "
+           href="/2021/04/05/Web%E5%AE%89%E5%85%A8-%E6%96%87%E4%BB%B6%E4%B8%8B%E8%BD%BD%E8%AF%BB%E5%8F%96%E6%BC%8F%E6%B4%9E/"
+           data-tag="2021,Web"
+           data-author="" >
+            <span class="post-title" title="文件下载漏洞">文件下载漏洞</span>
+            <span class="post-date" title="2021-04-05 00:00:00">2021/04/05</span>
+        </a>
+        
+        
+        <a  class="全部文章 其它 "
+           href="/2021/04/02/%E5%B8%B8%E7%94%A8%E6%AD%A3%E5%88%99%E8%A1%A8%E8%BE%BE%E5%BC%8F/"
+           data-tag="2021"
+           data-author="" >
+            <span class="post-title" title="常用正则表达式">常用正则表达式</span>
+            <span class="post-date" title="2021-04-02 00:00:00">2021/04/02</span>
+        </a>
+        
+        
+        <a  class="全部文章 Web安全 "
+           href="/2021/03/25/Web%E5%AE%89%E5%85%A8-Nginx%E5%AE%89%E5%85%A8/"
+           data-tag="2021,Web"
+           data-author="" >
+            <span class="post-title" title="Apache安全">Apache安全</span>
+            <span class="post-date" title="2021-03-25 00:00:00">2021/03/25</span>
+        </a>
+        
+        
+        <a  class="全部文章 Web安全 "
+           href="/2021/03/19/Web%E5%AE%89%E5%85%A8-LDAP%E6%B3%A8%E5%85%A5/"
+           data-tag="2021,Web"
+           data-author="" >
+            <span class="post-title" title="LDAP注入">LDAP注入</span>
+            <span class="post-date" title="2021-03-19 00:00:00">2021/03/19</span>
+        </a>
+        
+        
+        <a  class="全部文章 Web安全 "
+           href="/2021/03/13/Web%E5%AE%89%E5%85%A8-CSR&SSRF/"
+           data-tag="2021,Web"
+           data-author="" >
+            <span class="post-title" title="CSRF &amp; SSRF">CSRF &amp; SSRF</span>
+            <span class="post-date" title="2021-03-13 00:00:00">2021/03/13</span>
+        </a>
+        
+        
+        <a  class="全部文章 Web安全 "
+           href="/2021/03/09/Web%E5%AE%89%E5%85%A8-CRLF/"
+           data-tag="2021,Web"
+           data-author="" >
+            <span class="post-title" title="CLRF">CLRF</span>
+            <span class="post-date" title="2021-03-09 00:00:00">2021/03/09</span>
+        </a>
+        
+        
+        <a  class="全部文章 Web安全 "
+           href="/2021/03/06/Web%E5%AE%89%E5%85%A8-Apache%E5%AE%89%E5%85%A8/"
+           data-tag="2021,Web"
+           data-author="" >
+            <span class="post-title" title="Apache安全">Apache安全</span>
+            <span class="post-date" title="2021-03-06 00:00:00">2021/03/06</span>
+        </a>
+        
+        
+        <a  class="全部文章 Web安全 "
+           href="/2021/03/03/Web%E5%AE%89%E5%85%A8-IIS%E5%AE%89%E5%85%A8/"
+           data-tag="2021,Web"
+           data-author="" >
+            <span class="post-title" title="IIS安全">IIS安全</span>
+            <span class="post-date" title="2021-03-03 00:00:00">2021/03/03</span>
+        </a>
+        
+        
+        <a  class="全部文章 Web安全 "
+           href="/2021/02/27/Web%E5%AE%89%E5%85%A8-XSS/"
+           data-tag="2021,Web"
+           data-author="" >
+            <span class="post-title" title="XSS">XSS</span>
+            <span class="post-date" title="2021-02-27 00:00:00">2021/02/27</span>
+        </a>
+        
+        
+        <a  class="全部文章 Web安全 "
+           href="/2021/02/10/Web%E5%AE%89%E5%85%A8-%E4%B8%80%E5%8F%A5%E8%AF%9D%E6%9C%A8%E9%A9%AC/"
+           data-tag="2021,Web"
+           data-author="" >
+            <span class="post-title" title="一句话木马">一句话木马</span>
+            <span class="post-date" title="2021-02-10 00:00:00">2021/02/10</span>
+        </a>
+        
+        <div id="no-item-tips">
+
+        </div>
+    </nav>
+    <div id="outline-list">
+    </div>
+</div>
+
+    </div>
+    <div class="hide-list">
+        <div class="semicircle" data-title="切换全屏 快捷键 s">
+            <div class="brackets first"><</div>
+            <div class="brackets">&gt;</div>
+        </div>
+    </div>
+</aside>
+<div id="post">
+    <div class="pjax">
+        <article id="post-Web安全-SSI注入" class="article article-type-post" itemscope itemprop="blogPost">
+    
+        <h1 class="article-title">SSI注入</h1>
+    
+    <div class="article-meta">
+        
+        
+        
+        <span class="book">
+            <i class="iconfont icon-category"></i>
+            
+            
+            <a  data-rel="Web安全">Web安全</a>
+            
+        </span>
+        
+        
+        <span class="tag">
+            <i class="iconfont icon-tag"></i>
+            
+            <a class="color5">2021</a>
+            
+            <a class="color4">Web</a>
+            
+        </span>
+        
+    </div>
+    <div class="article-meta">
+        <!-- 修改了原始显示，原始显示更新日期为悬浮 -->
+        <!-- 
+            发布时间 : <time class="date" title='最后更新: 2023-08-24 17:29:19'>2021-06-04 00:00</time>
+         -->
+
+        
+            发布时间 : 2021-06-04 00:00</time>
+        <br>
+
+        
+    </div>
+    <div class="article-meta">
+        
+        
+        <span id="busuanzi_container_page_pv">
+            阅读 :<span id="busuanzi_value_page_pv">
+                <span class="count-comment">
+                    <span class="spinner">
+                      <div class="cube1"></div>
+                      <div class="cube2"></div>
+                    </span>
+                </span>
+            </span>
+        </span>
+        
+        
+    </div>
+    
+    <div class="toc-ref">
+    
+        <ol class="toc"><li class="toc-item toc-level-1"><a class="toc-link" href="#SSI%E6%B3%A8%E5%85%A5%E6%BC%8F%E6%B4%9E%E8%A7%A3%E9%87%8A"><span class="toc-text">SSI注入漏洞解释</span></a></li><li class="toc-item toc-level-1"><a class="toc-link" href="#%E6%BC%8F%E6%B4%9E%E4%BA%A7%E7%94%9F%E7%9A%84%E5%8E%9F%E5%9B%A0"><span class="toc-text">漏洞产生的原因</span></a></li><li class="toc-item toc-level-1"><a class="toc-link" href="#%E6%94%AF%E6%8C%81SSI%E7%9A%84%E4%B8%AD%E9%97%B4%E4%BB%B6"><span class="toc-text">支持SSI的中间件</span></a></li><li class="toc-item toc-level-1"><a class="toc-link" href="#%E2%98%85SSI%E5%B8%B8%E7%94%A8%E8%AF%AD%E6%B3%95%E4%BE%8B%E4%B8%BE"><span class="toc-text">★SSI常用语法例举</span></a></li><li class="toc-item toc-level-1"><a class="toc-link" href="#%E2%98%85SSI%E6%B3%A8%E5%85%A5%E6%BC%8F%E6%B4%9E%E6%A3%80%E6%B5%8B"><span class="toc-text">★SSI注入漏洞检测</span></a></li><li class="toc-item toc-level-1"><a class="toc-link" href="#SSI%E6%BC%8F%E6%B4%9E%E9%A2%84%E9%98%B2%E6%8E%AA%E6%96%BD"><span class="toc-text">SSI漏洞预防措施</span></a></li><li class="toc-item toc-level-1"><a class="toc-link" href="#%E5%AE%9E%E9%AA%8C%E7%8E%AF%E5%A2%83"><span class="toc-text">实验环境</span></a></li></ol>
+    
+<style>
+    .left-col .switch-btn,
+    .left-col .switch-area {
+        display: none;
+    }
+    .toc-level-3 i,
+    .toc-level-3 ol {
+        display: none !important;
+    }
+</style>
+</div>
+    
+    <div class="article-entry" itemprop="articleBody">
+      
+        <h1 id="SSI注入漏洞解释"><a href="#SSI注入漏洞解释" class="headerlink" title="SSI注入漏洞解释"></a>SSI注入漏洞解释</h1><p>【前提】有输入、上传点才能利用</p>
+<p>SSI (Server Side Includes) 注入漏洞指的是通过注入恶意的 SSI 代码来执行未经授权的操作或获取敏感信息的安全漏洞。攻击者可以利用这种漏洞来执行任意的命令、包含敏感文件、绕过访问控制或泄露服务器配置等敏感信息。</p>
+<p>SSI 是一种服务器端技术，允许在网页中嵌入动态内容或引用其他文件。它通过特定的标记和指令在 HTML 文件中插入服务器端生成的内容或文件的内容。<strong>SSI 标记</strong>通常以 <code>&lt;!--#</code> 开始，以 <code>--&gt;</code> 结束，指令以 <code>#</code> 开头。例如，<code>&lt;!--#include file=&quot;header.html&quot; --&gt;</code> 可以在网页中包含名为 “header.html” 的文件的内容。</p>
+<h1 id="漏洞产生的原因"><a href="#漏洞产生的原因" class="headerlink" title="漏洞产生的原因"></a>漏洞产生的原因</h1><ol>
+<li>用户输入未经正确过滤和验证：如果应用程序在使用用户提供的输入时未正确过滤和验证，攻击者可以通过注入恶意的 SSI 代码来利用漏洞。</li>
+<li>不安全的文件包含：如果应用程序允许包含其他文件，并且没有正确的访问控制和过滤机制，攻击者可以通过构造恶意的文件路径来包含敏感文件或远程文件。</li>
+<li>错误配置或默认设置：如果服务器或应用程序的配置存在错误或默认设置不安全，可能会导致 SSI 注入漏洞的产生。</li>
+</ol>
+<h1 id="支持SSI的中间件"><a href="#支持SSI的中间件" class="headerlink" title="支持SSI的中间件"></a>支持SSI的中间件</h1><figure class="highlight plaintext"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br></pre></td><td class="code"><pre><span class="line">Apache HTTP Server</span><br><span class="line">Nginx</span><br><span class="line">LiteSpeed Web Server</span><br><span class="line">Microsoft IIS</span><br><span class="line">Caddy</span><br><span class="line">OpenLiteSpeed</span><br><span class="line">Cherokee</span><br><span class="line">Tengine</span><br><span class="line">Hiawatha</span><br><span class="line">Abyss Web Server</span><br></pre></td></tr></table></figure>
+
+<p>Apache开启SSI</p>
+<figure class="highlight plaintext"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br><span class="line">11</span><br><span class="line">12</span><br><span class="line">13</span><br><span class="line">14</span><br><span class="line">15</span><br><span class="line">16</span><br><span class="line">17</span><br><span class="line">18</span><br><span class="line">19</span><br></pre></td><td class="code"><pre><span class="line">1、确保已安装 Apache HTTP Server，并已正确配置。</span><br><span class="line"></span><br><span class="line">2、打开 Apache 的主配置文件，通常是 httpd.conf。可以在以下位置之一找到该文件：</span><br><span class="line">Linux：/etc/httpd/conf/httpd.conf</span><br><span class="line">Windows（XAMPP）：C:\xampp\apache\conf\httpd.conf</span><br><span class="line"></span><br><span class="line">3、搜索 mod_include 模块的加载语句。在默认配置中，该语句可能是 LoadModule include_module modules/mod_include.so。确保该语句没有被注释掉，即没有以 # 开头。</span><br><span class="line"></span><br><span class="line">4、找到 Directory 指令块，该指令块用于指定 Web 根目录的配置。一般情况下，该指令块会包含 &lt;Directory&gt; 标签，并包含诸如 AllowOverride、Options 等指令。</span><br><span class="line"></span><br><span class="line">5、在 Directory 指令块中添加以下指令来启用 SSI：</span><br><span class="line">	Options +Includes</span><br><span class="line">	AddType text/html .shtml</span><br><span class="line">	AddOutputFilter INCLUDES .shtml</span><br><span class="line">	#Options +Includes：启用包含指令，允许服务器执行 SSI。</span><br><span class="line">	#AddType text/html .shtml：将 .shtml 文件视为包含 SSI 的 HTML 文件。您可以根据需要更改文件后缀。</span><br><span class="line">	#AddOutputFilter INCLUDES .shtml：将 SSI 过滤器应用于 .shtml 文件，确保服务器在发送响应之前执行 SSI 解析。</span><br><span class="line"></span><br><span class="line">6、保存文件、重启服务</span><br></pre></td></tr></table></figure>
+
+<p>Nginx开启SSI</p>
+<figure class="highlight plaintext"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br><span class="line">11</span><br><span class="line">12</span><br><span class="line">13</span><br><span class="line">14</span><br><span class="line">15</span><br><span class="line">16</span><br><span class="line">17</span><br><span class="line">18</span><br><span class="line">19</span><br><span class="line">20</span><br><span class="line">21</span><br><span class="line">22</span><br><span class="line">23</span><br><span class="line">24</span><br></pre></td><td class="code"><pre><span class="line">1、确保已安装 Nginx，并已正确配置。</span><br><span class="line"></span><br><span class="line">2、打开 Nginx 的配置文件，通常是 nginx.conf。可以在以下位置之一找到该文件：</span><br><span class="line">Linux：/etc/nginx/nginx.conf</span><br><span class="line">Windows（默认安装）：C:\nginx\conf\nginx.conf</span><br><span class="line"></span><br><span class="line">3、在 http 块中添加以下指令来启用 SSI：</span><br><span class="line">nginx</span><br><span class="line">Copy code</span><br><span class="line">http &#123;</span><br><span class="line">    ...</span><br><span class="line">    server &#123;</span><br><span class="line">        ...</span><br><span class="line">        ssi on;</span><br><span class="line">        ssi_types text/html;</span><br><span class="line">        ssi_silent_errors on;</span><br><span class="line">        ...</span><br><span class="line">    &#125;</span><br><span class="line">&#125;</span><br><span class="line">#ssi on;：启用 SSI 功能。</span><br><span class="line">#ssi_types text/html;：指定需要进行 SSI 处理的响应类型。在本例中，我们将 SSI 仅应用于 text/html 类型的响应。</span><br><span class="line">#ssi_silent_errors on;：在 SSI 解析期间发生错误时，允许服务器继续进行响应，而不中断请求。</span><br><span class="line"></span><br><span class="line">4、保存文件、重启服务</span><br></pre></td></tr></table></figure>
+
+<p>Iis开启SSI</p>
+<figure class="highlight plaintext"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br></pre></td><td class="code"><pre><span class="line">1、确保已安装和正确配置 IIS。</span><br><span class="line">2、打开 IIS 管理器。</span><br><span class="line">3、找到您要启用 SSI 的网站或应用程序池，并选择它。</span><br><span class="line">4、在右侧的功能视图中，找到 &quot;处理程序映射&quot;。</span><br><span class="line">5、在处理程序映射中，找到 &quot;.shtml&quot; 文件扩展名（或您想要使用的任何自定义扩展名）。</span><br><span class="line">6、双击该处理程序映射，或右键单击并选择 &quot;编辑&quot;。</span><br><span class="line">7、在弹出的对话框中，确保已选中 &quot;启用服务端包含&quot; 复选框。</span><br><span class="line">8、保存文件、重启服务</span><br></pre></td></tr></table></figure>
+
+<h1 id="★SSI常用语法例举"><a href="#★SSI常用语法例举" class="headerlink" title="★SSI常用语法例举"></a>★SSI常用语法例举</h1><p><strong>①执行系统命令 &amp; 程序</strong> </p>
+<figure class="highlight plaintext"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br></pre></td><td class="code"><pre><span class="line">&lt;!--#exec cmd=&quot;cat /etc/passwd&quot;--&gt;</span><br><span class="line">&amp;</span><br><span class="line">&lt;!--#exec cgi=&quot;/cgi-bin/access_log.cgi&quot;–&gt;</span><br></pre></td></tr></table></figure>
+
+<p>②显示服务器端环境变量&lt;#echo&gt;</p>
+<figure class="highlight html"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br></pre></td><td class="code"><pre><span class="line">本文档名称：</span><br><span class="line">&lt;!–#echo var=&quot;DOCUMENT_NAME&quot;–&gt;</span><br><span class="line"></span><br><span class="line">现在时间：</span><br><span class="line">&lt;!–#echo var=&quot;DATE_LOCAL&quot;–&gt;</span><br><span class="line"></span><br><span class="line">显示IP地址：</span><br><span class="line">&lt;! #echo var=&quot;REMOTE_ADDR&quot;–&gt;</span><br></pre></td></tr></table></figure>
+
+<p>③包含同级目录下的文件</p>
+<figure class="highlight plaintext"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br></pre></td><td class="code"><pre><span class="line">&lt;!--#include virtual=&quot;index.html&quot; --&gt;</span><br><span class="line"></span><br><span class="line">&lt;!--#include virtual=&quot;/www/footer.html&quot; --&gt;</span><br></pre></td></tr></table></figure>
+
+<h1 id="★SSI注入漏洞检测"><a href="#★SSI注入漏洞检测" class="headerlink" title="★SSI注入漏洞检测"></a>★SSI注入漏洞检测</h1><figure class="highlight plaintext"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br></pre></td><td class="code"><pre><span class="line">【前提】有输入、上传点才能利用</span><br><span class="line">【1】网站目录带有ssi的可能就有</span><br><span class="line">【2】文件后缀stm、shtm、shtml（htm、html、php、asp、jsp等也小概率可能存在）</span><br></pre></td></tr></table></figure>
+
+<h1 id="SSI漏洞预防措施"><a href="#SSI漏洞预防措施" class="headerlink" title="SSI漏洞预防措施"></a>SSI漏洞预防措施</h1><ol>
+<li>输入验证和过滤：对用户输入进行严格的验证和过滤，确保输入数据的完整性和安全性，避免恶意注入。</li>
+<li>文件包含的安全控制：限制文件包含的范围和路径，确保只能包含可信任和授权的文件。</li>
+<li>最小权限原则：将服务器和应用程序配置为以最小权限运行，并限制对敏感文件和目录的访问权限。</li>
+<li>定期更新和维护：及时更新服务器软件和应用程序，以修复已知的漏洞和安全问题。</li>
+<li>安全配置：正确配置服务器和应用程序，禁用不必要的功能和模块，以减少攻击面。</li>
+</ol>
+<h1 id="实验环境"><a href="#实验环境" class="headerlink" title="实验环境"></a>实验环境</h1><p>vulhub&#x2F;httpd&#x2F;ssi-rce</p>
+<p>ip:8080&#x2F;upload.php</p>
+<p>上传认为<code>1.shtml</code>，内容为<!--#exec cmd="cat /etc/passwd"--></p>
+<p>ip:8080&#x2F;1.shml</p>
+
+      
+       <hr><span style="font-style: italic;color: gray;"> 转载请注明来源，欢迎对文章进行指正，联系邮箱 vou0515@gmail.com </span>
+    </div>
+</article>
+
+
+
+
+
+
+
+    
+
+
+
+
+    </div>
+    <div class="copyright">
+        <p class="footer-entry">
+    ©2023 closeto
+</p>
+<p class="footer-entry">Built with Hexo</p>
+
+    </div>
+    <div class="full-toc">
+        <button class="full" data-title="切换全屏 快捷键 s"><span class="min "></span></button>
+<a class="" id="rocket" ></a>
+
+    </div>
+</div>
+
+</body>
+<script src="/js/jquery.pjax.js?v=1.1.0" ></script>
+
+<script src="/js/script.js?v=1.1.0" ></script>
+<script>
+    var img_resize = 'default';
+    function initArticle() {
+        /*渲染对应的表格样式*/
+        
+            $("#post .pjax table").addClass("green_title");
+        
+
+        /*渲染打赏样式*/
+        
+
+        /*高亮代码块行号*/
+        
+
+        /*访问数量*/
+        
+        $.getScript("//busuanzi.ibruce.info/busuanzi/2.3/busuanzi.pure.mini.js");
+        
+
+        /*代码高亮，行号对齐*/
+        $('.pre-numbering').css('line-height',$('.has-numbering').css('line-height'));
+
+        
+        
+        /* 渲染*/
+        function HTMLDecode(text) {
+            var temp = document.createElement("div");
+            temp.innerHTML = text;
+            var output = temp.innerText || temp.textContent;
+            temp = null;
+            return output;
+        }
+        if (window.mermaid){
+            window.mermaid = null
+        }
+        $.getScript("//cdn.jsdelivr.net/npm/mermaid@8.4.2/dist/mermaid.min.js", function () {
+            var mermaidOptions = JSON.parse(HTMLDecode("{&#34;theme&#34;:&#34;default&#34;,&#34;startOnLoad&#34;:true,&#34;flowchart&#34;:{&#34;useMaxWidth&#34;:false,&#34;htmlLabels&#34;:true}}"))
+            if (window.mermaid) {
+                mermaid.initialize(mermaidOptions)
+                mermaid.contentLoaded()
+            }
+        })
+        
+    }
+
+    /*打赏页面隐藏与展示*/
+    
+
+</script>
+
+<!--加入行号的高亮代码块样式-->
+
+<!--自定义样式设置-->
+<style>
+    
+    
+    .nav {
+        width: 562px;
+    }
+    .nav.fullscreen {
+        margin-left: -562px;
+    }
+    .nav-left {
+        width: 140px;
+    }
+    
+    
+    @media screen and (max-width: 1468px) {
+        .nav {
+            width: 492px;
+        }
+        .nav.fullscreen {
+            margin-left: -492px;
+        }
+        .nav-left {
+            width: 100px;
+        }
+    }
+    
+    
+    @media screen and (max-width: 1024px) {
+        .nav {
+            width: 492px;
+            margin-left: -492px
+        }
+        .nav.fullscreen {
+            margin-left: 0;
+        }
+    }
+    
+    @media screen and (max-width: 426px) {
+        .nav {
+            width: 100%;
+        }
+        .nav-left {
+            width: 100%;
+        }
+    }
+    
+    
+    .nav-right .title-list nav a .post-title, .nav-right .title-list #local-search-result a .post-title {
+        color: #383636;
+    }
+    
+    
+    .nav-right .title-list nav a .post-date, .nav-right .title-list #local-search-result a .post-date {
+        color: #5e5e5f;
+    }
+    
+    
+    .nav-right nav a.hover, #local-search-result a.hover{
+        background-color: #e2e0e0;
+    }
+    
+    
+
+    /*列表样式*/
+    
+
+    /* 背景图样式 */
+    
+    
+
+
+    /*引用块样式*/
+    
+
+    /*文章列表背景图*/
+    
+
+    
+</style>
+
+
+
+
+
+
+
+</html>

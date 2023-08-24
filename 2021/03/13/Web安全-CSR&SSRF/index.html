@@ -1,0 +1,1013 @@
+<!DOCTYPE html>
+<html>
+<head>
+  <meta charset="utf-8">
+  <title>CSRF &amp; SSRF | 欢迎来到closeto的博客</title>
+  <meta name="keywords" content=" 2021 , Web ">
+  <meta name="description" content="CSRF &amp; SSRF | 欢迎来到closeto的博客">
+    <meta name="viewport" content="width=device-width, initial-scale=1, maximum-scale=1">
+<meta name="description" content="SUID提权查找S权限：find &#x2F; -perm -u&#x3D;s -type f 2&gt;&#x2F;dev&#x2F;null UID三类： 123S UID：授予文件权限，允许普通用户执行root文件Real UID：执行该进程的用户实际的UID，谁通过shell运行就是谁Effective UID：程序实际操作时生效的UID，一般在进程启动时，直接由Real UID复制而来。">
+<meta property="og:type" content="article">
+<meta property="og:title" content="Linux提权">
+<meta property="og:url" content="https://closeto.github.io/2023/08/24/%E5%86%85%E7%BD%91%E6%B8%97%E9%80%8F-Linux%E6%8F%90%E6%9D%83/index.html">
+<meta property="og:site_name" content="欢迎来到closeto的博客">
+<meta property="og:description" content="SUID提权查找S权限：find &#x2F; -perm -u&#x3D;s -type f 2&gt;&#x2F;dev&#x2F;null UID三类： 123S UID：授予文件权限，允许普通用户执行root文件Real UID：执行该进程的用户实际的UID，谁通过shell运行就是谁Effective UID：程序实际操作时生效的UID，一般在进程启动时，直接由Real UID复制而来。">
+<meta property="og:locale" content="zh_CN">
+<meta property="og:image" content="https://closeto.github.io/images/image-20220913221850697.png">
+<meta property="og:image" content="https://closeto.github.io/images/image-20220912231256193.png">
+<meta property="og:image" content="https://closeto.github.io/images/image-20220912231817462.png">
+<meta property="article:published_time" content="2023-08-24T09:17:21.052Z">
+<meta property="article:author" content="closeto">
+<meta property="article:tag" content="内网">
+<meta property="article:tag" content="渗透测试">
+<meta property="article:tag" content="2021">
+<meta name="twitter:card" content="summary">
+<meta name="twitter:image" content="https://closeto.github.io/images/image-20220913221850697.png">
+
+
+<link rel="icon" href="/img/ico.png">
+
+<link href="/css/style.css?v=1.1.0" rel="stylesheet">
+
+<link href="/css/hl_theme/atom-light.css?v=1.1.0" rel="stylesheet">
+
+<link href="//cdn.jsdelivr.net/npm/animate.css@4.1.0/animate.min.css" rel="stylesheet">
+
+<script src="//cdn.jsdelivr.net/npm/jquery@3.5.1/dist/jquery.min.js"></script>
+<script src="/js/titleTip.js?v=1.1.0" ></script>
+
+<script src="//cdn.jsdelivr.net/npm/highlightjs@9.16.2/highlight.pack.min.js"></script>
+<script>
+    hljs.initHighlightingOnLoad();
+</script>
+
+<script src="//cdn.jsdelivr.net/npm/nprogress@0.2.0/nprogress.min.js"></script>
+
+
+
+<script src="/js/iconfont.js?v=1.1.0" ></script>
+
+<meta name="generator" content="Hexo 6.3.0"></head>
+<div style="display: none">
+  <input class="theme_disqus_on" value="false">
+  <input class="theme_preload_comment" value="">
+  <input class="theme_blog_path" value="">
+  <input id="theme_shortcut" value="true" />
+  <input id="theme_highlight_on" value="true" />
+  <input id="theme_code_copy" value="true" />
+</div>
+
+
+
+<body>
+<aside class="nav">
+    <div class="nav-left">
+        <a href="/"
+   class="avatar_target">
+    <img class="avatar"
+         src="/img/user.png"/>
+</a>
+<div class="author">
+    <span>closeto</span>
+</div>
+
+<div class="icon">
+    
+        
+            <a title="github"
+               href="https://github.com/closeto"
+               target="_blank">
+                
+                    <svg class="iconfont-svg" aria-hidden="true">
+                        <use xlink:href="#icon-github"></use>
+                    </svg>
+                
+            </a>
+        
+    
+        
+            <a title="email"
+               href="mailto:vou0515@gmail.com"
+               target="_blank">
+                
+                    <svg class="iconfont-svg" aria-hidden="true">
+                        <use xlink:href="#icon-email"></use>
+                    </svg>
+                
+            </a>
+        
+    
+</div>
+
+
+
+
+
+<ul>
+    <li>
+        <div class="all active" data-rel="全部文章">全部文章
+            
+                <small>(38)</small>
+            
+        </div>
+    </li>
+    
+        
+            
+                
+    <li>
+        <div data-rel="Web安全">
+            
+            Web安全
+            <small>(17)</small>
+        </div>
+        
+    </li>
+
+            
+        
+    
+        
+            
+                
+    <li>
+        <div data-rel="内网安全">
+            
+            内网安全
+            <small>(10)</small>
+        </div>
+        
+    </li>
+
+            
+        
+    
+        
+            
+                
+    <li>
+        <div data-rel="Windows相关">
+            
+            Windows相关
+            <small>(4)</small>
+        </div>
+        
+    </li>
+
+            
+        
+    
+        
+            
+                
+    <li>
+        <div data-rel="Linux相关">
+            
+            Linux相关
+            <small>(1)</small>
+        </div>
+        
+    </li>
+
+            
+        
+    
+        
+            
+                
+    <li>
+        <div data-rel="其它">
+            
+            其它
+            <small>(3)</small>
+        </div>
+        
+    </li>
+
+            
+        
+    
+        
+            
+                
+    <li>
+        <div data-rel="考证学习">
+            
+            考证学习
+            <small>(1)</small>
+        </div>
+        
+    </li>
+
+            
+        
+    
+</ul>
+<div class="left-bottom">
+    <div class="menus">
+        
+            
+    </div>
+    <div>
+        
+            <a class="about  "
+               target="_blank"
+                    
+               href="https://github.com/closeto">关于</a>
+        
+        
+    </div>
+</div>
+<input type="hidden" id="yelog_site_posts_number" value="38">
+
+<div style="display: none">
+    <span id="busuanzi_value_site_uv"></span>
+    <span id="busuanzi_value_site_pv"></span>
+</div>
+
+    </div>
+    <div class="nav-right">
+        <div class="friends-area">
+    <div class="friends-title">
+        友情链接
+        <i class="iconfont icon-left"></i>
+    </div>
+    <div class="friends-content">
+        <ul>
+            
+            <li><a target="_blank" href="/url">名字列表</a></li>
+            
+        </ul>
+    </div>
+</div>
+        <div class="title-list">
+    <div class="right-top">
+        <div id="default-panel">
+            <i class="iconfont icon-search" data-title="搜索 快捷键 i"></i>
+            <div class="right-title">全部文章</div>
+            <i class="iconfont icon-file-tree" data-title="切换到大纲视图 快捷键 w"></i>
+        </div>
+        <div id="search-panel">
+            <i class="iconfont icon-left" data-title="返回"></i>
+            <input id="local-search-input" autocomplete="off"/>
+            <label class="border-line" for="input"></label>
+            <i class="iconfont icon-case-sensitive" data-title="大小写敏感"></i>
+            <i class="iconfont icon-tag" data-title="标签"></i>
+        </div>
+        <div id="outline-panel" style="display: none">
+            <div class="right-title">大纲</div>
+            <i class="iconfont icon-list" data-title="切换到文章列表"></i>
+        </div>
+    </div>
+
+    <div class="tags-list">
+    <input id="tag-search" />
+    <div class="tag-wrapper">
+        
+            <li class="article-tag-list-item">
+                <i class="iconfont icon-tag"></i><a>2021</a>
+            </li>
+        
+            <li class="article-tag-list-item">
+                <i class="iconfont icon-tag"></i><a>2022</a>
+            </li>
+        
+            <li class="article-tag-list-item">
+                <i class="iconfont icon-tag"></i><a>2023</a>
+            </li>
+        
+            <li class="article-tag-list-item">
+                <i class="iconfont icon-tag"></i><a>内网</a>
+            </li>
+        
+            <li class="article-tag-list-item">
+                <i class="iconfont icon-tag"></i><a>软考</a>
+            </li>
+        
+            <li class="article-tag-list-item">
+                <i class="iconfont icon-tag"></i><a>渗透测试</a>
+            </li>
+        
+            <li class="article-tag-list-item">
+                <i class="iconfont icon-tag"></i><a>文件格式</a>
+            </li>
+        
+            <li class="article-tag-list-item">
+                <i class="iconfont icon-tag"></i><a>中级</a>
+            </li>
+        
+            <li class="article-tag-list-item">
+                <i class="iconfont icon-tag"></i><a>Bin</a>
+            </li>
+        
+            <li class="article-tag-list-item">
+                <i class="iconfont icon-tag"></i><a>Linux</a>
+            </li>
+        
+            <li class="article-tag-list-item">
+                <i class="iconfont icon-tag"></i><a>ShellCode</a>
+            </li>
+        
+            <li class="article-tag-list-item">
+                <i class="iconfont icon-tag"></i><a>Web</a>
+            </li>
+        
+            <li class="article-tag-list-item">
+                <i class="iconfont icon-tag"></i><a>Windows</a>
+            </li>
+        
+    </div>
+
+</div>
+
+    
+    <nav id="title-list-nav">
+        
+        
+        <a  class="全部文章 内网安全 "
+           href="/2023/08/24/%E5%86%85%E7%BD%91%E6%B8%97%E9%80%8F-Linux%E6%8F%90%E6%9D%83/"
+           data-tag="内网,渗透测试,2021"
+           data-author="" >
+            <span class="post-title" title="Linux提权">Linux提权</span>
+            <span class="post-date" title="2023-08-24 17:17:21">2023/08/24</span>
+        </a>
+        
+        
+        <a  class="全部文章 "
+           href="/2023/08/24/WL%E7%AB%AF%E5%8F%A3%E6%B5%81%E9%87%8F%E8%BD%AC%E5%8F%91/"
+           data-tag=""
+           data-author="" >
+            <span class="post-title" title=""></span>
+            <span class="post-date" title="2023-08-24 14:33:17">2023/08/24</span>
+        </a>
+        
+        
+        <a  class="全部文章 Linux相关 "
+           href="/2023/03/10/busybox%E6%90%AD%E5%BB%BA%E6%9C%80%E5%B0%8FLinux/"
+           data-tag="Linux,2023"
+           data-author="" >
+            <span class="post-title" title="Busybox搭建最小Linux">Busybox搭建最小Linux</span>
+            <span class="post-date" title="2023-03-10 12:30:00">2023/03/10</span>
+        </a>
+        
+        
+        <a  class="全部文章 其它 "
+           href="/2022/07/19/Nginx%E6%97%A5%E5%BF%97%E6%A0%BC%E5%BC%8F/"
+           data-tag="2022"
+           data-author="" >
+            <span class="post-title" title="Nginx日志格式">Nginx日志格式</span>
+            <span class="post-date" title="2022-07-19 00:00:00">2022/07/19</span>
+        </a>
+        
+        
+        <a  class="全部文章 其它 "
+           href="/2022/05/07/UTF-8%E9%9D%9E%E6%9C%80%E7%9F%AD%E5%BD%A2%E5%BC%8F&%E7%BC%96%E7%A0%81%E5%AE%89%E5%85%A8%E9%97%AE%E9%A2%98/"
+           data-tag="2022"
+           data-author="" >
+            <span class="post-title" title="UTF8编码安全">UTF8编码安全</span>
+            <span class="post-date" title="2022-05-07 00:00:00">2022/05/07</span>
+        </a>
+        
+        
+        <a  class="全部文章 Windows相关 "
+           href="/2022/04/10/ShellCode%E5%85%A5%E9%97%A8%E5%88%B0%E6%94%BE%E5%BC%83%E2%80%94%E7%9B%B8%E9%81%87/"
+           data-tag="2022,ShellCode,Bin"
+           data-author="" >
+            <span class="post-title" title="ShellCode入门到放弃—相遇">ShellCode入门到放弃—相遇</span>
+            <span class="post-date" title="2022-04-10 19:30:00">2022/04/10</span>
+        </a>
+        
+        
+        <a  class="全部文章 Windows相关 "
+           href="/2022/04/10/PE%E6%96%87%E4%BB%B6%E6%A0%BC%E5%BC%8F%E2%80%94%E7%AE%80%E4%BB%8B/"
+           data-tag="2022,文件格式"
+           data-author="" >
+            <span class="post-title" title="PE文件格式—简介">PE文件格式—简介</span>
+            <span class="post-date" title="2022-04-10 10:48:36">2022/04/10</span>
+        </a>
+        
+        
+        <a  class="全部文章 内网安全 "
+           href="/2022/03/10/%E5%86%85%E7%BD%91%E6%B8%97%E9%80%8F-Redis%E6%9C%AA%E6%8E%88%E6%9D%83/"
+           data-tag="2022,内网,渗透测试"
+           data-author="" >
+            <span class="post-title" title="Redis未授权">Redis未授权</span>
+            <span class="post-date" title="2022-03-10 14:30:00">2022/03/10</span>
+        </a>
+        
+        
+        <a  class="全部文章 内网安全 "
+           href="/2022/02/19/Linux%E7%97%95%E8%BF%B9%E6%93%A6%E9%99%A4/"
+           data-tag="2022,内网,渗透测试,Linux"
+           data-author="" >
+            <span class="post-title" title="Linux痕迹擦除">Linux痕迹擦除</span>
+            <span class="post-date" title="2022-02-19 00:00:00">2022/02/19</span>
+        </a>
+        
+        
+        <a  class="全部文章 内网安全 "
+           href="/2022/02/18/Windows%E7%97%95%E8%BF%B9%E6%93%A6%E9%99%A4/"
+           data-tag="2022,内网,渗透测试,Windows"
+           data-author="" >
+            <span class="post-title" title="Windows痕迹擦除">Windows痕迹擦除</span>
+            <span class="post-date" title="2022-02-18 00:00:00">2022/02/18</span>
+        </a>
+        
+        
+        <a  class="全部文章 内网安全 "
+           href="/2022/02/14/Windows%E4%BF%A1%E6%81%AF%E6%94%B6%E9%9B%86/"
+           data-tag="2022,内网,渗透测试,Windows"
+           data-author="" >
+            <span class="post-title" title="Windows信息收集">Windows信息收集</span>
+            <span class="post-date" title="2022-02-14 00:00:00">2022/02/14</span>
+        </a>
+        
+        
+        <a  class="全部文章 内网安全 "
+           href="/2022/02/13/Linux%E4%BF%A1%E6%81%AF%E6%94%B6%E9%9B%86/"
+           data-tag="2022,内网,渗透测试,Linux"
+           data-author="" >
+            <span class="post-title" title="Linux信息收集">Linux信息收集</span>
+            <span class="post-date" title="2022-02-13 00:00:00">2022/02/13</span>
+        </a>
+        
+        
+        <a  class="全部文章 Windows相关 "
+           href="/2022/01/18/ShellCode%E5%85%A5%E9%97%A8%E5%88%B0%E6%94%BE%E5%BC%83%E2%80%94%E7%9B%B8%E5%BC%83/"
+           data-tag="2022,ShellCode,Bin"
+           data-author="" >
+            <span class="post-title" title="ShellCode入门到放弃—相弃">ShellCode入门到放弃—相弃</span>
+            <span class="post-date" title="2022-01-18 17:30:00">2022/01/18</span>
+        </a>
+        
+        
+        <a  class="全部文章 考证学习 "
+           href="/2022/01/18/%E8%BD%AF%E8%80%83%E4%B8%AD%E7%BA%A7%E2%80%94%E4%BF%A1%E6%81%AF%E5%AE%89%E5%85%A8%E5%B7%A5%E7%A8%8B%E5%B8%88/"
+           data-tag="2023,软考,中级"
+           data-author="" >
+            <span class="post-title" title="软考中级—信息安全工程师">软考中级—信息安全工程师</span>
+            <span class="post-date" title="2022-01-18 14:30:00">2022/01/18</span>
+        </a>
+        
+        
+        <a  class="全部文章 Windows相关 "
+           href="/2022/01/15/ShellCode%E5%85%A5%E9%97%A8%E5%88%B0%E6%94%BE%E5%BC%83%E2%80%94%E7%9B%B8%E7%9F%A5/"
+           data-tag="2022,ShellCode,Bin"
+           data-author="" >
+            <span class="post-title" title="ShellCode入门到放弃—相知">ShellCode入门到放弃—相知</span>
+            <span class="post-date" title="2022-01-15 12:12:12">2022/01/15</span>
+        </a>
+        
+        
+        <a  class="全部文章 内网安全 "
+           href="/2021/11/10/%E5%86%85%E7%BD%91%E6%B8%97%E9%80%8F_%E5%AF%86%E7%A0%81%E6%8F%90%E5%8F%96/"
+           data-tag="内网,渗透测试,2021"
+           data-author="" >
+            <span class="post-title" title="终端管理工具密码获取">终端管理工具密码获取</span>
+            <span class="post-date" title="2021-11-10 14:30:00">2021/11/10</span>
+        </a>
+        
+        
+        <a  class="全部文章 内网安全 "
+           href="/2021/11/04/%E5%86%85%E7%BD%91%E6%B8%97%E9%80%8F-Linux%E5%8F%8D%E5%BC%B9Shell/"
+           data-tag="内网,渗透测试,2021"
+           data-author="" >
+            <span class="post-title" title="Linux反弹Shell">Linux反弹Shell</span>
+            <span class="post-date" title="2021-11-04 14:30:00">2021/11/04</span>
+        </a>
+        
+        
+        <a  class="全部文章 内网安全 "
+           href="/2021/10/19/%E5%86%85%E7%BD%91%E5%AE%89%E5%85%A8-%E6%B5%81%E9%87%8F%E7%89%B9%E5%BE%81NPS%E3%80%81FRP/"
+           data-tag="内网,渗透测试,2021"
+           data-author="" >
+            <span class="post-title" title="流量特征NPS、FRP">流量特征NPS、FRP</span>
+            <span class="post-date" title="2021-10-19 14:30:00">2021/10/19</span>
+        </a>
+        
+        
+        <a  class="全部文章 内网安全 "
+           href="/2021/09/10/%E5%86%85%E7%BD%91%E5%AE%89%E5%85%A8-docker%E6%9C%AA%E6%8E%88%E6%9D%83/"
+           data-tag="内网,渗透测试,2021"
+           data-author="" >
+            <span class="post-title" title="docker未授权">docker未授权</span>
+            <span class="post-date" title="2021-09-10 14:30:00">2021/09/10</span>
+        </a>
+        
+        
+        <a  class="全部文章 Web安全 "
+           href="/2021/07/25/web%E5%AE%89%E5%85%A8-Xpath%E6%B3%A8%E5%85%A5/"
+           data-tag="2021,Web"
+           data-author="" >
+            <span class="post-title" title="Xpath注入">Xpath注入</span>
+            <span class="post-date" title="2021-07-25 00:00:00">2021/07/25</span>
+        </a>
+        
+        
+        <a  class="全部文章 Web安全 "
+           href="/2021/07/16/Web%E5%AE%89%E5%85%A8-SQL%E6%B3%A8%E5%85%A5/"
+           data-tag="2021,Web"
+           data-author="" >
+            <span class="post-title" title="SQL注入">SQL注入</span>
+            <span class="post-date" title="2021-07-16 00:00:00">2021/07/16</span>
+        </a>
+        
+        
+        <a  class="全部文章 Web安全 "
+           href="/2021/06/19/Web%E5%AE%89%E5%85%A8-%E6%96%87%E4%BB%B6%E4%B8%8A%E4%BC%A0%E6%BC%8F%E6%B4%9E/"
+           data-tag="2021,Web"
+           data-author="" >
+            <span class="post-title" title="文件上传漏洞">文件上传漏洞</span>
+            <span class="post-date" title="2021-06-19 00:00:00">2021/06/19</span>
+        </a>
+        
+        
+        <a  class="全部文章 Web安全 "
+           href="/2021/06/08/Web%E5%AE%89%E5%85%A8-PHP%E5%BA%8F%E5%88%97%E5%8C%96&%E5%8F%8D%E5%BA%8F%E5%88%97%E5%8C%96/"
+           data-tag="2021,Web"
+           data-author="" >
+            <span class="post-title" title="PHP序列化与反序列化">PHP序列化与反序列化</span>
+            <span class="post-date" title="2021-06-08 00:00:00">2021/06/08</span>
+        </a>
+        
+        
+        <a  class="全部文章 Web安全 "
+           href="/2021/06/04/Web%E5%AE%89%E5%85%A8-SSI%E6%B3%A8%E5%85%A5/"
+           data-tag="2021,Web"
+           data-author="" >
+            <span class="post-title" title="SSI注入">SSI注入</span>
+            <span class="post-date" title="2021-06-04 00:00:00">2021/06/04</span>
+        </a>
+        
+        
+        <a  class="全部文章 "
+           href="/2021/06/02/docker%E5%B8%B8%E7%94%A8%E5%91%BD%E4%BB%A4/"
+           data-tag="Linux,2021"
+           data-author="" >
+            <span class="post-title" title="Docker常用命令">Docker常用命令</span>
+            <span class="post-date" title="2021-06-02 00:00:00">2021/06/02</span>
+        </a>
+        
+        
+        <a  class="全部文章 Web安全 "
+           href="/2021/05/25/Web%E5%AE%89%E5%85%A8-%E6%96%87%E4%BB%B6%E5%8C%85%E5%90%AB%E6%BC%8F%E6%B4%9E/"
+           data-tag="2021,Web"
+           data-author="" >
+            <span class="post-title" title="文件包含漏洞">文件包含漏洞</span>
+            <span class="post-date" title="2021-05-25 00:00:00">2021/05/25</span>
+        </a>
+        
+        
+        <a  class="全部文章 Web安全 "
+           href="/2021/04/19/Web%E5%AE%89%E5%85%A8-%E8%B6%8A%E6%9D%83/"
+           data-tag="2021,Web"
+           data-author="" >
+            <span class="post-title" title="越权">越权</span>
+            <span class="post-date" title="2021-04-19 00:00:00">2021/04/19</span>
+        </a>
+        
+        
+        <a  class="全部文章 Web安全 "
+           href="/2021/04/06/Web%E5%AE%89%E5%85%A8-Xxe/"
+           data-tag="2021,Web"
+           data-author="" >
+            <span class="post-title" title="XXE">XXE</span>
+            <span class="post-date" title="2021-04-06 00:00:00">2021/04/06</span>
+        </a>
+        
+        
+        <a  class="全部文章 Web安全 "
+           href="/2021/04/05/Web%E5%AE%89%E5%85%A8-%E6%96%87%E4%BB%B6%E4%B8%8B%E8%BD%BD%E8%AF%BB%E5%8F%96%E6%BC%8F%E6%B4%9E/"
+           data-tag="2021,Web"
+           data-author="" >
+            <span class="post-title" title="文件下载漏洞">文件下载漏洞</span>
+            <span class="post-date" title="2021-04-05 00:00:00">2021/04/05</span>
+        </a>
+        
+        
+        <a  class="全部文章 其它 "
+           href="/2021/04/02/%E5%B8%B8%E7%94%A8%E6%AD%A3%E5%88%99%E8%A1%A8%E8%BE%BE%E5%BC%8F/"
+           data-tag="2021"
+           data-author="" >
+            <span class="post-title" title="常用正则表达式">常用正则表达式</span>
+            <span class="post-date" title="2021-04-02 00:00:00">2021/04/02</span>
+        </a>
+        
+        
+        <a  class="全部文章 Web安全 "
+           href="/2021/03/25/Web%E5%AE%89%E5%85%A8-Nginx%E5%AE%89%E5%85%A8/"
+           data-tag="2021,Web"
+           data-author="" >
+            <span class="post-title" title="Apache安全">Apache安全</span>
+            <span class="post-date" title="2021-03-25 00:00:00">2021/03/25</span>
+        </a>
+        
+        
+        <a  class="全部文章 Web安全 "
+           href="/2021/03/19/Web%E5%AE%89%E5%85%A8-LDAP%E6%B3%A8%E5%85%A5/"
+           data-tag="2021,Web"
+           data-author="" >
+            <span class="post-title" title="LDAP注入">LDAP注入</span>
+            <span class="post-date" title="2021-03-19 00:00:00">2021/03/19</span>
+        </a>
+        
+        
+        <a  class="全部文章 Web安全 "
+           href="/2021/03/13/Web%E5%AE%89%E5%85%A8-CSR&SSRF/"
+           data-tag="2021,Web"
+           data-author="" >
+            <span class="post-title" title="CSRF &amp; SSRF">CSRF &amp; SSRF</span>
+            <span class="post-date" title="2021-03-13 00:00:00">2021/03/13</span>
+        </a>
+        
+        
+        <a  class="全部文章 Web安全 "
+           href="/2021/03/09/Web%E5%AE%89%E5%85%A8-CRLF/"
+           data-tag="2021,Web"
+           data-author="" >
+            <span class="post-title" title="CLRF">CLRF</span>
+            <span class="post-date" title="2021-03-09 00:00:00">2021/03/09</span>
+        </a>
+        
+        
+        <a  class="全部文章 Web安全 "
+           href="/2021/03/06/Web%E5%AE%89%E5%85%A8-Apache%E5%AE%89%E5%85%A8/"
+           data-tag="2021,Web"
+           data-author="" >
+            <span class="post-title" title="Apache安全">Apache安全</span>
+            <span class="post-date" title="2021-03-06 00:00:00">2021/03/06</span>
+        </a>
+        
+        
+        <a  class="全部文章 Web安全 "
+           href="/2021/03/03/Web%E5%AE%89%E5%85%A8-IIS%E5%AE%89%E5%85%A8/"
+           data-tag="2021,Web"
+           data-author="" >
+            <span class="post-title" title="IIS安全">IIS安全</span>
+            <span class="post-date" title="2021-03-03 00:00:00">2021/03/03</span>
+        </a>
+        
+        
+        <a  class="全部文章 Web安全 "
+           href="/2021/02/27/Web%E5%AE%89%E5%85%A8-XSS/"
+           data-tag="2021,Web"
+           data-author="" >
+            <span class="post-title" title="XSS">XSS</span>
+            <span class="post-date" title="2021-02-27 00:00:00">2021/02/27</span>
+        </a>
+        
+        
+        <a  class="全部文章 Web安全 "
+           href="/2021/02/10/Web%E5%AE%89%E5%85%A8-%E4%B8%80%E5%8F%A5%E8%AF%9D%E6%9C%A8%E9%A9%AC/"
+           data-tag="2021,Web"
+           data-author="" >
+            <span class="post-title" title="一句话木马">一句话木马</span>
+            <span class="post-date" title="2021-02-10 00:00:00">2021/02/10</span>
+        </a>
+        
+        <div id="no-item-tips">
+
+        </div>
+    </nav>
+    <div id="outline-list">
+    </div>
+</div>
+
+    </div>
+    <div class="hide-list">
+        <div class="semicircle" data-title="切换全屏 快捷键 s">
+            <div class="brackets first"><</div>
+            <div class="brackets">&gt;</div>
+        </div>
+    </div>
+</aside>
+<div id="post">
+    <div class="pjax">
+        <article id="post-Web安全-CSR&amp;SSRF" class="article article-type-post" itemscope itemprop="blogPost">
+    
+        <h1 class="article-title">CSRF &amp; SSRF</h1>
+    
+    <div class="article-meta">
+        
+        
+        
+        <span class="book">
+            <i class="iconfont icon-category"></i>
+            
+            
+            <a  data-rel="Web安全">Web安全</a>
+            
+        </span>
+        
+        
+        <span class="tag">
+            <i class="iconfont icon-tag"></i>
+            
+            <a class="color5">2021</a>
+            
+            <a class="color4">Web</a>
+            
+        </span>
+        
+    </div>
+    <div class="article-meta">
+        <!-- 修改了原始显示，原始显示更新日期为悬浮 -->
+        <!-- 
+            发布时间 : <time class="date" title='最后更新: 2023-08-24 17:29:19'>2021-03-13 00:00</time>
+         -->
+
+        
+            发布时间 : 2021-03-13 00:00</time>
+        <br>
+
+        
+    </div>
+    <div class="article-meta">
+        
+        
+        <span id="busuanzi_container_page_pv">
+            阅读 :<span id="busuanzi_value_page_pv">
+                <span class="count-comment">
+                    <span class="spinner">
+                      <div class="cube1"></div>
+                      <div class="cube2"></div>
+                    </span>
+                </span>
+            </span>
+        </span>
+        
+        
+    </div>
+    
+    <div class="toc-ref">
+    
+        <ol class="toc"><li class="toc-item toc-level-1"><a class="toc-link" href="#CSRF%E6%BC%8F%E6%B4%9E"><span class="toc-text">CSRF漏洞</span></a><ol class="toc-child"><li class="toc-item toc-level-2"><a class="toc-link" href="#GET%E5%9E%8BCSRF"><span class="toc-text">GET型CSRF</span></a></li><li class="toc-item toc-level-2"><a class="toc-link" href="#POST%E5%9E%8BCSRF"><span class="toc-text">POST型CSRF</span></a></li><li class="toc-item toc-level-2"><a class="toc-link" href="#TOKEN%E5%9E%8BCSRF"><span class="toc-text">TOKEN型CSRF</span></a></li><li class="toc-item toc-level-2"><a class="toc-link" href="#%E2%98%85POST-JSON%E5%9E%8BCSRF"><span class="toc-text">★POST-JSON型CSRF</span></a><ol class="toc-child"><li class="toc-item toc-level-3"><a class="toc-link" href="#%E5%88%A9%E7%94%A8%E6%89%8B%E6%B3%95-json%E8%BD%ACparam"><span class="toc-text">利用手法-json转param</span></a></li><li class="toc-item toc-level-3"><a class="toc-link" href="#%E5%88%A9%E7%94%A8%E6%89%8B%E6%B3%95-%E9%97%AD%E5%90%88JSON"><span class="toc-text">利用手法-闭合JSON</span></a></li><li class="toc-item toc-level-3"><a class="toc-link" href="#%E5%88%A9%E7%94%A8%E6%89%8B%E6%B3%95-ajax%E5%8F%91%E8%B5%B7%E8%AF%B7%E6%B1%82"><span class="toc-text">利用手法-ajax发起请求</span></a></li><li class="toc-item toc-level-3"><a class="toc-link" href="#%E5%88%A9%E7%94%A8%E6%89%8B%E6%B3%95-flash-307%E8%B7%B3%E8%BD%AC"><span class="toc-text">利用手法-flash+307跳转</span></a></li></ol></li></ol></li><li class="toc-item toc-level-1"><a class="toc-link" href="#SSRF%E6%BC%8F%E6%B4%9E"><span class="toc-text">SSRF漏洞</span></a><ol class="toc-child"><li class="toc-item toc-level-2"><a class="toc-link" href="#SSRF%E5%88%A9%E7%94%A8%E6%9D%A1%E4%BB%B6"><span class="toc-text">SSRF利用条件</span></a></li><li class="toc-item toc-level-2"><a class="toc-link" href="#SSRF%E4%BC%AA%E5%8D%8F%E8%AE%AE%E5%88%86%E7%B1%BB"><span class="toc-text">SSRF伪协议分类</span></a></li><li class="toc-item toc-level-2"><a class="toc-link" href="#%E2%98%85SSRF%E7%BB%95%E8%BF%87"><span class="toc-text">★SSRF绕过</span></a></li><li class="toc-item toc-level-2"><a class="toc-link" href="#SSRF%E9%98%B2%E5%BE%A1"><span class="toc-text">SSRF防御</span></a></li></ol></li></ol>
+    
+<style>
+    .left-col .switch-btn,
+    .left-col .switch-area {
+        display: none;
+    }
+    .toc-level-3 i,
+    .toc-level-3 ol {
+        display: none !important;
+    }
+</style>
+</div>
+    
+    <div class="article-entry" itemprop="articleBody">
+      
+        <p>检测使用burpsuite-pro 插件<code>CSRF-scan</code></p>
+<p><strong>应用场景</strong><br>所有需要登陆认证且存在操作的地方，都可能存在CSRF；比如修改个人信息、发送邮件、创建管理员用户等等，只能查看的功能不考虑，因为不能算真正利用</p>
+<p><strong>验证</strong><br>1、观察数据包，如果header头和data中都没有token，然后尝试删除referer，还是能成功发送请求的话，就可以确定存在CSRF漏洞了<br>2、为了保险起见，在时间充足的情况下，还是需要尽量通过POC验证下，一般不需要2个账号进行验证，一个账号即可（2个只能说更保险）<br>3、非json的情况下，使用burp可以快速生成POC，也可以自己写，反正原理都是发起请求即可<br>4、登陆账号的情况下去访问这个poc，如果能成功得到自己的结果，就是OK的。</p>
+<p><strong>防御</strong><br>1、每次随机token<br>2、校验referer（修改referer即可绕过）</p>
+<h1 id="CSRF漏洞"><a href="#CSRF漏洞" class="headerlink" title="CSRF漏洞"></a>CSRF漏洞</h1><p><strong>CSRF</strong>（Cross-Site Request Forgery）漏洞是一种Web应用程序安全漏洞，攻击者可以利用该漏洞来执行未经授权的操作。通过CSRF攻击，攻击者可以欺骗用户在其不知情的情况下执行某些操作，例如更改密码、发送恶意请求等。</p>
+<p><code>CSRF可以执行的操作</code><br>更改用户密码：攻击者可以通过构造恶意请求来更改用户的密码，从而获取对用户账户的控制权。<br>发送恶意请求：攻击者可以通过构造恶意请求来执行一些危险的操作，例如删除用户数据、发送恶意邮件等。<br>进行钓鱼攻击：攻击者可以通过构造恶意请求来欺骗用户点击恶意链接，从而获取用户的敏感信息。</p>
+<p><img src="/./images/49.png"></p>
+<p>具体的攻击流程如下：</p>
+<ol>
+<li>用户正常登录web服务，并一直保持在线</li>
+<li>服务器返回用户凭证Session ，并将其保存在Cookie中</li>
+<li>攻击者生成payload，并放置在用户可访问的地方</li>
+<li>攻击者诱导用户点击在第3步放置的链接，此时用户一直在线，且是用同一浏览器打开（保证Cookie未失效）</li>
+<li>用户点击恶意链接</li>
+<li>恶意链接向服务器请求，由于用户Cookie未失效，就携带用户Cookie访问服务器</li>
+<li>服务器收到请求，此时用户Cookie 未失效，并判定为“<strong>用户</strong>”发起的正常请求，并做出响应</li>
+</ol>
+<h2 id="GET型CSRF"><a href="#GET型CSRF" class="headerlink" title="GET型CSRF"></a>GET型CSRF</h2><p>诱导用户点击恶意连接（之所以能修改数据是因为浏览器有cookie，同一个浏览器打开网页后cookie一直存在）</p>
+<p>在web应用中，很多接口通过GET进行数据的请求和存储，如果未对来源进行校验，并且<strong>没有token保护，攻击者可以直接通过发送含有payload的链接进行诱导点击</strong>；<br><strong>亦可以通过评论区或类似功能处发布图片，通过修改img地址的方式保存至页面，用户访问便会进行自动加载造成攻击</strong></p>
+<p>GET型CSRF实验如下：<br>    1、修改用户的数据在URL中进行传参<br>    2、使用BP抓包并使用<code>CSRF-scan插件</code>构造payload，用户点击连接后将修改原有数据</p>
+<p><img src="/./images/50.png" alt="image-20230705225822188"></p>
+<h2 id="POST型CSRF"><a href="#POST型CSRF" class="headerlink" title="POST型CSRF"></a>POST型CSRF</h2><p>前提条件：后端采用<code>@RequestMaping(&quot;/&quot;)</code>这种同时接受POST和GET请求，就可以成功</p>
+<p>与GET型一样，只是请求方式不一样**(操作一摸一样)**</p>
+<h2 id="TOKEN型CSRF"><a href="#TOKEN型CSRF" class="headerlink" title="TOKEN型CSRF"></a>TOKEN型CSRF</h2><p>和GET、POST利用手法一样，只不过请求中携带了token，</p>
+<h2 id="★POST-JSON型CSRF"><a href="#★POST-JSON型CSRF" class="headerlink" title="★POST-JSON型CSRF"></a>★POST-JSON型CSRF</h2><p>现在越来越多的系统都采用<code>RESTful</code>风格开发，前后端分离，ajax请求后端获取数据再到前端渲染，所以上述表单型也越来越少了</p>
+<p>请求头中的<code>Content-Type</code>值是<code>application/json</code>，基本上就可以确定采用了前后端分离</p>
+<h3 id="利用手法-json转param"><a href="#利用手法-json转param" class="headerlink" title="利用手法-json转param"></a>利用手法-json转param</h3><p>部分网站可能同时支持json和表单格式，所以我们可以尝试进行转换，如把 <code>&#123;&quot;a&quot;:&quot;b&quot;&#125;</code>转换为 <code>a=b</code>，服务端可能也会解析</p>
+<h3 id="利用手法-闭合JSON"><a href="#利用手法-闭合JSON" class="headerlink" title="利用手法-闭合JSON"></a>利用手法-闭合JSON</h3><p>这种要求对<strong>Content-Type</strong>没有限制，比如传输的数据为 <code>&#123;&quot;a&quot;:&quot;b&quot;&#125;</code>，那么我们就可以构造一个表单</p>
+<figure class="highlight plaintext"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br></pre></td><td class="code"><pre><span class="line">&lt;form action=http://test.example.com/csrf method=POST&gt;</span><br><span class="line">    &lt;!-- 重点是下面这一行 --&gt;</span><br><span class="line">    &lt;input type=&quot;hidden&quot; name=&#x27;&#123;&quot;a&quot;:&quot;&#x27; value=&#x27;b&quot;&#125;&#x27; /&gt;</span><br><span class="line">&lt;/form&gt;</span><br><span class="line">&lt;script&gt; document.forms[0].submit(); &lt;/script&gt;</span><br></pre></td></tr></table></figure>
+
+<p>这样自动提交表单的时候，提交的data就是 <code>&#123;&quot;a&quot;:&quot;=b&quot;&#125;</code>，闭合成了json</p>
+<h3 id="利用手法-ajax发起请求"><a href="#利用手法-ajax发起请求" class="headerlink" title="利用手法-ajax发起请求"></a>利用手法-ajax发起请求</h3><p>参考：<a target="_blank" rel="noopener" href="http://huang-x-h.github.io/2015/03/11/cors-preflight/">http://huang-x-h.github.io/2015/03/11/cors-preflight/</a></p>
+<p>当跨域影响用户数据<code>HTTP</code>请求(如用<code>XMLHttpRequest</code>发送<code>get/post</code>)时，浏览器会发送预检请求(<code>OPTIONS</code>请求)给服务端征求支持的请求方法，然后根据服务端响应允许才发送真正的请求。</p>
+<figure class="highlight plaintext"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br></pre></td><td class="code"><pre><span class="line">HTTP/1.1 200 OK</span><br><span class="line">Server: Apache-Coyote/1.1</span><br><span class="line">Access-Control-Allow-Origin: http://localhost:63342</span><br><span class="line">Access-Control-Allow-Credentials: true</span><br><span class="line">Access-Control-Max-Age: 1800</span><br><span class="line">Access-Control-Allow-Methods: POST</span><br><span class="line">Access-Control-Allow-Headers: content-type,access-control-request-headers,access-control-request-method,accept,origin,x-requested-with</span><br><span class="line">Content-Length: 0</span><br><span class="line">Date: Wed, 11 Mar 2015 05:16:31 GMT</span><br></pre></td></tr></table></figure>
+
+<p>然而如果服务端对<code>Content-Type</code>进行校验，则不会响应这个OPTIONS请求，从而利用失败。但是更多的情况下服务端可能不会校验<code>Content-Type</code>，或者不会严格校验<code>Content-Type</code>是否为<code>application/json</code>，所以很多情况下这是可用的</p>
+<figure class="highlight xml"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br><span class="line">11</span><br></pre></td><td class="code"><pre><span class="line"><span class="tag">&lt;<span class="name">script</span>&gt;</span><span class="language-javascript"></span></span><br><span class="line"><span class="language-javascript">  windows.<span class="property">onload</span> = <span class="function">() =&gt;</span> &#123;</span></span><br><span class="line"><span class="language-javascript">    <span class="keyword">var</span> xhr = <span class="keyword">new</span> <span class="title class_">XMLHttpRequest</span>()</span></span><br><span class="line"><span class="language-javascript">    xhr.<span class="title function_">open</span>(<span class="string">&quot;POST&quot;</span>, <span class="string">&quot;http://test.example.com/csrf&quot;</span>)</span></span><br><span class="line"><span class="language-javascript">    xhr.<span class="title function_">setRequestHeader</span>(<span class="string">&quot;Accept&quot;</span>, <span class="string">&quot;*/*&quot;</span>)</span></span><br><span class="line"><span class="language-javascript">    xhr.<span class="title function_">setRequestHeader</span>(<span class="string">&quot;Accept-Language&quot;</span>, <span class="string">&quot;zh-CN,zh;q=0.8,en-US;q=0.5,en;q=0.3&quot;</span>)</span></span><br><span class="line"><span class="language-javascript">    xhr.<span class="title function_">setRequestHeader</span>(<span class="string">&quot;Content-Type&quot;</span>, <span class="string">&quot;application/json; charset=utf-8&quot;</span>)</span></span><br><span class="line"><span class="language-javascript">    xhr.<span class="property">withCredentials</span> = <span class="literal">true</span> <span class="comment">// 携带cookie</span></span></span><br><span class="line"><span class="language-javascript">    xhr.<span class="title function_">send</span>(<span class="title class_">JSON</span>.<span class="title function_">stringify</span>(&#123;<span class="string">&quot;a&quot;</span>:<span class="string">&quot;b&quot;</span>&#125;)</span></span><br><span class="line"><span class="language-javascript">  &#125;</span></span><br><span class="line"><span class="language-javascript"></span><span class="tag">&lt;/<span class="name">script</span>&gt;</span></span><br></pre></td></tr></table></figure>
+
+<h3 id="利用手法-flash-307跳转"><a href="#利用手法-flash-307跳转" class="headerlink" title="利用手法-flash+307跳转"></a>利用手法-flash+307跳转</h3><p>利用Flash的跨域与307跳转来绕过http自定义头限制，307跟其他3XX HTTP状态码之间的区别就在于，HTTP 307可以确保重定向请求发送之后，请求方法和请求主体不会发生任何改变。HTTP 307会将POST body和HTTP头重定向到我们所指定的最终URL，并完成攻击</p>
+<p><code>Flash用的很少，该手法仅做记录</code></p>
+<p>参考连接：<a target="_blank" rel="noopener" href="https://blog.gm7.org/%E4%B8%AA%E4%BA%BA%E7%9F%A5%E8%AF%86%E5%BA%93/01.%E6%B8%97%E9%80%8F%E6%B5%8B%E8%AF%95/02.web%E6%BC%8F%E6%B4%9E/03.csrf/02.%E4%B8%80%E6%AC%A1xss%E5%92%8Ccsrf%E7%9A%84%E7%BB%84%E5%90%88%E6%8B%B3%E8%BF%9B%E6%94%BB%EF%BC%88csrf+json%EF%BC%89">https://blog.gm7.org/%E4%B8%AA%E4%BA%BA%E7%9F%A5%E8%AF%86%E5%BA%93/01.%E6%B8%97%E9%80%8F%E6%B5%8B%E8%AF%95/02.web%E6%BC%8F%E6%B4%9E/03.csrf/02.%E4%B8%80%E6%AC%A1xss%E5%92%8Ccsrf%E7%9A%84%E7%BB%84%E5%90%88%E6%8B%B3%E8%BF%9B%E6%94%BB%EF%BC%88csrf+json%EF%BC%89</a></p>
+<h1 id="SSRF漏洞"><a href="#SSRF漏洞" class="headerlink" title="SSRF漏洞"></a>SSRF漏洞</h1><p><img src="/./images/51.png"></p>
+<p>1-攻击者与服务器构建请求。<br>2-服务器向客户端发送构建的请求。<br>3-客户端响应服务器发送的请求。<br>4-服务器向攻击者返回客户端的请求。</p>
+<p>SSRF危害</p>
+<figure class="highlight plaintext"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br></pre></td><td class="code"><pre><span class="line">1）可以对外网、服务器所在内网、本地进行端口扫描，获取一些服务的banner信息。</span><br><span class="line">2）攻击运行在内网或本地的应用程序（比如溢出）。</span><br><span class="line">3）对内网web应用进行指纹识别，通过访问默认文件实现。</span><br><span class="line">4）攻击内外网的web应用，主要是使用get参数就可以实现的攻击（比如struts2，sqli等）。</span><br><span class="line">5）利用file协议读取本地文件等。</span><br></pre></td></tr></table></figure>
+
+<h2 id="SSRF利用条件"><a href="#SSRF利用条件" class="headerlink" title="SSRF利用条件"></a>SSRF利用条件</h2><p><strong>web功能挖掘</strong></p>
+<p>1）分享：通过url地址分享网页内容。<br>2）转码服务：通过URL地址把原地址的网页内容调优使其适合手机屏幕浏览。<br>3）在线翻译：通过URL地址翻译对应文本的内容。<br>4）图片的下载与加载：通过URL地址加载或下载图片，图片加载远程图片地址此功能。<br>5）图片、文章收藏功能：通过URL记录图片的地址，或者通过收藏文章的地址。<br>6）未公开的API实现及调用URL的功能：有些网站通过api获取远程地址xml文件来加载内容。</p>
+<p><strong>URL关键字挖掘</strong></p>
+<p>share、<br>wap、<br>url、<br>link、<br>src、<br>source、<br>target、<br>u、<br>display、<br>sourceURl、<br>imageURL、<br>domain、</p>
+<h2 id="SSRF伪协议分类"><a href="#SSRF伪协议分类" class="headerlink" title="SSRF伪协议分类"></a>SSRF伪协议分类</h2><p><strong>PHP所有伪协议都支持</strong><br><code>常用</code></p>
+<figure class="highlight plaintext"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br></pre></td><td class="code"><pre><span class="line">file:/// 从文件系统中获取文件内容，如，file:///etc/passwd</span><br><span class="line">dict://：泄露安装软件版本信息，查看端口，操作内网redis访问等。</span><br><span class="line">	http://pkq/vul/ssrf/ssrf_curl.php?url=dict://127.0.0.1:3306/info</span><br><span class="line">tftp:// 简单文件传输协议。访问ftp服务器</span><br><span class="line">	http://pkq/vul/ssrf/ssrf_curl.php?url=ftp://127.0.0.1:21</span><br></pre></td></tr></table></figure>
+
+<h2 id="★SSRF绕过"><a href="#★SSRF绕过" class="headerlink" title="★SSRF绕过"></a>★SSRF绕过</h2><ul>
+<li>限制域名时添加@进行绕过。</li>
+</ul>
+<p>如：<a target="_blank" rel="noopener" href="http://baidu.com/?url=http://baidue.com@google.com/">http://baidu.com/?url=http://baidue.com@google.com/</a></p>
+<ul>
+<li>添加端口绕过。</li>
+</ul>
+<p>如：<a target="_blank" rel="noopener" href="http://baidu.com/?url=http://google.com:443">http://baidu.com/?url=http://google.com:443</a></p>
+<ul>
+<li>利用[::]绕过。</li>
+</ul>
+<p>如：<a target="_blank" rel="noopener" href="http://baidu.com/?url=http://%5B::192.168.10.150%5D">http://baidu.com/?url=http://[::192.168.10.150]</a></p>
+<ul>
+<li>利用句号绕过。</li>
+</ul>
+<p>如：<a target="_blank" rel="noopener" href="http://baidu.com/?url=http://192%E3%80%82168%E3%80%8210%E3%80%82150">http://baidu.com/?url=http://192。168。10。150</a></p>
+<ul>
+<li>编码绕过。</li>
+</ul>
+<p>如：十六进制<a target="_blank" rel="noopener" href="http://baidu.com/?url=http://c0.a8.6d.96">http://baidu.com/?url=http://c0.a8.6d.96</a></p>
+<h2 id="SSRF防御"><a href="#SSRF防御" class="headerlink" title="SSRF防御"></a>SSRF防御</h2><p>1）限制请求的端口，并且只允许访问http和https的请求。</p>
+<p>2）过滤返回的信息，并验证返回的消息是否符合标准，若不是标准的信息，那么直接进行过滤。</p>
+<p>3）从服务器限制访问的端口，禁用不需要的端口。</p>
+<p>4）限制内网访问的ip，一些没必要交互的服务器之间禁止访问。</p>
+<p>5）禁止不必要的协议，例如FTP不要随便设置匿名访问。</p>
+
+      
+       <hr><span style="font-style: italic;color: gray;"> 转载请注明来源，欢迎对文章进行指正，联系邮箱 vou0515@gmail.com </span>
+    </div>
+</article>
+
+
+
+
+
+
+
+    
+
+
+
+
+    </div>
+    <div class="copyright">
+        <p class="footer-entry">
+    ©2023 closeto
+</p>
+<p class="footer-entry">Built with Hexo</p>
+
+    </div>
+    <div class="full-toc">
+        <button class="full" data-title="切换全屏 快捷键 s"><span class="min "></span></button>
+<a class="" id="rocket" ></a>
+
+    </div>
+</div>
+
+</body>
+<script src="/js/jquery.pjax.js?v=1.1.0" ></script>
+
+<script src="/js/script.js?v=1.1.0" ></script>
+<script>
+    var img_resize = 'default';
+    function initArticle() {
+        /*渲染对应的表格样式*/
+        
+            $("#post .pjax table").addClass("green_title");
+        
+
+        /*渲染打赏样式*/
+        
+
+        /*高亮代码块行号*/
+        
+
+        /*访问数量*/
+        
+        $.getScript("//busuanzi.ibruce.info/busuanzi/2.3/busuanzi.pure.mini.js");
+        
+
+        /*代码高亮，行号对齐*/
+        $('.pre-numbering').css('line-height',$('.has-numbering').css('line-height'));
+
+        
+        
+        /* 渲染*/
+        function HTMLDecode(text) {
+            var temp = document.createElement("div");
+            temp.innerHTML = text;
+            var output = temp.innerText || temp.textContent;
+            temp = null;
+            return output;
+        }
+        if (window.mermaid){
+            window.mermaid = null
+        }
+        $.getScript("//cdn.jsdelivr.net/npm/mermaid@8.4.2/dist/mermaid.min.js", function () {
+            var mermaidOptions = JSON.parse(HTMLDecode("{&#34;theme&#34;:&#34;default&#34;,&#34;startOnLoad&#34;:true,&#34;flowchart&#34;:{&#34;useMaxWidth&#34;:false,&#34;htmlLabels&#34;:true}}"))
+            if (window.mermaid) {
+                mermaid.initialize(mermaidOptions)
+                mermaid.contentLoaded()
+            }
+        })
+        
+    }
+
+    /*打赏页面隐藏与展示*/
+    
+
+</script>
+
+<!--加入行号的高亮代码块样式-->
+
+<!--自定义样式设置-->
+<style>
+    
+    
+    .nav {
+        width: 562px;
+    }
+    .nav.fullscreen {
+        margin-left: -562px;
+    }
+    .nav-left {
+        width: 140px;
+    }
+    
+    
+    @media screen and (max-width: 1468px) {
+        .nav {
+            width: 492px;
+        }
+        .nav.fullscreen {
+            margin-left: -492px;
+        }
+        .nav-left {
+            width: 100px;
+        }
+    }
+    
+    
+    @media screen and (max-width: 1024px) {
+        .nav {
+            width: 492px;
+            margin-left: -492px
+        }
+        .nav.fullscreen {
+            margin-left: 0;
+        }
+    }
+    
+    @media screen and (max-width: 426px) {
+        .nav {
+            width: 100%;
+        }
+        .nav-left {
+            width: 100%;
+        }
+    }
+    
+    
+    .nav-right .title-list nav a .post-title, .nav-right .title-list #local-search-result a .post-title {
+        color: #383636;
+    }
+    
+    
+    .nav-right .title-list nav a .post-date, .nav-right .title-list #local-search-result a .post-date {
+        color: #5e5e5f;
+    }
+    
+    
+    .nav-right nav a.hover, #local-search-result a.hover{
+        background-color: #e2e0e0;
+    }
+    
+    
+
+    /*列表样式*/
+    
+
+    /* 背景图样式 */
+    
+    
+
+
+    /*引用块样式*/
+    
+
+    /*文章列表背景图*/
+    
+
+    
+</style>
+
+
+
+
+
+
+
+</html>

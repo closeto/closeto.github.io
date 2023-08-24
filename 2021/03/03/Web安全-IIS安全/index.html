@@ -2,23 +2,27 @@
 <html>
 <head>
   <meta charset="utf-8">
-  <title>欢迎来到closeto的博客</title>
-  <meta name="keywords" content="">
-  <meta name="description" content="欢迎来到closeto的博客">
+  <title>IIS安全 | 欢迎来到closeto的博客</title>
+  <meta name="keywords" content=" 2021 , Web ">
+  <meta name="description" content="IIS安全 | 欢迎来到closeto的博客">
     <meta name="viewport" content="width=device-width, initial-scale=1, maximum-scale=1">
-<meta name="description" content="title: WL端口流量转发tags:   2022 内网 Windowsdate: 2022-03-01updated:categories: 内网安全  Windows端口转发作用：将本地指定端口的流量转发到目标端口上，常用于内网环境 前提条件： ​    1、使用管理员权限或者提权 ​    2、关闭防火墙或设置防火墙规则 ​    3、仅适用于TCP端口，且主机支持Ipv6（在没在使用无">
+<meta name="description" content="SUID提权查找S权限：find &#x2F; -perm -u&#x3D;s -type f 2&gt;&#x2F;dev&#x2F;null UID三类： 123S UID：授予文件权限，允许普通用户执行root文件Real UID：执行该进程的用户实际的UID，谁通过shell运行就是谁Effective UID：程序实际操作时生效的UID，一般在进程启动时，直接由Real UID复制而来。">
 <meta property="og:type" content="article">
-<meta property="og:title" content="欢迎来到closeto的博客">
-<meta property="og:url" content="https://closeto.github.io/2023/08/24/WL%E7%AB%AF%E5%8F%A3%E6%B5%81%E9%87%8F%E8%BD%AC%E5%8F%91/index.html">
+<meta property="og:title" content="Linux提权">
+<meta property="og:url" content="https://closeto.github.io/2023/08/24/%E5%86%85%E7%BD%91%E6%B8%97%E9%80%8F-Linux%E6%8F%90%E6%9D%83/index.html">
 <meta property="og:site_name" content="欢迎来到closeto的博客">
-<meta property="og:description" content="title: WL端口流量转发tags:   2022 内网 Windowsdate: 2022-03-01updated:categories: 内网安全  Windows端口转发作用：将本地指定端口的流量转发到目标端口上，常用于内网环境 前提条件： ​    1、使用管理员权限或者提权 ​    2、关闭防火墙或设置防火墙规则 ​    3、仅适用于TCP端口，且主机支持Ipv6（在没在使用无">
+<meta property="og:description" content="SUID提权查找S权限：find &#x2F; -perm -u&#x3D;s -type f 2&gt;&#x2F;dev&#x2F;null UID三类： 123S UID：授予文件权限，允许普通用户执行root文件Real UID：执行该进程的用户实际的UID，谁通过shell运行就是谁Effective UID：程序实际操作时生效的UID，一般在进程启动时，直接由Real UID复制而来。">
 <meta property="og:locale" content="zh_CN">
-<meta property="og:image" content="https://closeto.github.io/images/WL%E7%AB%AF%E5%8F%A3%E6%B5%81%E9%87%8F%E8%BD%AC%E5%8F%91.png">
-<meta property="article:published_time" content="2023-08-24T06:33:17.790Z">
+<meta property="og:image" content="https://closeto.github.io/images/image-20220913221850697.png">
+<meta property="og:image" content="https://closeto.github.io/images/image-20220912231256193.png">
+<meta property="og:image" content="https://closeto.github.io/images/image-20220912231817462.png">
+<meta property="article:published_time" content="2023-08-24T09:17:21.052Z">
 <meta property="article:author" content="closeto">
-<meta property="article:tag" content="学习记录">
+<meta property="article:tag" content="内网">
+<meta property="article:tag" content="渗透测试">
+<meta property="article:tag" content="2021">
 <meta name="twitter:card" content="summary">
-<meta name="twitter:image" content="https://closeto.github.io/images/WL%E7%AB%AF%E5%8F%A3%E6%B5%81%E9%87%8F%E8%BD%AC%E5%8F%91.png">
+<meta name="twitter:image" content="https://closeto.github.io/images/image-20220913221850697.png">
 
 
 <link rel="icon" href="/img/ico.png">
@@ -56,7 +60,7 @@
 
 
 <body>
-<aside class="nav mobile">
+<aside class="nav">
     <div class="nav-left">
         <a href="/"
    class="avatar_target">
@@ -103,7 +107,7 @@
     <li>
         <div class="all active" data-rel="全部文章">全部文章
             
-                <small>(17)</small>
+                <small>(38)</small>
             
         </div>
     </li>
@@ -115,7 +119,7 @@
         <div data-rel="Web安全">
             
             Web安全
-            <small>(1)</small>
+            <small>(17)</small>
         </div>
         
     </li>
@@ -130,7 +134,7 @@
         <div data-rel="内网安全">
             
             内网安全
-            <small>(4)</small>
+            <small>(10)</small>
         </div>
         
     </li>
@@ -198,21 +202,6 @@
             
         
     
-        
-            
-                
-    <li>
-        <div data-rel="内网渗透">
-            
-            内网渗透
-            <small>(1)</small>
-        </div>
-        
-    </li>
-
-            
-        
-    
 </ul>
 <div class="left-bottom">
     <div class="menus">
@@ -229,7 +218,7 @@
         
     </div>
 </div>
-<input type="hidden" id="yelog_site_posts_number" value="17">
+<input type="hidden" id="yelog_site_posts_number" value="38">
 
 <div style="display: none">
     <span id="busuanzi_value_site_uv"></span>
@@ -335,6 +324,15 @@
     <nav id="title-list-nav">
         
         
+        <a  class="全部文章 内网安全 "
+           href="/2023/08/24/%E5%86%85%E7%BD%91%E6%B8%97%E9%80%8F-Linux%E6%8F%90%E6%9D%83/"
+           data-tag="内网,渗透测试,2021"
+           data-author="" >
+            <span class="post-title" title="Linux提权">Linux提权</span>
+            <span class="post-date" title="2023-08-24 17:17:21">2023/08/24</span>
+        </a>
+        
+        
         <a  class="全部文章 "
            href="/2023/08/24/WL%E7%AB%AF%E5%8F%A3%E6%B5%81%E9%87%8F%E8%BD%AC%E5%8F%91/"
            data-tag=""
@@ -389,7 +387,7 @@
         </a>
         
         
-        <a  class="全部文章 内网渗透 "
+        <a  class="全部文章 内网安全 "
            href="/2022/03/10/%E5%86%85%E7%BD%91%E6%B8%97%E9%80%8F-Redis%E6%9C%AA%E6%8E%88%E6%9D%83/"
            data-tag="2022,内网,渗透测试"
            data-author="" >
@@ -461,6 +459,87 @@
         </a>
         
         
+        <a  class="全部文章 内网安全 "
+           href="/2021/11/10/%E5%86%85%E7%BD%91%E6%B8%97%E9%80%8F_%E5%AF%86%E7%A0%81%E6%8F%90%E5%8F%96/"
+           data-tag="内网,渗透测试,2021"
+           data-author="" >
+            <span class="post-title" title="终端管理工具密码获取">终端管理工具密码获取</span>
+            <span class="post-date" title="2021-11-10 14:30:00">2021/11/10</span>
+        </a>
+        
+        
+        <a  class="全部文章 内网安全 "
+           href="/2021/11/04/%E5%86%85%E7%BD%91%E6%B8%97%E9%80%8F-Linux%E5%8F%8D%E5%BC%B9Shell/"
+           data-tag="内网,渗透测试,2021"
+           data-author="" >
+            <span class="post-title" title="Linux反弹Shell">Linux反弹Shell</span>
+            <span class="post-date" title="2021-11-04 14:30:00">2021/11/04</span>
+        </a>
+        
+        
+        <a  class="全部文章 内网安全 "
+           href="/2021/10/19/%E5%86%85%E7%BD%91%E5%AE%89%E5%85%A8-%E6%B5%81%E9%87%8F%E7%89%B9%E5%BE%81NPS%E3%80%81FRP/"
+           data-tag="内网,渗透测试,2021"
+           data-author="" >
+            <span class="post-title" title="流量特征NPS、FRP">流量特征NPS、FRP</span>
+            <span class="post-date" title="2021-10-19 14:30:00">2021/10/19</span>
+        </a>
+        
+        
+        <a  class="全部文章 内网安全 "
+           href="/2021/09/10/%E5%86%85%E7%BD%91%E5%AE%89%E5%85%A8-docker%E6%9C%AA%E6%8E%88%E6%9D%83/"
+           data-tag="内网,渗透测试,2021"
+           data-author="" >
+            <span class="post-title" title="docker未授权">docker未授权</span>
+            <span class="post-date" title="2021-09-10 14:30:00">2021/09/10</span>
+        </a>
+        
+        
+        <a  class="全部文章 Web安全 "
+           href="/2021/07/25/web%E5%AE%89%E5%85%A8-Xpath%E6%B3%A8%E5%85%A5/"
+           data-tag="2021,Web"
+           data-author="" >
+            <span class="post-title" title="Xpath注入">Xpath注入</span>
+            <span class="post-date" title="2021-07-25 00:00:00">2021/07/25</span>
+        </a>
+        
+        
+        <a  class="全部文章 Web安全 "
+           href="/2021/07/16/Web%E5%AE%89%E5%85%A8-SQL%E6%B3%A8%E5%85%A5/"
+           data-tag="2021,Web"
+           data-author="" >
+            <span class="post-title" title="SQL注入">SQL注入</span>
+            <span class="post-date" title="2021-07-16 00:00:00">2021/07/16</span>
+        </a>
+        
+        
+        <a  class="全部文章 Web安全 "
+           href="/2021/06/19/Web%E5%AE%89%E5%85%A8-%E6%96%87%E4%BB%B6%E4%B8%8A%E4%BC%A0%E6%BC%8F%E6%B4%9E/"
+           data-tag="2021,Web"
+           data-author="" >
+            <span class="post-title" title="文件上传漏洞">文件上传漏洞</span>
+            <span class="post-date" title="2021-06-19 00:00:00">2021/06/19</span>
+        </a>
+        
+        
+        <a  class="全部文章 Web安全 "
+           href="/2021/06/08/Web%E5%AE%89%E5%85%A8-PHP%E5%BA%8F%E5%88%97%E5%8C%96&%E5%8F%8D%E5%BA%8F%E5%88%97%E5%8C%96/"
+           data-tag="2021,Web"
+           data-author="" >
+            <span class="post-title" title="PHP序列化与反序列化">PHP序列化与反序列化</span>
+            <span class="post-date" title="2021-06-08 00:00:00">2021/06/08</span>
+        </a>
+        
+        
+        <a  class="全部文章 Web安全 "
+           href="/2021/06/04/Web%E5%AE%89%E5%85%A8-SSI%E6%B3%A8%E5%85%A5/"
+           data-tag="2021,Web"
+           data-author="" >
+            <span class="post-title" title="SSI注入">SSI注入</span>
+            <span class="post-date" title="2021-06-04 00:00:00">2021/06/04</span>
+        </a>
+        
+        
         <a  class="全部文章 "
            href="/2021/06/02/docker%E5%B8%B8%E7%94%A8%E5%91%BD%E4%BB%A4/"
            data-tag="Linux,2021"
@@ -470,12 +549,111 @@
         </a>
         
         
+        <a  class="全部文章 Web安全 "
+           href="/2021/05/25/Web%E5%AE%89%E5%85%A8-%E6%96%87%E4%BB%B6%E5%8C%85%E5%90%AB%E6%BC%8F%E6%B4%9E/"
+           data-tag="2021,Web"
+           data-author="" >
+            <span class="post-title" title="文件包含漏洞">文件包含漏洞</span>
+            <span class="post-date" title="2021-05-25 00:00:00">2021/05/25</span>
+        </a>
+        
+        
+        <a  class="全部文章 Web安全 "
+           href="/2021/04/19/Web%E5%AE%89%E5%85%A8-%E8%B6%8A%E6%9D%83/"
+           data-tag="2021,Web"
+           data-author="" >
+            <span class="post-title" title="越权">越权</span>
+            <span class="post-date" title="2021-04-19 00:00:00">2021/04/19</span>
+        </a>
+        
+        
+        <a  class="全部文章 Web安全 "
+           href="/2021/04/06/Web%E5%AE%89%E5%85%A8-Xxe/"
+           data-tag="2021,Web"
+           data-author="" >
+            <span class="post-title" title="XXE">XXE</span>
+            <span class="post-date" title="2021-04-06 00:00:00">2021/04/06</span>
+        </a>
+        
+        
+        <a  class="全部文章 Web安全 "
+           href="/2021/04/05/Web%E5%AE%89%E5%85%A8-%E6%96%87%E4%BB%B6%E4%B8%8B%E8%BD%BD%E8%AF%BB%E5%8F%96%E6%BC%8F%E6%B4%9E/"
+           data-tag="2021,Web"
+           data-author="" >
+            <span class="post-title" title="文件下载漏洞">文件下载漏洞</span>
+            <span class="post-date" title="2021-04-05 00:00:00">2021/04/05</span>
+        </a>
+        
+        
         <a  class="全部文章 其它 "
            href="/2021/04/02/%E5%B8%B8%E7%94%A8%E6%AD%A3%E5%88%99%E8%A1%A8%E8%BE%BE%E5%BC%8F/"
            data-tag="2021"
            data-author="" >
             <span class="post-title" title="常用正则表达式">常用正则表达式</span>
             <span class="post-date" title="2021-04-02 00:00:00">2021/04/02</span>
+        </a>
+        
+        
+        <a  class="全部文章 Web安全 "
+           href="/2021/03/25/Web%E5%AE%89%E5%85%A8-Nginx%E5%AE%89%E5%85%A8/"
+           data-tag="2021,Web"
+           data-author="" >
+            <span class="post-title" title="Apache安全">Apache安全</span>
+            <span class="post-date" title="2021-03-25 00:00:00">2021/03/25</span>
+        </a>
+        
+        
+        <a  class="全部文章 Web安全 "
+           href="/2021/03/19/Web%E5%AE%89%E5%85%A8-LDAP%E6%B3%A8%E5%85%A5/"
+           data-tag="2021,Web"
+           data-author="" >
+            <span class="post-title" title="LDAP注入">LDAP注入</span>
+            <span class="post-date" title="2021-03-19 00:00:00">2021/03/19</span>
+        </a>
+        
+        
+        <a  class="全部文章 Web安全 "
+           href="/2021/03/13/Web%E5%AE%89%E5%85%A8-CSR&SSRF/"
+           data-tag="2021,Web"
+           data-author="" >
+            <span class="post-title" title="CSRF &amp; SSRF">CSRF &amp; SSRF</span>
+            <span class="post-date" title="2021-03-13 00:00:00">2021/03/13</span>
+        </a>
+        
+        
+        <a  class="全部文章 Web安全 "
+           href="/2021/03/09/Web%E5%AE%89%E5%85%A8-CRLF/"
+           data-tag="2021,Web"
+           data-author="" >
+            <span class="post-title" title="CLRF">CLRF</span>
+            <span class="post-date" title="2021-03-09 00:00:00">2021/03/09</span>
+        </a>
+        
+        
+        <a  class="全部文章 Web安全 "
+           href="/2021/03/06/Web%E5%AE%89%E5%85%A8-Apache%E5%AE%89%E5%85%A8/"
+           data-tag="2021,Web"
+           data-author="" >
+            <span class="post-title" title="Apache安全">Apache安全</span>
+            <span class="post-date" title="2021-03-06 00:00:00">2021/03/06</span>
+        </a>
+        
+        
+        <a  class="全部文章 Web安全 "
+           href="/2021/03/03/Web%E5%AE%89%E5%85%A8-IIS%E5%AE%89%E5%85%A8/"
+           data-tag="2021,Web"
+           data-author="" >
+            <span class="post-title" title="IIS安全">IIS安全</span>
+            <span class="post-date" title="2021-03-03 00:00:00">2021/03/03</span>
+        </a>
+        
+        
+        <a  class="全部文章 Web安全 "
+           href="/2021/02/27/Web%E5%AE%89%E5%85%A8-XSS/"
+           data-tag="2021,Web"
+           data-author="" >
+            <span class="post-title" title="XSS">XSS</span>
+            <span class="post-date" title="2021-02-27 00:00:00">2021/02/27</span>
         </a>
         
         
@@ -503,12 +681,67 @@
         </div>
     </div>
 </aside>
-<div id="post" class="index">
+<div id="post">
     <div class="pjax">
-        <article class="index">
-            <div class="toc-ref">
+        <article id="post-Web安全-IIS安全" class="article article-type-post" itemscope itemprop="blogPost">
     
-        <ol class="toc"><li class="toc-item toc-level-1"><a class="toc-link" href="#%E4%B8%8D%E8%BF%87%E6%98%AF%E7%AB%99%E5%9C%A8%E4%B8%8D%E5%90%8C%E8%A7%92%E5%BA%A6%E7%9A%84%E8%A7%82%E7%82%B9%E7%BD%A2%E4%BA%86"><span class="toc-text">不过是站在不同角度的观点罢了</span></a></li></ol>
+        <h1 class="article-title">IIS安全</h1>
+    
+    <div class="article-meta">
+        
+        
+        
+        <span class="book">
+            <i class="iconfont icon-category"></i>
+            
+            
+            <a  data-rel="Web安全">Web安全</a>
+            
+        </span>
+        
+        
+        <span class="tag">
+            <i class="iconfont icon-tag"></i>
+            
+            <a class="color5">2021</a>
+            
+            <a class="color4">Web</a>
+            
+        </span>
+        
+    </div>
+    <div class="article-meta">
+        <!-- 修改了原始显示，原始显示更新日期为悬浮 -->
+        <!-- 
+            发布时间 : <time class="date" title='最后更新: 2023-08-24 17:29:20'>2021-03-03 00:00</time>
+         -->
+
+        
+            发布时间 : 2021-03-03 00:00</time>
+        <br>
+
+        
+    </div>
+    <div class="article-meta">
+        
+        
+        <span id="busuanzi_container_page_pv">
+            阅读 :<span id="busuanzi_value_page_pv">
+                <span class="count-comment">
+                    <span class="spinner">
+                      <div class="cube1"></div>
+                      <div class="cube2"></div>
+                    </span>
+                </span>
+            </span>
+        </span>
+        
+        
+    </div>
+    
+    <div class="toc-ref">
+    
+        <ol class="toc"><li class="toc-item toc-level-1"><a class="toc-link" href="#IIS%E7%9F%AD%E6%96%87%E4%BB%B6%E6%B3%84%E9%9C%B2%E6%BC%8F%E6%B4%9E"><span class="toc-text">IIS短文件泄露漏洞</span></a></li><li class="toc-item toc-level-1"><a class="toc-link" href="#IIS%E6%96%87%E4%BB%B6%E8%A7%A3%E6%9E%90%E6%BC%8F%E6%B4%9E"><span class="toc-text">IIS文件解析漏洞</span></a></li></ol>
     
 <style>
     .left-col .switch-btn,
@@ -521,34 +754,32 @@
     }
 </style>
 </div>
-            <h1 id="不过是站在不同角度的观点罢了"><a href="#不过是站在不同角度的观点罢了" class="headerlink" title="不过是站在不同角度的观点罢了"></a><center>不过是站在不同角度的观点罢了</center></h1><p><font color="red"> <strong>数据错误正在修正</strong></font></p>
-<p>📌<strong>为什么写此博客</strong>📌</p>
-<pre><code>Ⅰ、思维过于跳跃
-Ⅱ、记录学习和思考的过程
-Ⅲ、通过文章来锻炼文字功底
-Ⅳ、其实大部分都是本地笔记🙄
-</code></pre>
-<p>截止目前已经写了<code class="article_number"></code>篇文章， 共<a title="我也不知道多少啊( •̀ ω •́ )" target="_blank"> x? </a>字。</p>
-<center><svg t="1692855299772" class="icon" viewBox="0 0 1026 1024" version="1.1" xmlns="http://www.w3.org/2000/svg" p-id="6721" width="200" height="200"><path d="M920.576 403.456c-11.264 0-21.504 2.048-30.72 5.12L785.408 229.376c17.408-18.432 28.672-44.032 28.672-71.68C814.08 98.304 766.976 51.2 708.608 51.2c-50.176 0-92.16 34.816-103.424 81.92h-184.32c-11.264-47.104-53.248-81.92-103.424-81.92-58.368 0-105.472 47.104-105.472 105.472 0 27.648 11.264 53.248 28.672 71.68L136.192 408.576c-10.24-3.072-20.48-4.096-30.72-4.096-58.368 0-105.472 47.104-105.472 105.472 0 58.368 47.104 105.472 105.472 105.472 10.24 0 21.504-2.048 30.72-4.096l103.424 179.2c-17.408 18.432-28.672 44.032-28.672 71.68 0 58.368 47.104 105.472 105.472 105.472 50.176 0 92.16-34.816 103.424-81.92h184.32c11.264 47.104 53.248 81.92 103.424 81.92 58.368 0 105.472-47.104 105.472-105.472 0-27.648-11.264-53.248-28.672-71.68l103.424-180.224c9.216 3.072 19.456 4.096 30.72 4.096 58.368 0 105.472-47.104 105.472-105.472 2.048-58.368-45.056-105.472-103.424-105.472zM745.472 763.904c-11.264-4.096-24.576-7.168-37.888-7.168-50.176 0-92.16 34.816-103.424 81.92h-184.32c-11.264-47.104-53.248-81.92-103.424-81.92-13.312 0-25.6 2.048-37.888 7.168L176.128 587.776c20.48-19.456 33.792-47.104 33.792-76.8 0-30.72-13.312-58.368-33.792-76.8l102.4-176.128c11.264 4.096 24.576 7.168 37.888 7.168 50.176 0 92.16-34.816 103.424-81.92h184.32c11.264 47.104 53.248 81.92 103.424 81.92 13.312 0 25.6-2.048 37.888-7.168l101.376 176.128c-20.48 19.456-33.792 47.104-33.792 76.8 0 30.72 13.312 58.368 33.792 77.824l-101.376 175.104z" fill="#131414" p-id="6722"></path></svg></center>
+    
+    <div class="article-entry" itemprop="articleBody">
+      
+        <h1 id="IIS短文件泄露漏洞"><a href="#IIS短文件泄露漏洞" class="headerlink" title="IIS短文件泄露漏洞"></a>IIS短文件泄露漏洞</h1><p>受影响的版本：&lt;8.0<br>例子</p>
+<figure class="highlight plaintext"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br></pre></td><td class="code"><pre><span class="line">http://xxxxxx/*~1*/.asp		响应码404：至少有一个文件或文件夹在网站目录		400不存在</span><br><span class="line">http://xxxxxx/a*~1*/.asp	响应码404：至少有一个文件或文件夹以a开头		  400不存在</span><br><span class="line"></span><br></pre></td></tr></table></figure>
 
-<p>博客的目录结构如下，并在不断的将本地文章重新整理并发布。</p>
-<ul>
-<li>Web安全</li>
-<li>内网安全</li>
-<li>JAVA安全</li>
-<li>应急响应</li>
-<li>Windows相关</li>
-<li>Linux相关</li>
-<li>数字通信</li>
-<li>随心随想</li>
-<li>考证学习</li>
-<li>其它</li>
-</ul>
-<p>访问人数：<code class="site_uv"></code>人次 ， 访问量：<code class="site_pv"></code>次</p>
+<h1 id="IIS文件解析漏洞"><a href="#IIS文件解析漏洞" class="headerlink" title="IIS文件解析漏洞"></a>IIS文件解析漏洞</h1><p>版本：IIS7、IIS7.5<br>前提：fast-cgi开启<br>修复：去掉注释，cgi.fix_pathinfo&#x3D;1</p>
+<figure class="highlight plaintext"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br></pre></td><td class="code"><pre><span class="line">例子</span><br><span class="line">http://xxxxxx/1.jpg/1.asp	</span><br><span class="line">http://xxxxxx/1.jpg/1.php	</span><br></pre></td></tr></table></figure>
 
-        </article>
-        
-        
+
+      
+       <hr><span style="font-style: italic;color: gray;"> 转载请注明来源，欢迎对文章进行指正，联系邮箱 vou0515@gmail.com </span>
+    </div>
+</article>
+
+
+
+
+
+
+
+    
+
+
+
+
     </div>
     <div class="copyright">
         <p class="footer-entry">
@@ -557,11 +788,11 @@
 <p class="footer-entry">Built with Hexo</p>
 
     </div>
-</div>
-<div class="full-toc">
-    <button class="full" data-title="切换全屏 快捷键 s"><span class="min "></span></button>
+    <div class="full-toc">
+        <button class="full" data-title="切换全屏 快捷键 s"><span class="min "></span></button>
 <a class="" id="rocket" ></a>
 
+    </div>
 </div>
 
 </body>
