@@ -2,9 +2,9 @@
 <html>
 <head>
   <meta charset="utf-8">
-  <title>ShellCode入门到放弃—相遇 | 欢迎来到closeto的博客</title>
-  <meta name="keywords" content=" 2022 , ShellCode , Bin ">
-  <meta name="description" content="ShellCode入门到放弃—相遇 | 欢迎来到closeto的博客">
+  <title>WL端口流量转发 | 欢迎来到closeto的博客</title>
+  <meta name="keywords" content=" 2022 , 内网 , Windows ">
+  <meta name="description" content="WL端口流量转发 | 欢迎来到closeto的博客">
     <meta name="viewport" content="width=device-width, initial-scale=1, maximum-scale=1">
 <meta name="description" content="一、准备工作下载对应版本的内核文件    hostnamectl    Kernel官网下载地址：https:&#x2F;&#x2F;kernel.org&#x2F; 环境Centos9 &amp; 准备工作CentOS-Stream-9-latest-x86_64-dvd1-miniyum install -y gcc ncurses-devel *ncurses bison flex libelf-dev libelf-d">
 <meta property="og:type" content="article">
@@ -678,9 +678,9 @@
 </aside>
 <div id="post">
     <div class="pjax">
-        <article id="post-ShellCode入门到放弃—相遇" class="article article-type-post" itemscope itemprop="blogPost">
+        <article id="post-WL端口流量转发" class="article article-type-post" itemscope itemprop="blogPost">
     
-        <h1 class="article-title">ShellCode入门到放弃—相遇</h1>
+        <h1 class="article-title">WL端口流量转发</h1>
     
     <div class="article-meta">
         
@@ -690,7 +690,7 @@
             <i class="iconfont icon-category"></i>
             
             
-            <a  data-rel="Windows相关">Windows相关</a>
+            <a  data-rel="内网安全">内网安全</a>
             
         </span>
         
@@ -700,9 +700,9 @@
             
             <a class="color5">2022</a>
             
-            <a class="color5">ShellCode</a>
+            <a class="color3">内网</a>
             
-            <a class="color4">Bin</a>
+            <a class="color3">Windows</a>
             
         </span>
         
@@ -710,11 +710,11 @@
     <div class="article-meta">
         <!-- 修改了原始显示，原始显示更新日期为悬浮 -->
         <!-- 
-            发布时间 : <time class="date" title='最后更新: 2023-08-24 17:38:57'>2022-04-10 19:30</time>
+            发布时间 : <time class="date" title='最后更新: 2023-08-24 17:38:57'>2022-03-01 00:00</time>
          -->
 
         
-            发布时间 : 2022-04-10 19:30</time>
+            发布时间 : 2022-03-01 00:00</time>
         <br>
 
         
@@ -738,7 +738,7 @@
     
     <div class="toc-ref">
     
-        <ol class="toc"><li class="toc-item toc-level-1"><a class="toc-link" href="#0x00-%E8%A7%A3%E9%87%8A"><span class="toc-text">0x00-解释</span></a></li><li class="toc-item toc-level-1"><a class="toc-link" href="#0x01-%E7%94%9F%E6%88%90"><span class="toc-text">0x01-生成</span></a></li><li class="toc-item toc-level-1"><a class="toc-link" href="#0x02-%E5%8A%A0%E8%BD%BD%E6%96%B9%E5%BC%8F"><span class="toc-text">0x02-加载方式</span></a></li><li class="toc-item toc-level-1"><a class="toc-link" href="#0x03-%E5%8A%A0%E8%BD%BD%E5%99%A8%E5%8E%9F%E7%90%86"><span class="toc-text">0x03-加载器原理</span></a></li><li class="toc-item toc-level-1"><a class="toc-link" href="#0x04-ByPass-EDR"><span class="toc-text">0x04-ByPass EDR</span></a></li></ol>
+        <ol class="toc"><li class="toc-item toc-level-1"><a class="toc-link" href="#Windows%E7%AB%AF%E5%8F%A3%E8%BD%AC%E5%8F%91"><span class="toc-text">Windows端口转发</span></a></li><li class="toc-item toc-level-1"><a class="toc-link" href="#Linux%E7%AB%AF%E5%8F%A3%E8%BD%AC%E5%8F%91"><span class="toc-text">Linux端口转发</span></a></li></ol>
     
 <style>
     .left-col .switch-btn,
@@ -754,19 +754,53 @@
     
     <div class="article-entry" itemprop="articleBody">
       
-        <p>📌<strong>本章小节介绍ShellCode是什么，能干什么</strong>📌</p>
-<h1 id="0x00-解释"><a href="#0x00-解释" class="headerlink" title="0x00-解释"></a>0x00-解释</h1><p><strong>Pytload与ShellCode的区别：</strong></p>
-<p><font color="blue"><strong>Payload</strong></font>：    “有效载荷”，在目标系统上执行的代码或指令。<br><font color="blue"><strong>ShellCode</strong></font>： 一串能够在特定操作系统上执行的代码或指令</p>
-<p><strong>ShellCode特点</strong><br>    Ⅰ、独立存在、内存中运行<br>    Ⅱ、仅包含功能代码，无任何“杂质”干扰（取决于编写人员）<br>    Ⅲ、灵活多变，个性化定制需求</p>
-<h1 id="0x01-生成"><a href="#0x01-生成" class="headerlink" title="0x01-生成"></a>0x01-生成</h1><p><font color="red"><strong>⭐手动编写：</strong></font>  纯C&#x2F;C++、纯汇编、C++内联汇编</p>
-<figure class="highlight plaintext"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br></pre></td><td class="code"><pre><span class="line">C/C++：生成代码后将对应的16进制字符抠出来，供使用</span><br><span class="line">内联汇编：使用C/C++内嵌汇编：直接生成shellcode，shellcode的实质就是汇编指令</span><br></pre></td></tr></table></figure>
+        <h1 id="Windows端口转发"><a href="#Windows端口转发" class="headerlink" title="Windows端口转发"></a>Windows端口转发</h1><p><strong>作用：</strong>将本地指定端口的流量转发到目标端口上，常用于内网环境</p>
+<p><strong>前提条件：</strong></p>
+<p>​    1、使用管理员权限或者提权</p>
+<p>​    2、关闭防火墙或设置防火墙规则</p>
+<p>​    3、仅适用于TCP端口，且主机支持Ipv6（在没在使用无所谓）</p>
+<p><strong>1. 新增端口转发：</strong> </p>
+<p>netsh interface portproxy add v4tov4 listenaddress&#x3D;监听地址 listenport&#x3D;监听端口 connectaddress&#x3D;转发IP connectport&#x3D;转发端口</p>
+<p>netsh interface portproxy add v4tov4 listenaddress&#x3D;192.168.<em>.</em> listenport&#x3D;* connectaddress&#x3D;192.168.64.12 connectport&#x3D;8443（不建议使用）</p>
+<p>netsh interface portproxy add v4tov4 listenport&#x3D;9988 connectaddress&#x3D;192.168.88.110 connectport&#x3D;9988</p>
+<p><strong>2. 查看转发了哪些端口</strong> </p>
+<p>netsh interface portproxy show all</p>
+<p><strong>3. 删除转发规则</strong> </p>
+<p>netsh interface portproxy delete v4tov4 listenaddress&#x3D;内网IP listenport&#x3D;本机外部端口</p>
+<p><strong>PS：自己添加的防火墙规则没有“组”的信息</strong></p>
+<p><img src="/./images/WL%E7%AB%AF%E5%8F%A3%E6%B5%81%E9%87%8F%E8%BD%AC%E5%8F%91.png"></p>
+<h1 id="Linux端口转发"><a href="#Linux端口转发" class="headerlink" title="Linux端口转发"></a>Linux端口转发</h1><p><strong>作用：</strong>将本地指定端口的流量转发到目标端口上，常用于内网环境</p>
+<p>PS：以Centos7举例，7.0之后使用firewall-cmd启动防火墙</p>
+<p><strong>前提条件：</strong></p>
+<p>​    1、需要启动防火墙，仅限centos7之后使用</p>
+<p>​    2、打开防火墙或设置防火墙进入规则</p>
+<p>​    3、开启伪装IP，不开启不行</p>
+<p><strong>步骤：</strong></p>
+<p>开启伪装IP： firewall-cmd –permanent –add-masquerade</p>
+<p>配置端口转发：firewall-cmd –permanent –add-forward-port&#x3D;port&#x3D;本地端口:proto&#x3D;协议:toaddr&#x3D;转发目的IP:toport&#x3D;目的端口</p>
+<p>删除转发规则：firewall-cmd –remove-forward-port&#x3D;port&#x3D;本地端口:proto&#x3D;协议:toport&#x3D;目的端口:toaddr&#x3D;转发目的IP –permanent</p>
+<p>更新防火墙规则：firewall-cmd –reload</p>
+<p><strong>可能的错误</strong>：</p>
+<figure class="highlight plaintext"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br></pre></td><td class="code"><pre><span class="line">vi /etc/sysctl.conf</span><br><span class="line">在文本内容中添加：net.ipv4.ip_forward = 1</span><br><span class="line">保存文件后，输入命令sysctl -p生效</span><br></pre></td></tr></table></figure>
 
-<p>工具生成（不最为重点介绍）：Cobalt Strike、Metasploit framework、Shellsploit等等开源项目</p>
-<h1 id="0x02-加载方式"><a href="#0x02-加载方式" class="headerlink" title="0x02-加载方式"></a>0x02-加载方式</h1><p><strong>分离式加载</strong><br><br>        1、远程加载：将ShellCode防止在某个特点的连接上<br><br>        2、本地加载：将ShellCode加解密或编码后的二进制数据放在本地文件中<br></p>
-<p><strong>一体式加载</strong><br>        1、ShellCode和加载器写在一起<br><br>        2、ShellCode放在加载器某个<strong>节</strong>中<br></p>
-<h1 id="0x03-加载器原理"><a href="#0x03-加载器原理" class="headerlink" title="0x03-加载器原理"></a>0x03-加载器原理</h1><p>1、分配一片<font color="gree"><strong>读写执行（WRX）</strong></font>属性的空间</p>
-<p>2、跳转执行 或 新建线程执行</p>
-<h1 id="0x04-ByPass-EDR"><a href="#0x04-ByPass-EDR" class="headerlink" title="0x04-ByPass EDR"></a>0x04-ByPass EDR</h1><p>1、白加黑<br>2、编码、加解密混淆<br>3、注入</p>
+<p><strong>防火墙服务的状态：</strong>systemctl status firewalld.service</p>
+<p><strong>启动防火墙：</strong>systemctl start firewalld.servic</p>
+<pre><code>  或者  *systemctl start firewalld*
+</code></pre>
+<p><strong>关闭防火墙：</strong>systemctl stop firewalld.servic</p>
+<pre><code>  或者  *systemctl stop firewalld*
+</code></pre>
+<p><strong>获取所有支持的服务：</strong>firewall-cmd –get-service</p>
+<p><strong>查看防火墙列表：</strong>firewall-cmd –list-all</p>
+<pre><code>  或者  firewall-cmd --list-all --zone public
+</code></pre>
+<p><strong>更新防火墙规则：</strong>firewall-cmd –reload</p>
+<figure class="highlight plaintext"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br><span class="line">11</span><br><span class="line">12</span><br><span class="line">13</span><br><span class="line">14</span><br><span class="line">15</span><br><span class="line">16</span><br><span class="line">17</span><br><span class="line">18</span><br><span class="line">19</span><br><span class="line">20</span><br><span class="line">21</span><br><span class="line">22</span><br><span class="line">23</span><br><span class="line">24</span><br><span class="line">25</span><br><span class="line">26</span><br><span class="line">27</span><br><span class="line">28</span><br><span class="line">29</span><br></pre></td><td class="code"><pre><span class="line">Centos7后启用Iptables，改为firewall-cmd</span><br><span class="line">【服务配置】</span><br><span class="line">启动服务：systemctl start firewalld</span><br><span class="line">关闭服务：systemctl stop firewalld</span><br><span class="line">重启服务：systemctl restart firewalld</span><br><span class="line">查看服务状态：systemctl status firewalld</span><br><span class="line">开机自启服务：systemctl enable firewalld</span><br><span class="line">开机禁用服务：systemctl disable firewalld</span><br><span class="line">查看是否开机自启：systemctl is-enable firewalld</span><br><span class="line">查看已启动的服务列表：systemctl list-unit-files | grep enabled</span><br><span class="line">查看启动失败的服务列表：systemctl --failed</span><br><span class="line"></span><br><span class="line">【规则配置】</span><br><span class="line">查看版本：firewall-cmd --version</span><br><span class="line">查看帮助：firewall-cmd --help</span><br><span class="line">查看状态：firewall-cmd --state</span><br><span class="line">查看所有打开的端口：firewall-cmd --list-ports</span><br><span class="line">查看所有规则：firewall-cmd --list-all</span><br><span class="line">重载规则：firewall-cmd --reload</span><br><span class="line">查看区域信息：firewall-cmd --get-active-zones</span><br><span class="line">查看指定接口所属区域： firewall-cmd --get-zone-of-interface=enp4s0</span><br><span class="line">拒绝所有包：firewall-cmd --panic-on</span><br><span class="line">取消拒绝所有包： firewall-cmd --panic-off</span><br><span class="line">查看是否拒绝： firewall-cmd --query-panic</span><br><span class="line"></span><br><span class="line">【端口规则】</span><br><span class="line">添加端口：firewall-cmd --add-port=80/tcp --permanent</span><br><span class="line">移除端口：firewall-cmd --remove-port=80/tcp --permanent</span><br><span class="line">查看端口状态：firewall-cmd --zone=public --query-port=80/tcp</span><br></pre></td></tr></table></figure>
+
+
+
+
+
 
       
        <hr><span style="font-style: italic;color: gray;"> 转载请注明来源，欢迎对文章进行指正，联系邮箱 vou0515@gmail.com </span>
