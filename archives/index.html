@@ -6,25 +6,19 @@
   <meta name="keywords" content="">
   <meta name="description" content="欢迎来到closeto的博客">
     <meta name="viewport" content="width=device-width, initial-scale=1, maximum-scale=1">
-<meta name="description" content="0x00-初识​		👆 本小节仅了解PE文件是什么、有什么作用、有哪些重要的结构体，结构体字段可否修改和作用。详细结构体介绍以及其它操作在本系列文章后续。👆 ​		PE (Portable Executable) 文件格式是Windows操作系统上的标准可执行文件格式，通俗易懂将就是.sys（驱动程序）、.lib（静态链接库）、.DLL（动态链接库）、.exe（可执行程序）等。PE文件格式在W">
+<meta name="description" content="title: WL端口流量转发tags:   2022 内网 Windowsdate: 2022-03-01updated:categories: 内网安全  Windows端口转发作用：将本地指定端口的流量转发到目标端口上，常用于内网环境 前提条件： ​    1、使用管理员权限或者提权 ​    2、关闭防火墙或设置防火墙规则 ​    3、仅适用于TCP端口，且主机支持Ipv6（在没在使用无">
 <meta property="og:type" content="article">
-<meta property="og:title" content="PE文件格式—简介">
-<meta property="og:url" content="https://closeto.github.io/2022/04/10/PE%E6%96%87%E4%BB%B6%E6%A0%BC%E5%BC%8F%E2%80%94%E7%AE%80%E4%BB%8B/index.html">
+<meta property="og:title" content="欢迎来到closeto的博客">
+<meta property="og:url" content="https://closeto.github.io/2023/08/24/WL%E7%AB%AF%E5%8F%A3%E6%B5%81%E9%87%8F%E8%BD%AC%E5%8F%91/index.html">
 <meta property="og:site_name" content="欢迎来到closeto的博客">
-<meta property="og:description" content="0x00-初识​		👆 本小节仅了解PE文件是什么、有什么作用、有哪些重要的结构体，结构体字段可否修改和作用。详细结构体介绍以及其它操作在本系列文章后续。👆 ​		PE (Portable Executable) 文件格式是Windows操作系统上的标准可执行文件格式，通俗易懂将就是.sys（驱动程序）、.lib（静态链接库）、.DLL（动态链接库）、.exe（可执行程序）等。PE文件格式在W">
+<meta property="og:description" content="title: WL端口流量转发tags:   2022 内网 Windowsdate: 2022-03-01updated:categories: 内网安全  Windows端口转发作用：将本地指定端口的流量转发到目标端口上，常用于内网环境 前提条件： ​    1、使用管理员权限或者提权 ​    2、关闭防火墙或设置防火墙规则 ​    3、仅适用于TCP端口，且主机支持Ipv6（在没在使用无">
 <meta property="og:locale" content="zh_CN">
-<meta property="og:image" content="https://closeto.github.io/images/PE01.jpg">
-<meta property="og:image" content="https://closeto.github.io/images/PE02.jpg">
-<meta property="og:image" content="https://closeto.github.io/images/PE03.jpg">
-<meta property="og:image" content="https://closeto.github.io/images/PE04.jpg">
-<meta property="og:image" content="https://closeto.github.io/images/PE05.jpg">
-<meta property="og:image" content="https://closeto.github.io/images/PE06.png">
-<meta property="article:published_time" content="2022-04-10T02:48:36.000Z">
+<meta property="og:image" content="https://closeto.github.io/images/WL%E7%AB%AF%E5%8F%A3%E6%B5%81%E9%87%8F%E8%BD%AC%E5%8F%91.png">
+<meta property="article:published_time" content="2023-08-24T06:33:17.790Z">
 <meta property="article:author" content="closeto">
-<meta property="article:tag" content="2022">
-<meta property="article:tag" content="文件格式">
+<meta property="article:tag" content="学习记录">
 <meta name="twitter:card" content="summary">
-<meta name="twitter:image" content="https://closeto.github.io/images/PE01.jpg">
+<meta name="twitter:image" content="https://closeto.github.io/images/WL%E7%AB%AF%E5%8F%A3%E6%B5%81%E9%87%8F%E8%BD%AC%E5%8F%91.png">
 
 
 <link rel="icon" href="/img/ico.png">
@@ -109,7 +103,7 @@
     <li>
         <div class="all active" data-rel="全部文章">全部文章
             
-                <small>(7)</small>
+                <small>(17)</small>
             
         </div>
     </li>
@@ -118,10 +112,25 @@
             
                 
     <li>
+        <div data-rel="Web安全">
+            
+            Web安全
+            <small>(1)</small>
+        </div>
+        
+    </li>
+
+            
+        
+    
+        
+            
+                
+    <li>
         <div data-rel="内网安全">
             
             内网安全
-            <small>(2)</small>
+            <small>(4)</small>
         </div>
         
     </li>
@@ -148,9 +157,54 @@
             
                 
     <li>
+        <div data-rel="Linux相关">
+            
+            Linux相关
+            <small>(1)</small>
+        </div>
+        
+    </li>
+
+            
+        
+    
+        
+            
+                
+    <li>
+        <div data-rel="其它">
+            
+            其它
+            <small>(3)</small>
+        </div>
+        
+    </li>
+
+            
+        
+    
+        
+            
+                
+    <li>
         <div data-rel="考证学习">
             
             考证学习
+            <small>(1)</small>
+        </div>
+        
+    </li>
+
+            
+        
+    
+        
+            
+                
+    <li>
+        <div data-rel="内网渗透">
+            
+            内网渗透
             <small>(1)</small>
         </div>
         
@@ -175,7 +229,7 @@
         
     </div>
 </div>
-<input type="hidden" id="yelog_site_posts_number" value="7">
+<input type="hidden" id="yelog_site_posts_number" value="17">
 
 <div style="display: none">
     <span id="busuanzi_value_site_uv"></span>
@@ -222,6 +276,10 @@
     <div class="tag-wrapper">
         
             <li class="article-tag-list-item">
+                <i class="iconfont icon-tag"></i><a>2021</a>
+            </li>
+        
+            <li class="article-tag-list-item">
                 <i class="iconfont icon-tag"></i><a>2022</a>
             </li>
         
@@ -262,6 +320,10 @@
             </li>
         
             <li class="article-tag-list-item">
+                <i class="iconfont icon-tag"></i><a>Web</a>
+            </li>
+        
+            <li class="article-tag-list-item">
                 <i class="iconfont icon-tag"></i><a>Windows</a>
             </li>
         
@@ -273,12 +335,66 @@
     <nav id="title-list-nav">
         
         
+        <a  class="全部文章 "
+           href="/2023/08/24/WL%E7%AB%AF%E5%8F%A3%E6%B5%81%E9%87%8F%E8%BD%AC%E5%8F%91/"
+           data-tag=""
+           data-author="" >
+            <span class="post-title" title=""></span>
+            <span class="post-date" title="2023-08-24 14:33:17">2023/08/24</span>
+        </a>
+        
+        
+        <a  class="全部文章 Linux相关 "
+           href="/2023/03/10/busybox%E6%90%AD%E5%BB%BA%E6%9C%80%E5%B0%8FLinux/"
+           data-tag="Linux,2023"
+           data-author="" >
+            <span class="post-title" title="Busybox搭建最小Linux">Busybox搭建最小Linux</span>
+            <span class="post-date" title="2023-03-10 12:30:00">2023/03/10</span>
+        </a>
+        
+        
+        <a  class="全部文章 其它 "
+           href="/2022/07/19/Nginx%E6%97%A5%E5%BF%97%E6%A0%BC%E5%BC%8F/"
+           data-tag="2022"
+           data-author="" >
+            <span class="post-title" title="Nginx日志格式">Nginx日志格式</span>
+            <span class="post-date" title="2022-07-19 00:00:00">2022/07/19</span>
+        </a>
+        
+        
+        <a  class="全部文章 其它 "
+           href="/2022/05/07/UTF-8%E9%9D%9E%E6%9C%80%E7%9F%AD%E5%BD%A2%E5%BC%8F&%E7%BC%96%E7%A0%81%E5%AE%89%E5%85%A8%E9%97%AE%E9%A2%98/"
+           data-tag="2022"
+           data-author="" >
+            <span class="post-title" title="UTF8编码安全">UTF8编码安全</span>
+            <span class="post-date" title="2022-05-07 00:00:00">2022/05/07</span>
+        </a>
+        
+        
+        <a  class="全部文章 Windows相关 "
+           href="/2022/04/10/ShellCode%E5%85%A5%E9%97%A8%E5%88%B0%E6%94%BE%E5%BC%83%E2%80%94%E7%9B%B8%E9%81%87/"
+           data-tag="2022,ShellCode,Bin"
+           data-author="" >
+            <span class="post-title" title="ShellCode入门到放弃—相遇">ShellCode入门到放弃—相遇</span>
+            <span class="post-date" title="2022-04-10 19:30:00">2022/04/10</span>
+        </a>
+        
+        
         <a  class="全部文章 Windows相关 "
            href="/2022/04/10/PE%E6%96%87%E4%BB%B6%E6%A0%BC%E5%BC%8F%E2%80%94%E7%AE%80%E4%BB%8B/"
            data-tag="2022,文件格式"
            data-author="" >
             <span class="post-title" title="PE文件格式—简介">PE文件格式—简介</span>
             <span class="post-date" title="2022-04-10 10:48:36">2022/04/10</span>
+        </a>
+        
+        
+        <a  class="全部文章 内网渗透 "
+           href="/2022/03/10/%E5%86%85%E7%BD%91%E6%B8%97%E9%80%8F-Redis%E6%9C%AA%E6%8E%88%E6%9D%83/"
+           data-tag="2022,内网,渗透测试"
+           data-author="" >
+            <span class="post-title" title="Redis未授权">Redis未授权</span>
+            <span class="post-date" title="2022-03-10 14:30:00">2022/03/10</span>
         </a>
         
         
@@ -297,6 +413,24 @@
            data-author="" >
             <span class="post-title" title="Windows痕迹擦除">Windows痕迹擦除</span>
             <span class="post-date" title="2022-02-18 00:00:00">2022/02/18</span>
+        </a>
+        
+        
+        <a  class="全部文章 内网安全 "
+           href="/2022/02/14/Windows%E4%BF%A1%E6%81%AF%E6%94%B6%E9%9B%86/"
+           data-tag="2022,内网,渗透测试,Windows"
+           data-author="" >
+            <span class="post-title" title="Windows信息收集">Windows信息收集</span>
+            <span class="post-date" title="2022-02-14 00:00:00">2022/02/14</span>
+        </a>
+        
+        
+        <a  class="全部文章 内网安全 "
+           href="/2022/02/13/Linux%E4%BF%A1%E6%81%AF%E6%94%B6%E9%9B%86/"
+           data-tag="2022,内网,渗透测试,Linux"
+           data-author="" >
+            <span class="post-title" title="Linux信息收集">Linux信息收集</span>
+            <span class="post-date" title="2022-02-13 00:00:00">2022/02/13</span>
         </a>
         
         
@@ -327,12 +461,30 @@
         </a>
         
         
-        <a  class="全部文章 Windows相关 "
-           href="/2022/01/10/ShellCode%E5%85%A5%E9%97%A8%E5%88%B0%E6%94%BE%E5%BC%83%E2%80%94%E7%9B%B8%E9%81%87/"
-           data-tag="2022,ShellCode,Bin"
+        <a  class="全部文章 "
+           href="/2021/06/02/docker%E5%B8%B8%E7%94%A8%E5%91%BD%E4%BB%A4/"
+           data-tag="Linux,2021"
            data-author="" >
-            <span class="post-title" title="ShellCode入门到放弃—相遇">ShellCode入门到放弃—相遇</span>
-            <span class="post-date" title="2022-01-10 09:30:00">2022/01/10</span>
+            <span class="post-title" title="Docker常用命令">Docker常用命令</span>
+            <span class="post-date" title="2021-06-02 00:00:00">2021/06/02</span>
+        </a>
+        
+        
+        <a  class="全部文章 其它 "
+           href="/2021/04/02/%E5%B8%B8%E7%94%A8%E6%AD%A3%E5%88%99%E8%A1%A8%E8%BE%BE%E5%BC%8F/"
+           data-tag="2021"
+           data-author="" >
+            <span class="post-title" title="常用正则表达式">常用正则表达式</span>
+            <span class="post-date" title="2021-04-02 00:00:00">2021/04/02</span>
+        </a>
+        
+        
+        <a  class="全部文章 Web安全 "
+           href="/2021/02/10/Web%E5%AE%89%E5%85%A8-%E4%B8%80%E5%8F%A5%E8%AF%9D%E6%9C%A8%E9%A9%AC/"
+           data-tag="2021,Web"
+           data-author="" >
+            <span class="post-title" title="一句话木马">一句话木马</span>
+            <span class="post-date" title="2021-02-10 00:00:00">2021/02/10</span>
         </a>
         
         <div id="no-item-tips">
@@ -369,7 +521,7 @@
     }
 </style>
 </div>
-            <h1 id="不过是站在不同角度的观点罢了"><a href="#不过是站在不同角度的观点罢了" class="headerlink" title="不过是站在不同角度的观点罢了"></a>不过是站在不同角度的观点罢了</h1><p><font color="red"> <strong>数据错误正在修正</strong></font></p>
+            <h1 id="不过是站在不同角度的观点罢了"><a href="#不过是站在不同角度的观点罢了" class="headerlink" title="不过是站在不同角度的观点罢了"></a><center>不过是站在不同角度的观点罢了</center></h1><p><font color="red"> <strong>数据错误正在修正</strong></font></p>
 <p>📌<strong>为什么写此博客</strong>📌</p>
 <pre><code>Ⅰ、思维过于跳跃
 Ⅱ、记录学习和思考的过程
@@ -377,6 +529,8 @@
 Ⅳ、其实大部分都是本地笔记🙄
 </code></pre>
 <p>截止目前已经写了<code class="article_number"></code>篇文章， 共<a title="我也不知道多少啊( •̀ ω •́ )" target="_blank"> x? </a>字。</p>
+<center><svg t="1692855299772" class="icon" viewBox="0 0 1026 1024" version="1.1" xmlns="http://www.w3.org/2000/svg" p-id="6721" width="200" height="200"><path d="M920.576 403.456c-11.264 0-21.504 2.048-30.72 5.12L785.408 229.376c17.408-18.432 28.672-44.032 28.672-71.68C814.08 98.304 766.976 51.2 708.608 51.2c-50.176 0-92.16 34.816-103.424 81.92h-184.32c-11.264-47.104-53.248-81.92-103.424-81.92-58.368 0-105.472 47.104-105.472 105.472 0 27.648 11.264 53.248 28.672 71.68L136.192 408.576c-10.24-3.072-20.48-4.096-30.72-4.096-58.368 0-105.472 47.104-105.472 105.472 0 58.368 47.104 105.472 105.472 105.472 10.24 0 21.504-2.048 30.72-4.096l103.424 179.2c-17.408 18.432-28.672 44.032-28.672 71.68 0 58.368 47.104 105.472 105.472 105.472 50.176 0 92.16-34.816 103.424-81.92h184.32c11.264 47.104 53.248 81.92 103.424 81.92 58.368 0 105.472-47.104 105.472-105.472 0-27.648-11.264-53.248-28.672-71.68l103.424-180.224c9.216 3.072 19.456 4.096 30.72 4.096 58.368 0 105.472-47.104 105.472-105.472 2.048-58.368-45.056-105.472-103.424-105.472zM745.472 763.904c-11.264-4.096-24.576-7.168-37.888-7.168-50.176 0-92.16 34.816-103.424 81.92h-184.32c-11.264-47.104-53.248-81.92-103.424-81.92-13.312 0-25.6 2.048-37.888 7.168L176.128 587.776c20.48-19.456 33.792-47.104 33.792-76.8 0-30.72-13.312-58.368-33.792-76.8l102.4-176.128c11.264 4.096 24.576 7.168 37.888 7.168 50.176 0 92.16-34.816 103.424-81.92h184.32c11.264 47.104 53.248 81.92 103.424 81.92 13.312 0 25.6-2.048 37.888-7.168l101.376 176.128c-20.48 19.456-33.792 47.104-33.792 76.8 0 30.72 13.312 58.368 33.792 77.824l-101.376 175.104z" fill="#131414" p-id="6722"></path></svg></center>
+
 <p>博客的目录结构如下，并在不断的将本地文章重新整理并发布。</p>
 <ul>
 <li>Web安全</li>
