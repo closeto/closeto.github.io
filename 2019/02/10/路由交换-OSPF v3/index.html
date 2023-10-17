@@ -1,0 +1,1646 @@
+<!DOCTYPE html>
+<html>
+<head>
+  <meta charset="utf-8">
+  <title>最短路径优先协议——OSPFv3 | 欢迎来到closeto的博客</title>
+  <meta name="keywords" content=" 2019 ">
+  <meta name="description" content="最短路径优先协议——OSPFv3 | 欢迎来到closeto的博客">
+    <meta name="viewport" content="width=device-width, initial-scale=1, maximum-scale=1">
+<meta name="description" content="一、准备工作下载对应版本的内核文件    hostnamectl    Kernel官网下载地址：https:&#x2F;&#x2F;kernel.org&#x2F; 环境Centos9 &amp; 准备工作CentOS-Stream-9-latest-x86_64-dvd1-miniyum install -y gcc ncurses-devel *ncurses bison flex libelf-dev libelf-d">
+<meta property="og:type" content="article">
+<meta property="og:title" content="Busybox搭建最小Linux">
+<meta property="og:url" content="https://closeto.github.io/2023/03/10/busybox%E6%90%AD%E5%BB%BA%E6%9C%80%E5%B0%8FLinux/index.html">
+<meta property="og:site_name" content="欢迎来到closeto的博客">
+<meta property="og:description" content="一、准备工作下载对应版本的内核文件    hostnamectl    Kernel官网下载地址：https:&#x2F;&#x2F;kernel.org&#x2F; 环境Centos9 &amp; 准备工作CentOS-Stream-9-latest-x86_64-dvd1-miniyum install -y gcc ncurses-devel *ncurses bison flex libelf-dev libelf-d">
+<meta property="og:locale" content="zh_CN">
+<meta property="article:published_time" content="2023-03-10T04:30:00.000Z">
+<meta property="article:author" content="closeto">
+<meta property="article:tag" content="Linux">
+<meta property="article:tag" content="2023">
+<meta name="twitter:card" content="summary">
+
+
+<link rel="icon" href="/img/ico.png">
+
+<link href="/css/style.css?v=1.1.0" rel="stylesheet">
+
+<link href="/css/hl_theme/atom-light.css?v=1.1.0" rel="stylesheet">
+
+<link href="//cdn.jsdelivr.net/npm/animate.css@4.1.0/animate.min.css" rel="stylesheet">
+
+<script src="//cdn.jsdelivr.net/npm/jquery@3.5.1/dist/jquery.min.js"></script>
+<script src="/js/titleTip.js?v=1.1.0" ></script>
+
+<script src="//cdn.jsdelivr.net/npm/highlightjs@9.16.2/highlight.pack.min.js"></script>
+<script>
+    hljs.initHighlightingOnLoad();
+</script>
+
+<script src="//cdn.jsdelivr.net/npm/nprogress@0.2.0/nprogress.min.js"></script>
+
+
+
+<script src="/js/iconfont.js?v=1.1.0" ></script>
+
+<meta name="generator" content="Hexo 6.3.0"></head>
+<div style="display: none">
+  <input class="theme_disqus_on" value="false">
+  <input class="theme_preload_comment" value="">
+  <input class="theme_blog_path" value="">
+  <input id="theme_shortcut" value="true" />
+  <input id="theme_highlight_on" value="true" />
+  <input id="theme_code_copy" value="true" />
+</div>
+
+
+
+<body>
+<aside class="nav">
+    <div class="nav-left">
+        <a href="/"
+   class="avatar_target">
+    <img class="avatar"
+         src="/img/user.png"/>
+</a>
+<div class="author">
+    <span>closeto</span>
+</div>
+
+<div class="icon">
+    
+        
+            <a title="github"
+               href="https://github.com/closeto"
+               target="_blank">
+                
+                    <svg class="iconfont-svg" aria-hidden="true">
+                        <use xlink:href="#icon-github"></use>
+                    </svg>
+                
+            </a>
+        
+    
+        
+            <a title="email"
+               href="mailto:vou0515@gmail.com"
+               target="_blank">
+                
+                    <svg class="iconfont-svg" aria-hidden="true">
+                        <use xlink:href="#icon-email"></use>
+                    </svg>
+                
+            </a>
+        
+    
+</div>
+
+
+
+
+
+<ul>
+    <li>
+        <div class="all active" data-rel="全部文章">全部文章
+            
+                <small>(44)</small>
+            
+        </div>
+    </li>
+    
+        
+            
+                
+    <li>
+        <div data-rel="Web安全">
+            
+            Web安全
+            <small>(17)</small>
+        </div>
+        
+    </li>
+
+            
+        
+    
+        
+            
+                
+    <li>
+        <div data-rel="内网安全">
+            
+            内网安全
+            <small>(11)</small>
+        </div>
+        
+    </li>
+
+            
+        
+    
+        
+            
+                
+    <li>
+        <div data-rel="Windows相关">
+            
+            Windows相关
+            <small>(4)</small>
+        </div>
+        
+    </li>
+
+            
+        
+    
+        
+            
+                
+    <li>
+        <div data-rel="Linux相关">
+            
+            Linux相关
+            <small>(1)</small>
+        </div>
+        
+    </li>
+
+            
+        
+    
+        
+            
+                
+    <li>
+        <div data-rel="数字通信">
+            
+            数字通信
+            <small>(6)</small>
+        </div>
+        
+    </li>
+
+            
+        
+    
+        
+            
+                
+    <li>
+        <div data-rel="其它">
+            
+            其它
+            <small>(3)</small>
+        </div>
+        
+    </li>
+
+            
+        
+    
+        
+            
+                
+    <li>
+        <div data-rel="考证学习">
+            
+            考证学习
+            <small>(1)</small>
+        </div>
+        
+    </li>
+
+            
+        
+    
+</ul>
+<div class="left-bottom">
+    <div class="menus">
+        
+            
+    </div>
+    <div>
+        
+            <a class="about  "
+               target="_blank"
+                    
+               href="https://github.com/closeto">关于</a>
+        
+        
+    </div>
+</div>
+<input type="hidden" id="yelog_site_posts_number" value="44">
+
+<div style="display: none">
+    <span id="busuanzi_value_site_uv"></span>
+    <span id="busuanzi_value_site_pv"></span>
+</div>
+
+    </div>
+    <div class="nav-right">
+        <div class="friends-area">
+    <div class="friends-title">
+        友情链接
+        <i class="iconfont icon-left"></i>
+    </div>
+    <div class="friends-content">
+        <ul>
+            
+            <li><a target="_blank" href="/url">名字列表</a></li>
+            
+        </ul>
+    </div>
+</div>
+        <div class="title-list">
+    <div class="right-top">
+        <div id="default-panel">
+            <i class="iconfont icon-search" data-title="搜索 快捷键 i"></i>
+            <div class="right-title">全部文章</div>
+            <i class="iconfont icon-file-tree" data-title="切换到大纲视图 快捷键 w"></i>
+        </div>
+        <div id="search-panel">
+            <i class="iconfont icon-left" data-title="返回"></i>
+            <input id="local-search-input" autocomplete="off"/>
+            <label class="border-line" for="input"></label>
+            <i class="iconfont icon-case-sensitive" data-title="大小写敏感"></i>
+            <i class="iconfont icon-tag" data-title="标签"></i>
+        </div>
+        <div id="outline-panel" style="display: none">
+            <div class="right-title">大纲</div>
+            <i class="iconfont icon-list" data-title="切换到文章列表"></i>
+        </div>
+    </div>
+
+    <div class="tags-list">
+    <input id="tag-search" />
+    <div class="tag-wrapper">
+        
+            <li class="article-tag-list-item">
+                <i class="iconfont icon-tag"></i><a>2019</a>
+            </li>
+        
+            <li class="article-tag-list-item">
+                <i class="iconfont icon-tag"></i><a>2021</a>
+            </li>
+        
+            <li class="article-tag-list-item">
+                <i class="iconfont icon-tag"></i><a>2022</a>
+            </li>
+        
+            <li class="article-tag-list-item">
+                <i class="iconfont icon-tag"></i><a>2023</a>
+            </li>
+        
+            <li class="article-tag-list-item">
+                <i class="iconfont icon-tag"></i><a>内网</a>
+            </li>
+        
+            <li class="article-tag-list-item">
+                <i class="iconfont icon-tag"></i><a>软考</a>
+            </li>
+        
+            <li class="article-tag-list-item">
+                <i class="iconfont icon-tag"></i><a>渗透测试</a>
+            </li>
+        
+            <li class="article-tag-list-item">
+                <i class="iconfont icon-tag"></i><a>文件格式</a>
+            </li>
+        
+            <li class="article-tag-list-item">
+                <i class="iconfont icon-tag"></i><a>中级</a>
+            </li>
+        
+            <li class="article-tag-list-item">
+                <i class="iconfont icon-tag"></i><a>Bin</a>
+            </li>
+        
+            <li class="article-tag-list-item">
+                <i class="iconfont icon-tag"></i><a>Linux</a>
+            </li>
+        
+            <li class="article-tag-list-item">
+                <i class="iconfont icon-tag"></i><a>ShellCode</a>
+            </li>
+        
+            <li class="article-tag-list-item">
+                <i class="iconfont icon-tag"></i><a>Web</a>
+            </li>
+        
+            <li class="article-tag-list-item">
+                <i class="iconfont icon-tag"></i><a>Windows</a>
+            </li>
+        
+    </div>
+
+</div>
+
+    
+    <nav id="title-list-nav">
+        
+        
+        <a  class="全部文章 Linux相关 "
+           href="/2023/03/10/busybox%E6%90%AD%E5%BB%BA%E6%9C%80%E5%B0%8FLinux/"
+           data-tag="Linux,2023"
+           data-author="" >
+            <span class="post-title" title="Busybox搭建最小Linux">Busybox搭建最小Linux</span>
+            <span class="post-date" title="2023-03-10 12:30:00">2023/03/10</span>
+        </a>
+        
+        
+        <a  class="全部文章 其它 "
+           href="/2022/07/19/Nginx%E6%97%A5%E5%BF%97%E6%A0%BC%E5%BC%8F/"
+           data-tag="2022"
+           data-author="" >
+            <span class="post-title" title="Nginx日志格式">Nginx日志格式</span>
+            <span class="post-date" title="2022-07-19 00:00:00">2022/07/19</span>
+        </a>
+        
+        
+        <a  class="全部文章 其它 "
+           href="/2022/05/07/UTF-8%E9%9D%9E%E6%9C%80%E7%9F%AD%E5%BD%A2%E5%BC%8F&%E7%BC%96%E7%A0%81%E5%AE%89%E5%85%A8%E9%97%AE%E9%A2%98/"
+           data-tag="2022"
+           data-author="" >
+            <span class="post-title" title="UTF8编码安全">UTF8编码安全</span>
+            <span class="post-date" title="2022-05-07 00:00:00">2022/05/07</span>
+        </a>
+        
+        
+        <a  class="全部文章 Windows相关 "
+           href="/2022/04/10/ShellCode%E5%85%A5%E9%97%A8%E5%88%B0%E6%94%BE%E5%BC%83%E2%80%94%E7%9B%B8%E9%81%87/"
+           data-tag="2022,ShellCode,Bin"
+           data-author="" >
+            <span class="post-title" title="ShellCode入门到放弃—相遇">ShellCode入门到放弃—相遇</span>
+            <span class="post-date" title="2022-04-10 19:30:00">2022/04/10</span>
+        </a>
+        
+        
+        <a  class="全部文章 Windows相关 "
+           href="/2022/04/10/PE%E6%96%87%E4%BB%B6%E6%A0%BC%E5%BC%8F%E2%80%94%E7%AE%80%E4%BB%8B/"
+           data-tag="2022,文件格式"
+           data-author="" >
+            <span class="post-title" title="PE文件格式—简介">PE文件格式—简介</span>
+            <span class="post-date" title="2022-04-10 10:48:36">2022/04/10</span>
+        </a>
+        
+        
+        <a  class="全部文章 内网安全 "
+           href="/2022/03/10/%E5%86%85%E7%BD%91%E6%B8%97%E9%80%8F-Redis%E6%9C%AA%E6%8E%88%E6%9D%83/"
+           data-tag="2022,内网,渗透测试"
+           data-author="" >
+            <span class="post-title" title="Redis未授权">Redis未授权</span>
+            <span class="post-date" title="2022-03-10 14:30:00">2022/03/10</span>
+        </a>
+        
+        
+        <a  class="全部文章 内网安全 "
+           href="/2022/03/01/WL%E7%AB%AF%E5%8F%A3%E6%B5%81%E9%87%8F%E8%BD%AC%E5%8F%91/"
+           data-tag="2022,内网,Windows"
+           data-author="" >
+            <span class="post-title" title="WL端口流量转发">WL端口流量转发</span>
+            <span class="post-date" title="2022-03-01 00:00:00">2022/03/01</span>
+        </a>
+        
+        
+        <a  class="全部文章 内网安全 "
+           href="/2022/02/19/Linux%E7%97%95%E8%BF%B9%E6%93%A6%E9%99%A4/"
+           data-tag="2022,内网,渗透测试,Linux"
+           data-author="" >
+            <span class="post-title" title="Linux痕迹擦除">Linux痕迹擦除</span>
+            <span class="post-date" title="2022-02-19 00:00:00">2022/02/19</span>
+        </a>
+        
+        
+        <a  class="全部文章 内网安全 "
+           href="/2022/02/18/Windows%E7%97%95%E8%BF%B9%E6%93%A6%E9%99%A4/"
+           data-tag="2022,内网,渗透测试,Windows"
+           data-author="" >
+            <span class="post-title" title="Windows痕迹擦除">Windows痕迹擦除</span>
+            <span class="post-date" title="2022-02-18 00:00:00">2022/02/18</span>
+        </a>
+        
+        
+        <a  class="全部文章 内网安全 "
+           href="/2022/02/14/Windows%E4%BF%A1%E6%81%AF%E6%94%B6%E9%9B%86/"
+           data-tag="2022,内网,渗透测试,Windows"
+           data-author="" >
+            <span class="post-title" title="Windows信息收集">Windows信息收集</span>
+            <span class="post-date" title="2022-02-14 00:00:00">2022/02/14</span>
+        </a>
+        
+        
+        <a  class="全部文章 内网安全 "
+           href="/2022/02/13/Linux%E4%BF%A1%E6%81%AF%E6%94%B6%E9%9B%86/"
+           data-tag="2022,内网,渗透测试,Linux"
+           data-author="" >
+            <span class="post-title" title="Linux信息收集">Linux信息收集</span>
+            <span class="post-date" title="2022-02-13 00:00:00">2022/02/13</span>
+        </a>
+        
+        
+        <a  class="全部文章 Windows相关 "
+           href="/2022/01/18/ShellCode%E5%85%A5%E9%97%A8%E5%88%B0%E6%94%BE%E5%BC%83%E2%80%94%E7%9B%B8%E5%BC%83/"
+           data-tag="2022,ShellCode,Bin"
+           data-author="" >
+            <span class="post-title" title="ShellCode入门到放弃—相弃">ShellCode入门到放弃—相弃</span>
+            <span class="post-date" title="2022-01-18 17:30:00">2022/01/18</span>
+        </a>
+        
+        
+        <a  class="全部文章 考证学习 "
+           href="/2022/01/18/%E8%BD%AF%E8%80%83%E4%B8%AD%E7%BA%A7%E2%80%94%E4%BF%A1%E6%81%AF%E5%AE%89%E5%85%A8%E5%B7%A5%E7%A8%8B%E5%B8%88/"
+           data-tag="2023,软考,中级"
+           data-author="" >
+            <span class="post-title" title="软考中级—信息安全工程师">软考中级—信息安全工程师</span>
+            <span class="post-date" title="2022-01-18 14:30:00">2022/01/18</span>
+        </a>
+        
+        
+        <a  class="全部文章 Windows相关 "
+           href="/2022/01/15/ShellCode%E5%85%A5%E9%97%A8%E5%88%B0%E6%94%BE%E5%BC%83%E2%80%94%E7%9B%B8%E7%9F%A5/"
+           data-tag="2022,ShellCode,Bin"
+           data-author="" >
+            <span class="post-title" title="ShellCode入门到放弃—相知">ShellCode入门到放弃—相知</span>
+            <span class="post-date" title="2022-01-15 12:12:12">2022/01/15</span>
+        </a>
+        
+        
+        <a  class="全部文章 内网安全 "
+           href="/2021/11/19/%E5%86%85%E7%BD%91%E6%B8%97%E9%80%8F-Linux%E6%8F%90%E6%9D%83/"
+           data-tag="内网,渗透测试,2021"
+           data-author="" >
+            <span class="post-title" title="Linux提权">Linux提权</span>
+            <span class="post-date" title="2021-11-19 14:30:00">2021/11/19</span>
+        </a>
+        
+        
+        <a  class="全部文章 内网安全 "
+           href="/2021/11/10/%E5%86%85%E7%BD%91%E6%B8%97%E9%80%8F_%E5%AF%86%E7%A0%81%E6%8F%90%E5%8F%96/"
+           data-tag="内网,渗透测试,2021"
+           data-author="" >
+            <span class="post-title" title="终端管理工具密码获取">终端管理工具密码获取</span>
+            <span class="post-date" title="2021-11-10 14:30:00">2021/11/10</span>
+        </a>
+        
+        
+        <a  class="全部文章 内网安全 "
+           href="/2021/11/04/%E5%86%85%E7%BD%91%E6%B8%97%E9%80%8F-Linux%E5%8F%8D%E5%BC%B9Shell/"
+           data-tag="内网,渗透测试,2021"
+           data-author="" >
+            <span class="post-title" title="Linux反弹Shell">Linux反弹Shell</span>
+            <span class="post-date" title="2021-11-04 14:30:00">2021/11/04</span>
+        </a>
+        
+        
+        <a  class="全部文章 内网安全 "
+           href="/2021/10/19/%E5%86%85%E7%BD%91%E5%AE%89%E5%85%A8-%E6%B5%81%E9%87%8F%E7%89%B9%E5%BE%81NPS%E3%80%81FRP/"
+           data-tag="内网,渗透测试,2021"
+           data-author="" >
+            <span class="post-title" title="流量特征NPS、FRP">流量特征NPS、FRP</span>
+            <span class="post-date" title="2021-10-19 14:30:00">2021/10/19</span>
+        </a>
+        
+        
+        <a  class="全部文章 内网安全 "
+           href="/2021/09/10/%E5%86%85%E7%BD%91%E5%AE%89%E5%85%A8-docker%E6%9C%AA%E6%8E%88%E6%9D%83/"
+           data-tag="内网,渗透测试,2021"
+           data-author="" >
+            <span class="post-title" title="docker未授权">docker未授权</span>
+            <span class="post-date" title="2021-09-10 14:30:00">2021/09/10</span>
+        </a>
+        
+        
+        <a  class="全部文章 Web安全 "
+           href="/2021/07/25/web%E5%AE%89%E5%85%A8-Xpath%E6%B3%A8%E5%85%A5/"
+           data-tag="2021,Web"
+           data-author="" >
+            <span class="post-title" title="Xpath注入">Xpath注入</span>
+            <span class="post-date" title="2021-07-25 00:00:00">2021/07/25</span>
+        </a>
+        
+        
+        <a  class="全部文章 Web安全 "
+           href="/2021/07/16/Web%E5%AE%89%E5%85%A8-SQL%E6%B3%A8%E5%85%A5/"
+           data-tag="2021,Web"
+           data-author="" >
+            <span class="post-title" title="SQL注入">SQL注入</span>
+            <span class="post-date" title="2021-07-16 00:00:00">2021/07/16</span>
+        </a>
+        
+        
+        <a  class="全部文章 Web安全 "
+           href="/2021/06/19/Web%E5%AE%89%E5%85%A8-%E6%96%87%E4%BB%B6%E4%B8%8A%E4%BC%A0%E6%BC%8F%E6%B4%9E/"
+           data-tag="2021,Web"
+           data-author="" >
+            <span class="post-title" title="文件上传漏洞">文件上传漏洞</span>
+            <span class="post-date" title="2021-06-19 00:00:00">2021/06/19</span>
+        </a>
+        
+        
+        <a  class="全部文章 Web安全 "
+           href="/2021/06/08/Web%E5%AE%89%E5%85%A8-PHP%E5%BA%8F%E5%88%97%E5%8C%96&%E5%8F%8D%E5%BA%8F%E5%88%97%E5%8C%96/"
+           data-tag="2021,Web"
+           data-author="" >
+            <span class="post-title" title="PHP序列化与反序列化">PHP序列化与反序列化</span>
+            <span class="post-date" title="2021-06-08 00:00:00">2021/06/08</span>
+        </a>
+        
+        
+        <a  class="全部文章 Web安全 "
+           href="/2021/06/04/Web%E5%AE%89%E5%85%A8-SSI%E6%B3%A8%E5%85%A5/"
+           data-tag="2021,Web"
+           data-author="" >
+            <span class="post-title" title="SSI注入">SSI注入</span>
+            <span class="post-date" title="2021-06-04 00:00:00">2021/06/04</span>
+        </a>
+        
+        
+        <a  class="全部文章 "
+           href="/2021/06/02/docker%E5%B8%B8%E7%94%A8%E5%91%BD%E4%BB%A4/"
+           data-tag="Linux,2021"
+           data-author="" >
+            <span class="post-title" title="Docker常用命令">Docker常用命令</span>
+            <span class="post-date" title="2021-06-02 00:00:00">2021/06/02</span>
+        </a>
+        
+        
+        <a  class="全部文章 Web安全 "
+           href="/2021/05/25/Web%E5%AE%89%E5%85%A8-%E6%96%87%E4%BB%B6%E5%8C%85%E5%90%AB%E6%BC%8F%E6%B4%9E/"
+           data-tag="2021,Web"
+           data-author="" >
+            <span class="post-title" title="文件包含漏洞">文件包含漏洞</span>
+            <span class="post-date" title="2021-05-25 00:00:00">2021/05/25</span>
+        </a>
+        
+        
+        <a  class="全部文章 Web安全 "
+           href="/2021/04/19/Web%E5%AE%89%E5%85%A8-%E8%B6%8A%E6%9D%83/"
+           data-tag="2021,Web"
+           data-author="" >
+            <span class="post-title" title="越权">越权</span>
+            <span class="post-date" title="2021-04-19 00:00:00">2021/04/19</span>
+        </a>
+        
+        
+        <a  class="全部文章 Web安全 "
+           href="/2021/04/06/Web%E5%AE%89%E5%85%A8-Xxe/"
+           data-tag="2021,Web"
+           data-author="" >
+            <span class="post-title" title="XXE">XXE</span>
+            <span class="post-date" title="2021-04-06 00:00:00">2021/04/06</span>
+        </a>
+        
+        
+        <a  class="全部文章 Web安全 "
+           href="/2021/04/05/Web%E5%AE%89%E5%85%A8-%E6%96%87%E4%BB%B6%E4%B8%8B%E8%BD%BD%E8%AF%BB%E5%8F%96%E6%BC%8F%E6%B4%9E/"
+           data-tag="2021,Web"
+           data-author="" >
+            <span class="post-title" title="文件下载漏洞">文件下载漏洞</span>
+            <span class="post-date" title="2021-04-05 00:00:00">2021/04/05</span>
+        </a>
+        
+        
+        <a  class="全部文章 其它 "
+           href="/2021/04/02/%E5%B8%B8%E7%94%A8%E6%AD%A3%E5%88%99%E8%A1%A8%E8%BE%BE%E5%BC%8F/"
+           data-tag="2021"
+           data-author="" >
+            <span class="post-title" title="常用正则表达式">常用正则表达式</span>
+            <span class="post-date" title="2021-04-02 00:00:00">2021/04/02</span>
+        </a>
+        
+        
+        <a  class="全部文章 Web安全 "
+           href="/2021/03/25/Web%E5%AE%89%E5%85%A8-Nginx%E5%AE%89%E5%85%A8/"
+           data-tag="2021,Web"
+           data-author="" >
+            <span class="post-title" title="Apache安全">Apache安全</span>
+            <span class="post-date" title="2021-03-25 00:00:00">2021/03/25</span>
+        </a>
+        
+        
+        <a  class="全部文章 Web安全 "
+           href="/2021/03/19/Web%E5%AE%89%E5%85%A8-LDAP%E6%B3%A8%E5%85%A5/"
+           data-tag="2021,Web"
+           data-author="" >
+            <span class="post-title" title="LDAP注入">LDAP注入</span>
+            <span class="post-date" title="2021-03-19 00:00:00">2021/03/19</span>
+        </a>
+        
+        
+        <a  class="全部文章 Web安全 "
+           href="/2021/03/13/Web%E5%AE%89%E5%85%A8-CSR&SSRF/"
+           data-tag="2021,Web"
+           data-author="" >
+            <span class="post-title" title="CSRF &amp; SSRF">CSRF &amp; SSRF</span>
+            <span class="post-date" title="2021-03-13 00:00:00">2021/03/13</span>
+        </a>
+        
+        
+        <a  class="全部文章 Web安全 "
+           href="/2021/03/09/Web%E5%AE%89%E5%85%A8-CRLF/"
+           data-tag="2021,Web"
+           data-author="" >
+            <span class="post-title" title="CLRF">CLRF</span>
+            <span class="post-date" title="2021-03-09 00:00:00">2021/03/09</span>
+        </a>
+        
+        
+        <a  class="全部文章 Web安全 "
+           href="/2021/03/06/Web%E5%AE%89%E5%85%A8-Apache%E5%AE%89%E5%85%A8/"
+           data-tag="2021,Web"
+           data-author="" >
+            <span class="post-title" title="Apache安全">Apache安全</span>
+            <span class="post-date" title="2021-03-06 00:00:00">2021/03/06</span>
+        </a>
+        
+        
+        <a  class="全部文章 Web安全 "
+           href="/2021/03/03/Web%E5%AE%89%E5%85%A8-IIS%E5%AE%89%E5%85%A8/"
+           data-tag="2021,Web"
+           data-author="" >
+            <span class="post-title" title="IIS安全">IIS安全</span>
+            <span class="post-date" title="2021-03-03 00:00:00">2021/03/03</span>
+        </a>
+        
+        
+        <a  class="全部文章 Web安全 "
+           href="/2021/02/27/Web%E5%AE%89%E5%85%A8-XSS/"
+           data-tag="2021,Web"
+           data-author="" >
+            <span class="post-title" title="XSS">XSS</span>
+            <span class="post-date" title="2021-02-27 00:00:00">2021/02/27</span>
+        </a>
+        
+        
+        <a  class="全部文章 Web安全 "
+           href="/2021/02/10/Web%E5%AE%89%E5%85%A8-%E4%B8%80%E5%8F%A5%E8%AF%9D%E6%9C%A8%E9%A9%AC/"
+           data-tag="2021,Web"
+           data-author="" >
+            <span class="post-title" title="一句话木马">一句话木马</span>
+            <span class="post-date" title="2021-02-10 00:00:00">2021/02/10</span>
+        </a>
+        
+        
+        <a  class="全部文章 数字通信 "
+           href="/2019/03/01/%E8%B7%AF%E7%94%B1%E4%BA%A4%E6%8D%A2-MPLS/"
+           data-tag="2019"
+           data-author="" >
+            <span class="post-title" title="多协议标签交换——MPLS">多协议标签交换——MPLS</span>
+            <span class="post-date" title="2019-03-01 00:00:00">2019/03/01</span>
+        </a>
+        
+        
+        <a  class="全部文章 数字通信 "
+           href="/2019/02/15/%E8%B7%AF%E7%94%B1%E4%BA%A4%E6%8D%A2-DHCP/"
+           data-tag="2019"
+           data-author="" >
+            <span class="post-title" title="DHCP协议详解">DHCP协议详解</span>
+            <span class="post-date" title="2019-02-15 00:00:00">2019/02/15</span>
+        </a>
+        
+        
+        <a  class="全部文章 数字通信 "
+           href="/2019/02/10/%E8%B7%AF%E7%94%B1%E4%BA%A4%E6%8D%A2-OSPF%20v3/"
+           data-tag="2019"
+           data-author="" >
+            <span class="post-title" title="最短路径优先协议——OSPFv3">最短路径优先协议——OSPFv3</span>
+            <span class="post-date" title="2019-02-10 00:00:00">2019/02/10</span>
+        </a>
+        
+        
+        <a  class="全部文章 数字通信 "
+           href="/2019/02/05/%E8%B7%AF%E7%94%B1%E4%BA%A4%E6%8D%A2-OSPF%20v2/"
+           data-tag="2019"
+           data-author="" >
+            <span class="post-title" title="最短路径优先协议——OSPFv2">最短路径优先协议——OSPFv2</span>
+            <span class="post-date" title="2019-02-05 00:00:00">2019/02/05</span>
+        </a>
+        
+        
+        <a  class="全部文章 数字通信 "
+           href="/2019/01/30/%E8%B7%AF%E7%94%B1%E4%BA%A4%E6%8D%A2-BGP/"
+           data-tag="2019"
+           data-author="" >
+            <span class="post-title" title="边界网关协议——BGP">边界网关协议——BGP</span>
+            <span class="post-date" title="2019-01-30 00:00:00">2019/01/30</span>
+        </a>
+        
+        
+        <a  class="全部文章 数字通信 "
+           href="/2019/01/10/%E8%B7%AF%E7%94%B1%E4%BA%A4%E6%8D%A2-%E9%9D%99%E6%80%81%E8%B7%AF%E7%94%B1/"
+           data-tag="2019"
+           data-author="" >
+            <span class="post-title" title="路由策略&amp;策略路由">路由策略&amp;策略路由</span>
+            <span class="post-date" title="2019-01-10 00:00:00">2019/01/10</span>
+        </a>
+        
+        <div id="no-item-tips">
+
+        </div>
+    </nav>
+    <div id="outline-list">
+    </div>
+</div>
+
+    </div>
+    <div class="hide-list">
+        <div class="semicircle" data-title="切换全屏 快捷键 s">
+            <div class="brackets first"><</div>
+            <div class="brackets">&gt;</div>
+        </div>
+    </div>
+</aside>
+<div id="post">
+    <div class="pjax">
+        <article id="post-路由交换-OSPF v3" class="article article-type-post" itemscope itemprop="blogPost">
+    
+        <h1 class="article-title">最短路径优先协议——OSPFv3</h1>
+    
+    <div class="article-meta">
+        
+        
+        
+        <span class="book">
+            <i class="iconfont icon-category"></i>
+            
+            
+            <a  data-rel="数字通信">数字通信</a>
+            
+        </span>
+        
+        
+        <span class="tag">
+            <i class="iconfont icon-tag"></i>
+            
+            <a class="color5">2019</a>
+            
+        </span>
+        
+    </div>
+    <div class="article-meta">
+        <!-- 修改了原始显示，原始显示更新日期为悬浮 -->
+        <!-- 
+            发布时间 : <time class="date" title='最后更新: 2023-10-18 03:52:02'>2019-02-10 00:00</time>
+         -->
+
+        
+            发布时间 : 2019-02-10 00:00</time>
+        <br>
+
+        
+    </div>
+    <div class="article-meta">
+        
+        
+        <span id="busuanzi_container_page_pv">
+            阅读 :<span id="busuanzi_value_page_pv">
+                <span class="count-comment">
+                    <span class="spinner">
+                      <div class="cube1"></div>
+                      <div class="cube2"></div>
+                    </span>
+                </span>
+            </span>
+        </span>
+        
+        
+    </div>
+    
+    <div class="toc-ref">
+    
+        <ol class="toc"><li class="toc-item toc-level-1"><a class="toc-link" href="#OSPF-v2%E4%B8%8Ev3%E5%90%8C%E5%BC%82"><span class="toc-text">OSPF v2与v3同异</span></a></li><li class="toc-item toc-level-1"><a class="toc-link" href="#%E6%8A%A5%E6%96%87%E6%A0%BC%E5%BC%8F"><span class="toc-text">报文格式</span></a><ol class="toc-child"><li class="toc-item toc-level-2"><a class="toc-link" href="#Hello"><span class="toc-text">Hello</span></a></li><li class="toc-item toc-level-2"><a class="toc-link" href="#DD"><span class="toc-text">DD</span></a></li><li class="toc-item toc-level-2"><a class="toc-link" href="#LSR"><span class="toc-text">LSR</span></a></li><li class="toc-item toc-level-2"><a class="toc-link" href="#LSU"><span class="toc-text">LSU</span></a></li><li class="toc-item toc-level-2"><a class="toc-link" href="#LS-ACK"><span class="toc-text">LS-ACK</span></a></li></ol></li><li class="toc-item toc-level-1"><a class="toc-link" href="#LSA%E6%A0%BC%E5%BC%8F"><span class="toc-text">LSA格式</span></a><ol class="toc-child"><li class="toc-item toc-level-2"><a class="toc-link" href="#LSA%E6%8A%A5%E6%96%87%E5%9B%BA%E5%AE%9A%E6%A0%BC%E5%BC%8F"><span class="toc-text">LSA报文固定格式</span></a></li><li class="toc-item toc-level-2"><a class="toc-link" href="#Router-LSA"><span class="toc-text">Router-LSA</span></a></li><li class="toc-item toc-level-2"><a class="toc-link" href="#Network-LSA"><span class="toc-text">Network-LSA</span></a></li><li class="toc-item toc-level-2"><a class="toc-link" href="#Inter-Area-Prefix-LSA"><span class="toc-text">Inter-Area-Prefix-LSA</span></a></li><li class="toc-item toc-level-2"><a class="toc-link" href="#Inter-Area-Router-LSA"><span class="toc-text">Inter-Area-Router-LSA</span></a></li><li class="toc-item toc-level-2"><a class="toc-link" href="#AS-External-LSA"><span class="toc-text">AS-External-LSA</span></a></li><li class="toc-item toc-level-2"><a class="toc-link" href="#NSSA-LSA"><span class="toc-text">NSSA-LSA</span></a></li><li class="toc-item toc-level-2"><a class="toc-link" href="#Link-LSA"><span class="toc-text">Link-LSA</span></a></li><li class="toc-item toc-level-2"><a class="toc-link" href="#Intra-Area-Prefix-LSA"><span class="toc-text">Intra-Area-Prefix-LSA</span></a></li></ol></li></ol>
+    
+<style>
+    .left-col .switch-btn,
+    .left-col .switch-area {
+        display: none;
+    }
+    .toc-level-3 i,
+    .toc-level-3 ol {
+        display: none !important;
+    }
+</style>
+</div>
+    
+    <div class="article-entry" itemprop="articleBody">
+      
+        <p>IPv6中使用地址&#x2F;前缀长度描述地址，而没有子网掩码的概念。IPv6中的链路（Link）就类似于IPv4中子网或网络</p>
+<p>OSPFv3使用链路本地地址建立邻居关系，即使接口全球单播地址发生变动也不会影响邻居建立</p>
+<p>IPv6地址扩大到128位后导致LSA长度增加</p>
+<p>链路本地地址（Link-Local）发送报文，Vlink除外（使用全局单播地址）</p>
+<p>接口可以配置多个全球单播地址，运行于每个Link进行通讯，不再基于subnet（基于链路本地地址运行）</p>
+<p>使用IPv6验证扩展头进行报文认证和加密</p>
+<h1 id="OSPF-v2与v3同异"><a href="#OSPF-v2与v3同异" class="headerlink" title="OSPF v2与v3同异"></a>OSPF v2与v3同异</h1><p><strong>OSPFv2&#x2F;v3相同点：</strong>网络&#x2F;接口类型、接口&#x2F;邻居状态机、LSDB、泛洪机制、协议报文、路由计算</p>
+<p><strong>OSPFv3与v2不同点：</strong></p>
+<p>​    基于链路运行：v2中建立邻居必须在同网段，v3中链路可以划分多个子网，只要链路地址相同既能建立邻居</p>
+<p>​    使用本地链路地址建立邻居：链路本地地址只针对本地链路有效，只能出现在Link-LSA中。建立Vlink必须使用全球单播地址</p>
+<p>​    链路支持实例复用：同一链路运行多个实例。物理接口实例instance-ID相同即可：ospfv3-进程号-区域-实例ID</p>
+<p>​    认证变化：OSPF-header自身没有认证字段，认证由扩展字段提供</p>
+<p>​    stub区域支持：v2丢弃未知类型LSA，v3中未知LSA泛洪范围或链路U比特没有置位时，未知LSA才能向Stub区域泛洪</p>
+<p>​    报文不同：Option字段不同、LSA类型和内容不同</p>
+<h1 id="报文格式"><a href="#报文格式" class="headerlink" title="报文格式"></a>报文格式</h1><p><strong>OSPFv3报头格式</strong></p>
+<p>OSPFv3用IPv6报文直接封装协议报文，协议号为89。OSPFv3分为5种报文：Hello报文、DD报文、LSR报文、LSU报文和LSAck报文。</p>
+<p>报文头格式，OSPFv3这五种报文具有相同的报文头格式，长度为24字节</p>
+<p>![ospf 1.png](.&#x2F;images&#x2F;ospf 1.png)</p>
+<table>
+<thead>
+<tr>
+<th>字段</th>
+<th>长度</th>
+<th>含义</th>
+</tr>
+</thead>
+<tbody><tr>
+<td>Version</td>
+<td>8比特</td>
+<td>OSPF的版本号。对于OSPFv3，其值为3。</td>
+</tr>
+<tr>
+<td>Type</td>
+<td>8比特</td>
+<td>OSPFv3报文的类型：1：Hello报文。2：DD报文。3：LSR报文。4：LSU报文。5：LSAck报文。</td>
+</tr>
+<tr>
+<td>Packet length</td>
+<td>16比特</td>
+<td>OSPFv3报文的总长度，包括报文头在内，单位为字节。</td>
+</tr>
+<tr>
+<td>Router ID</td>
+<td>32比特</td>
+<td>发送该报文的ME设备标识。</td>
+</tr>
+<tr>
+<td>Area ID</td>
+<td>32比特</td>
+<td>发送该报文的ME设备的所属区域。</td>
+</tr>
+<tr>
+<td>Checksum</td>
+<td>16比特</td>
+<td>包含除了认证字段的整个报文的校验和</td>
+</tr>
+<tr>
+<td>Instance ID</td>
+<td>8比特</td>
+<td>OSPFv3多实例ID。</td>
+</tr>
+<tr>
+<td>0</td>
+<td>8比特</td>
+<td>预留值。</td>
+</tr>
+</tbody></table>
+<h2 id="Hello"><a href="#Hello" class="headerlink" title="Hello"></a>Hello</h2><p>其作用为建立和维护邻接关系，周期性的在使能了OSPFv3的接口上发送。报文内容包括一些定时器的数值、DR、BDR以及已知的邻居</p>
+<p>![ospf 1.png](.&#x2F;images&#x2F;ospf 1.png)</p>
+<table>
+<thead>
+<tr>
+<th>字段</th>
+<th>长度</th>
+<th>解释</th>
+</tr>
+</thead>
+<tbody><tr>
+<td>Interface ID</td>
+<td>32比特</td>
+<td>发送Hello报文的接口ID。</td>
+</tr>
+<tr>
+<td>Rtr Priority</td>
+<td>8比特</td>
+<td>DR优先级。默认为1(&#x3D;0，则不能参与DR或BDR选举。高优先)</td>
+</tr>
+<tr>
+<td>Options</td>
+<td>24比特</td>
+<td>可选项：E：允许Flood AS-External-LSAs。MC：转发IP组播报文。N&#x2F;P：处理Type-7 LSAs。DC：处理按需链路。</td>
+</tr>
+<tr>
+<td>HelloInterval</td>
+<td>16比特</td>
+<td>发送Hello报文的时间间隔。</td>
+</tr>
+<tr>
+<td>RouterDeadInterval</td>
+<td>16比特</td>
+<td>失效时间。如果在此时间内未收到邻居发来的Hello报文，则认为邻居失效</td>
+</tr>
+<tr>
+<td>Designated Router ID</td>
+<td>32比特</td>
+<td>DR的接口地址。</td>
+</tr>
+<tr>
+<td>Backup Designated Router ID</td>
+<td>32比特</td>
+<td>BDR的接口地址。</td>
+</tr>
+<tr>
+<td>Neighbor ID</td>
+<td>32比特</td>
+<td>邻居，以Router ID标识</td>
+</tr>
+</tbody></table>
+<p>Hello报文在不同网络中的发送地址类型、发送时间间隔类型和时间间隔缺省值不同</p>
+<table>
+<thead>
+<tr>
+<th>网络类型</th>
+<th>发送地址类型</th>
+<th>发送时间间隔类型</th>
+<th>时间间隔缺省值</th>
+</tr>
+</thead>
+<tbody><tr>
+<td>广播</td>
+<td>组播地址</td>
+<td>HelloInterval</td>
+<td>缺省情况下，接口发送Hello报文的时间间隔的值为10秒。</td>
+</tr>
+<tr>
+<td>NBMA</td>
+<td>单播地址</td>
+<td>DR、BDR、有能力成为DR的ME设备时，发送时间间隔为HelloInterval。邻居的状态为Down时，发送时间间隔为Pollinterval，其它情况为HelloInterval。</td>
+<td>缺省情况下，接口发送Hello报文的时间间隔的值为30秒。缺省情况下，接口发送Pollinterval间隔为120秒。</td>
+</tr>
+<tr>
+<td>P2P</td>
+<td>组播地址</td>
+<td>HelloInterval</td>
+<td>缺省情况下，接口发送Hello报文的时间间隔的值为10秒。</td>
+</tr>
+<tr>
+<td>P2MP</td>
+<td>组播地址</td>
+<td>HelloInterval</td>
+<td>缺省情况下，接口发送Hello报文的时间间隔的值为30秒。</td>
+</tr>
+</tbody></table>
+<p>ff02::5&#x2F;6</p>
+<p>在同一网段上，其HelloInterval、PollInterval和RouterDeadInterval必须分别一致，否则不能形成邻居关系。在NBMA网络上还有一种PollInterval。</p>
+<h2 id="DD"><a href="#DD" class="headerlink" title="DD"></a>DD</h2><p>两台ME设备在邻接关系初始化时，用DD报文描述本端ME设备的LSDB，进行数据库的同步。报文内容包括LSDB中每一条LSA的Header（LSA的Header可以唯一标识一条LSA）。LSA Header只占一条LSA的整个数据量的一小部分，这样可以减少ME设备之间的协议报文流量，对端ME设备根据LSA Header就可以判断出是否已有这条LSA。在两台ME设备交换DD报文的过程中，一台为Master，另一台为Slave。由Master规定起始序列号，每发送一个DD报文序列号加1，Slave方使用Master的序列号作为确认</p>
+<p>![ospf 1.png](.&#x2F;images&#x2F;ospf 1.png)</p>
+<table>
+<thead>
+<tr>
+<th>字段</th>
+<th>长度</th>
+<th>解释</th>
+</tr>
+</thead>
+<tbody><tr>
+<td>Options</td>
+<td>24比特</td>
+<td>可选项：E：允许Flood AS-External-LSAs。MC：转发IP组播报文。N&#x2F;P：处理Type-7 LSAs。DC：处理按需链路。</td>
+</tr>
+<tr>
+<td>Interface MTU</td>
+<td>16比特</td>
+<td>在不分片的情况下，此接口最大可发出的IP报文长度。</td>
+</tr>
+<tr>
+<td>I</td>
+<td>1比特</td>
+<td>当发送连续多个DD报文时，如果这是第一个DD报文，则置为1，否则置为0。</td>
+</tr>
+<tr>
+<td>M（More）</td>
+<td>1比特</td>
+<td>当发送连续多个DD报文时，如果这是最后一个DD报文，则置为0，否则置为1，表示后面还有其他的DD报文。</td>
+</tr>
+<tr>
+<td>M&#x2F;S（Master&#x2F;Slave）</td>
+<td>1比特</td>
+<td>当两台OSPFv3设备交换DD报文时，首先需要确定双方的主从关系，Router ID大的一方会成为Master。当值为1时表示发送方为Master。</td>
+</tr>
+<tr>
+<td>DD sequence number</td>
+<td>32比特</td>
+<td>DD报文序列号。主从双方利用序列号来保证DD报文传输的可靠性和完整性。</td>
+</tr>
+<tr>
+<td>LSA Headers</td>
+<td>–</td>
+<td>该DD报文中所包含的LSA的头部信息。</td>
+</tr>
+</tbody></table>
+<h2 id="LSR"><a href="#LSR" class="headerlink" title="LSR"></a>LSR</h2><p>两台ME设备互相交换过DD报文之后，需要发送LSR报文向对方请求更新LSA，内容包括所需要的LSA的摘要信息</p>
+<p>![ospf 1.png](.&#x2F;images&#x2F;ospf 1.png)</p>
+<table>
+<thead>
+<tr>
+<th>字段</th>
+<th>长度</th>
+<th>解释</th>
+</tr>
+</thead>
+<tbody><tr>
+<td>LS type</td>
+<td>16比特</td>
+<td>LSA的类型号</td>
+</tr>
+<tr>
+<td>Link State ID</td>
+<td>32比特</td>
+<td>与LS Type一起描述路由域中唯一一个LSA。</td>
+</tr>
+<tr>
+<td>Advertising Router</td>
+<td>32比特</td>
+<td>产生此LSA的ME设备的Router ID。</td>
+</tr>
+</tbody></table>
+<p>LS type、Link State ID和Advertising Router可以唯一标识出一个LSA。当两个LSA一样时，需要根据LSA中的LS sequence number、LS checksum和LS age来判断出所需要LSA的新旧。</p>
+<h2 id="LSU"><a href="#LSU" class="headerlink" title="LSU"></a>LSU</h2><p>LSU报文用来向对端ME设备发送其所需要的LSA或者泛洪本端更新的LSA，内容是多条LSA（全部内容）的集合。LSU报文在支持组播和广播的网络中是以组播形式将LSA泛洪出去。为了实现Flooding的可靠性传输，需要LSAck报文对其进行确认，对没有收到确认报文的LSA进行重传，重传的LSA是直接发送到邻居的</p>
+<p>![ospf 1.png](.&#x2F;images&#x2F;ospf 1.png)</p>
+<table>
+<thead>
+<tr>
+<th>字段名</th>
+<th>长度</th>
+<th>含义</th>
+</tr>
+</thead>
+<tbody><tr>
+<td>Number of LSAs</td>
+<td>32比特</td>
+<td>LSA的数量。</td>
+</tr>
+</tbody></table>
+<h2 id="LS-ACK"><a href="#LS-ACK" class="headerlink" title="LS-ACK"></a>LS-ACK</h2><p>LSAck报文用来对接收到的LSU报文进行确认，内容是需要确认的LSA的Header（一个LSAck报文可对多个LSA进行确认）。LSAck报文根据不同的链路以单播或组播的形式发送，</p>
+<p>![ospf 1.png](.&#x2F;images&#x2F;ospf 1.png)</p>
+<table>
+<thead>
+<tr>
+<th>字段名</th>
+<th>长度</th>
+<th>含义</th>
+</tr>
+</thead>
+<tbody><tr>
+<td>LSAs Headers</td>
+<td>由需要确认的LSA的Header长度决定。</td>
+<td>通过LSA的头部信息确认收到该LSA。</td>
+</tr>
+</tbody></table>
+<h1 id="LSA格式"><a href="#LSA格式" class="headerlink" title="LSA格式"></a>LSA格式</h1><p>常用的LSA共有5种，分别为：Router-LSA、Network-LSA、Network-summary-LSA、ASBR-summary-LSA和AS-External-LSA。</p>
+<p>所有的LSA都有相同的报文头：</p>
+<p>![ospf 1.png](.&#x2F;images&#x2F;ospf 1.png)</p>
+<table>
+<thead>
+<tr>
+<th>字段</th>
+<th>占用空间</th>
+<th>解释说明</th>
+</tr>
+</thead>
+<tbody><tr>
+<td>LS age</td>
+<td>16比特</td>
+<td>LSA产生后所经过的时间，以秒为单位。无论LSA是在链路上传送，还是保存在LSDB中，其值都会在不停的增长。</td>
+</tr>
+<tr>
+<td>Options</td>
+<td>8比特</td>
+<td>可选项：E：允许泛洪AS-External-LSA；MC：转发IP组播报文；N&#x2F;P：处理Type-7 LSA；DC：处理按需链路。</td>
+</tr>
+<tr>
+<td>LS type</td>
+<td>8比特</td>
+<td>LSA的类型：Type1：Router-LSA Type2：Network-LSA Type3：Network-summary-LSA Type4：ASBR-summary-LSA Type5：AS-External-LSA Type7：NSSA-LSA</td>
+</tr>
+<tr>
+<td>Link State ID</td>
+<td>32比特</td>
+<td>与LSA中的LS Type和LSA description一起在路由域中描述一个LSA。</td>
+</tr>
+<tr>
+<td>Advertising Router</td>
+<td>32比特</td>
+<td>产生此LSA的路由器的Router ID。</td>
+</tr>
+<tr>
+<td>LS sequence number</td>
+<td>32比特</td>
+<td>LSA的序列号。其他路由器根据这个值可以判断哪个LSA是最新的。</td>
+</tr>
+<tr>
+<td>LS checksum</td>
+<td>16比特</td>
+<td>除了LS age外其它各域的校验和。</td>
+</tr>
+<tr>
+<td>length</td>
+<td>16比特</td>
+<td>LSA的总长度，包括LSA Header，以字节为单位。</td>
+</tr>
+</tbody></table>
+<p><strong>五大类👇</strong></p>
+<p>Router-LSA（Type1）由路由器产生，描述了路由器的链路状态和开销，本区域内传播</p>
+<p>Network-LSA（Type2）由DR产生，描述本网段的链路状态，本区域内传播</p>
+<p>Network-summary-LSA（Type3）由ABR产生，描述区域内某个网段的路由，区域间传播（除特殊区域）</p>
+<p>ASBR-summary-LSA（Type4）由ABR产生，描述到ASBR的路由，非ASBR所在的区域传播（除特殊区域）</p>
+<p>AS-external-LSA（Type5）由ASBR产生，描述到AS外部的路由，OSPF域内传播（除特殊区域）</p>
+<p>NSSA LSA（Type7）由ASBR产生，描述到AS外部的路由，仅在NSSA区域内传播。</p>
+<h2 id="LSA报文固定格式"><a href="#LSA报文固定格式" class="headerlink" title="LSA报文固定格式"></a>LSA报文固定格式</h2><p>所有的LSA都有相同的报文头</p>
+<p>![ospf 4.png](.&#x2F;images&#x2F;ospf 4.png)</p>
+<table>
+<thead>
+<tr>
+<th>字段</th>
+<th>长度</th>
+<th>含义</th>
+</tr>
+</thead>
+<tbody><tr>
+<td>LS age</td>
+<td>16比特</td>
+<td>LSA产生后所经过的时间，单位是秒。无论LSA是在链路上传输，还是保存在LSDB中，其值都会在不停的增长。</td>
+</tr>
+<tr>
+<td>LS type</td>
+<td>16比特</td>
+<td>LSA的类型：Type1：Router-LSA。Type2：Network-LSA。Type3：Inter-Area-Prefix-LSA。Type4：Inter-Area-Router-LSA。Type5：AS-external-LSA。Type7：NSSA-LSA。Type8：Link-LSA。Type9：Intra-Area-Prefix-LSA。</td>
+</tr>
+<tr>
+<td>Link State ID</td>
+<td>32比特</td>
+<td>与LS Type一起描述路由域中唯一一个LSA。</td>
+</tr>
+<tr>
+<td>Advertising Router</td>
+<td>32比特</td>
+<td>产生此LSA的ME设备的Router ID。</td>
+</tr>
+<tr>
+<td>LS sequence number</td>
+<td>32比特</td>
+<td>LSA的序列号。其他ME设备根据这个值可以判断哪个LSA是最新的。</td>
+</tr>
+<tr>
+<td>LS checksum</td>
+<td>16比特</td>
+<td>除了LS age外其它各域的校验和。</td>
+</tr>
+<tr>
+<td>length</td>
+<td>16比特</td>
+<td>LSA的总长度，包括LSA Header，以字节为单位。</td>
+</tr>
+</tbody></table>
+<h2 id="Router-LSA"><a href="#Router-LSA" class="headerlink" title="Router-LSA"></a>Router-LSA</h2><p>Router-LSA（Type1）：每个ME设备都会产生，描述了ME设备的链路状态和花费，在所属的区域内传播</p>
+<p>![ospf 4.png](.&#x2F;images&#x2F;ospf 4.png)</p>
+<table>
+<thead>
+<tr>
+<th>字段</th>
+<th>长度</th>
+<th>解释</th>
+</tr>
+</thead>
+<tbody><tr>
+<td>Nt (NSSA translation)</td>
+<td>1比特</td>
+<td>如果产生此LSA的ME设备是NSSA边界路由器，则置为1，否则置为0。当该位设置为1时，ME设备无条件将NSSA-LSA转换为AS-external-LSA。</td>
+</tr>
+<tr>
+<td>x</td>
+<td>1比特</td>
+<td>废弃位。</td>
+</tr>
+<tr>
+<td>V（Virtual Link）</td>
+<td>1比特</td>
+<td>如果产生此LSA的ME设备是虚连接的端点，则置为1，否则置为0。</td>
+</tr>
+<tr>
+<td>E（External）</td>
+<td>1比特</td>
+<td>如果产生此LSA的ME设备是ASBR，则置为1，否则置为0。</td>
+</tr>
+<tr>
+<td>B（Border）</td>
+<td>1比特</td>
+<td>如果产生此LSA的ME设备是ABR，则置为1，否则置为0。</td>
+</tr>
+<tr>
+<td>Options</td>
+<td>24比特</td>
+<td>设备支持的可选能力。</td>
+</tr>
+<tr>
+<td>Type</td>
+<td>8比特</td>
+<td>设备连接的基本描述：1：点到点连接到另一台ME设备。2：连接到传输网络。3：预留位。4：虚拟链路。</td>
+</tr>
+<tr>
+<td>metric</td>
+<td>16比特</td>
+<td>链路的开销值。</td>
+</tr>
+<tr>
+<td>Interface ID</td>
+<td>32比特</td>
+<td>为接口分配的ID</td>
+</tr>
+<tr>
+<td>Neighbor Interface ID</td>
+<td>32比特</td>
+<td>邻居设备的接口ID。对于传输链路，指DR的接口ID。对于其他链路类型，指邻居设备的接口ID。</td>
+</tr>
+<tr>
+<td>Neighbor Router ID</td>
+<td>32比特</td>
+<td>邻居设备的Router ID。对于传输链路，指DR的Router ID。对于其他链路类型，指邻居设备的Router ID。</td>
+</tr>
+</tbody></table>
+<h2 id="Network-LSA"><a href="#Network-LSA" class="headerlink" title="Network-LSA"></a>Network-LSA</h2><p>Network-LSA（Type2）：由广播网或NBMA网络中的DR产生，Network-LSA中记录了这一网络上所有ME设备的Router ID，描述本网段的链路状态，在所属的区域内传播</p>
+<p>![ospf 4.png](.&#x2F;images&#x2F;ospf 4.png)</p>
+<table>
+<thead>
+<tr>
+<th>字段名</th>
+<th>长度</th>
+<th>含义</th>
+</tr>
+</thead>
+<tbody><tr>
+<td>Options</td>
+<td>24比特</td>
+<td>ME设备支持的可选能力。</td>
+</tr>
+<tr>
+<td>Attached Router</td>
+<td>32比特</td>
+<td>连接在同一个网络上的所有ME设备的Router ID，也包括DR的Router ID。</td>
+</tr>
+</tbody></table>
+<h2 id="Inter-Area-Prefix-LSA"><a href="#Inter-Area-Prefix-LSA" class="headerlink" title="Inter-Area-Prefix-LSA"></a>Inter-Area-Prefix-LSA</h2><p>Inter-Area-Prefix-LSA（Type3）：描述区域内某个网段的路由，由ABR产生，并通告给其他相关区域。</p>
+<p>![ospf 4.png](.&#x2F;images&#x2F;ospf 4.png)</p>
+<table>
+<thead>
+<tr>
+<th>字段名</th>
+<th>长度</th>
+<th>含义</th>
+</tr>
+</thead>
+<tbody><tr>
+<td>PrefixLength</td>
+<td>8比特</td>
+<td>前缀长度。</td>
+</tr>
+<tr>
+<td>PrefixOption</td>
+<td>8比特</td>
+<td>前缀相关能力选项。</td>
+</tr>
+<tr>
+<td>Address Prefix</td>
+<td>32比特</td>
+<td>前缀本身的编码。</td>
+</tr>
+</tbody></table>
+<h2 id="Inter-Area-Router-LSA"><a href="#Inter-Area-Router-LSA" class="headerlink" title="Inter-Area-Router-LSA"></a>Inter-Area-Router-LSA</h2><p>Inter-Area-Router-LSA（Type4）：由ABR产生，描述到ASBR的路由，通告给除ASBR所在区域的其他相关区域。</p>
+<p>![ospf 4.png](.&#x2F;images&#x2F;ospf 4.png)</p>
+<table>
+<thead>
+<tr>
+<th>字段名</th>
+<th>长度</th>
+<th>含义</th>
+</tr>
+</thead>
+<tbody><tr>
+<td>Destination Router ID</td>
+<td>32比特</td>
+<td>LSA描述的ME设备的Router ID。</td>
+</tr>
+</tbody></table>
+<h2 id="AS-External-LSA"><a href="#AS-External-LSA" class="headerlink" title="AS-External-LSA"></a>AS-External-LSA</h2><p>AS-External-LSA描述到AS外部的路由，由ASBR产生。</p>
+<p>![ospf 4.png](.&#x2F;images&#x2F;ospf 4.png)</p>
+<table>
+<thead>
+<tr>
+<th>字段</th>
+<th>长度</th>
+<th>含义</th>
+</tr>
+</thead>
+<tbody><tr>
+<td>E</td>
+<td>1比特</td>
+<td>表示外部开销类型：如果值为1，则表示Type 2外部开销类型。如果值为0，则表示Type 1外部开销类型。</td>
+</tr>
+<tr>
+<td>F</td>
+<td>1比特</td>
+<td>表示LSA中是否包括Forwarding Address：如果值为1，则表示包含。如果值为0，则表示不包含。</td>
+</tr>
+<tr>
+<td>T</td>
+<td>1比特</td>
+<td>表示LSA中是否包括External Route Tag：如果值为1，则表示包含。如果值为0，则表示不包含。</td>
+</tr>
+<tr>
+<td>Referenced LS Type</td>
+<td>16比特</td>
+<td>关联的链路状态类型。如果不为0，则表示具有这种类型的LSA和本LSA相关（参考下面的Referenced Link State ID）。</td>
+</tr>
+<tr>
+<td>Forwarding Address</td>
+<td>128比特</td>
+<td>一个完全合格的全球IPv6地址。</td>
+</tr>
+<tr>
+<td>External Route Tag</td>
+<td>32比特</td>
+<td>外部路由标识，可以用来在ASBR之间传递额外信息。</td>
+</tr>
+<tr>
+<td>Referenced Link State ID</td>
+<td>32比特</td>
+<td>关联的链路状态ID。</td>
+</tr>
+</tbody></table>
+<h2 id="NSSA-LSA"><a href="#NSSA-LSA" class="headerlink" title="NSSA-LSA"></a>NSSA-LSA</h2><p>NSSA-LSA描述到AS外部的路由，由ASBR产生。</p>
+<p>![ospf 4.png](.&#x2F;images&#x2F;ospf 4.png)</p>
+<table>
+<thead>
+<tr>
+<th>字段</th>
+<th>长度</th>
+<th>含义</th>
+</tr>
+</thead>
+<tbody><tr>
+<td>E</td>
+<td>1比特</td>
+<td>表示外部开销类型：如果值为1，则表示Type 2外部开销类型。如果值为0，则表示Type 1外部开销类型。</td>
+</tr>
+<tr>
+<td>F</td>
+<td>1比特</td>
+<td>表示LSA中是否包括Forwarding Address：如果值为1，则表示包含。如果值为0，则表示不包含。</td>
+</tr>
+<tr>
+<td>T</td>
+<td>1比特</td>
+<td>表示LSA中是否包括External Route Tag：如果值为1，则表示包含。如果值为0，则表示不包含。</td>
+</tr>
+<tr>
+<td>Referenced LS Type</td>
+<td>16比特</td>
+<td>关联的链路状态类型。如果不为0，则表示具有这种类型的LSA和本LSA相关（参考下面的Referenced Link State ID）。</td>
+</tr>
+<tr>
+<td>Forwarding Address</td>
+<td>128比特</td>
+<td>一个完全合格的全球IPv6地址。</td>
+</tr>
+<tr>
+<td>External Route Tag</td>
+<td>32比特</td>
+<td>外部路由标识，可以用来在ASBR之间传递额外信息。</td>
+</tr>
+<tr>
+<td>Referenced Link State ID</td>
+<td>32比特</td>
+<td>关联的链路状态ID。</td>
+</tr>
+</tbody></table>
+<h2 id="Link-LSA"><a href="#Link-LSA" class="headerlink" title="Link-LSA"></a>Link-LSA</h2><p>每个ME设备都会为每个链路产生一个Link-LSA，描述到此Link上的link-local地址、IPv6前缀地址，并提供将会在Network-LSA中设置的链路选项，它仅在此链路内传播。</p>
+<p>![ospf 4.png](.&#x2F;images&#x2F;ospf 4.png)</p>
+<table>
+<thead>
+<tr>
+<th>字段名</th>
+<th>长度</th>
+<th>含义</th>
+</tr>
+</thead>
+<tbody><tr>
+<td>Rtr Priority</td>
+<td>8比特</td>
+<td>接口的路由器优先级。</td>
+</tr>
+<tr>
+<td>Options</td>
+<td>24比特</td>
+<td>广播或NBMA链路上DR生成的Network-LSA中可能设置的选项。</td>
+</tr>
+<tr>
+<td>Link-local Interface Address</td>
+<td>128比特</td>
+<td>链路上始发ME设备的链路本地地址。</td>
+</tr>
+<tr>
+<td>Number of prefixes</td>
+<td>32比特</td>
+<td>LSA中IPv6地址前缀数量。</td>
+</tr>
+</tbody></table>
+<h2 id="Intra-Area-Prefix-LSA"><a href="#Intra-Area-Prefix-LSA" class="headerlink" title="Intra-Area-Prefix-LSA"></a>Intra-Area-Prefix-LSA</h2><p>每个ME设备及DR都会产生一个或多个此类LSA，在所属的区域内传播。</p>
+<p>• ME设备产生的此类LSA，描述与Route-LSA相关联的IPv6前缀地址。</p>
+<p>• DR产生的此类LSA，描述与Network-LSA相关联的IPv6前缀地址。</p>
+<p>![ospf 4.png](.&#x2F;images&#x2F;ospf 4.png)</p>
+<table>
+<thead>
+<tr>
+<th>点击这里</th>
+<th>点击这里</th>
+<th>点击这里</th>
+</tr>
+</thead>
+<tbody><tr>
+<td>Referenced LS Type</td>
+<td>16比特</td>
+<td>描述IPv6前缀地址与Router-LSA或Network-LSA相关联。如果Referenced LS Type字段是0x2001，则表示IPv6前缀地址与Router-LSA相关联。如果Referenced LS Type字段是0x2002，则表示IPv6前缀地址与Network-LSA相关联。</td>
+</tr>
+<tr>
+<td>Referenced Link State ID</td>
+<td>32比特</td>
+<td>相关联的链路状态ID。如果Referenced LS Type字段是0x2001，则Referenced Link State ID应该是0。如果Referenced LS Type字段是0x2002，则Referenced Link State ID应该是DR的接口ID。</td>
+</tr>
+<tr>
+<td>Referenced Advertising Router</td>
+<td>32比特</td>
+<td>相关联的发布路由器的ID。如果Referenced LS Type字段是0x2001，则Referenced Advertising Router字段应该是始发ME设备的Router ID。如果Referenced LS Type字段是0x2002，则Referenced Advertising Router字段应该是DR的Router ID。</td>
+</tr>
+</tbody></table>
+
+      
+       <hr><span style="font-style: italic;color: gray;"> 转载请注明来源，欢迎对文章进行指正，联系邮箱 vou0515@gmail.com </span>
+    </div>
+</article>
+
+
+
+
+
+
+
+    
+
+
+
+
+    </div>
+    <div class="copyright">
+        <p class="footer-entry">
+    ©2023 closeto
+</p>
+<p class="footer-entry">Built with Hexo</p>
+
+    </div>
+    <div class="full-toc">
+        <button class="full" data-title="切换全屏 快捷键 s"><span class="min "></span></button>
+<a class="" id="rocket" ></a>
+
+    </div>
+</div>
+
+</body>
+<script src="/js/jquery.pjax.js?v=1.1.0" ></script>
+
+<script src="/js/script.js?v=1.1.0" ></script>
+<script>
+    var img_resize = 'default';
+    function initArticle() {
+        /*渲染对应的表格样式*/
+        
+            $("#post .pjax table").addClass("green_title");
+        
+
+        /*渲染打赏样式*/
+        
+
+        /*高亮代码块行号*/
+        
+
+        /*访问数量*/
+        
+        $.getScript("//busuanzi.ibruce.info/busuanzi/2.3/busuanzi.pure.mini.js");
+        
+
+        /*代码高亮，行号对齐*/
+        $('.pre-numbering').css('line-height',$('.has-numbering').css('line-height'));
+
+        
+        
+        /* 渲染*/
+        function HTMLDecode(text) {
+            var temp = document.createElement("div");
+            temp.innerHTML = text;
+            var output = temp.innerText || temp.textContent;
+            temp = null;
+            return output;
+        }
+        if (window.mermaid){
+            window.mermaid = null
+        }
+        $.getScript("//cdn.jsdelivr.net/npm/mermaid@8.4.2/dist/mermaid.min.js", function () {
+            var mermaidOptions = JSON.parse(HTMLDecode("{&#34;theme&#34;:&#34;default&#34;,&#34;startOnLoad&#34;:true,&#34;flowchart&#34;:{&#34;useMaxWidth&#34;:false,&#34;htmlLabels&#34;:true}}"))
+            if (window.mermaid) {
+                mermaid.initialize(mermaidOptions)
+                mermaid.contentLoaded()
+            }
+        })
+        
+    }
+
+    /*打赏页面隐藏与展示*/
+    
+
+</script>
+
+<!--加入行号的高亮代码块样式-->
+
+<!--自定义样式设置-->
+<style>
+    
+    
+    .nav {
+        width: 562px;
+    }
+    .nav.fullscreen {
+        margin-left: -562px;
+    }
+    .nav-left {
+        width: 140px;
+    }
+    
+    
+    @media screen and (max-width: 1468px) {
+        .nav {
+            width: 492px;
+        }
+        .nav.fullscreen {
+            margin-left: -492px;
+        }
+        .nav-left {
+            width: 100px;
+        }
+    }
+    
+    
+    @media screen and (max-width: 1024px) {
+        .nav {
+            width: 492px;
+            margin-left: -492px
+        }
+        .nav.fullscreen {
+            margin-left: 0;
+        }
+    }
+    
+    @media screen and (max-width: 426px) {
+        .nav {
+            width: 100%;
+        }
+        .nav-left {
+            width: 100%;
+        }
+    }
+    
+    
+    .nav-right .title-list nav a .post-title, .nav-right .title-list #local-search-result a .post-title {
+        color: #383636;
+    }
+    
+    
+    .nav-right .title-list nav a .post-date, .nav-right .title-list #local-search-result a .post-date {
+        color: #5e5e5f;
+    }
+    
+    
+    .nav-right nav a.hover, #local-search-result a.hover{
+        background-color: #e2e0e0;
+    }
+    
+    
+
+    /*列表样式*/
+    
+
+    /* 背景图样式 */
+    
+    
+
+
+    /*引用块样式*/
+    
+
+    /*文章列表背景图*/
+    
+
+    
+</style>
+
+
+
+
+
+
+
+</html>
