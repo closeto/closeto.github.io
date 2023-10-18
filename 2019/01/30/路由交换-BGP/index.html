@@ -779,7 +779,7 @@
     <div class="article-meta">
         <!-- 修改了原始显示，原始显示更新日期为悬浮 -->
         <!-- 
-            发布时间 : <time class="date" title='最后更新: 2023-10-18 08:33:41'>2019-01-30 00:00</time>
+            发布时间 : <time class="date" title='最后更新: 2023-10-18 08:38:38'>2019-01-30 00:00</time>
          -->
 
         
@@ -842,7 +842,7 @@
 <p>​    Adj-RIB-In：对等体宣告给本地BGP Speaker的未处理的路由信息库</p>
 <p>​    Adj-RIB-Out：本地BGP Speaker宣告给指定对等体的路由信息库</p>
 <p><strong>BGP路由信息处理：</strong></p>
-<p>![BGP协议图片](.&#x2F;images&#x2F;bgp 6.png)</p>
+<p><img src="/./images/bgp6.png" alt="BGP协议图片"></p>
 <p>​        1- 当从对等体接收到更新数据包时，路由器会把这些更新数据包存储到路由选择信息库(Routing Information Base, RIB)中，并指明是来自哪个对等体的(Adj-RIB-In)。这些更新数据包被输入策略引擎过滤后，路由器将会执行路径选择算法，来为每一条前缀确定最佳路径。</p>
 <p>​        2- 得出的最佳路径被存储到本地BGP RIB (Loc-RIB)中，然后被提交给本地IP路由选择表(IP-RIB)，以用作安装考虑。</p>
 <p>​        3- 除了从对等体接收来的最佳路径外，Loc-RIB也会包含当前路由器注入的(被称为本地发起的路由)，并被选择为最佳路径的BGP前缀。Loc-RIB中的内容在被通告给其他对等体之前，必须通过输出策略引擎。只有那些成功通过输出策略引擎的路由，才会被安装到输出RIB (Adj-RIB-Out)中。</p>
