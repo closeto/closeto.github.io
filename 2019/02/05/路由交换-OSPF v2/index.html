@@ -779,7 +779,7 @@
     <div class="article-meta">
         <!-- 修改了原始显示，原始显示更新日期为悬浮 -->
         <!-- 
-            发布时间 : <time class="date" title='最后更新: 2023-10-18 08:38:38'>2019-02-05 00:00</time>
+            发布时间 : <time class="date" title='最后更新: 2023-10-20 17:25:47'>2019-02-05 00:00</time>
          -->
 
         
@@ -835,15 +835,15 @@
 <figure class="highlight plaintext"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br></pre></td><td class="code"><pre><span class="line">MA 网路中掩码必须一致，因为 MA 网络中所有路由器共用一个网段，只有一个 2L 的 Network</span><br><span class="line">来描述当前的网络拓扑和网络号，所以当掩码不一致时，无法通过一个 2LSA 描 述不同的掩码。P2P 网络中掩码之所以可以不一致是因为 P2P</span><br><span class="line">中有 1LSA 的 stub 类型来 描述每一个网络的掩码信息，并且在 PPP 链路中 NCP 阶段，两台路由器会互推自己的 IP</span><br><span class="line">地址，并且以 32 位主机路由的方式加入自己的路由表，所以 P2P 网络中建立邻居不需要 掩码一致。</span><br><span class="line">①.接口网络类型如果是Broadcast，MA网络，掩码长度必须一致</span><br><span class="line">②.接口网络类型如果是P2P，P2P网络，掩码长度可以不同</span><br><span class="line">③.接口网络类型如果是P2MP，P2MP网络，掩码长度可以不同(通过在接口下配置ospf p2mp-mask-ignore命令忽略检查掩码长度)</span><br></pre></td></tr></table></figure>
 
 <p><strong>E 位代表能处理外部路由，在 OSPF 中外部路由就是指 5lsa，N 位代表 NSSA 区域</strong></p>
-<p>![ospf 1.png](.&#x2F;images&#x2F;ospf 1.png)</p>
+<p><img src="/./images/ospf1.png" alt="ospf 1.png"></p>
 <p><strong>hello-dead 间隔（区别网络类型）</strong></p>
-<p>![ospf 2.png](.&#x2F;images&#x2F;ospf 2.png)</p>
+<p><img src="/./images/ospf2.png" alt="ospf 2.png"></p>
 <p><strong>MTU必须一致（默认不检查，不一致时会停留 在哪种状态</strong>）：</p>
 <p>​    如果开启了 MTU 检查，如果双方 MTU 不一致，则MTU值小的一方停留在 Exstart 状态， 另一方停留在 Exchange 阶段。</p>
 <p>网络类型（四种，当两边不一致是否一定建立不了邻居，如果能建立会不会有问题， 哪种网络类型发送单播，哪种发送组播）</p>
 <figure class="highlight plaintext"><table><tr><td class="gutter"><pre><span class="line">1</span><br></pre></td><td class="code"><pre><span class="line">双方网络类型不一致，不能建立 FULL 的邻接关系，但如果修改 hello，dead 时间, 可以建立 full 的邻居关系（除了 NBMA这种网络类型，NBMA 即使修改时间也无法和其他网络类型建立邻居关系，因为其收发 hello 报文都是单播），MA 与 P2P、P2MP 修改时间 可以建立 FULL 的邻居关系，但不能计算路由。</span><br></pre></td></tr></table></figure>
 
-<p>![ospf 3.png](.&#x2F;images&#x2F;ospf 3.png)</p>
+<p><img src="/./images/ospf3.png" alt="ospf 3.png"></p>
 <p><strong>数据包字段</strong></p>
 <p>OSPF是IP协议(包含内容：ofpf-head、ospf-package)承载的协议号为89</p>
 <figure class="highlight plaintext"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br><span class="line">11</span><br><span class="line">12</span><br><span class="line">13</span><br><span class="line">14</span><br><span class="line">15</span><br><span class="line">16</span><br><span class="line">17</span><br></pre></td><td class="code"><pre><span class="line">ospf-head(报文头部)：</span><br><span class="line">    version                  协议版本</span><br><span class="line">    message-type         ospf报文类型：1=hello、2=DBD、3=LSR、4=LSU、5=LSACK</span><br><span class="line">    package-lenth          ospf报文长度</span><br><span class="line">    router-id                 描述设备的router id</span><br><span class="line">    area-id                   接口所属的区域id</span><br><span class="line">    checksum               校验和</span><br><span class="line">    auth-type                验证类型：0=null、1=明文、2=md5</span><br><span class="line">    auth-data                认证信息</span><br><span class="line">ospf-package(hello报文)：</span><br><span class="line">    network-mask            接口掩码</span><br><span class="line">    hello-interval              hello报文发送时间，p2p/broadcast=10s、p2mp/nbm=30s</span><br><span class="line">    router-priority             路由优先级，broadcast/nbma链路选举DR和BDR，默认1s，取值0~255</span><br><span class="line">    dead-interval              邻居失效时间，默认为hello时间4倍</span><br><span class="line">    DR                           该链路在DR接口的IP地址，p2p/p2mp该字段为0.。0.0</span><br><span class="line">    BDR                         该链路在BDR接口上的IP地址，p2p/p2mp该字段为0.0.0.0</span><br><span class="line">    option                       E bit=1代表能交换5类LSA，N bit=0代表不能交换7类LSA</span><br></pre></td></tr></table></figure>
@@ -872,7 +872,7 @@
 <h1 id="报文字段"><a href="#报文字段" class="headerlink" title="报文字段"></a>报文字段</h1><p><strong>OSPF报头格式</strong></p>
 <p>OSPF用IP报文直接封装协议报文，协议号为89。OSPF分为5种报文，Hello报文、DD报文、LSR报文、LSU报文和LSAck报文。</p>
 <p>OSPF这五种报文具有相同的报文头格式，长度为24字节。</p>
-<p>![ospf 1.png](.&#x2F;images&#x2F;ospf 1.png)</p>
+<p><img src="/./images/ospf1.png" alt="ospf 1.png"></p>
 <table>
 <thead>
 <tr>
@@ -922,9 +922,9 @@
 <td>鉴定字段，其数值根据验证类型而定。当验证类型为0时未作定义；类型为1时此字段为密码信息；类型为2时此字段包括Key ID、MD5验证数据长度和序列号的信息。MD5验证数据添加在OSPF报文后面，不包含在Authenticaiton字段中。</td>
 </tr>
 </tbody></table>
-<p>![ospf 2.png](.&#x2F;images&#x2F;ospf 2.png)</p>
+<p><img src="/./images/ospf2.png" alt="ospf 2.png"></p>
 <h2 id="Hello"><a href="#Hello" class="headerlink" title="Hello"></a>Hello</h2><p>Hello报文是最常用的一种报文，其作用为建立和维护邻接关系，周期性的在使能了OSPF的接口上发送。报文内容包括一些定时器的数值、DR、BDR以及自己已知的邻居。</p>
-<p>![ospf 1.png](.&#x2F;images&#x2F;ospf 1.png)</p>
+<p><img src="/./images/ospf1.png" alt="ospf 1.png"></p>
 <table>
 <thead>
 <tr>
@@ -974,12 +974,12 @@
 <td>邻居，以Router ID标识。</td>
 </tr>
 </tbody></table>
-<p> ![ospf 2.png](.&#x2F;images&#x2F;ospf 2.png)</p>
+<p> <img src="/./images/ospf2.png" alt="ospf 2.png"></p>
 <h2 id="DD"><a href="#DD" class="headerlink" title="DD"></a>DD</h2><p>两台路由器在邻接关系初始化时，用DD报文（Database Description</p>
 <p>Packet）来描述自己的LSDB，进行数据库的同步。报文内容包括LSDB中每一条LSA的Header（LSA的Header可以唯一标识一条LSA）。LSA</p>
 <p>Header只占一条LSA的整个数据量的一小部分，这样可以减少路由器之间的协议报文流量，对端路由器根据LSA</p>
 <p>Header就可以判断出是否已有这条LSA。在两台路由器交换DD报文的过程中，一台为Master，另一台为Slave。由Master规定起始序列号，每发送一个DD报文序列号加1，Slave方使用Master的序列号作为确认。</p>
-<p>![ospf 1.png](.&#x2F;images&#x2F;ospf 1.png)</p>
+<p><img src="/./images/ospf1.png" alt="ospf 1.png"></p>
 <table>
 <thead>
 <tr>
@@ -1024,9 +1024,9 @@
 <td>该DD报文中所包含的LSA的头部信息。</td>
 </tr>
 </tbody></table>
-<p>![ospf 2.png](.&#x2F;images&#x2F;ospf 2.png)</p>
+<p><img src="/./images/ospf2.png" alt="ospf 2.png"></p>
 <h2 id="LSR"><a href="#LSR" class="headerlink" title="LSR"></a>LSR</h2><p>两台路由器互相交换过DD报文之后，知道对端的路由器有哪些LSA是本地的LSDB所缺少的和哪些LSA是已经失效的，这时需要发送LSR报文（Link State Request Packet）向对方请求所需的LSA。内容包括所需要的LSA的摘要。LSR报文格式如下图所示，其中LS type、Link State ID和Advertising Router可以唯一标识出一个LSA，当两个LSA一样时，需要根据LSA中的LS sequence number、LS checksum和LS age来判断出所需要LSA的新旧。</p>
-<p>![ospf 1.png](.&#x2F;images&#x2F;ospf 1.png)</p>
+<p><img src="/./images/ospf1.png" alt="ospf 1.png"></p>
 <table>
 <thead>
 <tr>
@@ -1051,10 +1051,10 @@
 <td>产生此LSA的路由器的Router ID。</td>
 </tr>
 </tbody></table>
-<p>![ospf 2.png](.&#x2F;images&#x2F;ospf 2.png)</p>
+<p><img src="/./images/ospf2.png" alt="ospf 2.png"></p>
 <h2 id="LSU"><a href="#LSU" class="headerlink" title="LSU"></a>LSU</h2><p>用来向对端Router发送其所需要的LSA或者泛洪自己更新的LSA，内容是多条LSA（全部内容）的集合。LSU报文（Link State Update</p>
 <p>Packet）在支持组播和广播的链路上是以组播形式将LSA泛洪出去。为了实现Flooding的可靠性传输，需要LSAck报文对其进行确认。对没有收到确认报文的LSA进行重传，重传的LSA是直接发送到邻居的。</p>
-<p>![ospf 1.png](.&#x2F;images&#x2F;ospf 1.png)</p>
+<p><img src="/./images/ospf1.png" alt="ospf 1.png"></p>
 <table>
 <thead>
 <tr>
@@ -1069,10 +1069,10 @@
 <td>LSA的数量。</td>
 </tr>
 </tbody></table>
-<p>![ospf 2.png](.&#x2F;images&#x2F;ospf 2.png)</p>
+<p><img src="/./images/ospf2.png" alt="ospf 2.png"></p>
 <h2 id="LS-ACK"><a href="#LS-ACK" class="headerlink" title="LS-ACK"></a>LS-ACK</h2><p>用来对接收到的LSU报文进行确认。内容是需要确认的LSA的Header（一个LSAck报文可对多个LSA进行确认）。LSAck（Link State</p>
 <p>Acknowledgment Packet）报文根据不同的链路以单播或组播的形式发送。</p>
-<p>![ospf 1.png](.&#x2F;images&#x2F;ospf 1.png)</p>
+<p><img src="/./images/ospf1.png" alt="ospf 1.png"></p>
 <table>
 <thead>
 <tr>
@@ -1087,7 +1087,7 @@
 <td>通过LSA的头部信息确认收到该LSA。</td>
 </tr>
 </tbody></table>
-<p>![ospf 2.png](.&#x2F;images&#x2F;ospf 2.png)</p>
+<p><img src="/./images/ospf2.png" alt="ospf 2.png"></p>
 <h2 id="★DBD报文"><a href="#★DBD报文" class="headerlink" title="★DBD报文"></a>★DBD报文</h2><p>DBD报文描述：发送携带LSA信息，仅更新或同步(该OSPF状态为EXchange)</p>
 <table>
 <thead>
@@ -1126,7 +1126,7 @@
 <p>LSA判断新旧（越大越好）：LSA-seq、LSA-age(最大为3600，达到3600时删除LSA)、LSA-checksum</p>
 <h1 id="常见LSA"><a href="#常见LSA" class="headerlink" title="常见LSA"></a>常见LSA</h1><p>常用的LSA共有5种，分别为：Router-LSA、Network-LSA、Network-summary-LSA、ASBR-summary-LSA和AS-External-LSA。</p>
 <p>所有的LSA都有相同的报文头：</p>
-<p>![ospf 1.png](.&#x2F;images&#x2F;ospf 1.png)</p>
+<p><img src="/./images/ospf1.png" alt="ospf 1.png"></p>
 <table>
 <thead>
 <tr>
@@ -1185,7 +1185,7 @@
 <p>NSSA LSA（Type7）由ASBR产生，描述到AS外部的路由，仅在NSSA区域内传播。</p>
 <h2 id="Option"><a href="#Option" class="headerlink" title="Option"></a>Option</h2><p>lOption可选字段出现在每一个Hello数据包、DD和每个LSA中的。lOption字段允许路由器和其他路由器进行一些可选性能的通信。lOption字段包含信息</p>
 <h2 id="Router-LSA（1类）"><a href="#Router-LSA（1类）" class="headerlink" title="Router-LSA（1类）"></a>Router-LSA（1类）</h2><p>Router-LSA（Type1）：每个路由器都会产生，描述了路由器的链路状态和花费，在所属的区域内传播。</p>
-<p>![ospf 1.png](.&#x2F;images&#x2F;ospf 1.png)</p>
+<p><img src="/./images/ospf1.png" alt="ospf 1.png"></p>
 <table>
 <thead>
 <tr>
@@ -1284,7 +1284,7 @@
 
 <h2 id="Network-LSA（2类）"><a href="#Network-LSA（2类）" class="headerlink" title="Network-LSA（2类）"></a>Network-LSA（2类）</h2><p>Network-LSA（Type2）：由广播网或NBMA网络中的DR产生,Network-LSA中记录了这一网络上所有路由器的Router</p>
 <p>ID，描述本网段的链路状态，在所属的区域内传播。</p>
-<p>![ospf 1.png](.&#x2F;images&#x2F;ospf 1.png)</p>
+<p><img src="/./images/ospf1.png" alt="ospf 1.png"></p>
 <table>
 <thead>
 <tr>
@@ -1316,7 +1316,7 @@
 <h2 id="Summary-LSA（3类）"><a href="#Summary-LSA（3类）" class="headerlink" title="Summary-LSA（3类）"></a>Summary-LSA（3类）</h2><p>Network-summary-LSA（Type3）：描述区域内所有网段的路由，并通告给其他相关区域。</p>
 <p>ASBR-summary-LSA（Type4）：描述到ASBR的路由，通告给除ASBR所在区域的其他相关区域。</p>
 <p>Type3和Type4的LSA有相同的格式，它们都是由ABR产生。</p>
-<p>![ospf 1.png](.&#x2F;images&#x2F;ospf 1.png)</p>
+<p><img src="/./images/ospf1.png" alt="ospf 1.png"></p>
 <table>
 <thead>
 <tr>
@@ -1358,7 +1358,7 @@
 <h2 id="ASBR-Summary-LSA（4类）"><a href="#ASBR-Summary-LSA（4类）" class="headerlink" title="ASBR-Summary-LSA（4类）"></a>ASBR-Summary-LSA（4类）</h2><p>ASBR-Summary-LSA（Type4）：描述到ASBR的路由，通告给除ASBR所在区域的其他相关区域。</p>
 <p>Type3和Type4的LSA有相同的格式，它们都是由ABR产生。</p>
 <h2 id="AS-External-LSA-5类）"><a href="#AS-External-LSA-5类）" class="headerlink" title="AS-External-LSA(5类）"></a>AS-External-LSA(5类）</h2><p>AS-External-LSA（Type5）：由ASBR产生，描述到AS外部的路由，这是五种LSA中，唯一一种通告到所有区域（除了Stub区域和NSSA区域）的LSA。</p>
-<p>![ospf 1.png](.&#x2F;images&#x2F;ospf 1.png)</p>
+<p><img src="/./images/ospf1.png" alt="ospf 1.png"></p>
 <table>
 <thead>
 <tr>
@@ -1408,7 +1408,7 @@
 <td>TOS附加距离信息。</td>
 </tr>
 </tbody></table>
-<p>![ospf 2.png](.&#x2F;images&#x2F;ospf 2.png)</p>
+<p><img src="/./images/ospf2.png" alt="ospf 2.png"></p>
 <p>Type5的LSA可以用来通告缺省路由，此时Link State ID和Network Mask都设置为0.0.0.0。</p>
 <p><strong>实列：</strong></p>
 <p><AR3>dis ospf lsdb ase </p>

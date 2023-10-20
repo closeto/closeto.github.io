@@ -779,7 +779,7 @@
     <div class="article-meta">
         <!-- 修改了原始显示，原始显示更新日期为悬浮 -->
         <!-- 
-            发布时间 : <time class="date" title='最后更新: 2023-10-18 08:38:38'>2019-03-01 00:00</time>
+            发布时间 : <time class="date" title='最后更新: 2023-10-20 17:25:47'>2019-03-01 00:00</time>
          -->
 
         
@@ -824,13 +824,13 @@
     <div class="article-entry" itemprop="articleBody">
       
         <p>MPLS主要运用场景：VPN、流量工程、QOS</p>
-<h1 id="简述"><a href="#简述" class="headerlink" title="简述"></a>简述</h1><p>![MPLS图片](.&#x2F;images&#x2F;bgp 1.png)</p>
+<h1 id="简述"><a href="#简述" class="headerlink" title="简述"></a>简述</h1><p><img src="/./images/MPLS1.png" alt="MPLS图片"></p>
 <p>​        1、IP报文进入MPLS网络时，MPLS入口的LER分析IP报文的内容并且为这些IP报文添加合适的标签，所有MPLS网络中的LSR根据标签转发数据。当该IP报文离开MPLS网络时，标签由出口LER弹出。</p>
 <p>​        2、IP报文在MPLS网络中经过的路径称为标签交换路径LSP（Label Switched Path）。LSP是一个单向路径，与数据流的方向一致。</p>
 <p>​        3、如上图，LSP的入口LER称为入节点（Ingress）；位于LSP中间的LSR称为中间节点（Transit）；LSP的出口LER称为出节点（Egress）。一条LSP可以有0个、1个或多个中间节点，但有且只有一个入节点和一个出节点。</p>
 <p>​        3、根据LSP的方向，MPLS报文由Ingress发往Egress，则Ingress是Transit的上游节点，Transit是Ingress的下游节点。同理，Transit是Egress上游节点，Egress是Transit的下游节点。</p>
 <h2 id="体系结构"><a href="#体系结构" class="headerlink" title="体系结构"></a>体系结构</h2><p>组成：<font color="#660000">控制平面（Control Plane）</font>和<font color="#660066">转发平面（Forwarding Plane）</font></p>
-<p>![MPLS图片](.&#x2F;images&#x2F;bgp 2.png)</p>
+<p><img src="/./images/MPLS2.png" alt="MPLS图片"></p>
 <p><font color="#660000">控制平面</font>：负责产生和维护路由信息以及标签信息。</p>
 <p>​        路由信息表RIB（Routing Information Base）：由IP路由协议（IP Routing Protocol）生成，用于选择路由。</p>
 <p>​        标签分发协议LDP（Label Distribution Protocol）：负责标签的分配、标签转发信息表的建立、标签交换路径的建立、拆除等工作。</p>
@@ -848,7 +848,7 @@
 <p>​                入口：数据分组到LSP的映射。数据分组加标签封装标签分组。作为标签分组转发到下一个LSR。</p>
 <p>​                出口：将标签从分组中删除。作为网络层转发到next hop。入口LER和出口LER均可实现网络分组的转发</p>
 <h2 id="MPLS封装"><a href="#MPLS封装" class="headerlink" title="MPLS封装"></a>MPLS封装</h2><p>​    帧        二层头&lt;–&gt;MPLS label&lt;–&gt;IP头<br>​    信源    原有标签基础上新加标签  </p>
-<p>​    ![MPLS图片](.&#x2F;images&#x2F;bgp 3.png)2.5层</p>
+<p>​    <img src="/./images/MPLS3.png" alt="MPLS图片">2.5层</p>
 <p>标签空间：<br>    0<del>5              特殊标签<br>    16</del>1023     静态LSP和静态CR-LSP<br>    1024+          动态信令</p>
 <p>MPSL结构：<br>    控制平面：交换路由信息、标签交换（包含：路由表、路由协议、协议标签）<br>    数据平面：接受IP&#x2F;带标签报文、发送IP&#x2F;带标签报文（包含：标签转发表、ip转发表）</p>
 <p>标签操作：<br>    Push：IP报文进入MPLS域时MPLS边界设备在二层头和IP头之间插入标签，或中间设备在MPLS标签栈顶插入新标签（MPLS栈）<br>    Swap：报文在MPLS域内根据标签转发，用下一跳分配标签，替换MPLS报文的栈顶标签<br>    Pop：报文离开MPLS域脱去MPLS标签</p>
@@ -859,7 +859,7 @@
 <p>​                在最后一跳节点，标签已经没有使用价值。这种情况下，可以利用倒数第二跳弹出特性PHP（Penultimate Hop Popping），在倒数第二跳节点处将标签弹出，减少最后一跳的负担。最后一跳节点直接进行IP转发或者下一层标签转发。</p>
 <p>​                默认情况下，设备支持PHP特性，支持PHP的Egress节点分配给倒数第二跳节点的标签值为3</p>
 <p><strong>MPLS基本转发过程</strong> </p>
-<p>![MPLS图片](.&#x2F;images&#x2F;bgp 1.png)</p>
+<p><img src="/./images/MPLS1.png" alt="MPLS图片"></p>
 <p>MPLS标签已分发完成，建立了一条LSP，其目的地址为4.4.4.2&#x2F;32。则MPLS基本转发过程如下：</p>
 <ol>
 <li>Ingress节点收到目的地址为4.4.4.2的IP报文，压入标签Z并转发。</li>
@@ -879,7 +879,7 @@
 <p>ILM包括：Tunnel ID、入标签、入接口、标签操作类型等信息。</p>
 <p>ILM在Transit节点的作用是将标签和NHLFE绑定。通过标签索引ILM表，就相当于使用目的IP地址查询FIB，能够得到所有的标签转发信息。</p>
 <p>MPLS转发图例说明</p>
-<p>![MPLS图片](.&#x2F;images&#x2F;bgp 2.png)</p>
+<p><img src="/./images/MPLS2.png" alt="MPLS图片"></p>
 <p><strong>①</strong>当IP报文进入MPLS域时，首先查看FIB表，检查目的IP地址对应的Tunnel ID值是否为0x0。</p>
 <p>• 如果Tunnel ID值为0x0，则进入正常的IP转发流程。</p>
 <p>• 如果Tunnel ID值不为0x0，则进入MPLS转发流程。</p>
@@ -911,11 +911,11 @@
 <p>• Uniform模式</p>
 <p>IP报文经过MPLS网络时，在入节点，IP TTL减1映射到MPLS TTL字段，此后报文在MPLS网络中按照标准的TTL处理方式处理。在出节点将MPLS TTL减1后映射到IP TTL字段。</p>
 <p>​     Uniform模式下入方向TTL的处理 </p>
-<p>![MPLS图片](.&#x2F;images&#x2F;bgp 3.png)</p>
+<p><img src="/./images/MPLS3.png" alt="MPLS图片"></p>
 <p>• Pipe模式</p>
 <p>在入节点，IP TTL值减1，MPLS TTL字段为固定值，此后报文在MPLS网络中按照标准的TTL处理方式处理。在出节点会将IP TTL字段的值减1。即IP分组经过MPLS网络时，无论经过多少跳，IP TTL只在入节点和出节点分别减1。</p>
 <p>​     Pipe模式下入方向TTL的处理 </p>
-<p>![MPLS图片](.&#x2F;images&#x2F;bgp 4.png)</p>
+<p><img src="/./images/MPLS4.png" alt="MPLS图片"></p>
 <p>在MPLS VPN应用中，出于网络安全的考虑，需要隐藏MPLS骨干网络的结构，这种情况下，对于私网报文，Ingress上使用Pipe模式。</p>
 <p>ICMP响应报文</p>
 <p>在MPLS网络中，当LSR收到TTL为1的含有标签的MPLS报文时，LSR生成ICMP的TTL超时消息。</p>
@@ -927,11 +927,11 @@
 <p>​        MPLS将具有相同特征的报文归为一类，称为转发等价类FEC（Forwarding Equivalence Class）。属于相同FEC的报文在转发过程中被LSR以相同方式处理。</p>
 <p>​        FEC可以根据源地址、目的地址、源端口、目的端口、VPN等要素进行划分。例如，在传统的采用最长匹配算法的IP转发中，到同一条路由的所有报文就是一个转发等价类。</p>
 <p>MPLS标签的长度为4个字节。MPLS标签封装在链路层和网络层之间，可以支持任意的链路层协议</p>
-<p>![MPLS图片](.&#x2F;images&#x2F;bgp 1.png)</p>
+<p><img src="/./images/MPLS1.png" alt="MPLS图片"></p>
 <p>Label：  20bit，      标签值域。<br>Exp：     3bit，        用于扩展。现在通常用做CoS（Class of Service），当设备阻塞时，优先发送优先级高的报文。<br>S：         1bit，        栈底标识。MPLS支持多层标签，即标签嵌套。S值为1时表明为最底层标签。<br>TTL：     8bit，        和IP报文中的TTL（Time To Live）意义相同。<br>TTL：     8bit，        和IP报文中的TTL（Time To Live）意义相同。</p>
 <p>标签动作：<br>        压入（Push）、标签交换（Swap）、标签弹出（Pop&#x2F;out lable 3）、NULL<br>        out lable 3 (pop)弹出顶部标签、out lable NULL弹出标签栈<br>        转发根据顶部标签执行</p>
 <p><strong>标签栈</strong></p>
-<p>![MPLS图片](.&#x2F;images&#x2F;bgp 2.png)</p>
+<p><img src="/./images/MPLS2.png" alt="MPLS图片"></p>
 <p><strong>标签空间：</strong></p>
 <p>0～15：特殊标签。<br>16～1023：静态LSP和静态CR-LSP（Constraint-based Routed Label Switched Path）共享的标签空间。<br>1024及以上：LDP、RSVP-TE（Resource Reservation Protocol-Traffic Engineering）、MP-BGP（MultiProtocol Border Gateway Protocol）等动态信令协议的标签空间。</p>
 <p>特殊标签表：值 0~15</p>
@@ -981,7 +981,7 @@
 </tbody></table>
 <p>MPLS标签鉴别 MPLS允许与数据链路层与网络层之间（2.5层）</p>
 <p>​        MPLS协议通过在报文的链路层报文头中进行标识，使得路由器能够识别MPLS报文。</p>
-<p>![MPLS图片](.&#x2F;images&#x2F;bgp 3.png)</p>
+<p><img src="/./images/MPLS3.png" alt="MPLS图片"></p>
 <p><strong>标签分类</strong></p>
 <p>LSP的建立–静态：</p>
 <p>​        静态LSP是用户通过手工为各个转发等价类分配标签而建立的。由于静态LSP各节点上不能相互感知到整个LSP的情况，因此静态LSP是一个本地的概念。</p>
@@ -991,7 +991,7 @@
 <p>​        动态LSP的标签发布协议</p>
 <p>​        动态LSP通过标签发布协议动态建立。标签发布协议是MPLS的控制协议（也可称为信令协议），负责FEC的分类、标签的分发以及LSP的建立和维护等一系列操作。</p>
 <p>​        动态LSP的基本建立过程：标签由下游LSR分配，按从下游到上游的方向分发。如下图，由下游LSR在IP路由表的基础上进行FEC的划分，并根据FEC分配标签，通告给上游的LSR，以便建立标签转发表和LSP。</p>
-<p>![MPLS图片](.&#x2F;images&#x2F;bgp 4.png)</p>
+<p><img src="/./images/MPLS4.png" alt="MPLS图片"></p>
 <p>在MPLS的体系机构中，第一项功能是将整个可能的分组集合划分为转发等价类(FEC: Forwarding Equivalence Class)。可将其看作是一组一相同的方式，通过相同的路径，以相同的转发处理方式转发的IP分组。</p>
 <p>转发等价类可能对应于一个目标IP子网，也可能对应于边缘LSR认为有意义的任何数据流。例如，发往特定目标的所有交互式数据流或者IP优先级为特定数值的所有数据流都有可能组成一个FEC。另一个例子是，FEC可以是BGP表的一个子集，包括通过同一个出口点（出口BGP）可以到达所有目标前缀。</p>
 <h2 id="静态标签"><a href="#静态标签" class="headerlink" title="静态标签"></a>静态标签</h2><p>静态LSP建立依赖于路由表（路由表中要存在destination的路由，且配置LSP时destination、出接口要与路由表一致）</p>
@@ -1009,8 +1009,8 @@
 <p>​        会话消息（Session messages）                  UDP：用于LDP邻居会话的建立、维持和中止。</p>
 <p>​        通告消息（Advertisement messages）       TCP：用于向LDP邻居宣告、创建、改变、删除fec映射标签</p>
 <p>​        通知消息（Notification messages）           TCP：用于向LDP邻居通知事件或者错误。</p>
-<p>![MPLS图片](.&#x2F;images&#x2F;bgp 1.png)</p>
-<p>![MPLS图片](.&#x2F;images&#x2F;bgp 3.png)</p>
+<p><img src="/./images/MPLS1.png" alt="MPLS图片"></p>
+<p><img src="/./images/MPLS3.png" alt="MPLS图片"></p>
 <p>使用Lsr id建立邻居关系</p>
 <p>LDP临接体：本地邻接体使用组播发送hello，远端临接体使用单播发送hello</p>
 <p>LDP会话：本地LDP建立会话的两个LSR之间直连、远端LDP会话建立时两个LSR可以直连也可非直连；本地LDP和远端LDP会话可以共存</p>
@@ -1034,7 +1034,7 @@
 <p><strong>标签分配方式（Label Advertisement Mode）</strong></p>
 <p>​        DOD（downstream-on-demand，下游按需标记分配）</p>
 <p>​        DU（downstream unsolicited，下游自主标记分配）</p>
-<p>![MPLS图片](.&#x2F;images&#x2F;bgp 4.png)</p>
+<p><img src="/./images/MPLS4.png" alt="MPLS图片"></p>
 <table>
 <thead>
 <tr>
@@ -1092,7 +1092,7 @@
 <p>​        下游按需方式（DoD）＋ 独立标签分配控制方式（Independent）＋ 保守标签保持方式（Conservative）。</p>
 <p><strong>普通LDP LSP的建立过程：</strong></p>
 <p>LSP的建立过程实际就是将FEC和标签进行绑定，并将这种绑定通告LSP上相邻LSR的过程。如下图所示，下面结合下游自主标签发布方式和有序标签控制方式来说明其主要步骤。</p>
-<p>![MPLS图片](.&#x2F;images&#x2F;bgp 5.png)</p>
+<p><img src="/./images/MPLS5.png" alt="MPLS图片"></p>
 <p>​        1、缺省情况下，网络的路由改变时，如果有一个边缘节点（Egress）发现自己的路由表中出现了新的主机路由，并且这一路由不属于任何现有的FEC，则该边缘节点需要为这一路由建立一个新的FEC。</p>
 <p>​        2、如果MPLS网络的Egress有可供分配的标签，则为FEC分配标签，并主动向上游发出标签映射消息，标签映射消息中包含分配的标签和绑定的FEC等信息。</p>
 <p>​        3、Transit收到标签映射消息后，判断标签映射的发送者（Egress）是否为该FEC的下一跳。若是，则在其标签转发表中增加相应的条目，然后主动向上游LSR发送对于指定FEC的标签映射消息。</p>
@@ -1101,13 +1101,13 @@
 <p><strong>代理LDP LSP的建立过程：</strong></p>
 <p>​        代理Egress（Proxy Egress）是能够针对非本地路由触发建立LSP的Egress节点，当路由器使能倒数第二跳弹出时，倒数第二跳节点实际上就是一种特殊的代理Egress。一般情况下，代理Egress由配置产生。代理Egress可以应用于网络中有不支持MPLS特性的交换机场景，也可用于解决BGP路由负载分担问题。</p>
 <p>​        如图所示，LSR_1、LSR_2和LSR_3处于同一个MPLS域中，LSR_4未使能MPLS LDP（可能由于不支持MPLS LDP特性）。此时，如果将建立LSP的策略配置为所有IGP路由都触发建立LDP LSP，那么LSR_3将成为代理Egress，即在LSR_1、LSR_2和LSR_3仍可以建立到LSR_4的LDP LSP。</p>
-<p>![MPLS图片](.&#x2F;images&#x2F;bgp 6.png)</p>
+<p><img src="/./images/MPLS6.png" alt="MPLS图片"></p>
 <p>​        1、将LSR_3执行lsp-trigger all后即可</p>
 <p>​        2、使用前缀列表匹配，lsp-trigger ip-prefix xxx</p>
 <h2 id="LSP连通性测试"><a href="#LSP连通性测试" class="headerlink" title="LSP连通性测试"></a>LSP连通性测试</h2><p>​		在MPLS网络中，如果通过LSP转发数据失败，负责建立LSP的MPLS控制平面将无法检测到这种错误，加大了网络维护的难度。MPLS Ping&#x2F;MPLS Tracert为用户提供了发现LSP错误、并及时定位失效节点的机制。</p>
 <p>​		MPLS Ping主要用于检查LSP的连通性。MPLS Tracert在检查LSP的连通性的同时，还可以分析网络什么地方发生了故障。类似于普通IP的Ping&#x2F;Tracert，MPLS Ping&#x2F;MPLS Tracert使用MPLS回显请求（Echo Request）报文和MPLS回显应答（Echo Reply）报文检测LSP的可用性。这两种消息都以UDP报文格式发送，其中Echo Request的UDP端口号为3503，该端口号只有使能MPLS功能的设备才能识别。</p>
 <p>​		MPLS Echo Request中携带需要检测的FEC信息，和其他属于此FEC的报文一样沿LSP发送，从而实现对LSP的检测。MPLS Echo Request报文通过MPLS转发给目的端，而MPLS Echo Reply报文则通过IP转发给源端。另外为了防止LSP断路时Echo Request进行IP转发，从而保证LSP的连通性测试，将Echo Request消息的IP头中目的地址设置为127.0.0.1&#x2F;8（本机环回地址），IP头中的TTL值为1。</p>
-<p>![MPLS图片](.&#x2F;images&#x2F;bgp 1.png)</p>
+<p><img src="/./images/MPLS1.png" alt="MPLS图片"></p>
 <p>LSR_1上建立了一条目的地为LSR_4的LSP。从LSR_1对该LSP进行MPLS Ping时的处理如下： </p>
 <ol>
 <li>LSR_1查找该LSP是否存在（对于TE隧道，查找Tunnel接口是否存在且CR-LSP是否建立成功）。如果不存在，返回错误信息，停止Ping。如果存在，则继续进行以下操作。</li>
@@ -1164,9 +1164,9 @@
 </tr>
 </tbody></table>
 <h2 id="L2-L3-VPN"><a href="#L2-L3-VPN" class="headerlink" title="L2&#x2F;L3 VPN"></a>L2&#x2F;L3 VPN</h2><p> MPLS L3VPN报文结构 </p>
-<p>![MPLS图片](.&#x2F;images&#x2F;bgp 1.png)</p>
+<p><img src="/./images/MPLS1.png" alt="MPLS图片"></p>
 <p>MPLS L2VPN报文结构 </p>
-<p>![MPLS图片](.&#x2F;images&#x2F;bgp 2.png)</p>
+<p><img src="/./images/MPLS2.png" alt="MPLS图片"></p>
 <p><strong>各种公网隧道场景下的MPLS报文携带的标签</strong></p>
 <p>在VPN场景下，MPLS报文携带M层私网标签+N层公网隧道标签，M取决于VPN的组网场景（请参见后文），N的取值取决于公网隧道类型。</p>
 <table>
@@ -1202,34 +1202,34 @@
 </tr>
 </tbody></table>
 <p> 各种公网隧道场景下的MPLS报文格式 </p>
-<p>![MPLS图片](.&#x2F;images&#x2F;bgp 3.png)</p>
+<p><img src="/./images/MPLS3.png" alt="MPLS图片"></p>
 <h2 id="跨域VPN-OptionA场景"><a href="#跨域VPN-OptionA场景" class="headerlink" title="跨域VPN OptionA场景"></a>跨域VPN OptionA场景</h2><p>在各AS域内传递时，报文携带1层私网MPLS标签 + N层公网隧道标签（公网隧道标签参见上文）。</p>
 <p>在AS域间传递时，报文不携带MPLS标签。</p>
 <p>跨域VPN OptionA场景下的报文结构 </p>
-<p>![MPLS图片](.&#x2F;images&#x2F;bgp 4.png)</p>
+<p><img src="/./images/MPLS4.png" alt="MPLS图片"></p>
 <h2 id="跨域VPN-OptionB场景"><a href="#跨域VPN-OptionB场景" class="headerlink" title="跨域VPN OptionB场景"></a>跨域VPN OptionB场景</h2><p>在各AS域内传递时，报文携带1层私网MPLS标签 + N层公网隧道标签（公网隧道标签参见上文）。</p>
 <p>在AS域间传递时，报文携带1层私网MPLS标签。</p>
 <p>跨域VPN OptionB场景下的报文结构 </p>
-<p>![MPLS图片](.&#x2F;images&#x2F;bgp 5.png)</p>
+<p><img src="/./images/MPLS5.png" alt="MPLS图片"></p>
 <h2 id="跨域VPN-OptionC场景"><a href="#跨域VPN-OptionC场景" class="headerlink" title="跨域VPN OptionC场景"></a>跨域VPN OptionC场景</h2><p>• 在首发的AS域内传递时，报文携带1层私网标签 + 1层BGP标签 + N层公网隧道标签• 在AS域间传递时，报文携带1层私网标签+1层BGP标签• 在第2个AS域间传递时，报文携带1层私网标签+ N层公网隧道标签</p>
 <p>跨域VPN OptionC场景下的报文结构 </p>
-<p>![MPLS图片](.&#x2F;images&#x2F;bgp 6.png)</p>
+<p><img src="/./images/MPLS6.png" alt="MPLS图片"></p>
 <h2 id="HoVPN-HVPLS场景"><a href="#HoVPN-HVPLS场景" class="headerlink" title="HoVPN&#x2F;HVPLS场景"></a>HoVPN&#x2F;HVPLS场景</h2><p>• 核心层传递时，报文携带1层内层标签+N层公网隧道标签• UPE和SPE之间传递时，报文携带1层内层标签</p>
 <p>跨域VPN OptionC场景下的报文结构 </p>
-<p>![MPLS图片](.&#x2F;images&#x2F;bgp 7.png)</p>
+<p><img src="/./images/MPLS7.png" alt="MPLS图片"></p>
 <h2 id="运营商的运营商CSC（Carriers’-Carrier）场景"><a href="#运营商的运营商CSC（Carriers’-Carrier）场景" class="headerlink" title="运营商的运营商CSC（Carriers’ Carrier）场景"></a>运营商的运营商CSC（Carriers’ Carrier）场景</h2><p>与普通BGP&#x2F;MPLS IP  VPN相比，运营商的运营商的实现关键在于一级运营商CE接入到一级运营商PE这一部分。而二级运营商可能只是普通SP，也可能是BGP&#x2F;MPLS IP  VPN服务提供商。</p>
 <p>• 二级运营商是普通SP时，需要在一级运营商CE之间建立BGP会话交换外部路由。二级运营商内部通过IGP或BGP扩散二级运营商的外部路由。二级运营商用户侧PE可以不部署MPLS。• 二级运营商是BGP&#x2F;MPLS IP VPN服务提供商时，其PE也需要运行MPLS，与一级运营商CE之间运行IGP和LDP。二级运营商PE之间通过MP-BGP会话交换外部路由。</p>
 <p>运营商的运营商场景(二级运营商为普通SP） </p>
-<p>![MPLS图片](.&#x2F;images&#x2F;bgp 8.png)</p>
+<p><img src="/./images/MPLS8.png" alt="MPLS图片"></p>
 <p>运营商的运营商场景(二级运营商也为MPLS VPN  SP） </p>
-<p>![MPLS图片](.&#x2F;images&#x2F;bgp 9.png)</p>
+<p><img src="/./images/MPLS9.png" alt="MPLS图片"></p>
 <p>MPLS L2VPN报文示例</p>
-<p>![MPLS图片](.&#x2F;images&#x2F;bgp 10.png)</p>
+<p><img src="/./images/MPLS10.png" alt="MPLS图片"></p>
 <h2 id="Ping-Tracert"><a href="#Ping-Tracert" class="headerlink" title="Ping&#x2F;Tracert"></a>Ping&#x2F;Tracert</h2><h1 id="MPLS-Ping-Tracert-MPLS-Echo-报文格式"><a href="#MPLS-Ping-Tracert-MPLS-Echo-报文格式" class="headerlink" title="MPLS Ping&#x2F;Tracert (MPLS Echo)报文格式"></a>MPLS Ping&#x2F;Tracert (MPLS Echo)报文格式</h1><p>MPLS LSP Ping&#x2F;Tracert通过发送MPLS Echo消息实现。MPLS  Echo消息使用IPv4&#x2F;IPv6的UDP协议封装，UDP端口为3503，只有使能MPLS的路由器才能够识别该端口号。</p>
 <p>MPLS LSP Traceroute和传统的Traceroute类似，通过连续发送一个TTL步进为1的Echo  Request报文，让LSP沿途的每一个LSR都会收到TTL超时的Echo Request报文，同时回送一个携带下游信息（可选）以及相应返回码的Echo  Reply给发送者。这样发送者就会得到该LSP沿途每一个节点的信息。</p>
 <h3 id="报文格式-1"><a href="#报文格式-1" class="headerlink" title="报文格式"></a>报文格式</h3><p>MPLS Echo消息封装在IPv4&#x2F;IPv6的UDP报文中，可能还带有MPLS标签。MPLS Echo消息中，UDP负载的格式如下：</p>
 <p><strong>图1</strong> MPLS LSP Echo报文格式 </p>
-<p>![MPLS图片](.&#x2F;images&#x2F;bgp 1.png)</p>
+<p><img src="/./images/MPLS1.png" alt="MPLS图片"></p>
 <table>
 <thead>
 <tr>
@@ -1290,27 +1290,27 @@
 </tr>
 </tbody></table>
 <h3 id="报文示例"><a href="#报文示例" class="headerlink" title="报文示例"></a>报文示例</h3><p>MPLS LSP ping request </p>
-<p>![MPLS图片](.&#x2F;images&#x2F;bgp 2.png)</p>
+<p><img src="/./images/MPLS2.png" alt="MPLS图片"></p>
 <p>MPLS LSP ping reply </p>
-<p>![MPLS图片](.&#x2F;images&#x2F;bgp 3.png)</p>
+<p><img src="/./images/MPLS3.png" alt="MPLS图片"></p>
 <p>MPLS TE ping request </p>
-<p>![MPLS图片](.&#x2F;images&#x2F;bgp 4.png)</p>
+<p><img src="/./images/MPLS4.png" alt="MPLS图片"></p>
 <p>MPLS TE ping reply </p>
-<p>![MPLS图片](.&#x2F;images&#x2F;bgp 5.png)</p>
+<p><img src="/./images/MPLS5.png" alt="MPLS图片"></p>
 <p>VCCV ping request </p>
-<p>![MPLS图片](.&#x2F;images&#x2F;bgp 6.png)</p>
+<p><img src="/./images/MPLS6.png" alt="MPLS图片"></p>
 <p>VCCV ping request alert </p>
-<p>![MPLS图片](.&#x2F;images&#x2F;bgp 7.png)</p>
+<p><img src="/./images/MPLS7.png" alt="MPLS图片"></p>
 <p>VPLS MAC Ping Request </p>
-<p> ![MPLS图片](.&#x2F;images&#x2F;bgp 8.png)</p>
+<p> <img src="/./images/MPLS8.png" alt="MPLS图片"></p>
 <p>VPLS MAC Ping Reply </p>
-<p> ![MPLS图片](.&#x2F;images&#x2F;bgp 9.png)</p>
+<p> <img src="/./images/MPLS9.png" alt="MPLS图片"></p>
 <p>VPLS PW Ping Request </p>
-<p>![MPLS图片](.&#x2F;images&#x2F;bgp 10.png)</p>
+<p><img src="/./images/MPLS10.png" alt="MPLS图片"></p>
 <p>VPLS Multi-Hop Ping  Request </p>
-<p> ![MPLS图片](.&#x2F;images&#x2F;bgp 11.png)</p>
+<p> <img src="/./images/MPLS11.png" alt="MPLS图片"></p>
 <p>VPLS Multi-Hop Ping  Reply </p>
-<p>![MPLS图片](.&#x2F;images&#x2F;bgp 12.png)</p>
+<p><img src="/./images/MPLS12.png" alt="MPLS图片"></p>
 <h1 id="其它杂项记录"><a href="#其它杂项记录" class="headerlink" title="其它杂项记录"></a>其它杂项记录</h1><p>pop倒数第二跳弹出，减轻倒数第一跳的负担</p>
 <p>LSP建立的标签通道可以是单向的</p>
 <p>支持打Tag的路由：静态、RIPv2、OSPF、IS-IS。BGP不支持</p>

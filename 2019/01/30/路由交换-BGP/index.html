@@ -779,7 +779,7 @@
     <div class="article-meta">
         <!-- 修改了原始显示，原始显示更新日期为悬浮 -->
         <!-- 
-            发布时间 : <time class="date" title='最后更新: 2023-10-18 08:38:38'>2019-01-30 00:00</time>
+            发布时间 : <time class="date" title='最后更新: 2023-10-20 17:25:47'>2019-01-30 00:00</time>
          -->
 
         
@@ -889,8 +889,8 @@
 <p>​      若去往最佳BGP路由的下一跳的路由存在等价路由，则BGPBGP路由自动基于下一跳的负载分担</p>
 <p>​      若去往同一条BGP路由存在多个下一跳，且前8条选路规则相同时，则可以启用负载分担</p>
 <h1 id="状态机（六种）"><a href="#状态机（六种）" class="headerlink" title="状态机（六种）"></a>状态机（六种）</h1><p><strong>★BGP有限状态机共有六种状态，分别是Idle、Connect、Active、OpenSent、OpenConfirm和Established。</strong></p>
-<p>![BGP协议图片](.&#x2F;images&#x2F;bgp 28.png)</p>
-<p>![BGP协议图片](.&#x2F;images&#x2F;bgp 30.png)</p>
+<p><img src="/./images/bgp28.png" alt="BGP协议图片"></p>
+<p><img src="/./images/bgp30.png" alt="BGP协议图片"></p>
 <p><strong>lIdle状态</strong>是BGP初始状态。在Idle状态下，BGP拒绝邻居发送的连接请求。只有在收到本设备的Start事件后，BGP才开始尝试和其它BGP对等体进行TCP连接，并转至Connect状态。</p>
 <p>​        •Start事件是由一个操作者配置一个BGP过程，或者重置一个已经存在的过程或者路由器软件重置BGP过程引起的。</p>
 <p>​        •任何状态中收到Notification报文或TCP拆除链路通知等Error事件后，BGP都会转至Idle状态。</p>
@@ -998,9 +998,9 @@
 <h1 id="报文格式"><a href="#报文格式" class="headerlink" title="报文格式"></a>报文格式</h1><p>BGP报文由 <font color=#008000>BGP报文头</font> 和 <font color=blue>具体报文内容</font> 两部分组成。</p>
 <p><font color=red>BGP的运行是通过消息驱动的，共有5种消息类型</font>，这些消息有相同的报文头。这些消息通过TCP协议进行传播（端口号是179）。消息最长为4096字节，最短为19字节（只包含报文头）。</p>
 <p>BGP报文头包括三的部分，总长19字节。各个部分的格式和功能如下：</p>
-<p>![BGP协议图片](.&#x2F;images&#x2F;bgp 7.png)</p>
+<p><img src="/./images/bgp7.png" alt="BGP协议图片"></p>
 <p>• Marker：占16字节，用于检查BGP对等体的同步信息是否完整，以及用于BGP验证的计算。不使用验证时所有比特均为1（十六进制则全“FF”）。<br>• Length：占2个字节（无符号位），BGP消息总长度（包括报文头在内），以字节为单位。长度范围是19～4096。<br>• Type：占1个字节（无符号位），BGP消息的类型。Type有5个可选值，表示BGP报文头后面所接的5类报文</p>
-<p>![BGP协议图片](.&#x2F;images&#x2F;bgp 29.png)</p>
+<p><img src="/./images/bgp29.png" alt="BGP协议图片"></p>
 <table>
 <thead>
 <tr>
@@ -1030,7 +1030,7 @@
 </tr>
 </tbody></table>
 <h2 id="1-OPEN"><a href="#1-OPEN" class="headerlink" title="1&#x3D;OPEN"></a>1&#x3D;OPEN</h2><p>BGP报文头中的TYPE&#x3D;1，则该报文为OPEN报文。报文头后面所接的报文内容如下，OPEN报文用于建立BGP连接：</p>
-<p>![BGP协议图片](.&#x2F;images&#x2F;bgp 8.png)</p>
+<p><img src="/./images/bgp8.png" alt="BGP协议图片"></p>
 <table>
 <thead>
 <tr>
@@ -1149,9 +1149,9 @@
 </tr>
 </tbody></table>
 <p>OPEN_MESSAGE报文示例（数据包样本在CherryTree20220328.ctb）：👇</p>
-<p>![BGP协议图片](.&#x2F;images&#x2F;bgp 9.png)</p>
+<p><img src="/./images/bgp9.png" alt="BGP协议图片"></p>
 <h2 id="2-UPDATE"><a href="#2-UPDATE" class="headerlink" title="2&#x3D;UPDATE"></a>2&#x3D;UPDATE</h2><p>BGP报文头中的TYPE为2，则该报文为UPDATE报文。报文头后面所接的报文内容如下（RFC 4271），UPDATE报文用于通告路由。</p>
-<p>![BGP协议图片](.&#x2F;images&#x2F;bgp 10.png)</p>
+<p><img src="/./images/bgp10.png" alt="BGP协议图片"></p>
 <table>
 <thead>
 <tr>
@@ -1182,10 +1182,10 @@
 </tr>
 </tbody></table>
 <p>Path Attributes-变长<br>包含要更新的路由属性列表，按类型号从小到大的顺序排序，填写更新的路由的所有属性。每一个属性单元包括属性类型，属性长度，属性值三部分。其编码采用TLV格式。如下所示。</p>
-<p>![BGP协议图片](.&#x2F;images&#x2F;bgp 1.png)</p>
+<p><img src="/./images/bgp1.png" alt="BGP协议图片"></p>
 <p>Attr.TYPE占2个字节，包括1字节的Flags和1字节的Type Code。</p>
 <p>TLV结构－Type</p>
-<p>![BGP协议图片](.&#x2F;images&#x2F;bgp 2.png)</p>
+<p><img src="/./images/bgp2.png" alt="BGP协议图片"></p>
 <p>Attr.Flags：占1个字节（8个bit），表示属性的标记，其每个bit位的意义如下显示：</p>
 <p>​        O: Optional bit, 属性的可选性。决定属性是否为必携带属性。带可选属性（optional）设为1，公认属性（well-known）设为零。</p>
 <p>​        T: Transitive bit 属性的可传递性。对于可选属性，是可传递的设为1，非可传递的设为0。对于公认属性必须设为1。</p>
@@ -1276,9 +1276,9 @@
 </tr>
 </tbody></table>
 <p>BGP UPDATE报文示例（数据包样本在CherryTree20220328.ctb）：👇</p>
-<p>![BGP协议图片](.&#x2F;images&#x2F;bgp 11.png)</p>
+<p><img src="/./images/bgp11.png" alt="BGP协议图片"></p>
 <h2 id="3-NOTIFICATION"><a href="#3-NOTIFICATION" class="headerlink" title="3-NOTIFICATION"></a>3-NOTIFICATION</h2><p>BGP报文头中的TYPE&#x3D;3，则该报文为NOTIFICATION报文</p>
-<p>![BGP协议图片](.&#x2F;images&#x2F;bgp 12.png)</p>
+<p><img src="/./images/bgp12.png" alt="BGP协议图片"></p>
 <p>各字段解释如下：</p>
 <p>​      ▪ Error code：占1个字节（无符号位），定义错误的类型，非特定的错误类型用零表示。</p>
 <p>​      ▪ Error subcode：占1个字节（无符号位），指定错误细节编号，非特定的错误细节编号用零表示。</p>
@@ -1420,14 +1420,14 @@
 </tr>
 </tbody></table>
 <p>BGP NOTIFICATION报文示例（数据包样本在CherryTree20220328.ctb）：👇</p>
-<p>![BGP协议图片](.&#x2F;images&#x2F;bgp 13.png)</p>
+<p><img src="/./images/bgp13.png" alt="BGP协议图片"></p>
 <h2 id="4-KEEPALIVE"><a href="#4-KEEPALIVE" class="headerlink" title="4-KEEPALIVE"></a>4-KEEPALIVE</h2><p>BGP报文头中的TYPE&#x3D;4，则该报文为KEEPALIVE报文。KEEPALIVE报文用于保持BGP连接。</p>
 <p>KEEPALIVE报文只有BGP报文头，没有具体内容，故其报文长度应固定为19个字节。</p>
 <p>BGP KEEPALIVE报文示例（数据包样本在CherryTree20220328.ctb）：👇</p>
-<p>![BGP协议图片](.&#x2F;images&#x2F;bgp 14.png)</p>
+<p><img src="/./images/bgp14.png" alt="BGP协议图片"></p>
 <h2 id="5-REFRESH"><a href="#5-REFRESH" class="headerlink" title="5-REFRESH"></a>5-REFRESH</h2><p>BGP报文头中TYPE&#x3D;5，则该报文为REFRESH报文。报文头后面所接的报文内容如下，REFRESH报文用于动态的请求BGP路由发布者重新发布UPDATE报文，进行路由更新。</p>
 <p>ORF使用，报文中会携带需要接收的路由和拒绝接收的路由（按需接受路由）</p>
-<p>![BGP协议图片](.&#x2F;images&#x2F;bgp 15.png)</p>
+<p><img src="/./images/bgp15.png" alt="BGP协议图片"></p>
 <table>
 <thead>
 <tr>
@@ -1453,7 +1453,7 @@
 </tr>
 </tbody></table>
 <p>BGP REFRESH报文示例（数据包样本在CherryTree20220328.ctb）：👇</p>
-<p>![BGP协议图片](.&#x2F;images&#x2F;bgp 16.png)</p>
+<p><img src="/./images/bgp16.png" alt="BGP协议图片"></p>
 <h1 id="★反射器"><a href="#★反射器" class="headerlink" title="★反射器"></a>★反射器</h1><p>BGP路由反射器简化IBGP全互联得网络架构。反射器只能在IBGP内使用</p>
 <p>BGP路由反射解释：打破IBGP水平分割规则的路由传递</p>
 <p>IBGP全互联：</p>
@@ -1471,7 +1471,7 @@
 <p>​        始发者（Originator）：在AS内部始发路由的设备。Originator_ID属性用于防止集群内产生路由环路。</p>
 <p>​        集群（Cluster）：路由反射器及其客户机的集合。Cluster_List属性用于防止集群间产生路由环路。</p>
 <p><strong>BGP路由反射器-反射规则</strong></p>
-<p>![BGP协议图片](.&#x2F;images&#x2F;bgp 17.png)</p>
+<p><img src="/./images/bgp17.png" alt="BGP协议图片"></p>
 <p>在向IBGP邻居发布学习到的路由信息时，RR按照以下规则发布路由</p>
 <p>​        从EBGP对等体学到的路由，发布给所有的非客户机和客户机。</p>
 <p>​        从非客户机IBGP对等体学到的路由，发布给此RR的所有客户机。</p>
@@ -1493,7 +1493,7 @@
 <p>到达同一目的的路由一条有originator id，一条路由没有，则用origintor id和router id做比较，小优先</p>
 <p>华为先比较cluster list 再比较router id，若路由没有cluster list，则判定cluster list&#x3D;0，进行比较（思科相反）</p>
 <h3 id="BGP反射器类型–备份RR"><a href="#BGP反射器类型–备份RR" class="headerlink" title="BGP反射器类型–备份RR"></a>BGP反射器类型–备份RR</h3><p>Ⅰ、相同集群中的路由反射器要共享相同的Cluster_ID<br>Ⅱ、<font color=red>Cluster_List的应用保证了同一AS内的不同RR之间不出现路由循环</font></p>
-<p>![BGP协议图片](.&#x2F;images&#x2F;bgp 18.png)</p>
+<p><img src="/./images/bgp18.png" alt="BGP协议图片"></p>
 <p>当客户机Client1从外部对等体接收到一条更新路由（10.0.0.0&#x2F;24）后，它通过IBGP向RR1和RR2通告这条路由。</p>
 <p>RR1接收到该更新路由后，它向其他的客户机（Client2、Client3）和非客户机（RR2）反射，同时将本地Cluster_ID添加到Cluster_List前面。</p>
 <p>RR2接收到该反射路由后，检查Cluster_List，发现自己的Cluster_ID已经包含在Cluster_List中。因此，它丢弃该更新路由，不再向自己的客户机反射。</p>
@@ -1502,19 +1502,19 @@
 <p>​        在冗余的环境里，客户机会收到不同反射器发来的到达同一目的地的多条路由，这时客户机应用BGP选择路由的策略来选择最佳路由。</p>
 <p>​        Cluster_List的应用保证了同一AS内的不同RR之间不出现路由循环。</p>
 <h3 id="BGP反射器类型–同级反射器"><a href="#BGP反射器类型–同级反射器" class="headerlink" title="BGP反射器类型–同级反射器"></a>BGP反射器类型–同级反射器</h3><p> <strong>一个AS中可能存在多个集群，各个RR之间是IBGP对等体的关系</strong></p>
-<p>![BGP协议图片](.&#x2F;images&#x2F;bgp 20.png)</p>
+<p><img src="/./images/bgp20.png" alt="BGP协议图片"></p>
 <p>一个骨干网被分成多个反射集群，每个RR将其它的RR配置成非客户机，各RR之间建立全连接。</p>
 <p>每个客户机只与所在集群的RR建立IBGP连接。这样该自治系统内的所有BGP路由器都会收到反射路由信息。</p>
 <h3 id="BGP反射器类型–分级反射器"><a href="#BGP反射器类型–分级反射器" class="headerlink" title="BGP反射器类型–分级反射器"></a>BGP反射器类型–分级反射器</h3><p><strong>将较低网络层次的RR配成更高网络层次中RR的客户机</strong></p>
-<p>![BGP协议图片](.&#x2F;images&#x2F;bgp 21.png)</p>
+<p><img src="/./images/bgp21.png" alt="BGP协议图片"></p>
 <p>Cluster1中部署了一个一级RR（RR-1），Cluster2和Cluster3中的RR(RR-2和RR-3)作为RR-1的客户端。</p>
-<p>![BGP协议图片](.&#x2F;images&#x2F;bgp 22.png)</p>
+<p><img src="/./images/bgp22.png" alt="BGP协议图片"></p>
 <h3 id="★反射器和联盟的比较"><a href="#★反射器和联盟的比较" class="headerlink" title="★反射器和联盟的比较"></a>★反射器和联盟的比较</h3><p>​        1- 联盟需要重新划分区域，对现网改动较大。</p>
 <p>​        2- 反射器在配置时，只需要对RR进行配置，客户机不需要做任何其他的操作；联盟需要在所有路由器上进行配置。</p>
 <p>​        3- RR与RR间需要IBGP全互联。</p>
 <p>​        4- 路由反射器应用较为广泛；联盟应用较少。</p>
 <h1 id="★联盟"><a href="#★联盟" class="headerlink" title="★联盟"></a>★联盟</h1><p>将一个AS划分为若干个子AS，每个子AS内部建立全连接的IBGP邻居，子AS之间建立EBGP连接关系</p>
-<p>![BGP协议图片](.&#x2F;images&#x2F;bgp 23.png)</p>
+<p><img src="/./images/bgp23.png" alt="BGP协议图片"></p>
 <p>​        Ⅰ、联盟将一个AS划分为若干个子AS。每个子AS内部建立IBGP全连接关系，子AS之间建立联盟EBGP连接关系，但联盟外部AS仍认为联盟是一个AS。</p>
 <p>​        Ⅱ、配置联盟后，原AS号将作为每个路由器的联盟ID。</p>
 <p>​        Ⅲ、原有的IBGP 属性，包括Local Preference属性、MED属性和NEXT_HOP属性等；联盟相关的属性在传出联盟时会自动被删除，即管理员无需在联盟的出口处配置过滤子AS号等信息的操作。</p>
@@ -1538,24 +1538,24 @@
 <p>​        ④ AS_SEQUENCE: 由一系列AS号顺序地组成，包含在UPDATE消息里。一般情况下，AS_PATH类型为AS_SEQUENCE。</p>
 <p>​        ⑤ AS_CONFED_SEQUENCE: 在本地联盟内由一系列成员AS号按顺序地组成，包含在UPDATE消息中，用法和AS_SEQUENCE相同，只能在本地联盟内传递。</p>
 <p>​        ⑥ AS_CONFED_SET: 在本地联盟内由一系列成员AS无序地组成，包含在UPDATE消息中，用法和AS_SET相同，只能在本地联盟内传递。</p>
-<p>![BGP协议图片](.&#x2F;images&#x2F;bgp 24.png)</p>
+<p><img src="/./images/bgp24.png" alt="BGP协议图片"></p>
 <p>接收EBGP：AS_PATH不能有联盟AS号，可以有成员AS号</p>
 <p>接收成员EBGP：AS_PATH可以有联盟AS，不能有成员AS</p>
-<p>![BGP协议图片](.&#x2F;images&#x2F;bgp 25.png)</p>
+<p><img src="/./images/bgp25.png" alt="BGP协议图片"></p>
 <h3 id="★反射器和联盟的比较-1"><a href="#★反射器和联盟的比较-1" class="headerlink" title="★反射器和联盟的比较"></a>★反射器和联盟的比较</h3><p>​        1- 联盟需要重新划分区域，对现网改动较大。</p>
 <p>​        2- 反射器在配置时，只需要对RR进行配置，客户机不需要做任何其他的操作；联盟需要在所有路由器上进行配置。</p>
 <p>​        3- RR与RR间需要IBGP全互联。</p>
 <p>​        4- 路由反射器应用较为广泛；联盟应用较少。</p>
 <h1 id="路由汇总"><a href="#路由汇总" class="headerlink" title="路由汇总"></a>路由汇总</h1><p>BGP路由汇总：<font color=green>自动路由汇总</font>、<font color=orange>手动路由汇总</font></p>
 <p><font color=green>自动路由汇总：summary outo 后无参数</font></p>
-<p>![BGP协议图片](.&#x2F;images&#x2F;bgp 26.png)</p>
+<p><img src="/./images/bgp26.png" alt="BGP协议图片"></p>
 <p><font color=green>1- </font>只能汇总有类网络，汇总精确度差，易产生黑洞或次优路由<br><font color=green>2- </font>对汇总路由得BGP属性修改能力差。可能抑制明细路由发送<br><font color=green>3- </font>只能对import-route得路由生效，对邻居传来的或者network的BGP路由无效<br><font color=green>4- </font>默认关闭自动路由汇总，不支持CIDR（无类别域间路由是基于可变长子网掩码（VLSM)来进行任意长度的前缀的分配的）</p>
 <p><strong>⭕提示⭕</strong></p>
 <p>（1）只对引入的BGP路由会自动聚合，network宣告进BGP的路由无法执行自动聚合。<br>（2）只对始发与本地的BGP路由聚合会生效，对于通过其他BGP设备传递而来的外部路由聚合不会生效。<br>（3）只将聚合后的路由发布出去<br>（4）聚合后自动在本地生成一条指向聚合的Null路由来防止可能出现的环路<br>（5）默认情况BGP设备的自动聚合是关闭的</p>
 <figure class="highlight plaintext"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br></pre></td><td class="code"><pre><span class="line">[AR-3]bgp 300	</span><br><span class="line">[AR-3-bgp]net 192.168.1.3 32 </span><br><span class="line">[AR-3-bgp]ipv4-family unicast </span><br><span class="line">[AR-3-bgp-af-ipv4]summary automatic  //开启本BGP设备的自动汇总，自动汇总只对引入（重分发）进本BGP的路由有效，会将路由汇总为主类路由</span><br></pre></td></tr></table></figure>
 
 <p><font color=orange>手动路由汇总：Aggregation</font></p>
-<p>![BGP协议图片](.&#x2F;images&#x2F;bgp 27.png)</p>
+<p><img src="/./images/bgp27.png" alt="BGP协议图片"></p>
 <p><font color=orange>1- </font>对BGP本地路由表中的路由进行聚合。手动聚合可以控制聚合路由的属性，以及决定是否发布明细路由。<br><font color=orange>2- </font>聚合路由不会携带成员明细路由的AS_PATH属性。<br><font color=orange>3- </font>通过AS_SET属性来携带AS号，以避免环路。SET和SEQUENCE的不同之处在于，SET选项下的AS列表通常用于路由聚合，将来自不同AS的AS号无序排列在AS列表里；而SEQUENCE选项下的AS列表是有序的，每经过一个AS都会将其AS号排列在列表的前端。<br><font color=orange>4- </font>聚合路由中添加AS_SET有可能产生路由震荡。</p>
 <p><strong>⭕提示⭕</strong></p>
 <p>① 聚合后明细和聚合路由都发布出去<br>        （1）对宣告；引入；始发；以及通过BGP学到的路由都会生效<br>        （2）汇总后将明细和汇总路由都传递出去<br>        （3）汇总后的路由不再携带明细路由的AS号，只携带汇总设备的AS号，此路由以汇总设备作为始发。<br>        （4）聚合后自动在本地生成一条指向聚合的Null路由来防止可能出现的环路</p>
@@ -1591,29 +1591,29 @@
 <p><font color=gray>B端；orf接收方，可配置为send、recive、both</font></p>
 <p>​     <font color=gray>1、peer x.x.x.x capability-advertise orf ip-prefix receive 接收orf通告后将不在发送A端过滤的路由</font></p>
 <p>配置后A、B两端BGP邻居关系会重建，建立邻居时orf发送方A 会向接收方B发送route-refresh-message，然后进行update-message（正常情况下不会发送）。</p>
-<p>![BGP协议图片](.&#x2F;images&#x2F;bgp 1.png)</p>
+<p><img src="/./images/bgp1.png" alt="BGP协议图片"></p>
 <p>​        直连EBGP邻居中，Client1、R1协商基于前缀的ORF 能力后，Client1将本地配置的基于前缀的入口策略打包到Route-refresh报文中发送给R1。R1根据接收到的路由刷新报文构造出口策略，通过Route-refresh报文发送路由给Client1。Client1只收到它需要的路由，而R1不必维护路由策略，减少了配置工作。</p>
 <p>​        Client1、Client2为RR的客户端，Client1与RR、Client2与RR，分别协商基于前缀的ORF 能力，Client1、Client2将本地配置的基于前缀的入口策略打包到Route-refresh 报文中发送给RR。RR 根据接收到的前缀信息构造出口策略，通过Route-refresh 报文将路由反射给Client1、Client2。Client1和Client2只收到需要的路由，RR不必维护路由策略，减少了配置工作。</p>
 <p><font color="#006666">BGP增强特性-Active-Route-Advertise</font></p>
 <p>只有当BGP路由被成功的安装进路由表，该路由才能被发送给邻居。在IP路由表中路由为active状态时才能传递给邻居</p>
-<p>![BGP协议图片](.&#x2F;images&#x2F;bgp 2.png)</p>
+<p><img src="/./images/bgp2.png" alt="BGP协议图片"></p>
 <p>默认情况下路由只需在BGP中优选即可向邻居发布。配置了此特性之后，路由必须同时满足在BGP协议层面优选与在路由管理层面活跃两个条件，才能向邻居发布。</p>
 <p>命令<strong>bgp-rib-only</strong>（用来禁止BGP路由下发到IP路由表）互斥。只要是最优路由将通告出去，但不加入路由表。RR中使用将减少BGP对路由表的占用</p>
 <p><font color="#006666">BGP增强特性-BGP按组打包</font></p>
 <p>​        按组打包技术将所有拥有共同出口策略的BGP邻居当作是一个打包组l每条待发送路由只被打包一次然后发给组内的所有邻居</p>
 <p>​        每条待发送路由只被打包一次然后发给组内的所有邻居</p>
-<p>![BGP协议图片](.&#x2F;images&#x2F;bgp 3.png)</p>
+<p><img src="/./images/bgp3.png" alt="BGP协议图片"></p>
 <p>缺省情况下，BGP会针对不同邻居（即使出口策略相同）单独打包路由。</p>
 <p>应用按组打包功能后，每条待发送路由只被打包一次然后发给组内的所有邻居，使打包效率成倍提升。</p>
 <p>一个反射器有3个客户机，有10万条路由需要反射。如果按照每个邻居分别打包的方式，反射器RR在向3个客户机发送路由的时候，所有路由被打包的总次数是10万×3。而按组打包技术将这个过程变为10 万×1，性能相当于提升了3倍。</p>
 <p><font color="#006666">BGP增强特性-4字节AS号概念</font><font color=red>解决AS号不够用问题，扩展到4字节32bit</font></p>
 <p>Ⅰ、4字节AS号特性是将AS号的编码范围由2字节扩大到4字节<br>Ⅱ、定义了一种新的Open能力码用于进行BGP连接的能力协商<br>Ⅲ、2种新的可选过渡属性，AS4_Path和AS4_Aggregator<br>Ⅳ、<font color=orange>定义AS_TRANS（保留&#x2F;固定值为23456）用于衔接2字节AS和4字节AS</font></p>
-<p>![BGP协议图片](.&#x2F;images&#x2F;bgp 4.png)</p>
+<p><img src="/./images/bgp4.png" alt="BGP协议图片"></p>
 <p>peer 2x.x.x.x capability-advertise 4-byte-as</p>
 <p><font color="#006666">BGP增强特性—按策略进行下一跳迭代</font></p>
 <p>通过配置路由策略来限制迭代到的路由。如果路由不能通过路由策略，则该路由迭代失败</p>
 <p>lBGP需要对非直连的下一跳进行路由迭代，但是如果不对迭代到的路由进行过滤的话，可能会迭代到一个错误的转发路径上。按策略进行下一跳迭代就是通过配置路由策略来限制迭代到的路由。如果路由不能通过路由策略，则该路由迭代失败。</p>
-<p>![BGP协议图片](.&#x2F;images&#x2F;bgp 5.png)</p>
+<p><img src="/./images/bgp5.png" alt="BGP协议图片"></p>
 <figure class="highlight plaintext"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br><span class="line">11</span><br><span class="line">12</span><br><span class="line">13</span><br><span class="line">14</span><br><span class="line">15</span><br></pre></td><td class="code"><pre><span class="line">R1配置</span><br><span class="line">bgp xx</span><br><span class="line">  peer 2.2.2.2 as-number x</span><br><span class="line">  peer 2.2.2.2 connect-interface LoopBack 0</span><br><span class="line">  peer 3.3.3.3 as-number x </span><br><span class="line">  peer 3.3.3.3 connect-interface LoopBack 0</span><br><span class="line">  nexthop recursive-lookup route-policy next</span><br><span class="line">#</span><br><span class="line">route-policy next permit node 10</span><br><span class="line">  if-match ip-prefix abc</span><br><span class="line">#</span><br><span class="line">ip ip-prefix abc index 10 permit 2.2.2.2 32</span><br><span class="line">ip ip-prefix abc index 20 permit 3.3.3.3 32</span><br><span class="line">#</span><br><span class="line">当有多条路由可达时,限制只从指定得地址学习路由</span><br></pre></td></tr></table></figure>
 
 <p>​        R1和R2、R3之间通过Loopback口建立IBGP邻居。R1从R2、R3分别收到了前缀为10.0.0.0&#x2F;24的BGP路由。其中从R2收到的BGP路由的原始下一跳为2.2.2.2。另外，R1上Ethernet0&#x2F;0&#x2F;0的接口地址为2.2.2.100&#x2F;24。</p>

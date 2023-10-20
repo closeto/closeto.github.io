@@ -779,7 +779,7 @@
     <div class="article-meta">
         <!-- 修改了原始显示，原始显示更新日期为悬浮 -->
         <!-- 
-            发布时间 : <time class="date" title='最后更新: 2023-10-18 08:38:38'>2019-02-10 00:00</time>
+            发布时间 : <time class="date" title='最后更新: 2023-10-20 17:25:47'>2019-02-10 00:00</time>
          -->
 
         
@@ -840,7 +840,7 @@
 <h1 id="报文格式"><a href="#报文格式" class="headerlink" title="报文格式"></a>报文格式</h1><p><strong>OSPFv3报头格式</strong></p>
 <p>OSPFv3用IPv6报文直接封装协议报文，协议号为89。OSPFv3分为5种报文：Hello报文、DD报文、LSR报文、LSU报文和LSAck报文。</p>
 <p>报文头格式，OSPFv3这五种报文具有相同的报文头格式，长度为24字节</p>
-<p>![ospf 1.png](.&#x2F;images&#x2F;ospf 1.png)</p>
+<p><img src="/./images/ospf1.png" alt="ospf 1.png"></p>
 <table>
 <thead>
 <tr>
@@ -891,7 +891,7 @@
 </tr>
 </tbody></table>
 <h2 id="Hello"><a href="#Hello" class="headerlink" title="Hello"></a>Hello</h2><p>其作用为建立和维护邻接关系，周期性的在使能了OSPFv3的接口上发送。报文内容包括一些定时器的数值、DR、BDR以及已知的邻居</p>
-<p>![ospf 1.png](.&#x2F;images&#x2F;ospf 1.png)</p>
+<p><img src="/./images/ospf1.png" alt="ospf 1.png"></p>
 <table>
 <thead>
 <tr>
@@ -979,7 +979,7 @@
 <p>ff02::5&#x2F;6</p>
 <p>在同一网段上，其HelloInterval、PollInterval和RouterDeadInterval必须分别一致，否则不能形成邻居关系。在NBMA网络上还有一种PollInterval。</p>
 <h2 id="DD"><a href="#DD" class="headerlink" title="DD"></a>DD</h2><p>两台ME设备在邻接关系初始化时，用DD报文描述本端ME设备的LSDB，进行数据库的同步。报文内容包括LSDB中每一条LSA的Header（LSA的Header可以唯一标识一条LSA）。LSA Header只占一条LSA的整个数据量的一小部分，这样可以减少ME设备之间的协议报文流量，对端ME设备根据LSA Header就可以判断出是否已有这条LSA。在两台ME设备交换DD报文的过程中，一台为Master，另一台为Slave。由Master规定起始序列号，每发送一个DD报文序列号加1，Slave方使用Master的序列号作为确认</p>
-<p>![ospf 1.png](.&#x2F;images&#x2F;ospf 1.png)</p>
+<p><img src="/./images/ospf1.png" alt="ospf 1.png"></p>
 <table>
 <thead>
 <tr>
@@ -1025,7 +1025,7 @@
 </tr>
 </tbody></table>
 <h2 id="LSR"><a href="#LSR" class="headerlink" title="LSR"></a>LSR</h2><p>两台ME设备互相交换过DD报文之后，需要发送LSR报文向对方请求更新LSA，内容包括所需要的LSA的摘要信息</p>
-<p>![ospf 1.png](.&#x2F;images&#x2F;ospf 1.png)</p>
+<p><img src="/./images/ospf1.png" alt="ospf 1.png"></p>
 <table>
 <thead>
 <tr>
@@ -1052,7 +1052,7 @@
 </tbody></table>
 <p>LS type、Link State ID和Advertising Router可以唯一标识出一个LSA。当两个LSA一样时，需要根据LSA中的LS sequence number、LS checksum和LS age来判断出所需要LSA的新旧。</p>
 <h2 id="LSU"><a href="#LSU" class="headerlink" title="LSU"></a>LSU</h2><p>LSU报文用来向对端ME设备发送其所需要的LSA或者泛洪本端更新的LSA，内容是多条LSA（全部内容）的集合。LSU报文在支持组播和广播的网络中是以组播形式将LSA泛洪出去。为了实现Flooding的可靠性传输，需要LSAck报文对其进行确认，对没有收到确认报文的LSA进行重传，重传的LSA是直接发送到邻居的</p>
-<p>![ospf 1.png](.&#x2F;images&#x2F;ospf 1.png)</p>
+<p><img src="/./images/ospf1.png" alt="ospf 1.png"></p>
 <table>
 <thead>
 <tr>
@@ -1068,7 +1068,7 @@
 </tr>
 </tbody></table>
 <h2 id="LS-ACK"><a href="#LS-ACK" class="headerlink" title="LS-ACK"></a>LS-ACK</h2><p>LSAck报文用来对接收到的LSU报文进行确认，内容是需要确认的LSA的Header（一个LSAck报文可对多个LSA进行确认）。LSAck报文根据不同的链路以单播或组播的形式发送，</p>
-<p>![ospf 1.png](.&#x2F;images&#x2F;ospf 1.png)</p>
+<p><img src="/./images/ospf1.png" alt="ospf 1.png"></p>
 <table>
 <thead>
 <tr>
@@ -1085,7 +1085,7 @@
 </tbody></table>
 <h1 id="LSA格式"><a href="#LSA格式" class="headerlink" title="LSA格式"></a>LSA格式</h1><p>常用的LSA共有5种，分别为：Router-LSA、Network-LSA、Network-summary-LSA、ASBR-summary-LSA和AS-External-LSA。</p>
 <p>所有的LSA都有相同的报文头：</p>
-<p>![ospf 1.png](.&#x2F;images&#x2F;ospf 1.png)</p>
+<p><img src="/./images/ospf1.png" alt="ospf 1.png"></p>
 <table>
 <thead>
 <tr>
@@ -1143,7 +1143,7 @@
 <p>AS-external-LSA（Type5）由ASBR产生，描述到AS外部的路由，OSPF域内传播（除特殊区域）</p>
 <p>NSSA LSA（Type7）由ASBR产生，描述到AS外部的路由，仅在NSSA区域内传播。</p>
 <h2 id="LSA报文固定格式"><a href="#LSA报文固定格式" class="headerlink" title="LSA报文固定格式"></a>LSA报文固定格式</h2><p>所有的LSA都有相同的报文头</p>
-<p>![ospf 4.png](.&#x2F;images&#x2F;ospf 4.png)</p>
+<p><img src="/./images/ospf4.png" alt="ospf 4.png"></p>
 <table>
 <thead>
 <tr>
@@ -1189,7 +1189,7 @@
 </tr>
 </tbody></table>
 <h2 id="Router-LSA"><a href="#Router-LSA" class="headerlink" title="Router-LSA"></a>Router-LSA</h2><p>Router-LSA（Type1）：每个ME设备都会产生，描述了ME设备的链路状态和花费，在所属的区域内传播</p>
-<p>![ospf 4.png](.&#x2F;images&#x2F;ospf 4.png)</p>
+<p><img src="/./images/ospf4.png" alt="ospf 4.png"></p>
 <table>
 <thead>
 <tr>
@@ -1255,7 +1255,7 @@
 </tr>
 </tbody></table>
 <h2 id="Network-LSA"><a href="#Network-LSA" class="headerlink" title="Network-LSA"></a>Network-LSA</h2><p>Network-LSA（Type2）：由广播网或NBMA网络中的DR产生，Network-LSA中记录了这一网络上所有ME设备的Router ID，描述本网段的链路状态，在所属的区域内传播</p>
-<p>![ospf 4.png](.&#x2F;images&#x2F;ospf 4.png)</p>
+<p><img src="/./images/ospf4.png" alt="ospf 4.png"></p>
 <table>
 <thead>
 <tr>
@@ -1276,7 +1276,7 @@
 </tr>
 </tbody></table>
 <h2 id="Inter-Area-Prefix-LSA"><a href="#Inter-Area-Prefix-LSA" class="headerlink" title="Inter-Area-Prefix-LSA"></a>Inter-Area-Prefix-LSA</h2><p>Inter-Area-Prefix-LSA（Type3）：描述区域内某个网段的路由，由ABR产生，并通告给其他相关区域。</p>
-<p>![ospf 4.png](.&#x2F;images&#x2F;ospf 4.png)</p>
+<p><img src="/./images/ospf4.png" alt="ospf 4.png"></p>
 <table>
 <thead>
 <tr>
@@ -1302,7 +1302,7 @@
 </tr>
 </tbody></table>
 <h2 id="Inter-Area-Router-LSA"><a href="#Inter-Area-Router-LSA" class="headerlink" title="Inter-Area-Router-LSA"></a>Inter-Area-Router-LSA</h2><p>Inter-Area-Router-LSA（Type4）：由ABR产生，描述到ASBR的路由，通告给除ASBR所在区域的其他相关区域。</p>
-<p>![ospf 4.png](.&#x2F;images&#x2F;ospf 4.png)</p>
+<p><img src="/./images/ospf4.png" alt="ospf 4.png"></p>
 <table>
 <thead>
 <tr>
@@ -1318,7 +1318,7 @@
 </tr>
 </tbody></table>
 <h2 id="AS-External-LSA"><a href="#AS-External-LSA" class="headerlink" title="AS-External-LSA"></a>AS-External-LSA</h2><p>AS-External-LSA描述到AS外部的路由，由ASBR产生。</p>
-<p>![ospf 4.png](.&#x2F;images&#x2F;ospf 4.png)</p>
+<p><img src="/./images/ospf4.png" alt="ospf 4.png"></p>
 <table>
 <thead>
 <tr>
@@ -1364,7 +1364,7 @@
 </tr>
 </tbody></table>
 <h2 id="NSSA-LSA"><a href="#NSSA-LSA" class="headerlink" title="NSSA-LSA"></a>NSSA-LSA</h2><p>NSSA-LSA描述到AS外部的路由，由ASBR产生。</p>
-<p>![ospf 4.png](.&#x2F;images&#x2F;ospf 4.png)</p>
+<p><img src="/./images/ospf4.png" alt="ospf 4.png"></p>
 <table>
 <thead>
 <tr>
@@ -1410,7 +1410,7 @@
 </tr>
 </tbody></table>
 <h2 id="Link-LSA"><a href="#Link-LSA" class="headerlink" title="Link-LSA"></a>Link-LSA</h2><p>每个ME设备都会为每个链路产生一个Link-LSA，描述到此Link上的link-local地址、IPv6前缀地址，并提供将会在Network-LSA中设置的链路选项，它仅在此链路内传播。</p>
-<p>![ospf 4.png](.&#x2F;images&#x2F;ospf 4.png)</p>
+<p><img src="/./images/ospf4.png" alt="ospf 4.png"></p>
 <table>
 <thead>
 <tr>
@@ -1443,7 +1443,7 @@
 <h2 id="Intra-Area-Prefix-LSA"><a href="#Intra-Area-Prefix-LSA" class="headerlink" title="Intra-Area-Prefix-LSA"></a>Intra-Area-Prefix-LSA</h2><p>每个ME设备及DR都会产生一个或多个此类LSA，在所属的区域内传播。</p>
 <p>• ME设备产生的此类LSA，描述与Route-LSA相关联的IPv6前缀地址。</p>
 <p>• DR产生的此类LSA，描述与Network-LSA相关联的IPv6前缀地址。</p>
-<p>![ospf 4.png](.&#x2F;images&#x2F;ospf 4.png)</p>
+<p><img src="/./images/ospf4.png" alt="ospf 4.png"></p>
 <table>
 <thead>
 <tr>
