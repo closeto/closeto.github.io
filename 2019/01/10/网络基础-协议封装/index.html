@@ -2,24 +2,22 @@
 <html>
 <head>
   <meta charset="utf-8">
-  <title>欢迎来到closeto的博客</title>
-  <meta name="keywords" content="">
-  <meta name="description" content="欢迎来到closeto的博客">
+  <title>Etherenet协议封装 | 欢迎来到closeto的博客</title>
+  <meta name="keywords" content=" 2019 ">
+  <meta name="description" content="Etherenet协议封装 | 欢迎来到closeto的博客">
     <meta name="viewport" content="width=device-width, initial-scale=1, maximum-scale=1">
-<meta name="description" content="VXLAN的部署和使用，使用ENSP来模拟 分布式网关CE12800上端口封装模式为：dolt1q 实验拓扑图如下：模拟实现跨数据中心访问，客户端的网关均在本地CE上  LSW1、LSW2配置：1234567891011121314151617181920212223242526272829303132sy LSW1#vlan batch 20 30#interface Ethernet0&#x2F;0&#x2F;1">
+<meta name="description" content="一、准备工作下载对应版本的内核文件    hostnamectl    Kernel官网下载地址：https:&#x2F;&#x2F;kernel.org&#x2F; 环境Centos9 &amp; 准备工作CentOS-Stream-9-latest-x86_64-dvd1-miniyum install -y gcc ncurses-devel *ncurses bison flex libelf-dev libelf-d">
 <meta property="og:type" content="article">
-<meta property="og:title" content="欢迎来到closeto的博客">
-<meta property="og:url" content="https://closeto.github.io/2023/10/21/%E8%B7%AF%E7%94%B1%E4%BA%A4%E6%8D%A2-VXLAN-04/index.html">
+<meta property="og:title" content="Busybox搭建最小Linux">
+<meta property="og:url" content="https://closeto.github.io/2023/03/10/busybox%E6%90%AD%E5%BB%BA%E6%9C%80%E5%B0%8FLinux/index.html">
 <meta property="og:site_name" content="欢迎来到closeto的博客">
-<meta property="og:description" content="VXLAN的部署和使用，使用ENSP来模拟 分布式网关CE12800上端口封装模式为：dolt1q 实验拓扑图如下：模拟实现跨数据中心访问，客户端的网关均在本地CE上  LSW1、LSW2配置：1234567891011121314151617181920212223242526272829303132sy LSW1#vlan batch 20 30#interface Ethernet0&#x2F;0&#x2F;1">
+<meta property="og:description" content="一、准备工作下载对应版本的内核文件    hostnamectl    Kernel官网下载地址：https:&#x2F;&#x2F;kernel.org&#x2F; 环境Centos9 &amp; 准备工作CentOS-Stream-9-latest-x86_64-dvd1-miniyum install -y gcc ncurses-devel *ncurses bison flex libelf-dev libelf-d">
 <meta property="og:locale" content="zh_CN">
-<meta property="og:image" content="https://closeto.github.io/images/VXLAN04-1.png">
-<meta property="og:image" content="https://closeto.github.io/images/VXLAN04-2.png">
-<meta property="article:published_time" content="2023-10-21T10:24:45.426Z">
+<meta property="article:published_time" content="2023-03-10T04:30:00.000Z">
 <meta property="article:author" content="closeto">
-<meta property="article:tag" content="学习记录">
+<meta property="article:tag" content="Linux">
+<meta property="article:tag" content="2023">
 <meta name="twitter:card" content="summary">
-<meta name="twitter:image" content="https://closeto.github.io/images/VXLAN04-1.png">
 
 
 <link rel="icon" href="/img/ico.png">
@@ -57,7 +55,7 @@
 
 
 <body>
-<aside class="nav mobile">
+<aside class="nav">
     <div class="nav-left">
         <a href="/"
    class="avatar_target">
@@ -104,7 +102,7 @@
     <li>
         <div class="all active" data-rel="全部文章">全部文章
             
-                <small>(48)</small>
+                <small>(50)</small>
             
         </div>
     </li>
@@ -174,10 +172,25 @@
                 
     <li>
         <div data-rel="数字通信">
-            
+            <i class="fold iconfont icon-right"></i>
             数字通信
-            <small>(6)</small>
+            <small>(12)</small>
         </div>
+        
+            <ul class="sub hide">
+                
+                    
+    <li>
+        <div data-rel="数字通信&lt;---&gt;网络基础">
+            
+            网络基础
+            <small>(1)</small>
+        </div>
+        
+    </li>
+
+                
+            </ul>
         
     </li>
 
@@ -214,6 +227,10 @@
             
         
     
+        
+            
+        
+    
 </ul>
 <div class="left-bottom">
     <div class="menus">
@@ -230,7 +247,7 @@
         
     </div>
 </div>
-<input type="hidden" id="yelog_site_posts_number" value="48">
+<input type="hidden" id="yelog_site_posts_number" value="50">
 
 <div style="display: none">
     <span id="busuanzi_value_site_uv"></span>
@@ -278,6 +295,10 @@
         
             <li class="article-tag-list-item">
                 <i class="iconfont icon-tag"></i><a>2019</a>
+            </li>
+        
+            <li class="article-tag-list-item">
+                <i class="iconfont icon-tag"></i><a>2020</a>
             </li>
         
             <li class="article-tag-list-item">
@@ -338,42 +359,6 @@
 
     
     <nav id="title-list-nav">
-        
-        
-        <a  class="全部文章 "
-           href="/2023/10/21/%E8%B7%AF%E7%94%B1%E4%BA%A4%E6%8D%A2-VXLAN-04/"
-           data-tag=""
-           data-author="" >
-            <span class="post-title" title=""></span>
-            <span class="post-date" title="2023-10-21 18:24:45">2023/10/21</span>
-        </a>
-        
-        
-        <a  class="全部文章 "
-           href="/2023/10/21/%E8%B7%AF%E7%94%B1%E4%BA%A4%E6%8D%A2-VXLAN-03/"
-           data-tag=""
-           data-author="" >
-            <span class="post-title" title=""></span>
-            <span class="post-date" title="2023-10-21 18:16:04">2023/10/21</span>
-        </a>
-        
-        
-        <a  class="全部文章 "
-           href="/2023/10/21/%E8%B7%AF%E7%94%B1%E4%BA%A4%E6%8D%A2-VXLAN-02/"
-           data-tag=""
-           data-author="" >
-            <span class="post-title" title=""></span>
-            <span class="post-date" title="2023-10-21 17:06:01">2023/10/21</span>
-        </a>
-        
-        
-        <a  class="全部文章 "
-           href="/2023/10/21/%E8%B7%AF%E7%94%B1%E4%BA%A4%E6%8D%A2-VXLAN-01/"
-           data-tag=""
-           data-author="" >
-            <span class="post-title" title=""></span>
-            <span class="post-date" title="2023-10-21 15:11:27">2023/10/21</span>
-        </a>
         
         
         <a  class="全部文章 Linux相关 "
@@ -719,6 +704,42 @@
         
         
         <a  class="全部文章 数字通信 "
+           href="/2020/02/10/%E8%B7%AF%E7%94%B1%E4%BA%A4%E6%8D%A2-VXLAN-04/"
+           data-tag="2020"
+           data-author="" >
+            <span class="post-title" title="虚拟扩展局域网-VXLAN-04">虚拟扩展局域网-VXLAN-04</span>
+            <span class="post-date" title="2020-02-10 00:00:00">2020/02/10</span>
+        </a>
+        
+        
+        <a  class="全部文章 数字通信 "
+           href="/2020/01/30/%E8%B7%AF%E7%94%B1%E4%BA%A4%E6%8D%A2-VXLAN-03/"
+           data-tag="2020"
+           data-author="" >
+            <span class="post-title" title="虚拟扩展局域网-VXLAN-03">虚拟扩展局域网-VXLAN-03</span>
+            <span class="post-date" title="2020-01-30 00:00:00">2020/01/30</span>
+        </a>
+        
+        
+        <a  class="全部文章 数字通信 "
+           href="/2020/01/20/%E8%B7%AF%E7%94%B1%E4%BA%A4%E6%8D%A2-VXLAN-02/"
+           data-tag="2020"
+           data-author="" >
+            <span class="post-title" title="虚拟扩展局域网-VXLAN-02">虚拟扩展局域网-VXLAN-02</span>
+            <span class="post-date" title="2020-01-20 00:00:00">2020/01/20</span>
+        </a>
+        
+        
+        <a  class="全部文章 数字通信 "
+           href="/2020/01/10/%E8%B7%AF%E7%94%B1%E4%BA%A4%E6%8D%A2-VXLAN-01/"
+           data-tag="2020"
+           data-author="" >
+            <span class="post-title" title="虚拟扩展局域网-VXLAN-01">虚拟扩展局域网-VXLAN-01</span>
+            <span class="post-date" title="2020-01-10 00:00:00">2020/01/10</span>
+        </a>
+        
+        
+        <a  class="全部文章 数字通信 "
            href="/2019/03/01/%E8%B7%AF%E7%94%B1%E4%BA%A4%E6%8D%A2-MPLS/"
            data-tag="2019"
            data-author="" >
@@ -771,6 +792,24 @@
             <span class="post-date" title="2019-01-10 00:00:00">2019/01/10</span>
         </a>
         
+        
+        <a  class="全部文章 数字通信 网络基础 "
+           href="/2019/01/10/%E7%BD%91%E7%BB%9C%E5%9F%BA%E7%A1%80-%E5%8D%8F%E8%AE%AE%E5%B0%81%E8%A3%85/"
+           data-tag="2019"
+           data-author="" >
+            <span class="post-title" title="Etherenet协议封装">Etherenet协议封装</span>
+            <span class="post-date" title="2019-01-10 00:00:00">2019/01/10</span>
+        </a>
+        
+        
+        <a  class="全部文章 数字通信 "
+           href="/2019/01/01/%E8%99%9A%E6%8B%9F%E5%8C%96-EXSI/"
+           data-tag="2019"
+           data-author="" >
+            <span class="post-title" title="虚拟化-EXSI">虚拟化-EXSI</span>
+            <span class="post-date" title="2019-01-01 00:00:00">2019/01/01</span>
+        </a>
+        
         <div id="no-item-tips">
 
         </div>
@@ -787,12 +826,67 @@
         </div>
     </div>
 </aside>
-<div id="post" class="index">
+<div id="post">
     <div class="pjax">
-        <article class="index">
-            <div class="toc-ref">
+        <article id="post-网络基础-协议封装" class="article article-type-post" itemscope itemprop="blogPost">
     
-        <ol class="toc"><li class="toc-item toc-level-1"><a class="toc-link" href="#%E4%B8%8D%E8%BF%87%E6%98%AF%E7%AB%99%E5%9C%A8%E4%B8%8D%E5%90%8C%E8%A7%92%E5%BA%A6%E7%9A%84%E8%A7%82%E7%82%B9%E7%BD%A2%E4%BA%86"><span class="toc-text">不过是站在不同角度的观点罢了</span></a></li></ol>
+        <h1 class="article-title">Etherenet协议封装</h1>
+    
+    <div class="article-meta">
+        
+        
+        
+        <span class="book">
+            <i class="iconfont icon-category"></i>
+            
+            
+            <a  data-rel="数字通信">数字通信</a> > 
+            
+            <a  data-rel="数字通信&lt;---&gt;网络基础">网络基础</a>
+            
+        </span>
+        
+        
+        <span class="tag">
+            <i class="iconfont icon-tag"></i>
+            
+            <a class="color5">2019</a>
+            
+        </span>
+        
+    </div>
+    <div class="article-meta">
+        <!-- 修改了原始显示，原始显示更新日期为悬浮 -->
+        <!-- 
+            发布时间 : <time class="date" title='最后更新: 2023-10-22 00:31:37'>2019-01-10 00:00</time>
+         -->
+
+        
+            发布时间 : 2019-01-10 00:00</time>
+        <br>
+
+        
+    </div>
+    <div class="article-meta">
+        
+        
+        <span id="busuanzi_container_page_pv">
+            阅读 :<span id="busuanzi_value_page_pv">
+                <span class="count-comment">
+                    <span class="spinner">
+                      <div class="cube1"></div>
+                      <div class="cube2"></div>
+                    </span>
+                </span>
+            </span>
+        </span>
+        
+        
+    </div>
+    
+    <div class="toc-ref">
+    
+        <ol class="toc"><li class="toc-item toc-level-1"><a class="toc-link" href="#Etherenet-II%E3%80%81IPV4%E4%B8%BA%E5%9B%BA%E5%AE%9A%E6%8A%A5%E5%A4%B4"><span class="toc-text">Etherenet II、IPV4为固定报头</span></a></li><li class="toc-item toc-level-1"><a class="toc-link" href="#TCP"><span class="toc-text">TCP</span></a></li><li class="toc-item toc-level-1"><a class="toc-link" href="#UDP"><span class="toc-text">UDP</span></a></li></ol>
     
 <style>
     .left-col .switch-btn,
@@ -805,34 +899,29 @@
     }
 </style>
 </div>
-            <h1 id="不过是站在不同角度的观点罢了"><a href="#不过是站在不同角度的观点罢了" class="headerlink" title="不过是站在不同角度的观点罢了"></a><center>不过是站在不同角度的观点罢了</center></h1><p><font color="red"> <strong>数据错误正在修正——恢复10%</strong></font></p>
-<p>📌<strong>为什么写此博客</strong>📌</p>
-<pre><code>Ⅰ、思维过于跳跃
-Ⅱ、记录学习和思考的过程
-Ⅲ、通过文章来锻炼文字功底
-Ⅳ、其实大部分都是本地笔记🙄
-</code></pre>
-<p>截止目前已经写了<code class="article_number"></code>篇文章， 共<a title="我也不知道多少啊( •̀ ω •́ )" target="_blank"> x? </a>字。</p>
-<center><svg t="1692869769231" class="icon" viewBox="0 0 1024 1024" version="1.1" xmlns="http://www.w3.org/2000/svg" p-id="3973" width="200" height="200"><path d="M605.045 424.892l-127.848-39.726-98.146 91.014 29.703 130.74 127.848 39.725 98.145-91.014z" fill="#597EF7" opacity=".179" p-id="3974"></path><path d="M865.689 361.79L737.84 322.065l-98.146 91.014 29.703 130.739 127.848 39.725 98.145-91.013zM425.192 230.922l-127.847-39.726L199.2 282.21l29.702 130.74 127.848 39.724 98.145-91.013z" fill="#1296db" opacity=".222" p-id="3975" data-spm-anchor-id="a313x.search_index.0.i10.30143a817ZG66j" class="selected"></path><path d="M359.336726 495.347445L231.489061 455.621107 133.343996 546.635288 163.04632 677.374847l127.847113 39.724416 98.145341-91.01322z" fill="#597EF7" opacity=".46" p-id="3976"></path><path d="M560.276 136.276l-98.257 90.876 29.598 130.393 127.857 39.517 98.257-90.876-29.598-130.393z" fill="#597EF7" opacity=".332" p-id="3977"></path><path d="M319.51 735.111l29.6 130.393 127.855 39.516 98.258-90.877-29.599-130.392-127.855-39.517z" fill="#1296db" opacity=".275" p-id="3978" data-spm-anchor-id="a313x.search_index.0.i11.30143a817ZG66j" class="selected"></path><path d="M567.516 663.997l29.599 130.392 127.856 39.516 98.257-90.877-29.598-130.391-127.856-39.517z" fill="#1296db" opacity=".768" p-id="3979" data-spm-anchor-id="a313x.search_index.0.i9.30143a817ZG66j" class="selected"></path></svg></center>
+    
+    <div class="article-entry" itemprop="articleBody">
+      
+        <h1 id="Etherenet-II、IPV4为固定报头"><a href="#Etherenet-II、IPV4为固定报头" class="headerlink" title="Etherenet II、IPV4为固定报头"></a>Etherenet II、IPV4为固定报头</h1><p><img src="/./images/PROTOCOL1.png"><br><strong>Frame 17: 60 bytes on wire (480 bits), 60 bytes captured (480 bits) on interface \Device\NPF_{57C65069-437C-46C3-909A-29365EBB8BE7}, id 0</strong>     <strong>第17号帧：线路60字节，实际捕获60字节，\Device\NPF-网卡ID</strong><br>​    Interface id: 0 (\Device\NPF_{57C65069-437C-46C3-909A-29365EBB8BE7})<br>​        Interface name: \Device\NPF_{57C65069-437C-46C3-909A-29365EBB8BE7}<br>​        Interface description: WLAN           <strong>网卡描述</strong><br>​    Encapsulation type: Ethernet (1)          <strong>封装类型，一般为以太网？</strong><br>​    Arrival Time: Mar 24, 2021 09:34:19.212018000 中国标准时间      <strong>获取报文时间</strong><br>​    [Time shift for this packet: 0.000000000 seconds]<br>​    Epoch Time: 1616549659.212018000 seconds<br>​    [Time delta from previous captured frame: 0.000000000 seconds]    <strong>此包与前一包的时间间隔</strong><br>​    [Time delta from previous displayed frame: 0.000000000 seconds]<br>​    [Time since reference or first frame: 0.767874000 seconds]            <strong>此包与第一帧的时间间隔</strong><br>​    Frame Number: 17                          <strong>帧序号</strong><br>​    Frame Length: 60 bytes (480 bits)      <strong>帧长度</strong><br>​    Capture Length: 60 bytes (480 bits)    <strong>捕获长度</strong><br>​    [Frame is marked: False]                  <strong>此帧是否做了标记：否</strong><br>​    [Frame is ignored: False]                  <strong>此帧是否忽略标记：否</strong><br>​    [Protocols in frame: eth:ethertype:ip:tcp]        <strong>封装协议层次</strong><br>​    [Coloring Rule Name: TCP]                <strong>着色标记的协议名称</strong><br>​    [Coloring Rule String: tcp]                  <strong>着色规则显示的字符串</strong><br><strong>Ethernet II, Src: HuaweiTe_a8:c4:b8 (7c:1c:f1:a8:c4:b8), Dst: IntelCor_8a:1c:13 (1c:1b:b5:8a:1c:13)</strong><br>​    Destination: IntelCor_8a:1c:13 (1c:1b:b5:8a:1c:13)<br>​        Address: IntelCor_8a:1c:13 (1c:1b:b5:8a:1c:13)<br>​        …. ..0. …. …. …. …. &#x3D; LG bit: Globally unique address (factory default)             <strong>多点传送</strong><br>​        …. …0 …. …. …. …. &#x3D; IG bit: Individual address (unicast)                              <strong>本地管理</strong><br>​    Source: HuaweiTe_a8:c4:b8 (7c:1c:f1:a8:c4:b8)<br>​        Address: HuaweiTe_a8:c4:b8 (7c:1c:f1:a8:c4:b8)<br>​        …. ..0. …. …. …. …. &#x3D; LG bit: Globally unique address (factory default)             <strong>多点传送</strong><br>​        …. …0 …. …. …. …. &#x3D; IG bit: Individual address (unicast)                              <strong>本地管理</strong><br>​    Type: IPv4 (0x0800)<br>​    Padding: 000000000000                                                                                  <strong>填充字节 ，为0Bytes或4Bytes的倍数</strong><br><strong>Internet Protocol Version 4, Src: 77.74.181.62, Dst: 10.51.53.243</strong><br>​    0100 …. &#x3D; Version: 4<br>​    …. 0101 &#x3D; Header Length: 20 bytes (5)<br>​    Differentiated Services Field: 0x00 (DSCP: CS0, ECN: Not-ECT)<br>​        0000 00.. &#x3D; Differentiated Services Codepoint: Default (0)                                <strong>流量优先级，6bit，范围0~63</strong><br>​        …. ..00 &#x3D; Explicit Congestion Notification: Not ECN-Capable Transport (0)       <strong>阻塞控制：(0)和(1)支持、****11表示阻塞</strong><br>​    Total Length: 40                                                                                     <strong>总长度</strong><br>​    Identification: 0x6872 (26738)                             <strong>标识位（每发送一次值+1）</strong>；<strong>用于区分数据包（分片时数据包标识位相同）</strong><br>​    Flags: 0x40, Don’t fragment                                <strong>标志位</strong><br>​        0… …. &#x3D; Reserved bit: Not set                        无实际意义<br>​        .1.. …. &#x3D; Don’t fragment: Set                          <strong>允许分片&#x3D;0，不允许分片&#x3D;1</strong><br>​        ..0. …. &#x3D; More fragments: Not set                   <strong>不是最后一个分片&#x3D;1，是最后一个分片&#x3D;0</strong><br>​    Fragment Offset: 0                                            <strong>片偏移；用来重排序，它标识分段在当前数据包的位置，Bytes</strong><br>​    Time to Live: 51                                                <strong>存活时间，每经过一台路由器TTL值减一</strong><br>​    Protocol: TCP (6)                                               <strong>上层协议；范围0~255</strong><br>​    Header Checksum: 0x9caf [validation disabled]                                                     <strong>校验和：0x9caf[禁止校验]</strong>——–》Wireshark为了避免抓包过程中持续出现“校验和错误”消息，默认情况下决定禁用校验和验证。（简写）<br>​                                                                                                                        打开校验方式： edit-&gt;preference-&gt;protocol中选择相应的tcp协议，相应的地方打勾<br>​    [Header checksum status: Unverified]                                                                 <strong>头校验和：未定义</strong><br>​    Source Address: 77.74.181.62<br>​    Destination Address: 10.51.53.243<br><strong>Transmission Control Protocol, Src Port: 443, Dst Port: 55132, Seq: 1, Ack: 78, Len: 0</strong><br>​    Source Port: 443<br>​    Destination Port: 55132<br>​    [Stream index: 0]<br>​    [TCP Segment Len: 0]                                    <strong>TCP写一下的Payload的值Bytes</strong><br>​    Sequence Number: 1    (relative sequence number)<br>​    Sequence Number (raw): 2252076819<br>​    [Next Sequence Number: 1    (relative sequence number)]<br>​    Acknowledgment Number: 78    (relative ack number)<br>​    Acknowledgment number (raw): 3959089272<br>​    0101 …. &#x3D; Header Length: 20 bytes (5)<br>​    Flags: 0x010 (ACK)<br>​        000. …. …. &#x3D; Reserved: Not set<br>​        …0 …. …. &#x3D; Nonce: Not set<br>​        …. 0… …. &#x3D; Congestion Window Reduced (CWR): Not set<br>​        …. .0.. …. &#x3D; ECN-Echo: Not set<br>​        …. ..0. …. &#x3D; Urgent: Not set<br>​        …. …1 …. &#x3D; Acknowledgment: Set<br>​        …. …. 0… &#x3D; Push: Not set<br>​        …. …. .0.. &#x3D; Reset: Not set<br>​        …. …. ..0. &#x3D; Syn: Not set<br>​        …. …. …0 &#x3D; Fin: Not set<br>​        [TCP Flags: ·······A····]<br>​    Window: 63952<br>​    [Calculated window size: 63952]<br>​    [Window size scaling factor: -1 (unknown)]<br>​    Checksum: 0x487a [unverified]<br>​    [Checksum Status: Unverified]<br>​    Urgent Pointer: 0<br>​    [SEQ&#x2F;ACK analysis]<br>​        [This is an ACK to the segment in frame: 7]<br>​        [The RTT to ACK the segment was: 0.279641000 seconds]<br>​    [Timestamps]<br>​        [Time since first frame in this TCP stream: 0.279641000 seconds]<br>​        [Time since previous frame in this TCP stream: 0.279339000 seconds]</p>
+<p><strong>Transmission Control Protocol, Src Port: 443, Dst Port: 55132, Seq: 1, Ack: 855, Len: 55</strong><br>​    Source Port: 443<br>​    Destination Port: 55132<br>​    [Stream index: 0]<br>​    [TCP Segment Len: 55]<br>​    Sequence Number: 1    (relative sequence number)<br>​    Sequence Number (raw): 2252076819<br>​    [Next Sequence Number: 56    (relative sequence number)]<br>​    Acknowledgment Number: 855    (relative ack number)<br>​    Acknowledgment number (raw): 3959090049<br>​    0101 …. &#x3D; Header Length: 20 bytes (5)<br>​    Flags: 0x018 (PSH, ACK)<br>​        000. …. …. &#x3D; Reserved: Not set<br>​        …0 …. …. &#x3D; Nonce: Not set<br>​        …. 0… …. &#x3D; Congestion Window Reduced (CWR): Not set<br>​        …. .0.. …. &#x3D; ECN-Echo: Not set<br>​        …. ..0. …. &#x3D; Urgent: Not set<br>​        …. …1 …. &#x3D; Acknowledgment: Set<br>​        …. …. 1… &#x3D; Push: Set<br>​        …. …. .0.. &#x3D; Reset: Not set<br>​        …. …. ..0. &#x3D; Syn: Not set<br>​        …. …. …0 &#x3D; Fin: Not set<br>​        [TCP Flags: ·······AP···]<br>​    Window: 63952<br>​    [Calculated window size: 63952]<br>​    [Window size scaling factor: -1 (unknown)]<br>​    Checksum: 0x2d95 [unverified]<br>​    [Checksum Status: Unverified]<br>​    Urgent Pointer: 0<br>​    [SEQ&#x2F;ACK analysis]<br>​        [Bytes in flight: 55]<br>​        [Bytes sent since last PSH flag: 55]<br>​    [Timestamps]<br>​        [Time since first frame in this TCP stream: 0.280352000 seconds]<br>​        [Time since previous frame in this TCP stream: 0.000711000 seconds]<br>​    TCP payload (55 bytes)<br>Transport Layer Security</p>
+<h1 id="TCP"><a href="#TCP" class="headerlink" title="TCP"></a>TCP</h1><p><strong>Frame 17: 60 bytes on wire (480 bits), 60 bytes captured (480 bits) on interface \Device\NPF_{57C65069-437C-46C3-909A-29365EBB8BE7}, id 0</strong>     <strong>第17号帧：线路60字节，实际捕获60字节，\Device\NPF-网卡ID</strong><br>​    Interface id: 0 (\Device\NPF_{57C65069-437C-46C3-909A-29365EBB8BE7})<br>​        Interface name: \Device\NPF_{57C65069-437C-46C3-909A-29365EBB8BE7}<br>​        Interface description: WLAN           <strong>网卡描述</strong><br>​    Encapsulation type: Ethernet (1)          <strong>封装类型，一般为以太网？</strong><br>​    Arrival Time: Mar 24, 2021 09:34:19.212018000 中国标准时间      <strong>获取报文时间</strong><br>​    [Time shift for this packet: 0.000000000 seconds]<br>​    Epoch Time: 1616549659.212018000 seconds<br>​    [Time delta from previous captured frame: 0.000000000 seconds]    <strong>此包与前一包的时间间隔</strong><br>​    [Time delta from previous displayed frame: 0.000000000 seconds]<br>​    [Time since reference or first frame: 0.767874000 seconds]            <strong>此包与第一帧的时间间隔</strong><br>​    Frame Number: 17                          <strong>帧序号</strong><br>​    Frame Length: 60 bytes (480 bits)      <strong>帧长度</strong><br>​    Capture Length: 60 bytes (480 bits)    <strong>捕获长度</strong><br>​    [Frame is marked: False]                  <strong>此帧是否做了标记：否</strong><br>​    [Frame is ignored: False]                  <strong>此帧是否忽略标记：否</strong><br>​    [Protocols in frame: eth:ethertype:ip:tcp]        <strong>封装协议层次</strong><br>​    [Coloring Rule Name: TCP]                <strong>着色标记的协议名称</strong><br>​    [Coloring Rule String: tcp]                  <strong>着色规则显示的字符串</strong><br><strong>Ethernet II, Src: HuaweiTe_a8:c4:b8 (7c:1c:f1:a8:c4:b8), Dst: IntelCor_8a:1c:13 (1c:1b:b5:8a:1c:13)</strong><br>​    Destination: IntelCor_8a:1c:13 (1c:1b:b5:8a:1c:13)<br>​        Address: IntelCor_8a:1c:13 (1c:1b:b5:8a:1c:13)<br>​        …. ..0. …. …. …. …. &#x3D; LG bit: Globally unique address (factory default)             <strong>多点传送</strong><br>​        …. …0 …. …. …. …. &#x3D; IG bit: Individual address (unicast)                              <strong>本地管理</strong><br>​    Source: HuaweiTe_a8:c4:b8 (7c:1c:f1:a8:c4:b8)<br>​        Address: HuaweiTe_a8:c4:b8 (7c:1c:f1:a8:c4:b8)<br>​        …. ..0. …. …. …. …. &#x3D; LG bit: Globally unique address (factory default)             <strong>多点传送</strong><br>​        …. …0 …. …. …. …. &#x3D; IG bit: Individual address (unicast)                              <strong>本地管理</strong><br>​    Type: IPv4 (0x0800)<br>​    Padding: 000000000000                                                                                  <strong>填充字节 ，为0Bytes或4Bytes的倍数</strong><br><strong>Internet Protocol Version 4, Src: 77.74.181.62, Dst: 10.51.53.243</strong><br>​    0100 …. &#x3D; Version: 4<br>​    …. 0101 &#x3D; Header Length: 20 bytes (5)<br>​    Differentiated Services Field: 0x00 (DSCP: CS0, ECN: Not-ECT)<br>​        0000 00.. &#x3D; Differentiated Services Codepoint: Default (0)                                <strong>流量优先级，6bit，范围0~63</strong><br>​        …. ..00 &#x3D; Explicit Congestion Notification: Not ECN-Capable Transport (0)       <strong>阻塞控制：(0)和(1)支持、****11表示阻塞</strong><br>​    Total Length: 40                                                                                     <strong>总长度</strong><br>​    Identification: 0x6872 (26738)                             <strong>标识位（每发送一次值+1）</strong>；<strong>用于区分数据包（分片时数据包标识位相同）</strong><br>​    Flags: 0x40, Don’t fragment                                <strong>标志位</strong><br>​        0… …. &#x3D; Reserved bit: Not set                        无实际意义<br>​        .1.. …. &#x3D; Don’t fragment: Set                          <strong>允许分片&#x3D;0，不允许分片&#x3D;1</strong><br>​        ..0. …. &#x3D; More fragments: Not set                   <strong>不是最后一个分片&#x3D;1，是最后一个分片&#x3D;0</strong><br>​    Fragment Offset: 0                                            <strong>片偏移；用来重排序，它标识分段在当前数据包的位置，Bytes</strong><br>​    Time to Live: 51                                                <strong>存活时间，每经过一台路由器TTL值减一</strong><br>​    Protocol: TCP (6)                                               <strong>上层协议；范围0~255</strong><br>​    Header Checksum: 0x9caf [validation disabled]                                                     <strong>校验和：0x9caf[禁止校验]</strong>——–》Wireshark为了避免抓包过程中持续出现“校验和错误”消息，默认情况下决定禁用校验和验证。（简写）<br>​                                                                                                                        打开校验方式： edit-&gt;preference-&gt;protocol中选择相应的tcp协议，相应的地方打勾<br>​    [Header checksum status: Unverified]                                                                 <strong>头校验和：未定义</strong><br>​    Source Address: 77.74.181.62<br>​    Destination Address: 10.51.53.243</p>
+<h1 id="UDP"><a href="#UDP" class="headerlink" title="UDP"></a>UDP</h1>
+      
+       <hr><span style="font-style: italic;color: gray;"> 转载请注明来源，欢迎对文章进行指正，联系邮箱 vou0515@gmail.com </span>
+    </div>
+</article>
 
-<p>博客的目录结构如下，并在不断的将本地文章重新整理并发布。</p>
-<ul>
-<li>Web安全</li>
-<li>内网安全</li>
-<li>JAVA安全</li>
-<li>应急响应</li>
-<li>Windows相关</li>
-<li>Linux相关</li>
-<li>数字通信</li>
-<li>随心随想</li>
-<li>考证学习</li>
-<li>其它</li>
-</ul>
-<p>访问人数：<code class="site_uv"></code>人次 ， 访问量：<code class="site_pv"></code>次</p>
 
-        </article>
-        
-        
+
+
+
+
+
+    
+
+
+
+
     </div>
     <div class="copyright">
         <p class="footer-entry">
@@ -841,11 +930,11 @@
 <p class="footer-entry">Built with Hexo</p>
 
     </div>
-</div>
-<div class="full-toc">
-    <button class="full" data-title="切换全屏 快捷键 s"><span class="min "></span></button>
+    <div class="full-toc">
+        <button class="full" data-title="切换全屏 快捷键 s"><span class="min "></span></button>
 <a class="" id="rocket" ></a>
 
+    </div>
 </div>
 
 </body>
