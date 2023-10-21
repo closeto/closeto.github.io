@@ -856,7 +856,7 @@
     <div class="article-meta">
         <!-- 修改了原始显示，原始显示更新日期为悬浮 -->
         <!-- 
-            发布时间 : <time class="date" title='最后更新: 2023-10-22 00:31:37'>2020-01-30 00:00</time>
+            发布时间 : <time class="date" title='最后更新: 2023-10-22 00:51:18'>2020-01-30 00:00</time>
          -->
 
         
@@ -904,14 +904,14 @@
 <p>在VXLAN网络中，为了提高可靠性，用户经常会部署多个网关进行主备备份，以保证一台网关设备故障时流量可以及时切换到另外的网关设备上，避免业务中断。</p>
 <p>通过部署VRRP，可以解决上述问题。但由于VRRP组网中，仅主网关设备能够进行流量转发，提供网关服务，备网关设备仅在主网关故障后才提供网关服务，导致网关设备利用率低，网关故障收敛性能低。用户希望在保证可靠性的同时，多个网关都可以同时转发流量，充分利用设备资源。</p>
 <p><img src="/./images/VXLAN73.png"></p>
-<p>通过配置VXLAN集中式多活网关可以解决上述问题。VXLAN集中式多活网关是指在典型的“Spine-Leaf”组网结构下，通过给Spine设备配置相同的VTEP地址，将多个Spine设备模拟成一个VXLAN隧道端点，然后在所有Spine设备上配置三层网关，使得无论流量发到哪一个Spine设备，该设备都可以提供网关服务，将报文正确转发给下一跳设备；同样，从其他网络访问本网络的流量，无论发到哪一个Spine设备，都能被正确转发给网络内的主机。如[图1](<a href="http://mk:@MSITStore:E:\lz\VXLAN\CloudEngine">http://mk:@MSITStore:E:\lz\VXLAN\CloudEngine</a> 12800, 12800E系列交换机 V200R019C00 产品文档.chm::&#x2F;dc&#x2F;dc_fd_vxlan_0014_new.html#ZH-CN_CONCEPT_0141118892__fig_dc_fd_vxlan_001401)所示，在Spine1和Spine2配置VXLAN集中式多活网关功能，保证这两台网关设备可以同时转发流量，以提高设备资源利用率和网络故障收敛性能。</p>
+<p>通过配置VXLAN集中式多活网关可以解决上述问题。VXLAN集中式多活网关是指在典型的“Spine-Leaf”组网结构下，通过给Spine设备配置相同的VTEP地址，将多个Spine设备模拟成一个VXLAN隧道端点，然后在所有Spine设备上配置三层网关，使得无论流量发到哪一个Spine设备，该设备都可以提供网关服务，将报文正确转发给下一跳设备；同样，从其他网络访问本网络的流量，无论发到哪一个Spine设备，都能被正确转发给网络内的主机。在Spine1和Spine2配置VXLAN集中式多活网关功能，保证这两台网关设备可以同时转发流量，以提高设备资源利用率和网络故障收敛性能。</p>
 <p>采用VXLAN集中式多活网关时，Spine设备作为三层网关设备，所有通过三层转发的终端租户的表项都需要在该设备上生成，而Spine设备的表项规格有限，当VM或服务器数量越来越多时，容易成为瓶颈。</p>
 <p>相关概念</p>
 <p>• Spine：VXLAN网络中的三层网关设备，通过将VXLAN报文解封装后重新转发，实现负责不同子网间的服务器或VM的互相访问以及物理服务器、VM与外部网络的通信。</p>
 <p>• Leaf：VXLAN网络中的二层接入设备，与物理服务器或VM对接，通过将物理服务器和VM发送过来的报文封装在VXLAN报文中，将对应的流量接入VXLAN网络中。</p>
 <p>• 虚拟VTEP：在VXLAN多活网关方案中，当手动配置多个网关设备为相同的VTEP后，多台网关设备将形成一个多活网关设备组，对外表现为一个虚拟的VTEP。</p>
 <p>多活网关报文转发原理</p>
-<p>作为终端用户的主机可以都使用IPv4地址，也可以都使用IPv6地址，即：VXLAN的Overlay网络既可以是IPv4网络也可以是IPv6网络。[图2](<a href="http://mk:@MSITStore:E:\lz\VXLAN\CloudEngine">http://mk:@MSITStore:E:\lz\VXLAN\CloudEngine</a> 12800, 12800E系列交换机 V200R019C00 产品文档.chm::&#x2F;dc&#x2F;dc_fd_vxlan_0014_new.html#ZH-CN_CONCEPT_0141118892__fig_dc_fd_vxlan_101309)以IPv4 Overlay网络为例。</p>
+<p>作为终端用户的主机可以都使用IPv4地址，也可以都使用IPv6地址，即：VXLAN的Overlay网络既可以是IPv4网络也可以是IPv6网络。</p>
 <p>• 当设备之间的网络通信正常时：</p>
 <p>   ◇ Leaf1通过路由协议学习到两条网关路由，Leaf1根据路由选路规则选择最优路径。当两条路径开销值一样时形成等价路由，由此实现链路备份和流量负载分担。</p>
 <p>   ◇ Spine1、Spine2向IP核心网络通告VXLAN三层网关的网段路由，IP核心网络向Spine1、Spine2通告来自其他网络的路由。</p>
@@ -964,10 +964,8 @@
 <p>• M-LAG接口</p>
 <p>指的是部署M-LAG的两台设备上连接接入服务器的Eth-Trunk接口。</p>
 <p>接入侧M-LAG工作原理</p>
-<p>• M-LAG协商报文</p>
-<p>如[图1](<a href="http://mk:@MSITStore:E:\lz\VXLAN\CloudEngine">http://mk:@MSITStore:E:\lz\VXLAN\CloudEngine</a> 12800, 12800E系列交换机 V200R019C00 产品文档.chm::&#x2F;dc&#x2F;dc_fd_vxlan_0015_new.html#ZH-CN_CONCEPT_0141118905__fig_dc_fd_vxlan_001501)所示，M-LAG的配置完成后，M-LAG协商报文通过peer-link链路进行交互，先进行DFS Group的配对，配对成功后协商出主备状态。</p>
-<p>• M-LAG心跳报文</p>
-<p>如[图1](<a href="http://mk:@MSITStore:E:\lz\VXLAN\CloudEngine">http://mk:@MSITStore:E:\lz\VXLAN\CloudEngine</a> 12800, 12800E系列交换机 V200R019C00 产品文档.chm::&#x2F;dc&#x2F;dc_fd_vxlan_0015_new.html#ZH-CN_CONCEPT_0141118905__fig_dc_fd_vxlan_001501)所示，完成M-LAG状态的协商后，M-LAG心跳报文通过网络侧链路周期性的检测对端状态，保证正常工作。</p>
+<p>• M-LAG协商报文<br>M-LAG协商报文通过peer-link链路进行交互，先进行DFS Group的配对，配对成功后协商出主备状态。</p>
+<p>• M-LAG心跳报文<br>完成M-LAG状态的协商后，M-LAG心跳报文通过网络侧链路周期性的检测对端状态，保证正常工作。</p>
 <p>根据M-LAG协议报文的情况，在网络正常和故障情况下，M-LAG的主备状态及链路状态的确定如下所示：• 在VXLAN双活接入场景且为无故障状态时：</p>
 <p>Eth-Trunk的链路状态均为Up，PE1与PE2形成负载分担，共同进行流量转发。peer-link和M-LAG以及网络侧分别进行单向隔离，保证网络中没有环路。</p>
 <p><img src="/./images/VXLAN78.png"></p>
@@ -986,8 +984,7 @@
 <p>流量发送至上行链路故障的设备后，因无上行链路，会导致流量无法转发。在此场景下，为了使流量切换到另一条转发，可以配置Monitor Link来监控上、下行链路的状态，在上行链路故障时，将下行链路Down，从而使流量切换到另一条链路进行转发。</p>
 <p><img src="/./images/VXLAN82.png"><img src="/./images/VXLAN83.png"></p>
 <p>VXLAN双活接入报文转发流程</p>
-<p>在VXLAN双活接入方案中，在Device1和Device2设备上，通过手动配置方式配置相同的VTEP，使Device1、Device2进行VXLAN报文封装时采用的是同一个VTEP。</p>
-<p>如[图1](<a href="http://mk:@MSITStore:E:\lz\VXLAN\CloudEngine">http://mk:@MSITStore:E:\lz\VXLAN\CloudEngine</a> 12800, 12800E系列交换机 V200R019C00 产品文档.chm::&#x2F;dc&#x2F;dc_fd_vxlan_0015_new.html#ZH-CN_CONCEPT_0141118905__fig_dc_fd_vxlan_001501)所示，Device1与Device2之间部署peer-link，Device1与Device2有相同的VTEP，则Server2与Device1、Device2共同构成了VXLAN双活接入方案。对于网络中来自各个方向、不同类型的流量，VXLAN协议会做出不同的处理，具体处理过程如下所示。</p>
+<p>在VXLAN双活接入方案中，在Device1和Device2设备上，通过手动配置方式配置相同的VTEP，使Device1、Device2进行VXLAN报文封装时采用的是同一个VTEP。<br>Device1与Device2之间部署peer-link，Device1与Device2有相同的VTEP，则Server2与Device1、Device2共同构成了VXLAN双活接入方案。对于网络中来自各个方向、不同类型的流量，VXLAN协议会做出不同的处理，具体处理过程如下所示。</p>
 <p>• 来自双活端口的单播流量</p>
 <p>Device1和Device2形成负载分担，共同进行流量转发。</p>
 <p>PS：图中的1和2代表不同的流量数据。</p>
@@ -1006,7 +1003,7 @@
 <h1 id="ARP广播抑制"><a href="#ARP广播抑制" class="headerlink" title="ARP广播抑制"></a>ARP广播抑制</h1><p>在终端租户初次互通过程中，终端租户会发送ARP广播请求报文，而ARP请求报文会在二层网络内广播。为了抑制ARP广播请求报文给网络带来的广播风暴，可在VXLAN二层网关设备上使能广播抑制功能。</p>
 <p>PS：该功能只在IPv4 over IPv4网络中支持，其他Underlay网络和Overlay网络组合不支持。</p>
 <p><img src="/./images/VXLAN88.png"></p>
-<p>如[图1](<a href="http://mk:@MSITStore:E:\lz\VXLAN\CloudEngine">http://mk:@MSITStore:E:\lz\VXLAN\CloudEngine</a> 12800, 12800E系列交换机 V200R019C00 产品文档.chm::&#x2F;dc&#x2F;dc_fd_vxlan_0012_new.html#ZH-CN_CONCEPT_0141118937__fig_dc_fd_vxlan_001201)所示，VXLAN三层网关通过动态学习终端租户的ARP表项，再根据ARP表项生成主机信息（包括主机IP地址、MAC地址、VTEP地址和VNI ID），并将主机信息通过MP-BGP或BGP EVPN对外发布，使其他的BGP邻居可以学习到主机信息。VXLAN二层网关学习到的主机信息用于广播抑制。</p>
+<p>VXLAN三层网关通过动态学习终端租户的ARP表项，再根据ARP表项生成主机信息（包括主机IP地址、MAC地址、VTEP地址和VNI ID），并将主机信息通过MP-BGP或BGP EVPN对外发布，使其他的BGP邻居可以学习到主机信息。VXLAN二层网关学习到的主机信息用于广播抑制。</p>
 <p>Server1初次访问Server2时，Server1会向Server2发送ARP广播请求报文，请求目的主机Server2的MAC地址，具体实现过程如下：</p>
 <ol>
 <li>Server1发送ARP请求报文，请求目的主机Server2的MAC地址。</li>
@@ -1022,7 +1019,7 @@
 <p>ARP二层代答是一种有效减少ARP广播报文的机制。使能ARP二层代答之后，二层网关设备在收到ARP请求之后，优先尝试本地代答，只有当本地无法代答时，才会进行广播。</p>
 <p>PS：该功能在IPv4 over IPv4网络、IPv4 over IPv6网络中支持，在IPv6 over IPv4网络、IPv6 over IPv6网络中不支持。</p>
 <p>实现过程</p>
-<p>如[图1](<a href="http://mk:@MSITStore:E:\lz\VXLAN\CloudEngine">http://mk:@MSITStore:E:\lz\VXLAN\CloudEngine</a> 12800, 12800E系列交换机 V200R019C00 产品文档.chm::&#x2F;dc&#x2F;dc_fd_vxlan_0036_new.html#ZH-CN_CONCEPT_0141118941__fig_dc_fd_vxlan_003601)所示，在二层网关设备开启基于BD的ARP二层代答之后，当用户接入侧端口收到ARP报文之后，设备会侦听报文中携带的ARP源信息，并将其中的源IP地址、源MAC地址、报文的入接口等信息记录到本地的ARP Snooping表项中，作为后续ARP二层代答的依据。同时，在采用BGP EVPN方式建立VXLAN隧道时，还可以在二层网关上使能BGP EVPN基于BD粒度进行主机信息搜集功能，这样各个二层网关之间会通过BGP EVPN路由（即MAC&#x2F;IP路由）互相同步各自侦听到的用户ARP信息，然后补充到本地的ARP Snooping表项中，这类信息记录了源IP地址、源MAC地址、报文的源VTEP IP地址。</p>
+<p>在二层网关设备开启基于BD的ARP二层代答之后，当用户接入侧端口收到ARP报文之后，设备会侦听报文中携带的ARP源信息，并将其中的源IP地址、源MAC地址、报文的入接口等信息记录到本地的ARP Snooping表项中，作为后续ARP二层代答的依据。同时，在采用BGP EVPN方式建立VXLAN隧道时，还可以在二层网关上使能BGP EVPN基于BD粒度进行主机信息搜集功能，这样各个二层网关之间会通过BGP EVPN路由（即MAC&#x2F;IP路由）互相同步各自侦听到的用户ARP信息，然后补充到本地的ARP Snooping表项中，这类信息记录了源IP地址、源MAC地址、报文的源VTEP IP地址。</p>
 <p>当二层网关设备再收到ARP请求报文时，设备首先根据报文中的目的IP查找本地的ARP Snooping表项（包括本地侦听的和从其他网关同步的）： • 如果查找成功，则用查找到的信息对ARP请求报文直接进行代答。</p>
 <p>• 如果查找失败，则按原有的流程处理该ARP请求报文。</p>
 <p>这样就可以显著减少VXLAN网络中的ARP广播报文。</p>

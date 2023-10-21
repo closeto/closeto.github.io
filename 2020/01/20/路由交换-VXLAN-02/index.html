@@ -856,7 +856,7 @@
     <div class="article-meta">
         <!-- 修改了原始显示，原始显示更新日期为悬浮 -->
         <!-- 
-            发布时间 : <time class="date" title='最后更新: 2023-10-22 00:31:37'>2020-01-20 00:00</time>
+            发布时间 : <time class="date" title='最后更新: 2023-10-22 00:51:18'>2020-01-20 00:00</time>
          -->
 
         
@@ -936,7 +936,7 @@
 <ol>
 <li>Host3发送源MAC为MAC3、目的MAC为全F、源IP为IP3、目的IP为IP2的ARP请求报文，请求Host2的MAC地址。</li>
 <li>Leaf1收到该ARP请求后，根据二层子接口上的配置判断该请求报文需进入VXLAN隧道，并确定报文所对应的VNI（20）。同时Leaf1学习到了Host3的MAC地址、BDID（二层广播域标识）和报文入接口（即二层子接口对应的物理接口Port1）的对应关系，并在本地MAC表中生成Host3的MAC表项，其出接口为Port1。</li>
-<li>Leaf1对该ARP请求报文进行VXLAN封装，如[图3](<a href="http://mk:@MSITStore:E:\lz\VXLAN\CloudEngine">http://mk:@MSITStore:E:\lz\VXLAN\CloudEngine</a> 12800, 12800E系列交换机 V200R019C00 产品文档.chm::&#x2F;dc&#x2F;dc_vrp_feature_vxlan_1036.html#ZH-CN_CONCEPT_0141118812__fig_dc_vrp_feature_vxlan_103603)所示，封装的VNI是绑定当前BD的VNI，封装的外层源IP地址为Leaf1的VTEP IP地址，外层目的IP地址为Leaf2的VTEP IP地址，外层源MAC地址为Leaf1的NVE1接口MAC地址，外层目的MAC地址为去往目的IP的网络下一跳的MAC地址。封装后的报文根据外层MAC和IP信息在IP网络中传输，送达Leaf2。</li>
+<li>Leaf1对该ARP请求报文进行VXLAN封装，封装的VNI是绑定当前BD的VNI，封装的外层源IP地址为Leaf1的VTEP IP地址，外层目的IP地址为Leaf2的VTEP IP地址，外层源MAC地址为Leaf1的NVE1接口MAC地址，外层目的MAC地址为去往目的IP的网络下一跳的MAC地址。封装后的报文根据外层MAC和IP信息在IP网络中传输，送达Leaf2。</li>
 </ol>
 <p>4.Leaf2收到报文后进行解封装，得到Host3发送的原始ARP请求报文，同时Leaf2学习到Host3的MAC地址、BDID和Leaf1上VTEP IP地址的对应关系，并在本地的MAC表中生成Host3的MAC表项，其出接口需根据下一跳（即Leaf1的VTEP IP地址）进行迭代，最终迭代结果是指向Leaf1的VXLAN隧道。</p>
 <p>5.Leaf2在对应的二层域内广播ARP请求。Host2收到ARP请求后，比较报文中的目的IP是否为本机的IP地址，如果是，则将Host3的MAC地址保存到本地的MAC表中，并进行ARP应答。</p>
@@ -1020,7 +1020,7 @@
 <p>动态建立VXLAN隧道示意图，以Leaf1和Leaf2为例，介绍一下通过BGP EVPN方式动态建立VXLAN隧道的过程：</p>
 <p><img src="/./images/VXLAN23.png"></p>
 <ol>
-<li>首先在Leaf1和Leaf2之间建立BGP EVPN对等体。然后，在Leaf1和Leaf2上分别创建二层广播域，并在二层广播域下配置关联的VNI。接下来在二层广播域下创建EVPN实例，配置本端EVPN实例的RD、出方向VPN-Target（ERT）、入方向VPN-Target（IRT）。在配置完本端VTEP IP地址后，Leaf1和Leaf2会生成BGP EVPN路由并发送给对端，该路由携带本端EVPN实例的出方向VPN-Target和BGP EVPN协议新定义的Type3路由即Inclusive Multicast路由。其中，Inclusive Multicast路由如[图3](<a href="http://mk:@MSITStore:E:\lz\VXLAN\CloudEngine">http://mk:@MSITStore:E:\lz\VXLAN\CloudEngine</a> 12800, 12800E系列交换机 V200R019C00 产品文档.chm::&#x2F;dc&#x2F;dc_vrp_feature_vxlan_1037.html#ZH-CN_CONCEPT_0141118837__fig_dc_vrp_feature_vxlan_103303)所示，由前缀和PMSI属性组成，VTEP IP地址存放在前缀的Originating Router’s IP Address字段中，VNI存放在PMSI属性的MPLS Label字段中。</li>
+<li>首先在Leaf1和Leaf2之间建立BGP EVPN对等体。然后，在Leaf1和Leaf2上分别创建二层广播域，并在二层广播域下配置关联的VNI。接下来在二层广播域下创建EVPN实例，配置本端EVPN实例的RD、出方向VPN-Target（ERT）、入方向VPN-Target（IRT）。在配置完本端VTEP IP地址后，Leaf1和Leaf2会生成BGP EVPN路由并发送给对端，该路由携带本端EVPN实例的出方向VPN-Target和BGP EVPN协议新定义的Type3路由即Inclusive Multicast路由。其中，Inclusive Multicast路由，由前缀和PMSI属性组成，VTEP IP地址存放在前缀的Originating Router’s IP Address字段中，VNI存放在PMSI属性的MPLS Label字段中。</li>
 </ol>
 <p>​    Inclusive Multicast路由</p>
 <p><img src="/./images/VXLAN24.png"><img src="/./images/VXLAN25.png"></p>
@@ -1099,7 +1099,7 @@
 <li>Leaf2上VTEP收到VXLAN报文后，根据UDP目的端口号、源&#x2F;目的IP地址、VNI判断VXLAN报文的合法有效性。依据VNI获取对应的二层广播域，然后进行VXLAN解封装，获取内层二层报文，并在对应的二层广播域内查找出接口和封装信息。</li>
 <li>Leaf2根据查找到的出接口和封装信息，为报文添加VLAN Tag，转发给对应的Host2。</li>
 </ol>
-<h1 id="BGP-EVPN分布式网关"><a href="#BGP-EVPN分布式网关" class="headerlink" title="BGP-EVPN分布式网关"></a>BGP-EVPN分布式网关</h1><p>​         在BGP EVPN方式部署分布式网关的场景中，控制平面的流程包括VXLAN隧道建立、MAC地址动态学习；转发平面的流程包括同子网已知单播报文转发、同子网BUM报文转发、跨子网报文转发。该方式实现的功能全面，支持主机IP路由通告、主机MAC地址通告、主机ARP通告（详情参见[EVPN基本原理](<a href="http://mk:@MSITStore:E:\lz\VXLAN\CloudEngine">http://mk:@MSITStore:E:\lz\VXLAN\CloudEngine</a> 12800, 12800E系列交换机 V200R019C00 产品文档.chm::&#x2F;dc&#x2F;dc_vrp_feature_vxlan_1034.html)），可以直接使能ARP广播抑制功能。如果在VXLAN网络中采用分布式网关，推荐使用此方式。</p>
+<h1 id="BGP-EVPN分布式网关"><a href="#BGP-EVPN分布式网关" class="headerlink" title="BGP-EVPN分布式网关"></a>BGP-EVPN分布式网关</h1><p>​         在BGP EVPN方式部署分布式网关的场景中，控制平面的流程包括VXLAN隧道建立、MAC地址动态学习；转发平面的流程包括同子网已知单播报文转发、同子网BUM报文转发、跨子网报文转发。该方式实现的功能全面，支持主机IP路由通告、主机MAC地址通告、主机ARP通告可以直接使能ARP广播抑制功能。如果在VXLAN网络中采用分布式网关，推荐使用此方式。</p>
 <p>其他Underlay网络和Overlay网络组合的实现差异</p>
 <table>
 <thead>
@@ -1122,7 +1122,7 @@
 </tr>
 </tbody></table>
 <h2 id="VXLAN隧道建立-2"><a href="#VXLAN隧道建立-2" class="headerlink" title="VXLAN隧道建立"></a>VXLAN隧道建立</h2><p>​         VXLAN隧道由一对VTEP IP地址确定，创建VXLAN隧道实际上是两端VTEP获取对端VTEP IP地址的过程，只要对端VTEP IP地址是三层路由可达的，VXLAN隧道就可以建立成功。通过BGP EVPN方式动态建立VXLAN隧道，就是在两端VTEP之间建立BGP EVPN对等体，然后对等体之间利用BGP EVPN路由来互相传递VNI和VTEP IP地址信息，从而实现动态建立VXLAN隧道。</p>
-<p>​         在分布式网关的场景中，Leaf同时作为二层网关和三层网关，Spine节点不感知VXLAN隧道，只作为VXLAN报文的转发节点。控制平面只需在Leaf之间建立VXLAN隧道，如[图1](<a href="http://mk:@MSITStore:E:\lz\VXLAN\CloudEngine">http://mk:@MSITStore:E:\lz\VXLAN\CloudEngine</a> 12800, 12800E系列交换机 V200R019C00 产品文档.chm::&#x2F;dc&#x2F;dc_vrp_feature_vxlan_1039.html#ZH-CN_CONCEPT_0141118850__fig_dc_vrp_feature_vxlan_103901)所示，Leaf1与Leaf2之间建立VXLAN隧道用于Host1和Host2、Host3和Host2之间的通信。对于Host1和Host3之间的通信，由于都属于Leaf1，所以互访的流量只需在Leaf1上处理，无需通过VXLAN隧道转发。</p>
+<p>​         在分布式网关的场景中，Leaf同时作为二层网关和三层网关，Spine节点不感知VXLAN隧道，只作为VXLAN报文的转发节点。控制平面只需在Leaf之间建立VXLAN隧道，Leaf1与Leaf2之间建立VXLAN隧道用于Host1和Host2、Host3和Host2之间的通信。对于Host1和Host3之间的通信，由于都属于Leaf1，所以互访的流量只需在Leaf1上处理，无需通过VXLAN隧道转发。</p>
 <p><img src="/./images/VXLAN37.png"></p>
 <p>在分布式网关场景中，通过BGP EVPN方式动态建立VXLAN隧道有以下两种情况：</p>
 <p>同子网互通</p>
@@ -1202,7 +1202,7 @@
 <p><img src="/./images/VXLAN45.png"></p>
 <p>PS : 如果要发布网段路由，这里需要先利用动态路由协议（如OSPF等）发布该网段路由，再配置L3VPN实例引入对应的动态协议路由。</p>
 <ol start="2">
-<li>在Leaf1上配置L3VPN实例向EVPN实例发布IP路由后，L3VPN实例下Host1的主机IP路由将发布给EVPN实例。然后由EVPN实例生成IP前缀类型路由，如[图9](<a href="http://mk:@MSITStore:E:\lz\VXLAN\CloudEngine">http://mk:@MSITStore:E:\lz\VXLAN\CloudEngine</a> 12800, 12800E系列交换机 V200R019C00 产品文档.chm::&#x2F;dc&#x2F;dc_vrp_feature_vxlan_1039.html#ZH-CN_CONCEPT_0141118850__fig_dc_vrp_feature_vxlan_103905)所示。其中，主机IP地址存放在IP Prefix Length和IP Prefix字段中，三层VNI存放在MPLS Label字段中。</li>
+<li>在Leaf1上配置L3VPN实例向EVPN实例发布IP路由后，L3VPN实例下Host1的主机IP路由将发布给EVPN实例。然后由EVPN实例生成IP前缀类型路由，其中，主机IP地址存放在IP Prefix Length和IP Prefix字段中，三层VNI存放在MPLS Label字段中。</li>
 </ol>
 <p><img src="/./images/VXLAN46.png"></p>
 <ol start="3">
@@ -1272,7 +1272,7 @@
 <ol>
 <li><p>Leaf1收到来自Host1的报文，检测到报文的目的MAC是网关接口MAC，判断该报文需要进行三层转发。</p>
 </li>
-<li><p>Leaf1根据报文的入接口找到对应的二层广播域，然后找到绑定该广播域VBDIF接口的L3VPN实例。根据报文的目的IP地址，查找该L3VPN实例下的路由表（如[图18](<a href="http://mk:@MSITStore:E:\lz\VXLAN\CloudEngine">http://mk:@MSITStore:E:\lz\VXLAN\CloudEngine</a> 12800, 12800E系列交换机 V200R019C00 产品文档.chm::&#x2F;dc&#x2F;dc_vrp_feature_vxlan_1039.html#ZH-CN_CONCEPT_0141118850__fig_dc_vrp_feature_vxlan_103909)所示），获取该路由对应的三层VNI，以及下一跳地址。再根据出接口是VXLAN隧道，判断需要进行VXLAN封装：</p>
+<li><p>Leaf1根据报文的入接口找到对应的二层广播域，然后找到绑定该广播域VBDIF接口的L3VPN实例。根据报文的目的IP地址，查找该L3VPN实例下的路由表，获取该路由对应的三层VNI，以及下一跳地址。再根据出接口是VXLAN隧道，判断需要进行VXLAN封装：</p>
 <p>◇ 根据VXLAN隧道的目的IP和源IP地址，获取对应的MAC地址，并将内层目的MAC和源MAC替换。</p>
 <p>◇ 将三层VNI封装到报文中。</p>
 <p>◇ 外层封装VXLAN隧道的目的IP和源IP地址。</p>
@@ -1287,7 +1287,7 @@
 <h1 id="MPBGP分布式网关"><a href="#MPBGP分布式网关" class="headerlink" title="MPBGP分布式网关"></a>MPBGP分布式网关</h1><p>该功能场景只在IPv4 over IPv4网络中支持，其他Underlay网络和Overlay网络组合不支持。</p>
 <p>在MP-BGP方式部署分布式网关的场景中，控制平面的流程包括VXLAN隧道建立、MAC地址动态学习；转发平面的流程包括同子网已知单播报文转发、同子网BUM报文转发、跨子网报文转发。该方式实现的功能比较简单，MP-BGP协议只支持主机IP路由通告，不支持主机MAC地址通告，而且要使能ARP广播抑制功能，还需部署EVN BGP协议。如果在VXLAN网络中采用分布式网关，推荐使用BGP EVPN方式部署分布式网关。</p>
 <h2 id="VXLAN隧道建立-3"><a href="#VXLAN隧道建立-3" class="headerlink" title="VXLAN隧道建立"></a>VXLAN隧道建立</h2><p>VXLAN隧道由一对VTEP IP地址确定，创建VXLAN隧道实际上是两端VTEP获取对端VTEP IP地址的过程，只要对端VTEP IP地址是三层路由可达的，VXLAN隧道就可以建立成功。</p>
-<p>在分布式网关的场景中，Leaf同时作为二层网关和三层网关，Spine节点不感知VXLAN隧道，只作为VXLAN报文的转发节点。控制平面只需在Leaf之间建立VXLAN隧道，如[图1](<a href="http://mk:@MSITStore:E:\lz\VXLAN\CloudEngine">http://mk:@MSITStore:E:\lz\VXLAN\CloudEngine</a> 12800, 12800E系列交换机 V200R019C00 产品文档.chm::&#x2F;dc&#x2F;dc_vrp_feature_vxlan_1038.html#ZH-CN_CONCEPT_0141118884__fig_dc_vrp_feature_vxlan_103901)所示，Leaf1与Leaf2之间建立VXLAN隧道用于Host1和Host2之间、Host3和Host2之间的通信。对于Host1和Host3之间的通信，由于都属于Leaf1，所以互访的流量只需在Leaf1上处理，无需通过VXLAN隧道转发。</p>
+<p>在分布式网关的场景中，Leaf同时作为二层网关和三层网关，Spine节点不感知VXLAN隧道，只作为VXLAN报文的转发节点。控制平面只需在Leaf之间建立VXLAN隧道，Leaf1与Leaf2之间建立VXLAN隧道用于Host1和Host2之间、Host3和Host2之间的通信。对于Host1和Host3之间的通信，由于都属于Leaf1，所以互访的流量只需在Leaf1上处理，无需通过VXLAN隧道转发。</p>
 <p><img src="/./images/VXLAN59.png" alt="image-20231022000903566"></p>
 <p>通过MP-BGP方式动态建立VXLAN隧道，就是在两端VTEP之间建立BGP VPNv4对等体，然后对等体之间利用BGP VPNv4路由来互相传递VNI和VTEP IP地址信息，从而实现动态建立VXLAN隧道。在同子网互通的场景中，只需进行二层转发，因此Leaf节点无需学习主机IP路由，也无需创建L3VPN实例和BGP VPNv4对等体，此时VXLAN隧道的建立仍然采用静态方式。在跨子网通信时，需要进行三层转发，此时可以通过MP-BGP方式动态建立VXLAN隧道。</p>
 <p>PS：MP-BGP（Multi-protocol Extensions for Border Gateway Protocol）即BGP-4的多协议扩展。传统的BGP-4只能管理IPv4的路由信息，无法正确处理地址空间重叠的VPN的路由。为了正确处理VPN路由，RFC定义了MP-BGP，它实现了对多种网络层协议的支持，采用地址族（Address Family）来区分不同的网络层协议，既可以支持传统的IPv4地址族，又可以支持其他地址族（比如BGP VPNv4地址族等）。这里，通过MP-BGP方式动态建立VXLAN隧道，可以理解为通过传递BGP VPNv4路由来动态建立VXLAN隧道。</p>
@@ -1350,7 +1350,7 @@
 <ol>
 <li><p>Leaf1收到来自Host1的报文，检测到报文的目的MAC是网关接口MAC，判断该报文需要进行三层转发。</p>
 </li>
-<li><p>Leaf1根据报文的入接口找到对应的二层广播域，然后找到绑定该广播域VBDIF接口的L3VPN实例。根据报文的目的IP地址，查找该L3VPN实例下的路由表（如[图11](<a href="http://mk:@MSITStore:E:\lz\VXLAN\CloudEngine">http://mk:@MSITStore:E:\lz\VXLAN\CloudEngine</a> 12800, 12800E系列交换机 V200R019C00 产品文档.chm::&#x2F;dc&#x2F;dc_vrp_feature_vxlan_1038.html#ZH-CN_CONCEPT_0141118884__fig_dc_vrp_feature_vxlan_103909)所示），获取该路由对应的三层VNI，以及下一跳地址。再根据下一跳的迭代出接口是VXLAN隧道接口，判断需要进行VXLAN封装：</p>
+<li><p>Leaf1根据报文的入接口找到对应的二层广播域，然后找到绑定该广播域VBDIF接口的L3VPN实例。根据报文的目的IP地址，查找该L3VPN实例下的路由表，获取该路由对应的三层VNI，以及下一跳地址。再根据下一跳的迭代出接口是VXLAN隧道接口，判断需要进行VXLAN封装：</p>
 <p>◇ 根据VXLAN隧道的目的IP和源IP地址，获取对应的MAC地址，并将内层目的MAC和源MAC替换。</p>
 <p>◇ 将三层VNI封装到报文中。</p>
 <p>◇ 外层封装VXLAN隧道的目的IP和源IP地址，源MAC地址为Leaf1的NVE1接口MAC地址，目的MAC地址为网络下一跳的MAC地址。</p>
@@ -1360,7 +1360,7 @@
 <ol start="3">
 <li>封装后的报文根据外层MAC和IP信息在IP网络中传输，送达Leaf2。</li>
 <li>Leaf2收到VXLAN报文后进行解封装，检测到报文的目的MAC是自己的MAC地址，判断该报文需要进行三层转发。</li>
-<li>Leaf2根据报文携带的三层VNI找到对应的L3VPN实例，通过查找该L3VPN实例下的路由表（如[图12](<a href="http://mk:@MSITStore:E:\lz\VXLAN\CloudEngine">http://mk:@MSITStore:E:\lz\VXLAN\CloudEngine</a> 12800, 12800E系列交换机 V200R019C00 产品文档.chm::&#x2F;dc&#x2F;dc_vrp_feature_vxlan_1038.html#ZH-CN_CONCEPT_0141118884__fig_dc_vrp_feature_vxlan_103910)所示），获取报文的下一跳是网关接口地址，然后将目的MAC地址替换为Host2的MAC地址，源MAC地址替换为Leaf2的MAC地址，转发给Host2。</li>
+<li>Leaf2根据报文携带的三层VNI找到对应的L3VPN实例，通过查找该L3VPN实例下的路由表，获取报文的下一跳是网关接口地址，然后将目的MAC地址替换为Host2的MAC地址，源MAC地址替换为Leaf2的MAC地址，转发给Host2。</li>
 </ol>
 
       
