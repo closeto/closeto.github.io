@@ -2,22 +2,24 @@
 <html>
 <head>
   <meta charset="utf-8">
-  <title>边界网关协议——BGP | 欢迎来到closeto的博客</title>
+  <title>边界网关协议—BGP | 欢迎来到closeto的博客</title>
   <meta name="keywords" content=" 2019 ">
-  <meta name="description" content="边界网关协议——BGP | 欢迎来到closeto的博客">
+  <meta name="description" content="边界网关协议—BGP | 欢迎来到closeto的博客">
     <meta name="viewport" content="width=device-width, initial-scale=1, maximum-scale=1">
-<meta name="description" content="一、准备工作下载对应版本的内核文件    hostnamectl    Kernel官网下载地址：https:&#x2F;&#x2F;kernel.org&#x2F; 环境Centos9 &amp; 准备工作CentOS-Stream-9-latest-x86_64-dvd1-miniyum install -y gcc ncurses-devel *ncurses bison flex libelf-dev libelf-d">
+<meta name="description" content="VXLAN的部署和使用，使用ENSP来模拟 分布式网关CE12800上端口封装模式为：dolt1q 实验拓扑图如下：模拟实现跨数据中心访问，客户端的网关均在本地CE上  LSW1、LSW2配置：1234567891011121314151617181920212223242526272829303132sy LSW1#vlan batch 20 30#interface Ethernet0&#x2F;0&#x2F;1">
 <meta property="og:type" content="article">
-<meta property="og:title" content="Busybox搭建最小Linux">
-<meta property="og:url" content="https://closeto.github.io/2023/03/10/busybox%E6%90%AD%E5%BB%BA%E6%9C%80%E5%B0%8FLinux/index.html">
+<meta property="og:title" content="欢迎来到closeto的博客">
+<meta property="og:url" content="https://closeto.github.io/2023/10/21/%E8%B7%AF%E7%94%B1%E4%BA%A4%E6%8D%A2-VXLAN-04/index.html">
 <meta property="og:site_name" content="欢迎来到closeto的博客">
-<meta property="og:description" content="一、准备工作下载对应版本的内核文件    hostnamectl    Kernel官网下载地址：https:&#x2F;&#x2F;kernel.org&#x2F; 环境Centos9 &amp; 准备工作CentOS-Stream-9-latest-x86_64-dvd1-miniyum install -y gcc ncurses-devel *ncurses bison flex libelf-dev libelf-d">
+<meta property="og:description" content="VXLAN的部署和使用，使用ENSP来模拟 分布式网关CE12800上端口封装模式为：dolt1q 实验拓扑图如下：模拟实现跨数据中心访问，客户端的网关均在本地CE上  LSW1、LSW2配置：1234567891011121314151617181920212223242526272829303132sy LSW1#vlan batch 20 30#interface Ethernet0&#x2F;0&#x2F;1">
 <meta property="og:locale" content="zh_CN">
-<meta property="article:published_time" content="2023-03-10T04:30:00.000Z">
+<meta property="og:image" content="https://closeto.github.io/images/VXLAN04-1.png">
+<meta property="og:image" content="https://closeto.github.io/images/VXLAN04-2.png">
+<meta property="article:published_time" content="2023-10-21T10:24:45.426Z">
 <meta property="article:author" content="closeto">
-<meta property="article:tag" content="Linux">
-<meta property="article:tag" content="2023">
+<meta property="article:tag" content="学习记录">
 <meta name="twitter:card" content="summary">
+<meta name="twitter:image" content="https://closeto.github.io/images/VXLAN04-1.png">
 
 
 <link rel="icon" href="/img/ico.png">
@@ -102,7 +104,7 @@
     <li>
         <div class="all active" data-rel="全部文章">全部文章
             
-                <small>(44)</small>
+                <small>(48)</small>
             
         </div>
     </li>
@@ -228,7 +230,7 @@
         
     </div>
 </div>
-<input type="hidden" id="yelog_site_posts_number" value="44">
+<input type="hidden" id="yelog_site_posts_number" value="48">
 
 <div style="display: none">
     <span id="busuanzi_value_site_uv"></span>
@@ -336,6 +338,42 @@
 
     
     <nav id="title-list-nav">
+        
+        
+        <a  class="全部文章 "
+           href="/2023/10/21/%E8%B7%AF%E7%94%B1%E4%BA%A4%E6%8D%A2-VXLAN-04/"
+           data-tag=""
+           data-author="" >
+            <span class="post-title" title=""></span>
+            <span class="post-date" title="2023-10-21 18:24:45">2023/10/21</span>
+        </a>
+        
+        
+        <a  class="全部文章 "
+           href="/2023/10/21/%E8%B7%AF%E7%94%B1%E4%BA%A4%E6%8D%A2-VXLAN-03/"
+           data-tag=""
+           data-author="" >
+            <span class="post-title" title=""></span>
+            <span class="post-date" title="2023-10-21 18:16:04">2023/10/21</span>
+        </a>
+        
+        
+        <a  class="全部文章 "
+           href="/2023/10/21/%E8%B7%AF%E7%94%B1%E4%BA%A4%E6%8D%A2-VXLAN-02/"
+           data-tag=""
+           data-author="" >
+            <span class="post-title" title=""></span>
+            <span class="post-date" title="2023-10-21 17:06:01">2023/10/21</span>
+        </a>
+        
+        
+        <a  class="全部文章 "
+           href="/2023/10/21/%E8%B7%AF%E7%94%B1%E4%BA%A4%E6%8D%A2-VXLAN-01/"
+           data-tag=""
+           data-author="" >
+            <span class="post-title" title=""></span>
+            <span class="post-date" title="2023-10-21 15:11:27">2023/10/21</span>
+        </a>
         
         
         <a  class="全部文章 Linux相关 "
@@ -684,7 +722,7 @@
            href="/2019/03/01/%E8%B7%AF%E7%94%B1%E4%BA%A4%E6%8D%A2-MPLS/"
            data-tag="2019"
            data-author="" >
-            <span class="post-title" title="多协议标签交换——MPLS">多协议标签交换——MPLS</span>
+            <span class="post-title" title="多协议标签交换—MPLS">多协议标签交换—MPLS</span>
             <span class="post-date" title="2019-03-01 00:00:00">2019/03/01</span>
         </a>
         
@@ -702,7 +740,7 @@
            href="/2019/02/10/%E8%B7%AF%E7%94%B1%E4%BA%A4%E6%8D%A2-OSPF%20v3/"
            data-tag="2019"
            data-author="" >
-            <span class="post-title" title="最短路径优先协议——OSPFv3">最短路径优先协议——OSPFv3</span>
+            <span class="post-title" title="最短路径优先协议—OSPFv3">最短路径优先协议—OSPFv3</span>
             <span class="post-date" title="2019-02-10 00:00:00">2019/02/10</span>
         </a>
         
@@ -711,7 +749,7 @@
            href="/2019/02/05/%E8%B7%AF%E7%94%B1%E4%BA%A4%E6%8D%A2-OSPF%20v2/"
            data-tag="2019"
            data-author="" >
-            <span class="post-title" title="最短路径优先协议——OSPFv2">最短路径优先协议——OSPFv2</span>
+            <span class="post-title" title="最短路径优先协议—OSPFv2">最短路径优先协议—OSPFv2</span>
             <span class="post-date" title="2019-02-05 00:00:00">2019/02/05</span>
         </a>
         
@@ -720,7 +758,7 @@
            href="/2019/01/30/%E8%B7%AF%E7%94%B1%E4%BA%A4%E6%8D%A2-BGP/"
            data-tag="2019"
            data-author="" >
-            <span class="post-title" title="边界网关协议——BGP">边界网关协议——BGP</span>
+            <span class="post-title" title="边界网关协议—BGP">边界网关协议—BGP</span>
             <span class="post-date" title="2019-01-30 00:00:00">2019/01/30</span>
         </a>
         
@@ -753,7 +791,7 @@
     <div class="pjax">
         <article id="post-路由交换-BGP" class="article article-type-post" itemscope itemprop="blogPost">
     
-        <h1 class="article-title">边界网关协议——BGP</h1>
+        <h1 class="article-title">边界网关协议—BGP</h1>
     
     <div class="article-meta">
         
@@ -779,7 +817,7 @@
     <div class="article-meta">
         <!-- 修改了原始显示，原始显示更新日期为悬浮 -->
         <!-- 
-            发布时间 : <time class="date" title='最后更新: 2023-10-20 17:25:47'>2019-01-30 00:00</time>
+            发布时间 : <time class="date" title='最后更新: 2023-10-21 18:40:24'>2019-01-30 00:00</time>
          -->
 
         
@@ -807,7 +845,7 @@
     
     <div class="toc-ref">
     
-        <ol class="toc"><li class="toc-item toc-level-1"><a class="toc-link" href="#%E7%AE%80%E4%BB%8B"><span class="toc-text">简介</span></a><ol class="toc-child"><li class="toc-item toc-level-5"><a class="toc-link"><span class="toc-text">BGP路径选择</span></a></li><li class="toc-item toc-level-5"><a class="toc-link"><span class="toc-text">BGP路径选择</span></a></li></ol></li></ol></li></ol></li></ol></li><li class="toc-item toc-level-1"><a class="toc-link" href="#%E7%8A%B6%E6%80%81%E6%9C%BA%EF%BC%88%E5%85%AD%E7%A7%8D%EF%BC%89"><span class="toc-text">状态机（六种）</span></a></li><li class="toc-item toc-level-1"><a class="toc-link" href="#%E5%B1%9E%E6%80%A7%EF%BC%88%E5%B8%B8%E7%94%A8%EF%BC%89"><span class="toc-text">属性（常用）</span></a><ol class="toc-child"><li class="toc-item toc-level-3"><a class="toc-link" href="#%E5%B1%9E%E6%80%A7%E4%BF%AE%E6%94%B9"><span class="toc-text">属性修改</span></a></li></ol></li></ol></li><li class="toc-item toc-level-1"><a class="toc-link" href="#%E6%8A%A5%E6%96%87%E6%A0%BC%E5%BC%8F"><span class="toc-text">报文格式</span></a><ol class="toc-child"><li class="toc-item toc-level-2"><a class="toc-link" href="#1-OPEN"><span class="toc-text">1&#x3D;OPEN</span></a></li><li class="toc-item toc-level-2"><a class="toc-link" href="#2-UPDATE"><span class="toc-text">2&#x3D;UPDATE</span></a></li><li class="toc-item toc-level-2"><a class="toc-link" href="#3-NOTIFICATION"><span class="toc-text">3-NOTIFICATION</span></a></li><li class="toc-item toc-level-2"><a class="toc-link" href="#4-KEEPALIVE"><span class="toc-text">4-KEEPALIVE</span></a></li><li class="toc-item toc-level-2"><a class="toc-link" href="#5-REFRESH"><span class="toc-text">5-REFRESH</span></a></li></ol></li><li class="toc-item toc-level-1"><a class="toc-link" href="#%E2%98%85%E5%8F%8D%E5%B0%84%E5%99%A8"><span class="toc-text">★反射器</span></a><ol class="toc-child"><li class="toc-item toc-level-3"><a class="toc-link" href="#BGP%E5%8F%8D%E5%B0%84%E5%99%A8%E7%B1%BB%E5%9E%8B%E2%80%93%E5%A4%87%E4%BB%BDRR"><span class="toc-text">BGP反射器类型–备份RR</span></a></li><li class="toc-item toc-level-3"><a class="toc-link" href="#BGP%E5%8F%8D%E5%B0%84%E5%99%A8%E7%B1%BB%E5%9E%8B%E2%80%93%E5%90%8C%E7%BA%A7%E5%8F%8D%E5%B0%84%E5%99%A8"><span class="toc-text">BGP反射器类型–同级反射器</span></a></li><li class="toc-item toc-level-3"><a class="toc-link" href="#BGP%E5%8F%8D%E5%B0%84%E5%99%A8%E7%B1%BB%E5%9E%8B%E2%80%93%E5%88%86%E7%BA%A7%E5%8F%8D%E5%B0%84%E5%99%A8"><span class="toc-text">BGP反射器类型–分级反射器</span></a></li><li class="toc-item toc-level-3"><a class="toc-link" href="#%E2%98%85%E5%8F%8D%E5%B0%84%E5%99%A8%E5%92%8C%E8%81%94%E7%9B%9F%E7%9A%84%E6%AF%94%E8%BE%83"><span class="toc-text">★反射器和联盟的比较</span></a></li></ol></li></ol></li><li class="toc-item toc-level-1"><a class="toc-link" href="#%E2%98%85%E8%81%94%E7%9B%9F"><span class="toc-text">★联盟</span></a><ol class="toc-child"><li class="toc-item toc-level-3"><a class="toc-link" href="#%E2%98%85%E5%8F%8D%E5%B0%84%E5%99%A8%E5%92%8C%E8%81%94%E7%9B%9F%E7%9A%84%E6%AF%94%E8%BE%83-1"><span class="toc-text">★反射器和联盟的比较</span></a></li></ol></li></ol></li><li class="toc-item toc-level-1"><a class="toc-link" href="#%E8%B7%AF%E7%94%B1%E6%B1%87%E6%80%BB"><span class="toc-text">路由汇总</span></a></li><li class="toc-item toc-level-1"><a class="toc-link" href="#BGP%E5%A2%9E%E5%BC%BA%E5%B1%9E%E6%80%A7"><span class="toc-text">BGP增强属性</span></a></li><li class="toc-item toc-level-1"><a class="toc-link" href="#%E5%85%B1%E6%9C%89-%E7%A7%81%E6%9C%89AS"><span class="toc-text">共有&amp;私有AS</span></a></li><li class="toc-item toc-level-1"><a class="toc-link" href="#%E9%80%89%E8%B7%AF%E8%A7%84%E5%88%99"><span class="toc-text">选路规则</span></a></li><li class="toc-item toc-level-1"><a class="toc-link" href="#%E6%95%85%E9%9A%9C%E6%8E%92%E6%9F%A5"><span class="toc-text">故障排查</span></a></li><li class="toc-item toc-level-1"><a class="toc-link" href="#%E5%AD%A6%E4%B9%A0%E8%BF%87%E7%A8%8B%E8%AE%B0%E5%BD%95%EF%BC%88%E6%9D%82%E9%A1%B9%EF%BC%89"><span class="toc-text">学习过程记录（杂项）</span></a></li></ol>
+        <ol class="toc"><li class="toc-item toc-level-1"><a class="toc-link" href="#%E7%AE%80%E4%BB%8B"><span class="toc-text">简介</span></a></li><li class="toc-item toc-level-1"><a class="toc-link" href="#%E7%8A%B6%E6%80%81%E6%9C%BA%EF%BC%88%E5%85%AD%E7%A7%8D%EF%BC%89"><span class="toc-text">状态机（六种）</span></a></li><li class="toc-item toc-level-1"><a class="toc-link" href="#%E5%B1%9E%E6%80%A7%EF%BC%88%E5%B8%B8%E7%94%A8%EF%BC%89"><span class="toc-text">属性（常用）</span></a><ol class="toc-child"><li class="toc-item toc-level-3"><a class="toc-link" href="#%E5%B1%9E%E6%80%A7%E4%BF%AE%E6%94%B9"><span class="toc-text">属性修改</span></a></li></ol></li></ol></li><li class="toc-item toc-level-1"><a class="toc-link" href="#%E6%8A%A5%E6%96%87%E6%A0%BC%E5%BC%8F"><span class="toc-text">报文格式</span></a><ol class="toc-child"><li class="toc-item toc-level-2"><a class="toc-link" href="#1-OPEN"><span class="toc-text">1&#x3D;OPEN</span></a></li><li class="toc-item toc-level-2"><a class="toc-link" href="#2-UPDATE"><span class="toc-text">2&#x3D;UPDATE</span></a></li><li class="toc-item toc-level-2"><a class="toc-link" href="#3-NOTIFICATION"><span class="toc-text">3-NOTIFICATION</span></a></li><li class="toc-item toc-level-2"><a class="toc-link" href="#4-KEEPALIVE"><span class="toc-text">4-KEEPALIVE</span></a></li><li class="toc-item toc-level-2"><a class="toc-link" href="#5-REFRESH"><span class="toc-text">5-REFRESH</span></a></li></ol></li><li class="toc-item toc-level-1"><a class="toc-link" href="#%E2%98%85%E5%8F%8D%E5%B0%84%E5%99%A8"><span class="toc-text">★反射器</span></a><ol class="toc-child"><li class="toc-item toc-level-3"><a class="toc-link" href="#BGP%E5%8F%8D%E5%B0%84%E5%99%A8%E7%B1%BB%E5%9E%8B%E2%80%93%E5%A4%87%E4%BB%BDRR"><span class="toc-text">BGP反射器类型–备份RR</span></a></li><li class="toc-item toc-level-3"><a class="toc-link" href="#BGP%E5%8F%8D%E5%B0%84%E5%99%A8%E7%B1%BB%E5%9E%8B%E2%80%93%E5%90%8C%E7%BA%A7%E5%8F%8D%E5%B0%84%E5%99%A8"><span class="toc-text">BGP反射器类型–同级反射器</span></a></li><li class="toc-item toc-level-3"><a class="toc-link" href="#BGP%E5%8F%8D%E5%B0%84%E5%99%A8%E7%B1%BB%E5%9E%8B%E2%80%93%E5%88%86%E7%BA%A7%E5%8F%8D%E5%B0%84%E5%99%A8"><span class="toc-text">BGP反射器类型–分级反射器</span></a></li><li class="toc-item toc-level-3"><a class="toc-link" href="#%E2%98%85%E5%8F%8D%E5%B0%84%E5%99%A8%E5%92%8C%E8%81%94%E7%9B%9F%E7%9A%84%E6%AF%94%E8%BE%83"><span class="toc-text">★反射器和联盟的比较</span></a></li></ol></li></ol></li><li class="toc-item toc-level-1"><a class="toc-link" href="#%E2%98%85%E8%81%94%E7%9B%9F"><span class="toc-text">★联盟</span></a><ol class="toc-child"><li class="toc-item toc-level-3"><a class="toc-link" href="#%E2%98%85%E5%8F%8D%E5%B0%84%E5%99%A8%E5%92%8C%E8%81%94%E7%9B%9F%E7%9A%84%E6%AF%94%E8%BE%83-1"><span class="toc-text">★反射器和联盟的比较</span></a></li></ol></li></ol></li><li class="toc-item toc-level-1"><a class="toc-link" href="#%E8%B7%AF%E7%94%B1%E6%B1%87%E6%80%BB"><span class="toc-text">路由汇总</span></a></li><li class="toc-item toc-level-1"><a class="toc-link" href="#BGP%E5%A2%9E%E5%BC%BA%E5%B1%9E%E6%80%A7"><span class="toc-text">BGP增强属性</span></a></li><li class="toc-item toc-level-1"><a class="toc-link" href="#%E5%85%B1%E6%9C%89-%E7%A7%81%E6%9C%89AS"><span class="toc-text">共有&amp;私有AS</span></a></li><li class="toc-item toc-level-1"><a class="toc-link" href="#%E9%80%89%E8%B7%AF%E8%A7%84%E5%88%99"><span class="toc-text">选路规则</span></a></li><li class="toc-item toc-level-1"><a class="toc-link" href="#%E6%95%85%E9%9A%9C%E6%8E%92%E6%9F%A5"><span class="toc-text">故障排查</span></a></li><li class="toc-item toc-level-1"><a class="toc-link" href="#%E5%AD%A6%E4%B9%A0%E8%BF%87%E7%A8%8B%E8%AE%B0%E5%BD%95%EF%BC%88%E6%9D%82%E9%A1%B9%EF%BC%89"><span class="toc-text">学习过程记录（杂项）</span></a></li></ol>
     
 <style>
     .left-col .switch-btn,
@@ -860,8 +898,7 @@
 <p>​        Ⅹ、优选Cluster_List最短的路由</p>
 <p>​        ⅩⅠ、优选Router ID最小的路由器发布的路由  反射器中使用</p>
 <p>​        ⅩⅡ、比较对等体的IP Address，优选从具有较小IP Address的对等体学来的路由</p>
-<h5><font color=Red>BGP路径选择</font></h5>
-
+<p><font color=Red>BGP路径选择</font></p>
 <p>​        ① 下一跳地址必须可达。</p>
 <p>​        ② 协议首选值（PrefVal）是华为设备的特有属性，该属性仅在本地有效。</p>
 <p>​       ③  如果路由没有本地优先级，BGP选路时将该路由按缺省的本地优先级100来处理。通过执行default local-preference命令可以修改BGP路由的缺省本地优先级。</p>
@@ -879,7 +916,7 @@
 <p>​               		 5.4.2 执行compare-different-as-med命令后，BGP将强制比较来自不同自治系统中的邻居的路由的MED值。除非能够确认不同的自治系统采用了同样的IGP和路由选择方式，否则不要使用compare-different-as-med命令（可能产生环路）。</p>
 <p>​               		 5.4.3 执行bestroute med-confederation命令后，只有当AS_Path中不包含外部AS号（不属于联盟的子AS），且AS_CONFED_SEQUENCE的第一个AS号相同时，才能比较MED值的大小。</p>
 <p>​                		5.4.4 执行deterministic-med命令后，将消除路由接收顺序对选路结果的影响。</p>
-<p><strong>负载分担</strong>（<font color=Red>默认不做负载分担</font>，需<h5><font color=Red>BGP路径选择</font></h5>8条规属性相同，且经过的AS号相同才能实现负载）</p>
+<p><strong>负载分担</strong>（<font color=Red>默认不做负载分担</font>，需<font color=Red>BGP路径选择</font>8条规属性相同，且经过的AS号相同才能实现负载）</p>
 <p>​      查看详细BGP路由中比较AS路径值、Origin、metric等属性值、maxnum load-balancing 2-32设置同一目的地最大路由条目（负载分担）</p>
 <p>​                maxnum load-balancing ibgp&#x2F;ebgp 2  指针对i&#x2F;ebgp的路由做负载分担</p>
 <p>​      当到达同一目的地址存在多条等价路由时，可以通过BGP等价负载分担实现均衡流量的目的。</p>

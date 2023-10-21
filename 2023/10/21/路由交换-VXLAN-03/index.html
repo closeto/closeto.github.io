@@ -1,0 +1,1151 @@
+<!DOCTYPE html>
+<html>
+<head>
+  <meta charset="utf-8">
+  <title>欢迎来到closeto的博客</title>
+  <meta name="keywords" content="">
+  <meta name="description" content="欢迎来到closeto的博客">
+    <meta name="viewport" content="width=device-width, initial-scale=1, maximum-scale=1">
+<meta name="description" content="VXLAN的部署和使用，使用ENSP来模拟 分布式网关CE12800上端口封装模式为：dolt1q 实验拓扑图如下：模拟实现跨数据中心访问，客户端的网关均在本地CE上  LSW1、LSW2配置：1234567891011121314151617181920212223242526272829303132sy LSW1#vlan batch 20 30#interface Ethernet0&#x2F;0&#x2F;1">
+<meta property="og:type" content="article">
+<meta property="og:title" content="欢迎来到closeto的博客">
+<meta property="og:url" content="https://closeto.github.io/2023/10/21/%E8%B7%AF%E7%94%B1%E4%BA%A4%E6%8D%A2-VXLAN-04/index.html">
+<meta property="og:site_name" content="欢迎来到closeto的博客">
+<meta property="og:description" content="VXLAN的部署和使用，使用ENSP来模拟 分布式网关CE12800上端口封装模式为：dolt1q 实验拓扑图如下：模拟实现跨数据中心访问，客户端的网关均在本地CE上  LSW1、LSW2配置：1234567891011121314151617181920212223242526272829303132sy LSW1#vlan batch 20 30#interface Ethernet0&#x2F;0&#x2F;1">
+<meta property="og:locale" content="zh_CN">
+<meta property="og:image" content="https://closeto.github.io/images/VXLAN04-1.png">
+<meta property="og:image" content="https://closeto.github.io/images/VXLAN04-2.png">
+<meta property="article:published_time" content="2023-10-21T10:24:45.426Z">
+<meta property="article:author" content="closeto">
+<meta property="article:tag" content="学习记录">
+<meta name="twitter:card" content="summary">
+<meta name="twitter:image" content="https://closeto.github.io/images/VXLAN04-1.png">
+
+
+<link rel="icon" href="/img/ico.png">
+
+<link href="/css/style.css?v=1.1.0" rel="stylesheet">
+
+<link href="/css/hl_theme/atom-light.css?v=1.1.0" rel="stylesheet">
+
+<link href="//cdn.jsdelivr.net/npm/animate.css@4.1.0/animate.min.css" rel="stylesheet">
+
+<script src="//cdn.jsdelivr.net/npm/jquery@3.5.1/dist/jquery.min.js"></script>
+<script src="/js/titleTip.js?v=1.1.0" ></script>
+
+<script src="//cdn.jsdelivr.net/npm/highlightjs@9.16.2/highlight.pack.min.js"></script>
+<script>
+    hljs.initHighlightingOnLoad();
+</script>
+
+<script src="//cdn.jsdelivr.net/npm/nprogress@0.2.0/nprogress.min.js"></script>
+
+
+
+<script src="/js/iconfont.js?v=1.1.0" ></script>
+
+<meta name="generator" content="Hexo 6.3.0"></head>
+<div style="display: none">
+  <input class="theme_disqus_on" value="false">
+  <input class="theme_preload_comment" value="">
+  <input class="theme_blog_path" value="">
+  <input id="theme_shortcut" value="true" />
+  <input id="theme_highlight_on" value="true" />
+  <input id="theme_code_copy" value="true" />
+</div>
+
+
+
+<body>
+<aside class="nav">
+    <div class="nav-left">
+        <a href="/"
+   class="avatar_target">
+    <img class="avatar"
+         src="/img/user.png"/>
+</a>
+<div class="author">
+    <span>closeto</span>
+</div>
+
+<div class="icon">
+    
+        
+            <a title="github"
+               href="https://github.com/closeto"
+               target="_blank">
+                
+                    <svg class="iconfont-svg" aria-hidden="true">
+                        <use xlink:href="#icon-github"></use>
+                    </svg>
+                
+            </a>
+        
+    
+        
+            <a title="email"
+               href="mailto:vou0515@gmail.com"
+               target="_blank">
+                
+                    <svg class="iconfont-svg" aria-hidden="true">
+                        <use xlink:href="#icon-email"></use>
+                    </svg>
+                
+            </a>
+        
+    
+</div>
+
+
+
+
+
+<ul>
+    <li>
+        <div class="all active" data-rel="全部文章">全部文章
+            
+                <small>(48)</small>
+            
+        </div>
+    </li>
+    
+        
+            
+                
+    <li>
+        <div data-rel="Web安全">
+            
+            Web安全
+            <small>(17)</small>
+        </div>
+        
+    </li>
+
+            
+        
+    
+        
+            
+                
+    <li>
+        <div data-rel="内网安全">
+            
+            内网安全
+            <small>(11)</small>
+        </div>
+        
+    </li>
+
+            
+        
+    
+        
+            
+                
+    <li>
+        <div data-rel="Windows相关">
+            
+            Windows相关
+            <small>(4)</small>
+        </div>
+        
+    </li>
+
+            
+        
+    
+        
+            
+                
+    <li>
+        <div data-rel="Linux相关">
+            
+            Linux相关
+            <small>(1)</small>
+        </div>
+        
+    </li>
+
+            
+        
+    
+        
+            
+                
+    <li>
+        <div data-rel="数字通信">
+            
+            数字通信
+            <small>(6)</small>
+        </div>
+        
+    </li>
+
+            
+        
+    
+        
+            
+                
+    <li>
+        <div data-rel="其它">
+            
+            其它
+            <small>(3)</small>
+        </div>
+        
+    </li>
+
+            
+        
+    
+        
+            
+                
+    <li>
+        <div data-rel="考证学习">
+            
+            考证学习
+            <small>(1)</small>
+        </div>
+        
+    </li>
+
+            
+        
+    
+</ul>
+<div class="left-bottom">
+    <div class="menus">
+        
+            
+    </div>
+    <div>
+        
+            <a class="about  "
+               target="_blank"
+                    
+               href="https://github.com/closeto">关于</a>
+        
+        
+    </div>
+</div>
+<input type="hidden" id="yelog_site_posts_number" value="48">
+
+<div style="display: none">
+    <span id="busuanzi_value_site_uv"></span>
+    <span id="busuanzi_value_site_pv"></span>
+</div>
+
+    </div>
+    <div class="nav-right">
+        <div class="friends-area">
+    <div class="friends-title">
+        友情链接
+        <i class="iconfont icon-left"></i>
+    </div>
+    <div class="friends-content">
+        <ul>
+            
+            <li><a target="_blank" href="/url">名字列表</a></li>
+            
+        </ul>
+    </div>
+</div>
+        <div class="title-list">
+    <div class="right-top">
+        <div id="default-panel">
+            <i class="iconfont icon-search" data-title="搜索 快捷键 i"></i>
+            <div class="right-title">全部文章</div>
+            <i class="iconfont icon-file-tree" data-title="切换到大纲视图 快捷键 w"></i>
+        </div>
+        <div id="search-panel">
+            <i class="iconfont icon-left" data-title="返回"></i>
+            <input id="local-search-input" autocomplete="off"/>
+            <label class="border-line" for="input"></label>
+            <i class="iconfont icon-case-sensitive" data-title="大小写敏感"></i>
+            <i class="iconfont icon-tag" data-title="标签"></i>
+        </div>
+        <div id="outline-panel" style="display: none">
+            <div class="right-title">大纲</div>
+            <i class="iconfont icon-list" data-title="切换到文章列表"></i>
+        </div>
+    </div>
+
+    <div class="tags-list">
+    <input id="tag-search" />
+    <div class="tag-wrapper">
+        
+            <li class="article-tag-list-item">
+                <i class="iconfont icon-tag"></i><a>2019</a>
+            </li>
+        
+            <li class="article-tag-list-item">
+                <i class="iconfont icon-tag"></i><a>2021</a>
+            </li>
+        
+            <li class="article-tag-list-item">
+                <i class="iconfont icon-tag"></i><a>2022</a>
+            </li>
+        
+            <li class="article-tag-list-item">
+                <i class="iconfont icon-tag"></i><a>2023</a>
+            </li>
+        
+            <li class="article-tag-list-item">
+                <i class="iconfont icon-tag"></i><a>内网</a>
+            </li>
+        
+            <li class="article-tag-list-item">
+                <i class="iconfont icon-tag"></i><a>软考</a>
+            </li>
+        
+            <li class="article-tag-list-item">
+                <i class="iconfont icon-tag"></i><a>渗透测试</a>
+            </li>
+        
+            <li class="article-tag-list-item">
+                <i class="iconfont icon-tag"></i><a>文件格式</a>
+            </li>
+        
+            <li class="article-tag-list-item">
+                <i class="iconfont icon-tag"></i><a>中级</a>
+            </li>
+        
+            <li class="article-tag-list-item">
+                <i class="iconfont icon-tag"></i><a>Bin</a>
+            </li>
+        
+            <li class="article-tag-list-item">
+                <i class="iconfont icon-tag"></i><a>Linux</a>
+            </li>
+        
+            <li class="article-tag-list-item">
+                <i class="iconfont icon-tag"></i><a>ShellCode</a>
+            </li>
+        
+            <li class="article-tag-list-item">
+                <i class="iconfont icon-tag"></i><a>Web</a>
+            </li>
+        
+            <li class="article-tag-list-item">
+                <i class="iconfont icon-tag"></i><a>Windows</a>
+            </li>
+        
+    </div>
+
+</div>
+
+    
+    <nav id="title-list-nav">
+        
+        
+        <a  class="全部文章 "
+           href="/2023/10/21/%E8%B7%AF%E7%94%B1%E4%BA%A4%E6%8D%A2-VXLAN-04/"
+           data-tag=""
+           data-author="" >
+            <span class="post-title" title=""></span>
+            <span class="post-date" title="2023-10-21 18:24:45">2023/10/21</span>
+        </a>
+        
+        
+        <a  class="全部文章 "
+           href="/2023/10/21/%E8%B7%AF%E7%94%B1%E4%BA%A4%E6%8D%A2-VXLAN-03/"
+           data-tag=""
+           data-author="" >
+            <span class="post-title" title=""></span>
+            <span class="post-date" title="2023-10-21 18:16:04">2023/10/21</span>
+        </a>
+        
+        
+        <a  class="全部文章 "
+           href="/2023/10/21/%E8%B7%AF%E7%94%B1%E4%BA%A4%E6%8D%A2-VXLAN-02/"
+           data-tag=""
+           data-author="" >
+            <span class="post-title" title=""></span>
+            <span class="post-date" title="2023-10-21 17:06:01">2023/10/21</span>
+        </a>
+        
+        
+        <a  class="全部文章 "
+           href="/2023/10/21/%E8%B7%AF%E7%94%B1%E4%BA%A4%E6%8D%A2-VXLAN-01/"
+           data-tag=""
+           data-author="" >
+            <span class="post-title" title=""></span>
+            <span class="post-date" title="2023-10-21 15:11:27">2023/10/21</span>
+        </a>
+        
+        
+        <a  class="全部文章 Linux相关 "
+           href="/2023/03/10/busybox%E6%90%AD%E5%BB%BA%E6%9C%80%E5%B0%8FLinux/"
+           data-tag="Linux,2023"
+           data-author="" >
+            <span class="post-title" title="Busybox搭建最小Linux">Busybox搭建最小Linux</span>
+            <span class="post-date" title="2023-03-10 12:30:00">2023/03/10</span>
+        </a>
+        
+        
+        <a  class="全部文章 其它 "
+           href="/2022/07/19/Nginx%E6%97%A5%E5%BF%97%E6%A0%BC%E5%BC%8F/"
+           data-tag="2022"
+           data-author="" >
+            <span class="post-title" title="Nginx日志格式">Nginx日志格式</span>
+            <span class="post-date" title="2022-07-19 00:00:00">2022/07/19</span>
+        </a>
+        
+        
+        <a  class="全部文章 其它 "
+           href="/2022/05/07/UTF-8%E9%9D%9E%E6%9C%80%E7%9F%AD%E5%BD%A2%E5%BC%8F&%E7%BC%96%E7%A0%81%E5%AE%89%E5%85%A8%E9%97%AE%E9%A2%98/"
+           data-tag="2022"
+           data-author="" >
+            <span class="post-title" title="UTF8编码安全">UTF8编码安全</span>
+            <span class="post-date" title="2022-05-07 00:00:00">2022/05/07</span>
+        </a>
+        
+        
+        <a  class="全部文章 Windows相关 "
+           href="/2022/04/10/ShellCode%E5%85%A5%E9%97%A8%E5%88%B0%E6%94%BE%E5%BC%83%E2%80%94%E7%9B%B8%E9%81%87/"
+           data-tag="2022,ShellCode,Bin"
+           data-author="" >
+            <span class="post-title" title="ShellCode入门到放弃—相遇">ShellCode入门到放弃—相遇</span>
+            <span class="post-date" title="2022-04-10 19:30:00">2022/04/10</span>
+        </a>
+        
+        
+        <a  class="全部文章 Windows相关 "
+           href="/2022/04/10/PE%E6%96%87%E4%BB%B6%E6%A0%BC%E5%BC%8F%E2%80%94%E7%AE%80%E4%BB%8B/"
+           data-tag="2022,文件格式"
+           data-author="" >
+            <span class="post-title" title="PE文件格式—简介">PE文件格式—简介</span>
+            <span class="post-date" title="2022-04-10 10:48:36">2022/04/10</span>
+        </a>
+        
+        
+        <a  class="全部文章 内网安全 "
+           href="/2022/03/10/%E5%86%85%E7%BD%91%E6%B8%97%E9%80%8F-Redis%E6%9C%AA%E6%8E%88%E6%9D%83/"
+           data-tag="2022,内网,渗透测试"
+           data-author="" >
+            <span class="post-title" title="Redis未授权">Redis未授权</span>
+            <span class="post-date" title="2022-03-10 14:30:00">2022/03/10</span>
+        </a>
+        
+        
+        <a  class="全部文章 内网安全 "
+           href="/2022/03/01/WL%E7%AB%AF%E5%8F%A3%E6%B5%81%E9%87%8F%E8%BD%AC%E5%8F%91/"
+           data-tag="2022,内网,Windows"
+           data-author="" >
+            <span class="post-title" title="WL端口流量转发">WL端口流量转发</span>
+            <span class="post-date" title="2022-03-01 00:00:00">2022/03/01</span>
+        </a>
+        
+        
+        <a  class="全部文章 内网安全 "
+           href="/2022/02/19/Linux%E7%97%95%E8%BF%B9%E6%93%A6%E9%99%A4/"
+           data-tag="2022,内网,渗透测试,Linux"
+           data-author="" >
+            <span class="post-title" title="Linux痕迹擦除">Linux痕迹擦除</span>
+            <span class="post-date" title="2022-02-19 00:00:00">2022/02/19</span>
+        </a>
+        
+        
+        <a  class="全部文章 内网安全 "
+           href="/2022/02/18/Windows%E7%97%95%E8%BF%B9%E6%93%A6%E9%99%A4/"
+           data-tag="2022,内网,渗透测试,Windows"
+           data-author="" >
+            <span class="post-title" title="Windows痕迹擦除">Windows痕迹擦除</span>
+            <span class="post-date" title="2022-02-18 00:00:00">2022/02/18</span>
+        </a>
+        
+        
+        <a  class="全部文章 内网安全 "
+           href="/2022/02/14/Windows%E4%BF%A1%E6%81%AF%E6%94%B6%E9%9B%86/"
+           data-tag="2022,内网,渗透测试,Windows"
+           data-author="" >
+            <span class="post-title" title="Windows信息收集">Windows信息收集</span>
+            <span class="post-date" title="2022-02-14 00:00:00">2022/02/14</span>
+        </a>
+        
+        
+        <a  class="全部文章 内网安全 "
+           href="/2022/02/13/Linux%E4%BF%A1%E6%81%AF%E6%94%B6%E9%9B%86/"
+           data-tag="2022,内网,渗透测试,Linux"
+           data-author="" >
+            <span class="post-title" title="Linux信息收集">Linux信息收集</span>
+            <span class="post-date" title="2022-02-13 00:00:00">2022/02/13</span>
+        </a>
+        
+        
+        <a  class="全部文章 Windows相关 "
+           href="/2022/01/18/ShellCode%E5%85%A5%E9%97%A8%E5%88%B0%E6%94%BE%E5%BC%83%E2%80%94%E7%9B%B8%E5%BC%83/"
+           data-tag="2022,ShellCode,Bin"
+           data-author="" >
+            <span class="post-title" title="ShellCode入门到放弃—相弃">ShellCode入门到放弃—相弃</span>
+            <span class="post-date" title="2022-01-18 17:30:00">2022/01/18</span>
+        </a>
+        
+        
+        <a  class="全部文章 考证学习 "
+           href="/2022/01/18/%E8%BD%AF%E8%80%83%E4%B8%AD%E7%BA%A7%E2%80%94%E4%BF%A1%E6%81%AF%E5%AE%89%E5%85%A8%E5%B7%A5%E7%A8%8B%E5%B8%88/"
+           data-tag="2023,软考,中级"
+           data-author="" >
+            <span class="post-title" title="软考中级—信息安全工程师">软考中级—信息安全工程师</span>
+            <span class="post-date" title="2022-01-18 14:30:00">2022/01/18</span>
+        </a>
+        
+        
+        <a  class="全部文章 Windows相关 "
+           href="/2022/01/15/ShellCode%E5%85%A5%E9%97%A8%E5%88%B0%E6%94%BE%E5%BC%83%E2%80%94%E7%9B%B8%E7%9F%A5/"
+           data-tag="2022,ShellCode,Bin"
+           data-author="" >
+            <span class="post-title" title="ShellCode入门到放弃—相知">ShellCode入门到放弃—相知</span>
+            <span class="post-date" title="2022-01-15 12:12:12">2022/01/15</span>
+        </a>
+        
+        
+        <a  class="全部文章 内网安全 "
+           href="/2021/11/19/%E5%86%85%E7%BD%91%E6%B8%97%E9%80%8F-Linux%E6%8F%90%E6%9D%83/"
+           data-tag="内网,渗透测试,2021"
+           data-author="" >
+            <span class="post-title" title="Linux提权">Linux提权</span>
+            <span class="post-date" title="2021-11-19 14:30:00">2021/11/19</span>
+        </a>
+        
+        
+        <a  class="全部文章 内网安全 "
+           href="/2021/11/10/%E5%86%85%E7%BD%91%E6%B8%97%E9%80%8F_%E5%AF%86%E7%A0%81%E6%8F%90%E5%8F%96/"
+           data-tag="内网,渗透测试,2021"
+           data-author="" >
+            <span class="post-title" title="终端管理工具密码获取">终端管理工具密码获取</span>
+            <span class="post-date" title="2021-11-10 14:30:00">2021/11/10</span>
+        </a>
+        
+        
+        <a  class="全部文章 内网安全 "
+           href="/2021/11/04/%E5%86%85%E7%BD%91%E6%B8%97%E9%80%8F-Linux%E5%8F%8D%E5%BC%B9Shell/"
+           data-tag="内网,渗透测试,2021"
+           data-author="" >
+            <span class="post-title" title="Linux反弹Shell">Linux反弹Shell</span>
+            <span class="post-date" title="2021-11-04 14:30:00">2021/11/04</span>
+        </a>
+        
+        
+        <a  class="全部文章 内网安全 "
+           href="/2021/10/19/%E5%86%85%E7%BD%91%E5%AE%89%E5%85%A8-%E6%B5%81%E9%87%8F%E7%89%B9%E5%BE%81NPS%E3%80%81FRP/"
+           data-tag="内网,渗透测试,2021"
+           data-author="" >
+            <span class="post-title" title="流量特征NPS、FRP">流量特征NPS、FRP</span>
+            <span class="post-date" title="2021-10-19 14:30:00">2021/10/19</span>
+        </a>
+        
+        
+        <a  class="全部文章 内网安全 "
+           href="/2021/09/10/%E5%86%85%E7%BD%91%E5%AE%89%E5%85%A8-docker%E6%9C%AA%E6%8E%88%E6%9D%83/"
+           data-tag="内网,渗透测试,2021"
+           data-author="" >
+            <span class="post-title" title="docker未授权">docker未授权</span>
+            <span class="post-date" title="2021-09-10 14:30:00">2021/09/10</span>
+        </a>
+        
+        
+        <a  class="全部文章 Web安全 "
+           href="/2021/07/25/web%E5%AE%89%E5%85%A8-Xpath%E6%B3%A8%E5%85%A5/"
+           data-tag="2021,Web"
+           data-author="" >
+            <span class="post-title" title="Xpath注入">Xpath注入</span>
+            <span class="post-date" title="2021-07-25 00:00:00">2021/07/25</span>
+        </a>
+        
+        
+        <a  class="全部文章 Web安全 "
+           href="/2021/07/16/Web%E5%AE%89%E5%85%A8-SQL%E6%B3%A8%E5%85%A5/"
+           data-tag="2021,Web"
+           data-author="" >
+            <span class="post-title" title="SQL注入">SQL注入</span>
+            <span class="post-date" title="2021-07-16 00:00:00">2021/07/16</span>
+        </a>
+        
+        
+        <a  class="全部文章 Web安全 "
+           href="/2021/06/19/Web%E5%AE%89%E5%85%A8-%E6%96%87%E4%BB%B6%E4%B8%8A%E4%BC%A0%E6%BC%8F%E6%B4%9E/"
+           data-tag="2021,Web"
+           data-author="" >
+            <span class="post-title" title="文件上传漏洞">文件上传漏洞</span>
+            <span class="post-date" title="2021-06-19 00:00:00">2021/06/19</span>
+        </a>
+        
+        
+        <a  class="全部文章 Web安全 "
+           href="/2021/06/08/Web%E5%AE%89%E5%85%A8-PHP%E5%BA%8F%E5%88%97%E5%8C%96&%E5%8F%8D%E5%BA%8F%E5%88%97%E5%8C%96/"
+           data-tag="2021,Web"
+           data-author="" >
+            <span class="post-title" title="PHP序列化与反序列化">PHP序列化与反序列化</span>
+            <span class="post-date" title="2021-06-08 00:00:00">2021/06/08</span>
+        </a>
+        
+        
+        <a  class="全部文章 Web安全 "
+           href="/2021/06/04/Web%E5%AE%89%E5%85%A8-SSI%E6%B3%A8%E5%85%A5/"
+           data-tag="2021,Web"
+           data-author="" >
+            <span class="post-title" title="SSI注入">SSI注入</span>
+            <span class="post-date" title="2021-06-04 00:00:00">2021/06/04</span>
+        </a>
+        
+        
+        <a  class="全部文章 "
+           href="/2021/06/02/docker%E5%B8%B8%E7%94%A8%E5%91%BD%E4%BB%A4/"
+           data-tag="Linux,2021"
+           data-author="" >
+            <span class="post-title" title="Docker常用命令">Docker常用命令</span>
+            <span class="post-date" title="2021-06-02 00:00:00">2021/06/02</span>
+        </a>
+        
+        
+        <a  class="全部文章 Web安全 "
+           href="/2021/05/25/Web%E5%AE%89%E5%85%A8-%E6%96%87%E4%BB%B6%E5%8C%85%E5%90%AB%E6%BC%8F%E6%B4%9E/"
+           data-tag="2021,Web"
+           data-author="" >
+            <span class="post-title" title="文件包含漏洞">文件包含漏洞</span>
+            <span class="post-date" title="2021-05-25 00:00:00">2021/05/25</span>
+        </a>
+        
+        
+        <a  class="全部文章 Web安全 "
+           href="/2021/04/19/Web%E5%AE%89%E5%85%A8-%E8%B6%8A%E6%9D%83/"
+           data-tag="2021,Web"
+           data-author="" >
+            <span class="post-title" title="越权">越权</span>
+            <span class="post-date" title="2021-04-19 00:00:00">2021/04/19</span>
+        </a>
+        
+        
+        <a  class="全部文章 Web安全 "
+           href="/2021/04/06/Web%E5%AE%89%E5%85%A8-Xxe/"
+           data-tag="2021,Web"
+           data-author="" >
+            <span class="post-title" title="XXE">XXE</span>
+            <span class="post-date" title="2021-04-06 00:00:00">2021/04/06</span>
+        </a>
+        
+        
+        <a  class="全部文章 Web安全 "
+           href="/2021/04/05/Web%E5%AE%89%E5%85%A8-%E6%96%87%E4%BB%B6%E4%B8%8B%E8%BD%BD%E8%AF%BB%E5%8F%96%E6%BC%8F%E6%B4%9E/"
+           data-tag="2021,Web"
+           data-author="" >
+            <span class="post-title" title="文件下载漏洞">文件下载漏洞</span>
+            <span class="post-date" title="2021-04-05 00:00:00">2021/04/05</span>
+        </a>
+        
+        
+        <a  class="全部文章 其它 "
+           href="/2021/04/02/%E5%B8%B8%E7%94%A8%E6%AD%A3%E5%88%99%E8%A1%A8%E8%BE%BE%E5%BC%8F/"
+           data-tag="2021"
+           data-author="" >
+            <span class="post-title" title="常用正则表达式">常用正则表达式</span>
+            <span class="post-date" title="2021-04-02 00:00:00">2021/04/02</span>
+        </a>
+        
+        
+        <a  class="全部文章 Web安全 "
+           href="/2021/03/25/Web%E5%AE%89%E5%85%A8-Nginx%E5%AE%89%E5%85%A8/"
+           data-tag="2021,Web"
+           data-author="" >
+            <span class="post-title" title="Apache安全">Apache安全</span>
+            <span class="post-date" title="2021-03-25 00:00:00">2021/03/25</span>
+        </a>
+        
+        
+        <a  class="全部文章 Web安全 "
+           href="/2021/03/19/Web%E5%AE%89%E5%85%A8-LDAP%E6%B3%A8%E5%85%A5/"
+           data-tag="2021,Web"
+           data-author="" >
+            <span class="post-title" title="LDAP注入">LDAP注入</span>
+            <span class="post-date" title="2021-03-19 00:00:00">2021/03/19</span>
+        </a>
+        
+        
+        <a  class="全部文章 Web安全 "
+           href="/2021/03/13/Web%E5%AE%89%E5%85%A8-CSR&SSRF/"
+           data-tag="2021,Web"
+           data-author="" >
+            <span class="post-title" title="CSRF &amp; SSRF">CSRF &amp; SSRF</span>
+            <span class="post-date" title="2021-03-13 00:00:00">2021/03/13</span>
+        </a>
+        
+        
+        <a  class="全部文章 Web安全 "
+           href="/2021/03/09/Web%E5%AE%89%E5%85%A8-CRLF/"
+           data-tag="2021,Web"
+           data-author="" >
+            <span class="post-title" title="CLRF">CLRF</span>
+            <span class="post-date" title="2021-03-09 00:00:00">2021/03/09</span>
+        </a>
+        
+        
+        <a  class="全部文章 Web安全 "
+           href="/2021/03/06/Web%E5%AE%89%E5%85%A8-Apache%E5%AE%89%E5%85%A8/"
+           data-tag="2021,Web"
+           data-author="" >
+            <span class="post-title" title="Apache安全">Apache安全</span>
+            <span class="post-date" title="2021-03-06 00:00:00">2021/03/06</span>
+        </a>
+        
+        
+        <a  class="全部文章 Web安全 "
+           href="/2021/03/03/Web%E5%AE%89%E5%85%A8-IIS%E5%AE%89%E5%85%A8/"
+           data-tag="2021,Web"
+           data-author="" >
+            <span class="post-title" title="IIS安全">IIS安全</span>
+            <span class="post-date" title="2021-03-03 00:00:00">2021/03/03</span>
+        </a>
+        
+        
+        <a  class="全部文章 Web安全 "
+           href="/2021/02/27/Web%E5%AE%89%E5%85%A8-XSS/"
+           data-tag="2021,Web"
+           data-author="" >
+            <span class="post-title" title="XSS">XSS</span>
+            <span class="post-date" title="2021-02-27 00:00:00">2021/02/27</span>
+        </a>
+        
+        
+        <a  class="全部文章 Web安全 "
+           href="/2021/02/10/Web%E5%AE%89%E5%85%A8-%E4%B8%80%E5%8F%A5%E8%AF%9D%E6%9C%A8%E9%A9%AC/"
+           data-tag="2021,Web"
+           data-author="" >
+            <span class="post-title" title="一句话木马">一句话木马</span>
+            <span class="post-date" title="2021-02-10 00:00:00">2021/02/10</span>
+        </a>
+        
+        
+        <a  class="全部文章 数字通信 "
+           href="/2019/03/01/%E8%B7%AF%E7%94%B1%E4%BA%A4%E6%8D%A2-MPLS/"
+           data-tag="2019"
+           data-author="" >
+            <span class="post-title" title="多协议标签交换—MPLS">多协议标签交换—MPLS</span>
+            <span class="post-date" title="2019-03-01 00:00:00">2019/03/01</span>
+        </a>
+        
+        
+        <a  class="全部文章 数字通信 "
+           href="/2019/02/15/%E8%B7%AF%E7%94%B1%E4%BA%A4%E6%8D%A2-DHCP/"
+           data-tag="2019"
+           data-author="" >
+            <span class="post-title" title="DHCP协议详解">DHCP协议详解</span>
+            <span class="post-date" title="2019-02-15 00:00:00">2019/02/15</span>
+        </a>
+        
+        
+        <a  class="全部文章 数字通信 "
+           href="/2019/02/10/%E8%B7%AF%E7%94%B1%E4%BA%A4%E6%8D%A2-OSPF%20v3/"
+           data-tag="2019"
+           data-author="" >
+            <span class="post-title" title="最短路径优先协议—OSPFv3">最短路径优先协议—OSPFv3</span>
+            <span class="post-date" title="2019-02-10 00:00:00">2019/02/10</span>
+        </a>
+        
+        
+        <a  class="全部文章 数字通信 "
+           href="/2019/02/05/%E8%B7%AF%E7%94%B1%E4%BA%A4%E6%8D%A2-OSPF%20v2/"
+           data-tag="2019"
+           data-author="" >
+            <span class="post-title" title="最短路径优先协议—OSPFv2">最短路径优先协议—OSPFv2</span>
+            <span class="post-date" title="2019-02-05 00:00:00">2019/02/05</span>
+        </a>
+        
+        
+        <a  class="全部文章 数字通信 "
+           href="/2019/01/30/%E8%B7%AF%E7%94%B1%E4%BA%A4%E6%8D%A2-BGP/"
+           data-tag="2019"
+           data-author="" >
+            <span class="post-title" title="边界网关协议—BGP">边界网关协议—BGP</span>
+            <span class="post-date" title="2019-01-30 00:00:00">2019/01/30</span>
+        </a>
+        
+        
+        <a  class="全部文章 数字通信 "
+           href="/2019/01/10/%E8%B7%AF%E7%94%B1%E4%BA%A4%E6%8D%A2-%E9%9D%99%E6%80%81%E8%B7%AF%E7%94%B1/"
+           data-tag="2019"
+           data-author="" >
+            <span class="post-title" title="路由策略&amp;策略路由">路由策略&amp;策略路由</span>
+            <span class="post-date" title="2019-01-10 00:00:00">2019/01/10</span>
+        </a>
+        
+        <div id="no-item-tips">
+
+        </div>
+    </nav>
+    <div id="outline-list">
+    </div>
+</div>
+
+    </div>
+    <div class="hide-list">
+        <div class="semicircle" data-title="切换全屏 快捷键 s">
+            <div class="brackets first"><</div>
+            <div class="brackets">&gt;</div>
+        </div>
+    </div>
+</aside>
+<div id="post">
+    <div class="pjax">
+        <article id="post-路由交换-VXLAN-03" class="article article-type-post" itemscope itemprop="blogPost">
+    
+    <div class="article-meta">
+        
+        
+        
+        
+    </div>
+    <div class="article-meta">
+        <!-- 修改了原始显示，原始显示更新日期为悬浮 -->
+        <!-- 
+            发布时间 : <time class="date" title='最后更新: 2023-10-21 18:40:24'>2023-10-21 18:16</time>
+         -->
+
+        
+            发布时间 : 2023-10-21 18:16</time>
+        <br>
+
+        
+    </div>
+    <div class="article-meta">
+        
+        
+        <span id="busuanzi_container_page_pv">
+            阅读 :<span id="busuanzi_value_page_pv">
+                <span class="count-comment">
+                    <span class="spinner">
+                      <div class="cube1"></div>
+                      <div class="cube2"></div>
+                    </span>
+                </span>
+            </span>
+        </span>
+        
+        
+    </div>
+    
+    <div class="toc-ref">
+    
+        <ol class="toc"><li class="toc-item toc-level-1"><a class="toc-link" href="#%E5%A4%9A%E6%B4%BB%E7%BD%91%E5%85%B3"><span class="toc-text">多活网关</span></a></li><li class="toc-item toc-level-1"><a class="toc-link" href="#%E5%8F%8C%E6%B4%BB%E7%BD%91%E5%85%B3"><span class="toc-text">双活网关</span></a></li><li class="toc-item toc-level-1"><a class="toc-link" href="#ARP%E5%B9%BF%E6%92%AD%E6%8A%91%E5%88%B6"><span class="toc-text">ARP广播抑制</span></a></li><li class="toc-item toc-level-1"><a class="toc-link" href="#%E5%9F%BA%E4%BA%8EBD%E7%9A%84ARP%E4%BA%8C%E5%B1%82%E4%BB%A3%E6%9B%BF"><span class="toc-text">基于BD的ARP二层代替</span></a></li></ol>
+    
+<style>
+    .left-col .switch-btn,
+    .left-col .switch-area {
+        display: none;
+    }
+    .toc-level-3 i,
+    .toc-level-3 ol {
+        display: none !important;
+    }
+</style>
+</div>
+    
+    <div class="article-entry" itemprop="articleBody">
+      
+        <h1 id="多活网关"><a href="#多活网关" class="headerlink" title="多活网关"></a>多活网关</h1><p>该功能仅在Underlay为IPv4网络中支持，在Underlay为IPv6网络中不支持。</p>
+<p>在VXLAN网络中，为了提高可靠性，用户经常会部署多个网关进行主备备份，以保证一台网关设备故障时流量可以及时切换到另外的网关设备上，避免业务中断。</p>
+<p>通过部署VRRP，可以解决上述问题。但由于VRRP组网中，仅主网关设备能够进行流量转发，提供网关服务，备网关设备仅在主网关故障后才提供网关服务，导致网关设备利用率低，网关故障收敛性能低。用户希望在保证可靠性的同时，多个网关都可以同时转发流量，充分利用设备资源。</p>
+<p><img src="/./images/VXLAN03-1.png"></p>
+<p>通过配置VXLAN集中式多活网关可以解决上述问题。VXLAN集中式多活网关是指在典型的“Spine-Leaf”组网结构下，通过给Spine设备配置相同的VTEP地址，将多个Spine设备模拟成一个VXLAN隧道端点，然后在所有Spine设备上配置三层网关，使得无论流量发到哪一个Spine设备，该设备都可以提供网关服务，将报文正确转发给下一跳设备；同样，从其他网络访问本网络的流量，无论发到哪一个Spine设备，都能被正确转发给网络内的主机。如[图1](<a href="http://mk:@MSITStore:E:\lz\VXLAN\CloudEngine">http://mk:@MSITStore:E:\lz\VXLAN\CloudEngine</a> 12800, 12800E系列交换机 V200R019C00 产品文档.chm::&#x2F;dc&#x2F;dc_fd_vxlan_0014_new.html#ZH-CN_CONCEPT_0141118892__fig_dc_fd_vxlan_001401)所示，在Spine1和Spine2配置VXLAN集中式多活网关功能，保证这两台网关设备可以同时转发流量，以提高设备资源利用率和网络故障收敛性能。</p>
+<p>采用VXLAN集中式多活网关时，Spine设备作为三层网关设备，所有通过三层转发的终端租户的表项都需要在该设备上生成，而Spine设备的表项规格有限，当VM或服务器数量越来越多时，容易成为瓶颈。</p>
+<p>相关概念</p>
+<p>• Spine：VXLAN网络中的三层网关设备，通过将VXLAN报文解封装后重新转发，实现负责不同子网间的服务器或VM的互相访问以及物理服务器、VM与外部网络的通信。</p>
+<p>• Leaf：VXLAN网络中的二层接入设备，与物理服务器或VM对接，通过将物理服务器和VM发送过来的报文封装在VXLAN报文中，将对应的流量接入VXLAN网络中。</p>
+<p>• 虚拟VTEP：在VXLAN多活网关方案中，当手动配置多个网关设备为相同的VTEP后，多台网关设备将形成一个多活网关设备组，对外表现为一个虚拟的VTEP。</p>
+<p>多活网关报文转发原理</p>
+<p>作为终端用户的主机可以都使用IPv4地址，也可以都使用IPv6地址，即：VXLAN的Overlay网络既可以是IPv4网络也可以是IPv6网络。[图2](<a href="http://mk:@MSITStore:E:\lz\VXLAN\CloudEngine">http://mk:@MSITStore:E:\lz\VXLAN\CloudEngine</a> 12800, 12800E系列交换机 V200R019C00 产品文档.chm::&#x2F;dc&#x2F;dc_fd_vxlan_0014_new.html#ZH-CN_CONCEPT_0141118892__fig_dc_fd_vxlan_101309)以IPv4 Overlay网络为例。</p>
+<p>• 当设备之间的网络通信正常时：</p>
+<p>   ◇ Leaf1通过路由协议学习到两条网关路由，Leaf1根据路由选路规则选择最优路径。当两条路径开销值一样时形成等价路由，由此实现链路备份和流量负载分担。</p>
+<p>   ◇ Spine1、Spine2向IP核心网络通告VXLAN三层网关的网段路由，IP核心网络向Spine1、Spine2通告来自其他网络的路由。</p>
+<p><img src="/./images/VXLAN03-2.png"></p>
+<p>   ◇ 当Spine1与Leaf1之间链路出现故障或Spine1设备出现故障时：</p>
+<p>​       Leaf1上保存的来自Spine1的路由被删除，通过路由选路规则，将选择Spine2的路由到达IP核心网络。</p>
+<p>PS：若Leaf1和Spine1之间存在多条链路，则其中一条链路出现故障时，由于Spine1的路由不会删除，所以Leaf1通过路由协议学习仍然能学习到两条网关路由，Leaf1根据路由选路规则选择最优路径。</p>
+<p>   ◇ Spine1自身网段路由，由于链路或设备故障被删除，通过路由选路规则，从IP核心网络发往Server的流量将优选Spine2自身的路由，而不会绕行到Spine1。</p>
+<p><img src="/./images/VXLAN03-3.png"></p>
+<p>   ◇ 当Spine1与骨干网之间链路出现故障时：</p>
+<p>​      ▪ 可以通过配置Monitor Link，使下行接口同步上行接口状态。此时，Spine1上去往IP核心网络的路由被删除，Leaf1上保存的来自Spine1的路由也被删除。</p>
+<p>​        此后，Leaf1发送的流量，将直接从Spine2到达IP核心网络；同样，Spine2收到来自IP核心网络的流量，将直接发给Leaf1。</p>
+<p>​      ▪ 也可以利用OPS机制，在设备上运行Python脚本。Spine1检测到上行链路故障时，自动降低发布的VTEP地址的路由优先级，将流量全部旁路至Spine2转发；故障恢复后，Spine1自动恢复VTEP地址的路由优先级，流量恢复成在Spine1和Spine2进行负载分担。此方式可做到故障平滑恢复。</p>
+<p><img src="/./images/VXLAN03-4.png"></p>
+<p>ARP&#x2F;ND表项同步</p>
+<p>当Overlay网络是IPv4网络时，在多活网关中，多个网关都会给上层的路由设备发布相同子网的网段路由，最后在上层路由设备上形成到指定网段地址的ECMP。从上层路由设备发往网关的流量会通过ECMP发给某一个网关，若此网关上没有到目的主机的ARP表项，则会导致ARP报文泛洪和流量丢弃。</p>
+<p>为了保证流量正常转发，所有的多活网关设备需要实现ARP表项同步，即网关所属子网内任一主机上线，所有网关都学习到此主机的ARP。目前，设备支持以下两种方式来实现ARP表项同步：</p>
+<p>◇ 控制器方式：所有多活网关设备关闭VBDIF接口下的ARP动态学习功能，由控制器统一进行管理和控制。当主机上线时，控制器可获取到主机的ARP，并向所有网关设备同步下发ARP表项。</p>
+<p>◇ 单机方式：不依赖控制器，由设备自动进行学习，具体原理如下：</p>
+<ol>
+<li>用户在DFS（Dynamic Fabric Service）下指定该网关设备所有邻居的IP地址，与指定IP地址的设备建立邻居关系。</li>
+<li>邻居关系建立后，网关之间开始进行ARP表项同步。</li>
+</ol>
+<p>ARP表项同步的方式有实时同步和批量同步：</p>
+<p>​      ▪ 实时同步：当某一网关设备在运行过程中，接收到ARP请求报文时，为了保证所有网关设备上ARP表项的完全一致，该设备在产生新表项或表项变化后会及时同步到其他设备上，这个过程称为实时同步。</p>
+<p>​      ▪ 批量同步：当网关设备工作了一段时间后，可能已经存在大量的ARP表项，此时加入新的网关设备（或故障的网关设备恢复后），先运行的网关设备会将已有的ARP表项一次性同步到新加入的网关设备（或恢复故障的网关设备）上，这个过程称为批量同步。</p>
+<p>当Overlay网络是IPv6网络时，在多活网关中，多个网关都会给上层的路由设备发布相同子网的网段路由，最后在上层路由设备上形成到指定网段地址的ECMP。从上层路由设备发往网关的流量会通过ECMP发给某一个网关，若此网关上没有到目的主机的ND表项，则会导致ND报文泛洪和流量丢弃。</p>
+<p>为了保证流量正常转发，所有的多活网关设备需要实现ND表项同步，即网关所属子网内任一主机上线，所有网关都学习到此主机的ND。具体原理如下：</p>
+<ol>
+<li>用户在DFS下指定该网关设备所有邻居的IP地址，与指定IP地址的设备建立邻居关系。</li>
+<li>邻居关系建立后，网关之间开始进行ND表项同步。</li>
+</ol>
+<p>ND表项同步的方式有实时同步和批量同步：</p>
+<p>• 实时同步：当某一网关设备在运行过程中，接收到NS报文时，为了保证所有网关设备上ND表项的完全一致，该设备在产生新表项或表项变化后会及时同步到其他设备上，这个过程称为实时同步。</p>
+<p>• 批量同步：当网关设备工作了一段时间后，可能已经存在大量的ND表项，此时加入新的网关设备（或故障的网关设备恢复后），先运行的网关设备会将已有的ND表项一次性同步到新加入的网关设备（或恢复故障的网关设备）上，这个过程称为批量同步。</p>
+<h1 id="双活网关"><a href="#双活网关" class="headerlink" title="双活网关"></a>双活网关</h1><p>产生原因</p>
+<p>在VXLAN网络中，为了提高可靠性，用户经常采用双归接入的方式将安装有双网卡的服务器接入到VXLAN网络，使得当服务器的一个网卡发生故障时不会导致业务中断。</p>
+<p>上述方案中双网卡工作于主备模式，仅主网卡能够进行数据报文收发，备网卡不能进行数据报文收发，导致了网卡和链路带宽资源的浪费。企业管理员希望两个网卡可以同时转发流量，实现双活，从而充分利用网卡和网络带宽资源。</p>
+<p><img src="/./images/VXLAN03-1.png"></p>
+<p>Server2采用双归接入的方式接入到VXLAN网络。通过M-LAG技术将服务器双归的两台接入设备虚拟成一台设备。两台双归的设备使用的是同一个VTEP，对于远端设备，相当于是通过一台逻辑设备接入到VXLAN网络中。</p>
+<p>相关概念</p>
+<p>• 相同VTEP</p>
+<p>在VXLAN双活接入方案中，当为双归设备配置相同的VTEP IP地址后，设备采用相同VTEP的IP地址封装在VXLAN报文中，对于VXLAN网络的其他设备而言，这两台设备就被虚拟成了一台设备。</p>
+<p>• peer-link</p>
+<p>在VXLAN双活接入方案中，部署M-LAG的两台设备之间必须存在一条直连链路，且该链路必须配置为peer-link。peer-link链路是一条保护链路。</p>
+<p>当接口配置为peer-link接口后，设备会自动在该接口上为每个VNI创建一个QinQ二层子接口。该二层子接口用于将部署M-LAG的两台设备加入到对应的VNI广播域中，用户不可对其进行操作。</p>
+<p>当流量进入Peer-Link接口时，对于IP报文，按照DSCP优先级进行映射；对于非IP报文，按照命令<strong>port priority</strong>配置的优先级进行映射。</p>
+<p>• DFS Group</p>
+<p>动态交换服务组DFS（Dynamic Fabric Service） Group，主要用于设备之间的配对，确保VXLAN双活接入场景正常运行。</p>
+<p>• M-LAG接口</p>
+<p>指的是部署M-LAG的两台设备上连接接入服务器的Eth-Trunk接口。</p>
+<p>接入侧M-LAG工作原理</p>
+<p>• M-LAG协商报文</p>
+<p>如[图1](<a href="http://mk:@MSITStore:E:\lz\VXLAN\CloudEngine">http://mk:@MSITStore:E:\lz\VXLAN\CloudEngine</a> 12800, 12800E系列交换机 V200R019C00 产品文档.chm::&#x2F;dc&#x2F;dc_fd_vxlan_0015_new.html#ZH-CN_CONCEPT_0141118905__fig_dc_fd_vxlan_001501)所示，M-LAG的配置完成后，M-LAG协商报文通过peer-link链路进行交互，先进行DFS Group的配对，配对成功后协商出主备状态。</p>
+<p>• M-LAG心跳报文</p>
+<p>如[图1](<a href="http://mk:@MSITStore:E:\lz\VXLAN\CloudEngine">http://mk:@MSITStore:E:\lz\VXLAN\CloudEngine</a> 12800, 12800E系列交换机 V200R019C00 产品文档.chm::&#x2F;dc&#x2F;dc_fd_vxlan_0015_new.html#ZH-CN_CONCEPT_0141118905__fig_dc_fd_vxlan_001501)所示，完成M-LAG状态的协商后，M-LAG心跳报文通过网络侧链路周期性的检测对端状态，保证正常工作。</p>
+<p>根据M-LAG协议报文的情况，在网络正常和故障情况下，M-LAG的主备状态及链路状态的确定如下所示：• 在VXLAN双活接入场景且为无故障状态时：</p>
+<p>Eth-Trunk的链路状态均为Up，PE1与PE2形成负载分担，共同进行流量转发。peer-link和M-LAG以及网络侧分别进行单向隔离，保证网络中没有环路。</p>
+<p><img src="/./images/VXLAN03-2.png"></p>
+<p>• 当peer-link故障时：</p>
+<p>M-LAG主备状态决定了Eth-Trunk的链路状态。M-LAG状态为主的设备侧Eth-Trunk链路状态仍为Up。M-LAG状态为备的设备侧Eth-Trunk链路状态变为Down，双归场景变为单归场景。peer-link故障但心跳状态正常会导致状态为备的设备上M-LAG接口处于ERROR DOWN状态。一旦peer-link故障恢复，处于ERROR DOWN状态的物理接口将自动恢复为Up状态。</p>
+<p>PS：如果将peer-link接口和M-LAG接口部署在同一单板上，peer-link故障同时M-LAG接口也会故障，这时双归接入的两侧Eth-Trunk链路状态均变为Down，将导致业务流量不通、业务中断。为了提高可靠性，建议将peer-link接口和M-LAG接口的成员接口均部署在不同的单板上。</p>
+<p><img src="/./images/VXLAN03-3.png"></p>
+<p>• 当M-LAG状态为主的设备发生故障时：</p>
+<p>通过M-LAG机制，M-LAG状态为备的设备将升级为主，其设备侧Eth-Trunk链路状态仍为Up，流量转发状态不变，继续转发流量。M-LAG状态为主的设备侧Eth-Trunk链路状态变为Down，双归场景变为单归场景。</p>
+<p>PS： 如果是状态为备的设备发生故障，M-LAG的主备状态不会发生变化，M-LAG状态为备的设备侧Eth-Trunk链路状态变为Down。M-LAG状态为主的设备侧Eth-Trunk链路状态仍为Up，流量转发状态不变，继续转发流量，双归场景变为单归场景。</p>
+<p><img src="/./images/VXLAN03-4.png"></p>
+<p>• 当接入VXLAN网络的Eth-Trunk链路发生故障时：</p>
+<p>M-LAG主备状态不会变化，流量切换到另一条链路上进行转发。发生故障的Eth-Trunk链路状态变为Down。通过M-LAG机制，发生故障的Eth-Trunk链路不再转发流量，VXLAN双归场景变为单归场景。</p>
+<p><img src="/./images/VXLAN03-5.png"></p>
+<p>• 当M-LAG上行链路发生故障时：</p>
+<p>流量发送至上行链路故障的设备后，因无上行链路，会导致流量无法转发。在此场景下，为了使流量切换到另一条转发，可以配置Monitor Link来监控上、下行链路的状态，在上行链路故障时，将下行链路Down，从而使流量切换到另一条链路进行转发。</p>
+<p><img src="/./images/VXLAN03-7.png"></p>
+<p>VXLAN双活接入报文转发流程</p>
+<p>在VXLAN双活接入方案中，在Device1和Device2设备上，通过手动配置方式配置相同的VTEP，使Device1、Device2进行VXLAN报文封装时采用的是同一个VTEP。</p>
+<p>如[图1](<a href="http://mk:@MSITStore:E:\lz\VXLAN\CloudEngine">http://mk:@MSITStore:E:\lz\VXLAN\CloudEngine</a> 12800, 12800E系列交换机 V200R019C00 产品文档.chm::&#x2F;dc&#x2F;dc_fd_vxlan_0015_new.html#ZH-CN_CONCEPT_0141118905__fig_dc_fd_vxlan_001501)所示，Device1与Device2之间部署peer-link，Device1与Device2有相同的VTEP，则Server2与Device1、Device2共同构成了VXLAN双活接入方案。对于网络中来自各个方向、不同类型的流量，VXLAN协议会做出不同的处理，具体处理过程如下所示。</p>
+<p>• 来自双活端口的单播流量</p>
+<p>Device1和Device2形成负载分担，共同进行流量转发。</p>
+<p>PS：图中的1和2代表不同的流量数据。</p>
+<p><img src="/./images/VXLAN03-8.png"></p>
+<p>• 来自双活端口的BUM流量</p>
+<p>Server2发送的BUM流量会在Device1、Device2之间采用负载分担方式转发，此处以Device1转发为例进行说明。</p>
+<p>Device1收到BUM流量后，会通过peer-link链路向Device2转发，同时进行报文封装，封装完成后向网络侧下一跳转发。当流量到达Device2时，通过单向隔离机制，流量只会向Server3进行转发，不会向VXLAN网络侧和Server2进行转发。</p>
+<p><img src="/./images/VXLAN03-9.png"></p>
+<p>• 来自VXLAN网络的单播流量</p>
+<p>对于网络侧发往双活端口的单播流量，由于流量采用同一VTEP进行封装，流量会负载分担到Device1和Device2，然后发送至双活接入的设备。</p>
+<p><img src="/./images/VXLAN03-10.png"></p>
+<p>• 来自VXLAN网络的BUM流量</p>
+<p>对于网络侧发往双活端口的BUM流量，由于流量采用同一VTEP进行封装，流量会负载分担到Device1和Device2，以Device1为例。</p>
+<p>Device1首先对报文进行解封装，之后发送到每一个用户侧端口，由于peer-link与备份接口形成了隔离，到达Device2的流量不会向Server2转发，避免了路由环路。</p>
+<p><img src="/./images/VXLAN03-11.png"></p>
+<h1 id="ARP广播抑制"><a href="#ARP广播抑制" class="headerlink" title="ARP广播抑制"></a>ARP广播抑制</h1><p>在终端租户初次互通过程中，终端租户会发送ARP广播请求报文，而ARP请求报文会在二层网络内广播。为了抑制ARP广播请求报文给网络带来的广播风暴，可在VXLAN二层网关设备上使能广播抑制功能。</p>
+<p>PS：该功能只在IPv4 over IPv4网络中支持，其他Underlay网络和Overlay网络组合不支持。</p>
+<p><img src="/./images/VXLAN03-1.png"></p>
+<p>如[图1](<a href="http://mk:@MSITStore:E:\lz\VXLAN\CloudEngine">http://mk:@MSITStore:E:\lz\VXLAN\CloudEngine</a> 12800, 12800E系列交换机 V200R019C00 产品文档.chm::&#x2F;dc&#x2F;dc_fd_vxlan_0012_new.html#ZH-CN_CONCEPT_0141118937__fig_dc_fd_vxlan_001201)所示，VXLAN三层网关通过动态学习终端租户的ARP表项，再根据ARP表项生成主机信息（包括主机IP地址、MAC地址、VTEP地址和VNI ID），并将主机信息通过MP-BGP或BGP EVPN对外发布，使其他的BGP邻居可以学习到主机信息。VXLAN二层网关学习到的主机信息用于广播抑制。</p>
+<p>Server1初次访问Server2时，Server1会向Server2发送ARP广播请求报文，请求目的主机Server2的MAC地址，具体实现过程如下：</p>
+<ol>
+<li>Server1发送ARP请求报文，请求目的主机Server2的MAC地址。</li>
+<li>作为VXLAN二层网关的Device1收到ARP请求报文后，查询主机信息。• 如果主机信息中有目的主机信息，Device1将ARP请求报文中的广播目的MAC地址和Target MAC地址替换为目的主机的MAC地址，并进行VXLAN封装后转发。</li>
+</ol>
+<p>• 如果主机信息中没有目的主机信息，ARP请求报文中的广播目的MAC地址不变，Device1进行VXLAN封装后转发。</p>
+<p>• 作为VXLAN二层网关的Device2收到封装后的ARP请求报文进行VXLAN解封装获取内层二层报文，判断报文的目的MAC是否为广播地址。• 是，在对应的二层广播域内非VXLAN网络侧进行广播处理。</p>
+<p>• 不是，发送给对应的目的主机。</p>
+<p>• 目的主机Server2收到单播ARP请求报文后，进行ARP应答。</p>
+<p>• Server1收到ARP应答报文建立ARP缓存表，并可以与Server2通信。</p>
+<h1 id="基于BD的ARP二层代替"><a href="#基于BD的ARP二层代替" class="headerlink" title="基于BD的ARP二层代替"></a>基于BD的ARP二层代替</h1><p>产生原因</p>
+<p>在VXLAN网络中，当二层网关收到一个ARP请求报文时，会将该报文在BD内广播。如果二层网关在某一时间段内收到大量的ARP请求报文，并将这些报文都进行广播，VXLAN网络中就会出现大量的ARP请求报文，占用过多的网络资源，造成网络拥塞，导致网络性能下降，影响用户业务的正常运行。为了解决上述问题，可以在二层网关上部署基于BD的ARP二层代答。</p>
+<p>ARP二层代答是一种有效减少ARP广播报文的机制。使能ARP二层代答之后，二层网关设备在收到ARP请求之后，优先尝试本地代答，只有当本地无法代答时，才会进行广播。</p>
+<p>PS：该功能在IPv4 over IPv4网络、IPv4 over IPv6网络中支持，在IPv6 over IPv4网络、IPv6 over IPv6网络中不支持。</p>
+<p>实现过程</p>
+<p>如[图1](<a href="http://mk:@MSITStore:E:\lz\VXLAN\CloudEngine">http://mk:@MSITStore:E:\lz\VXLAN\CloudEngine</a> 12800, 12800E系列交换机 V200R019C00 产品文档.chm::&#x2F;dc&#x2F;dc_fd_vxlan_0036_new.html#ZH-CN_CONCEPT_0141118941__fig_dc_fd_vxlan_003601)所示，在二层网关设备开启基于BD的ARP二层代答之后，当用户接入侧端口收到ARP报文之后，设备会侦听报文中携带的ARP源信息，并将其中的源IP地址、源MAC地址、报文的入接口等信息记录到本地的ARP Snooping表项中，作为后续ARP二层代答的依据。同时，在采用BGP EVPN方式建立VXLAN隧道时，还可以在二层网关上使能BGP EVPN基于BD粒度进行主机信息搜集功能，这样各个二层网关之间会通过BGP EVPN路由（即MAC&#x2F;IP路由）互相同步各自侦听到的用户ARP信息，然后补充到本地的ARP Snooping表项中，这类信息记录了源IP地址、源MAC地址、报文的源VTEP IP地址。</p>
+<p>当二层网关设备再收到ARP请求报文时，设备首先根据报文中的目的IP查找本地的ARP Snooping表项（包括本地侦听的和从其他网关同步的）： • 如果查找成功，则用查找到的信息对ARP请求报文直接进行代答。</p>
+<p>• 如果查找失败，则按原有的流程处理该ARP请求报文。</p>
+<p>这样就可以显著减少VXLAN网络中的ARP广播报文。</p>
+<p><img src="/./images/VXLAN03-1.png"></p>
+<p>适用场景</p>
+<p>基于BD的ARP二层代答适用于通过VXLAN隧道实现二层互联的场景，只需在VXLAN二层网关上部署。</p>
+
+      
+       <hr><span style="font-style: italic;color: gray;"> 转载请注明来源，欢迎对文章进行指正，联系邮箱 vou0515@gmail.com </span>
+    </div>
+</article>
+
+
+
+
+
+
+
+    
+
+
+
+
+    </div>
+    <div class="copyright">
+        <p class="footer-entry">
+    ©2023 closeto
+</p>
+<p class="footer-entry">Built with Hexo</p>
+
+    </div>
+    <div class="full-toc">
+        <button class="full" data-title="切换全屏 快捷键 s"><span class="min "></span></button>
+<a class="" id="rocket" ></a>
+
+    </div>
+</div>
+
+</body>
+<script src="/js/jquery.pjax.js?v=1.1.0" ></script>
+
+<script src="/js/script.js?v=1.1.0" ></script>
+<script>
+    var img_resize = 'default';
+    function initArticle() {
+        /*渲染对应的表格样式*/
+        
+            $("#post .pjax table").addClass("green_title");
+        
+
+        /*渲染打赏样式*/
+        
+
+        /*高亮代码块行号*/
+        
+
+        /*访问数量*/
+        
+        $.getScript("//busuanzi.ibruce.info/busuanzi/2.3/busuanzi.pure.mini.js");
+        
+
+        /*代码高亮，行号对齐*/
+        $('.pre-numbering').css('line-height',$('.has-numbering').css('line-height'));
+
+        
+        
+        /* 渲染*/
+        function HTMLDecode(text) {
+            var temp = document.createElement("div");
+            temp.innerHTML = text;
+            var output = temp.innerText || temp.textContent;
+            temp = null;
+            return output;
+        }
+        if (window.mermaid){
+            window.mermaid = null
+        }
+        $.getScript("//cdn.jsdelivr.net/npm/mermaid@8.4.2/dist/mermaid.min.js", function () {
+            var mermaidOptions = JSON.parse(HTMLDecode("{&#34;theme&#34;:&#34;default&#34;,&#34;startOnLoad&#34;:true,&#34;flowchart&#34;:{&#34;useMaxWidth&#34;:false,&#34;htmlLabels&#34;:true}}"))
+            if (window.mermaid) {
+                mermaid.initialize(mermaidOptions)
+                mermaid.contentLoaded()
+            }
+        })
+        
+    }
+
+    /*打赏页面隐藏与展示*/
+    
+
+</script>
+
+<!--加入行号的高亮代码块样式-->
+
+<!--自定义样式设置-->
+<style>
+    
+    
+    .nav {
+        width: 562px;
+    }
+    .nav.fullscreen {
+        margin-left: -562px;
+    }
+    .nav-left {
+        width: 140px;
+    }
+    
+    
+    @media screen and (max-width: 1468px) {
+        .nav {
+            width: 492px;
+        }
+        .nav.fullscreen {
+            margin-left: -492px;
+        }
+        .nav-left {
+            width: 100px;
+        }
+    }
+    
+    
+    @media screen and (max-width: 1024px) {
+        .nav {
+            width: 492px;
+            margin-left: -492px
+        }
+        .nav.fullscreen {
+            margin-left: 0;
+        }
+    }
+    
+    @media screen and (max-width: 426px) {
+        .nav {
+            width: 100%;
+        }
+        .nav-left {
+            width: 100%;
+        }
+    }
+    
+    
+    .nav-right .title-list nav a .post-title, .nav-right .title-list #local-search-result a .post-title {
+        color: #383636;
+    }
+    
+    
+    .nav-right .title-list nav a .post-date, .nav-right .title-list #local-search-result a .post-date {
+        color: #5e5e5f;
+    }
+    
+    
+    .nav-right nav a.hover, #local-search-result a.hover{
+        background-color: #e2e0e0;
+    }
+    
+    
+
+    /*列表样式*/
+    
+
+    /* 背景图样式 */
+    
+    
+
+
+    /*引用块样式*/
+    
+
+    /*文章列表背景图*/
+    
+
+    
+</style>
+
+
+
+
+
+
+
+</html>
