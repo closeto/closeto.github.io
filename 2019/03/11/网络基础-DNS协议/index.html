@@ -1,0 +1,1377 @@
+<!DOCTYPE html>
+<html>
+<head>
+  <meta charset="utf-8">
+  <title>DNS | 欢迎来到closeto的博客</title>
+  <meta name="keywords" content=" 2019 ">
+  <meta name="description" content="DNS | 欢迎来到closeto的博客">
+    <meta name="viewport" content="width=device-width, initial-scale=1, maximum-scale=1">
+<meta name="description" content="一、准备工作下载对应版本的内核文件    hostnamectl    Kernel官网下载地址：https:&#x2F;&#x2F;kernel.org&#x2F; 环境Centos9 &amp; 准备工作CentOS-Stream-9-latest-x86_64-dvd1-miniyum install -y gcc ncurses-devel *ncurses bison flex libelf-dev libelf-d">
+<meta property="og:type" content="article">
+<meta property="og:title" content="Busybox搭建最小Linux">
+<meta property="og:url" content="https://closeto.github.io/2023/03/10/busybox%E6%90%AD%E5%BB%BA%E6%9C%80%E5%B0%8FLinux/index.html">
+<meta property="og:site_name" content="欢迎来到closeto的博客">
+<meta property="og:description" content="一、准备工作下载对应版本的内核文件    hostnamectl    Kernel官网下载地址：https:&#x2F;&#x2F;kernel.org&#x2F; 环境Centos9 &amp; 准备工作CentOS-Stream-9-latest-x86_64-dvd1-miniyum install -y gcc ncurses-devel *ncurses bison flex libelf-dev libelf-d">
+<meta property="og:locale" content="zh_CN">
+<meta property="article:published_time" content="2023-03-10T04:30:00.000Z">
+<meta property="article:author" content="closeto">
+<meta property="article:tag" content="Linux">
+<meta property="article:tag" content="2023">
+<meta name="twitter:card" content="summary">
+
+
+<link rel="icon" href="/img/ico.png">
+
+<link href="/css/style.css?v=1.1.0" rel="stylesheet">
+
+<link href="/css/hl_theme/atom-light.css?v=1.1.0" rel="stylesheet">
+
+<link href="//cdn.jsdelivr.net/npm/animate.css@4.1.0/animate.min.css" rel="stylesheet">
+
+<script src="//cdn.jsdelivr.net/npm/jquery@3.5.1/dist/jquery.min.js"></script>
+<script src="/js/titleTip.js?v=1.1.0" ></script>
+
+<script src="//cdn.jsdelivr.net/npm/highlightjs@9.16.2/highlight.pack.min.js"></script>
+<script>
+    hljs.initHighlightingOnLoad();
+</script>
+
+<script src="//cdn.jsdelivr.net/npm/nprogress@0.2.0/nprogress.min.js"></script>
+
+
+
+<script src="/js/iconfont.js?v=1.1.0" ></script>
+
+<meta name="generator" content="Hexo 6.3.0"></head>
+<div style="display: none">
+  <input class="theme_disqus_on" value="false">
+  <input class="theme_preload_comment" value="">
+  <input class="theme_blog_path" value="">
+  <input id="theme_shortcut" value="true" />
+  <input id="theme_highlight_on" value="true" />
+  <input id="theme_code_copy" value="true" />
+</div>
+
+
+
+<body>
+<aside class="nav">
+    <div class="nav-left">
+        <a href="/"
+   class="avatar_target">
+    <img class="avatar"
+         src="/img/user.png"/>
+</a>
+<div class="author">
+    <span>closeto</span>
+</div>
+
+<div class="icon">
+    
+        
+            <a title="github"
+               href="https://github.com/closeto"
+               target="_blank">
+                
+                    <svg class="iconfont-svg" aria-hidden="true">
+                        <use xlink:href="#icon-github"></use>
+                    </svg>
+                
+            </a>
+        
+    
+        
+            <a title="email"
+               href="mailto:vou0515@gmail.com"
+               target="_blank">
+                
+                    <svg class="iconfont-svg" aria-hidden="true">
+                        <use xlink:href="#icon-email"></use>
+                    </svg>
+                
+            </a>
+        
+    
+</div>
+
+
+
+
+
+<ul>
+    <li>
+        <div class="all active" data-rel="全部文章">全部文章
+            
+                <small>(60)</small>
+            
+        </div>
+    </li>
+    
+        
+            
+                
+    <li>
+        <div data-rel="Web安全">
+            
+            Web安全
+            <small>(17)</small>
+        </div>
+        
+    </li>
+
+            
+        
+    
+        
+            
+                
+    <li>
+        <div data-rel="内网安全">
+            
+            内网安全
+            <small>(11)</small>
+        </div>
+        
+    </li>
+
+            
+        
+    
+        
+            
+                
+    <li>
+        <div data-rel="Windows相关">
+            
+            Windows相关
+            <small>(4)</small>
+        </div>
+        
+    </li>
+
+            
+        
+    
+        
+            
+                
+    <li>
+        <div data-rel="Linux相关">
+            
+            Linux相关
+            <small>(1)</small>
+        </div>
+        
+    </li>
+
+            
+        
+    
+        
+            
+                
+    <li>
+        <div data-rel="网络协议">
+            
+            网络协议
+            <small>(11)</small>
+        </div>
+        
+    </li>
+
+            
+        
+    
+        
+            
+                
+    <li>
+        <div data-rel="数字通信">
+            
+            数字通信
+            <small>(11)</small>
+        </div>
+        
+    </li>
+
+            
+        
+    
+        
+            
+                
+    <li>
+        <div data-rel="其它">
+            
+            其它
+            <small>(3)</small>
+        </div>
+        
+    </li>
+
+            
+        
+    
+        
+            
+                
+    <li>
+        <div data-rel="考证学习">
+            
+            考证学习
+            <small>(1)</small>
+        </div>
+        
+    </li>
+
+            
+        
+    
+</ul>
+<div class="left-bottom">
+    <div class="menus">
+        
+            
+    </div>
+    <div>
+        
+            <a class="about  "
+               target="_blank"
+                    
+               href="https://github.com/closeto">关于</a>
+        
+        
+    </div>
+</div>
+<input type="hidden" id="yelog_site_posts_number" value="60">
+
+<div style="display: none">
+    <span id="busuanzi_value_site_uv"></span>
+    <span id="busuanzi_value_site_pv"></span>
+</div>
+
+    </div>
+    <div class="nav-right">
+        <div class="friends-area">
+    <div class="friends-title">
+        友情链接
+        <i class="iconfont icon-left"></i>
+    </div>
+    <div class="friends-content">
+        <ul>
+            
+            <li><a target="_blank" href="/url">名字列表</a></li>
+            
+        </ul>
+    </div>
+</div>
+        <div class="title-list">
+    <div class="right-top">
+        <div id="default-panel">
+            <i class="iconfont icon-search" data-title="搜索 快捷键 i"></i>
+            <div class="right-title">全部文章</div>
+            <i class="iconfont icon-file-tree" data-title="切换到大纲视图 快捷键 w"></i>
+        </div>
+        <div id="search-panel">
+            <i class="iconfont icon-left" data-title="返回"></i>
+            <input id="local-search-input" autocomplete="off"/>
+            <label class="border-line" for="input"></label>
+            <i class="iconfont icon-case-sensitive" data-title="大小写敏感"></i>
+            <i class="iconfont icon-tag" data-title="标签"></i>
+        </div>
+        <div id="outline-panel" style="display: none">
+            <div class="right-title">大纲</div>
+            <i class="iconfont icon-list" data-title="切换到文章列表"></i>
+        </div>
+    </div>
+
+    <div class="tags-list">
+    <input id="tag-search" />
+    <div class="tag-wrapper">
+        
+            <li class="article-tag-list-item">
+                <i class="iconfont icon-tag"></i><a>2019</a>
+            </li>
+        
+            <li class="article-tag-list-item">
+                <i class="iconfont icon-tag"></i><a>2020</a>
+            </li>
+        
+            <li class="article-tag-list-item">
+                <i class="iconfont icon-tag"></i><a>2021</a>
+            </li>
+        
+            <li class="article-tag-list-item">
+                <i class="iconfont icon-tag"></i><a>2022</a>
+            </li>
+        
+            <li class="article-tag-list-item">
+                <i class="iconfont icon-tag"></i><a>2023</a>
+            </li>
+        
+            <li class="article-tag-list-item">
+                <i class="iconfont icon-tag"></i><a>基础</a>
+            </li>
+        
+            <li class="article-tag-list-item">
+                <i class="iconfont icon-tag"></i><a>内网</a>
+            </li>
+        
+            <li class="article-tag-list-item">
+                <i class="iconfont icon-tag"></i><a>软考</a>
+            </li>
+        
+            <li class="article-tag-list-item">
+                <i class="iconfont icon-tag"></i><a>渗透测试</a>
+            </li>
+        
+            <li class="article-tag-list-item">
+                <i class="iconfont icon-tag"></i><a>文件格式</a>
+            </li>
+        
+            <li class="article-tag-list-item">
+                <i class="iconfont icon-tag"></i><a>中级</a>
+            </li>
+        
+            <li class="article-tag-list-item">
+                <i class="iconfont icon-tag"></i><a>Bin</a>
+            </li>
+        
+            <li class="article-tag-list-item">
+                <i class="iconfont icon-tag"></i><a>Linux</a>
+            </li>
+        
+            <li class="article-tag-list-item">
+                <i class="iconfont icon-tag"></i><a>ShellCode</a>
+            </li>
+        
+            <li class="article-tag-list-item">
+                <i class="iconfont icon-tag"></i><a>Web</a>
+            </li>
+        
+            <li class="article-tag-list-item">
+                <i class="iconfont icon-tag"></i><a>Windows</a>
+            </li>
+        
+    </div>
+
+</div>
+
+    
+    <nav id="title-list-nav">
+        
+        
+        <a  class="全部文章 Linux相关 "
+           href="/2023/03/10/busybox%E6%90%AD%E5%BB%BA%E6%9C%80%E5%B0%8FLinux/"
+           data-tag="Linux,2023"
+           data-author="" >
+            <span class="post-title" title="Busybox搭建最小Linux">Busybox搭建最小Linux</span>
+            <span class="post-date" title="2023-03-10 12:30:00">2023/03/10</span>
+        </a>
+        
+        
+        <a  class="全部文章 其它 "
+           href="/2022/07/19/Nginx%E6%97%A5%E5%BF%97%E6%A0%BC%E5%BC%8F/"
+           data-tag="2022"
+           data-author="" >
+            <span class="post-title" title="Nginx日志格式">Nginx日志格式</span>
+            <span class="post-date" title="2022-07-19 00:00:00">2022/07/19</span>
+        </a>
+        
+        
+        <a  class="全部文章 其它 "
+           href="/2022/05/07/UTF-8%E9%9D%9E%E6%9C%80%E7%9F%AD%E5%BD%A2%E5%BC%8F&%E7%BC%96%E7%A0%81%E5%AE%89%E5%85%A8%E9%97%AE%E9%A2%98/"
+           data-tag="2022"
+           data-author="" >
+            <span class="post-title" title="UTF8编码安全">UTF8编码安全</span>
+            <span class="post-date" title="2022-05-07 00:00:00">2022/05/07</span>
+        </a>
+        
+        
+        <a  class="全部文章 Windows相关 "
+           href="/2022/04/10/ShellCode%E5%85%A5%E9%97%A8%E5%88%B0%E6%94%BE%E5%BC%83%E2%80%94%E7%9B%B8%E9%81%87/"
+           data-tag="2022,ShellCode,Bin"
+           data-author="" >
+            <span class="post-title" title="ShellCode入门到放弃—相遇">ShellCode入门到放弃—相遇</span>
+            <span class="post-date" title="2022-04-10 19:30:00">2022/04/10</span>
+        </a>
+        
+        
+        <a  class="全部文章 Windows相关 "
+           href="/2022/04/10/PE%E6%96%87%E4%BB%B6%E6%A0%BC%E5%BC%8F%E2%80%94%E7%AE%80%E4%BB%8B/"
+           data-tag="2022,文件格式"
+           data-author="" >
+            <span class="post-title" title="PE文件格式—简介">PE文件格式—简介</span>
+            <span class="post-date" title="2022-04-10 10:48:36">2022/04/10</span>
+        </a>
+        
+        
+        <a  class="全部文章 内网安全 "
+           href="/2022/03/10/%E5%86%85%E7%BD%91%E6%B8%97%E9%80%8F-Redis%E6%9C%AA%E6%8E%88%E6%9D%83/"
+           data-tag="2022,内网,渗透测试"
+           data-author="" >
+            <span class="post-title" title="Redis未授权">Redis未授权</span>
+            <span class="post-date" title="2022-03-10 14:30:00">2022/03/10</span>
+        </a>
+        
+        
+        <a  class="全部文章 内网安全 "
+           href="/2022/03/01/WL%E7%AB%AF%E5%8F%A3%E6%B5%81%E9%87%8F%E8%BD%AC%E5%8F%91/"
+           data-tag="2022,内网,Windows"
+           data-author="" >
+            <span class="post-title" title="WL端口流量转发">WL端口流量转发</span>
+            <span class="post-date" title="2022-03-01 00:00:00">2022/03/01</span>
+        </a>
+        
+        
+        <a  class="全部文章 内网安全 "
+           href="/2022/02/19/Linux%E7%97%95%E8%BF%B9%E6%93%A6%E9%99%A4/"
+           data-tag="2022,内网,渗透测试,Linux"
+           data-author="" >
+            <span class="post-title" title="Linux痕迹擦除">Linux痕迹擦除</span>
+            <span class="post-date" title="2022-02-19 00:00:00">2022/02/19</span>
+        </a>
+        
+        
+        <a  class="全部文章 内网安全 "
+           href="/2022/02/18/Windows%E7%97%95%E8%BF%B9%E6%93%A6%E9%99%A4/"
+           data-tag="2022,内网,渗透测试,Windows"
+           data-author="" >
+            <span class="post-title" title="Windows痕迹擦除">Windows痕迹擦除</span>
+            <span class="post-date" title="2022-02-18 00:00:00">2022/02/18</span>
+        </a>
+        
+        
+        <a  class="全部文章 内网安全 "
+           href="/2022/02/14/Windows%E4%BF%A1%E6%81%AF%E6%94%B6%E9%9B%86/"
+           data-tag="2022,内网,渗透测试,Windows"
+           data-author="" >
+            <span class="post-title" title="Windows信息收集">Windows信息收集</span>
+            <span class="post-date" title="2022-02-14 00:00:00">2022/02/14</span>
+        </a>
+        
+        
+        <a  class="全部文章 内网安全 "
+           href="/2022/02/13/Linux%E4%BF%A1%E6%81%AF%E6%94%B6%E9%9B%86/"
+           data-tag="2022,内网,渗透测试,Linux"
+           data-author="" >
+            <span class="post-title" title="Linux信息收集">Linux信息收集</span>
+            <span class="post-date" title="2022-02-13 00:00:00">2022/02/13</span>
+        </a>
+        
+        
+        <a  class="全部文章 Windows相关 "
+           href="/2022/01/18/ShellCode%E5%85%A5%E9%97%A8%E5%88%B0%E6%94%BE%E5%BC%83%E2%80%94%E7%9B%B8%E5%BC%83/"
+           data-tag="2022,ShellCode,Bin"
+           data-author="" >
+            <span class="post-title" title="ShellCode入门到放弃—相弃">ShellCode入门到放弃—相弃</span>
+            <span class="post-date" title="2022-01-18 17:30:00">2022/01/18</span>
+        </a>
+        
+        
+        <a  class="全部文章 考证学习 "
+           href="/2022/01/18/%E8%BD%AF%E8%80%83%E4%B8%AD%E7%BA%A7%E2%80%94%E4%BF%A1%E6%81%AF%E5%AE%89%E5%85%A8%E5%B7%A5%E7%A8%8B%E5%B8%88/"
+           data-tag="2023,软考,中级"
+           data-author="" >
+            <span class="post-title" title="软考中级—信息安全工程师">软考中级—信息安全工程师</span>
+            <span class="post-date" title="2022-01-18 14:30:00">2022/01/18</span>
+        </a>
+        
+        
+        <a  class="全部文章 Windows相关 "
+           href="/2022/01/15/ShellCode%E5%85%A5%E9%97%A8%E5%88%B0%E6%94%BE%E5%BC%83%E2%80%94%E7%9B%B8%E7%9F%A5/"
+           data-tag="2022,ShellCode,Bin"
+           data-author="" >
+            <span class="post-title" title="ShellCode入门到放弃—相知">ShellCode入门到放弃—相知</span>
+            <span class="post-date" title="2022-01-15 12:12:12">2022/01/15</span>
+        </a>
+        
+        
+        <a  class="全部文章 内网安全 "
+           href="/2021/11/19/%E5%86%85%E7%BD%91%E6%B8%97%E9%80%8F-Linux%E6%8F%90%E6%9D%83/"
+           data-tag="内网,渗透测试,2021"
+           data-author="" >
+            <span class="post-title" title="Linux提权">Linux提权</span>
+            <span class="post-date" title="2021-11-19 14:30:00">2021/11/19</span>
+        </a>
+        
+        
+        <a  class="全部文章 内网安全 "
+           href="/2021/11/10/%E5%86%85%E7%BD%91%E6%B8%97%E9%80%8F_%E5%AF%86%E7%A0%81%E6%8F%90%E5%8F%96/"
+           data-tag="内网,渗透测试,2021"
+           data-author="" >
+            <span class="post-title" title="终端管理工具密码获取">终端管理工具密码获取</span>
+            <span class="post-date" title="2021-11-10 14:30:00">2021/11/10</span>
+        </a>
+        
+        
+        <a  class="全部文章 内网安全 "
+           href="/2021/11/04/%E5%86%85%E7%BD%91%E6%B8%97%E9%80%8F-Linux%E5%8F%8D%E5%BC%B9Shell/"
+           data-tag="内网,渗透测试,2021"
+           data-author="" >
+            <span class="post-title" title="Linux反弹Shell">Linux反弹Shell</span>
+            <span class="post-date" title="2021-11-04 14:30:00">2021/11/04</span>
+        </a>
+        
+        
+        <a  class="全部文章 内网安全 "
+           href="/2021/10/19/%E5%86%85%E7%BD%91%E5%AE%89%E5%85%A8-%E6%B5%81%E9%87%8F%E7%89%B9%E5%BE%81NPS%E3%80%81FRP/"
+           data-tag="内网,渗透测试,2021"
+           data-author="" >
+            <span class="post-title" title="流量特征NPS、FRP">流量特征NPS、FRP</span>
+            <span class="post-date" title="2021-10-19 14:30:00">2021/10/19</span>
+        </a>
+        
+        
+        <a  class="全部文章 内网安全 "
+           href="/2021/09/10/%E5%86%85%E7%BD%91%E5%AE%89%E5%85%A8-docker%E6%9C%AA%E6%8E%88%E6%9D%83/"
+           data-tag="内网,渗透测试,2021"
+           data-author="" >
+            <span class="post-title" title="docker未授权">docker未授权</span>
+            <span class="post-date" title="2021-09-10 14:30:00">2021/09/10</span>
+        </a>
+        
+        
+        <a  class="全部文章 Web安全 "
+           href="/2021/07/25/web%E5%AE%89%E5%85%A8-Xpath%E6%B3%A8%E5%85%A5/"
+           data-tag="2021,Web"
+           data-author="" >
+            <span class="post-title" title="Xpath注入">Xpath注入</span>
+            <span class="post-date" title="2021-07-25 00:00:00">2021/07/25</span>
+        </a>
+        
+        
+        <a  class="全部文章 Web安全 "
+           href="/2021/07/16/Web%E5%AE%89%E5%85%A8-SQL%E6%B3%A8%E5%85%A5/"
+           data-tag="2021,Web"
+           data-author="" >
+            <span class="post-title" title="SQL注入">SQL注入</span>
+            <span class="post-date" title="2021-07-16 00:00:00">2021/07/16</span>
+        </a>
+        
+        
+        <a  class="全部文章 Web安全 "
+           href="/2021/06/19/Web%E5%AE%89%E5%85%A8-%E6%96%87%E4%BB%B6%E4%B8%8A%E4%BC%A0%E6%BC%8F%E6%B4%9E/"
+           data-tag="2021,Web"
+           data-author="" >
+            <span class="post-title" title="文件上传漏洞">文件上传漏洞</span>
+            <span class="post-date" title="2021-06-19 00:00:00">2021/06/19</span>
+        </a>
+        
+        
+        <a  class="全部文章 Web安全 "
+           href="/2021/06/08/Web%E5%AE%89%E5%85%A8-PHP%E5%BA%8F%E5%88%97%E5%8C%96&%E5%8F%8D%E5%BA%8F%E5%88%97%E5%8C%96/"
+           data-tag="2021,Web"
+           data-author="" >
+            <span class="post-title" title="PHP序列化与反序列化">PHP序列化与反序列化</span>
+            <span class="post-date" title="2021-06-08 00:00:00">2021/06/08</span>
+        </a>
+        
+        
+        <a  class="全部文章 Web安全 "
+           href="/2021/06/04/Web%E5%AE%89%E5%85%A8-SSI%E6%B3%A8%E5%85%A5/"
+           data-tag="2021,Web"
+           data-author="" >
+            <span class="post-title" title="SSI注入">SSI注入</span>
+            <span class="post-date" title="2021-06-04 00:00:00">2021/06/04</span>
+        </a>
+        
+        
+        <a  class="全部文章 "
+           href="/2021/06/02/docker%E5%B8%B8%E7%94%A8%E5%91%BD%E4%BB%A4/"
+           data-tag="Linux,2021"
+           data-author="" >
+            <span class="post-title" title="Docker常用命令">Docker常用命令</span>
+            <span class="post-date" title="2021-06-02 00:00:00">2021/06/02</span>
+        </a>
+        
+        
+        <a  class="全部文章 Web安全 "
+           href="/2021/05/25/Web%E5%AE%89%E5%85%A8-%E6%96%87%E4%BB%B6%E5%8C%85%E5%90%AB%E6%BC%8F%E6%B4%9E/"
+           data-tag="2021,Web"
+           data-author="" >
+            <span class="post-title" title="文件包含漏洞">文件包含漏洞</span>
+            <span class="post-date" title="2021-05-25 00:00:00">2021/05/25</span>
+        </a>
+        
+        
+        <a  class="全部文章 Web安全 "
+           href="/2021/04/19/Web%E5%AE%89%E5%85%A8-%E8%B6%8A%E6%9D%83/"
+           data-tag="2021,Web"
+           data-author="" >
+            <span class="post-title" title="越权">越权</span>
+            <span class="post-date" title="2021-04-19 00:00:00">2021/04/19</span>
+        </a>
+        
+        
+        <a  class="全部文章 Web安全 "
+           href="/2021/04/06/Web%E5%AE%89%E5%85%A8-Xxe/"
+           data-tag="2021,Web"
+           data-author="" >
+            <span class="post-title" title="XXE">XXE</span>
+            <span class="post-date" title="2021-04-06 00:00:00">2021/04/06</span>
+        </a>
+        
+        
+        <a  class="全部文章 Web安全 "
+           href="/2021/04/05/Web%E5%AE%89%E5%85%A8-%E6%96%87%E4%BB%B6%E4%B8%8B%E8%BD%BD%E8%AF%BB%E5%8F%96%E6%BC%8F%E6%B4%9E/"
+           data-tag="2021,Web"
+           data-author="" >
+            <span class="post-title" title="文件下载漏洞">文件下载漏洞</span>
+            <span class="post-date" title="2021-04-05 00:00:00">2021/04/05</span>
+        </a>
+        
+        
+        <a  class="全部文章 其它 "
+           href="/2021/04/02/%E5%B8%B8%E7%94%A8%E6%AD%A3%E5%88%99%E8%A1%A8%E8%BE%BE%E5%BC%8F/"
+           data-tag="2021"
+           data-author="" >
+            <span class="post-title" title="常用正则表达式">常用正则表达式</span>
+            <span class="post-date" title="2021-04-02 00:00:00">2021/04/02</span>
+        </a>
+        
+        
+        <a  class="全部文章 Web安全 "
+           href="/2021/03/25/Web%E5%AE%89%E5%85%A8-Nginx%E5%AE%89%E5%85%A8/"
+           data-tag="2021,Web"
+           data-author="" >
+            <span class="post-title" title="Apache安全">Apache安全</span>
+            <span class="post-date" title="2021-03-25 00:00:00">2021/03/25</span>
+        </a>
+        
+        
+        <a  class="全部文章 Web安全 "
+           href="/2021/03/19/Web%E5%AE%89%E5%85%A8-LDAP%E6%B3%A8%E5%85%A5/"
+           data-tag="2021,Web"
+           data-author="" >
+            <span class="post-title" title="LDAP注入">LDAP注入</span>
+            <span class="post-date" title="2021-03-19 00:00:00">2021/03/19</span>
+        </a>
+        
+        
+        <a  class="全部文章 Web安全 "
+           href="/2021/03/13/Web%E5%AE%89%E5%85%A8-CSR&SSRF/"
+           data-tag="2021,Web"
+           data-author="" >
+            <span class="post-title" title="CSRF &amp; SSRF">CSRF &amp; SSRF</span>
+            <span class="post-date" title="2021-03-13 00:00:00">2021/03/13</span>
+        </a>
+        
+        
+        <a  class="全部文章 Web安全 "
+           href="/2021/03/09/Web%E5%AE%89%E5%85%A8-CRLF/"
+           data-tag="2021,Web"
+           data-author="" >
+            <span class="post-title" title="CLRF">CLRF</span>
+            <span class="post-date" title="2021-03-09 00:00:00">2021/03/09</span>
+        </a>
+        
+        
+        <a  class="全部文章 Web安全 "
+           href="/2021/03/06/Web%E5%AE%89%E5%85%A8-Apache%E5%AE%89%E5%85%A8/"
+           data-tag="2021,Web"
+           data-author="" >
+            <span class="post-title" title="Apache安全">Apache安全</span>
+            <span class="post-date" title="2021-03-06 00:00:00">2021/03/06</span>
+        </a>
+        
+        
+        <a  class="全部文章 Web安全 "
+           href="/2021/03/03/Web%E5%AE%89%E5%85%A8-IIS%E5%AE%89%E5%85%A8/"
+           data-tag="2021,Web"
+           data-author="" >
+            <span class="post-title" title="IIS安全">IIS安全</span>
+            <span class="post-date" title="2021-03-03 00:00:00">2021/03/03</span>
+        </a>
+        
+        
+        <a  class="全部文章 Web安全 "
+           href="/2021/02/27/Web%E5%AE%89%E5%85%A8-XSS/"
+           data-tag="2021,Web"
+           data-author="" >
+            <span class="post-title" title="XSS">XSS</span>
+            <span class="post-date" title="2021-02-27 00:00:00">2021/02/27</span>
+        </a>
+        
+        
+        <a  class="全部文章 Web安全 "
+           href="/2021/02/10/Web%E5%AE%89%E5%85%A8-%E4%B8%80%E5%8F%A5%E8%AF%9D%E6%9C%A8%E9%A9%AC/"
+           data-tag="2021,Web"
+           data-author="" >
+            <span class="post-title" title="一句话木马">一句话木马</span>
+            <span class="post-date" title="2021-02-10 00:00:00">2021/02/10</span>
+        </a>
+        
+        
+        <a  class="全部文章 数字通信 "
+           href="/2020/08/25/%E8%B7%AF%E7%94%B1%E4%BA%A4%E6%8D%A2-VXLAN-04/"
+           data-tag="2020"
+           data-author="" >
+            <span class="post-title" title="虚拟扩展局域网-VXLAN-04">虚拟扩展局域网-VXLAN-04</span>
+            <span class="post-date" title="2020-08-25 00:00:00">2020/08/25</span>
+        </a>
+        
+        
+        <a  class="全部文章 数字通信 "
+           href="/2020/08/20/%E8%B7%AF%E7%94%B1%E4%BA%A4%E6%8D%A2-VXLAN-03/"
+           data-tag="2020"
+           data-author="" >
+            <span class="post-title" title="虚拟扩展局域网-VXLAN-03">虚拟扩展局域网-VXLAN-03</span>
+            <span class="post-date" title="2020-08-20 00:00:00">2020/08/20</span>
+        </a>
+        
+        
+        <a  class="全部文章 数字通信 "
+           href="/2020/08/15/%E8%B7%AF%E7%94%B1%E4%BA%A4%E6%8D%A2-VXLAN-02/"
+           data-tag="2020"
+           data-author="" >
+            <span class="post-title" title="虚拟扩展局域网-VXLAN-02">虚拟扩展局域网-VXLAN-02</span>
+            <span class="post-date" title="2020-08-15 00:00:00">2020/08/15</span>
+        </a>
+        
+        
+        <a  class="全部文章 数字通信 "
+           href="/2020/08/10/%E8%B7%AF%E7%94%B1%E4%BA%A4%E6%8D%A2-VXLAN-01/"
+           data-tag="2020"
+           data-author="" >
+            <span class="post-title" title="虚拟扩展局域网-VXLAN-01">虚拟扩展局域网-VXLAN-01</span>
+            <span class="post-date" title="2020-08-10 00:00:00">2020/08/10</span>
+        </a>
+        
+        
+        <a  class="全部文章 网络协议 "
+           href="/2019/06/16/%E7%BD%91%E7%BB%9C%E5%9F%BA%E7%A1%80-ipv6%E8%BF%87%E6%B8%A1%E6%8A%80%E6%9C%AF/"
+           data-tag="2019"
+           data-author="" >
+            <span class="post-title" title="IPv6过度技术">IPv6过度技术</span>
+            <span class="post-date" title="2019-06-16 00:00:00">2019/06/16</span>
+        </a>
+        
+        
+        <a  class="全部文章 网络协议 "
+           href="/2019/05/19/%E7%BD%91%E7%BB%9C%E5%9F%BA%E7%A1%80-SOCK5/"
+           data-tag="2019"
+           data-author="" >
+            <span class="post-title" title="SOCK5">SOCK5</span>
+            <span class="post-date" title="2019-05-19 00:00:00">2019/05/19</span>
+        </a>
+        
+        
+        <a  class="全部文章 网络协议 "
+           href="/2019/04/25/%E7%BD%91%E7%BB%9C%E5%9F%BA%E7%A1%80-HTTP%E5%8D%8F%E8%AE%AE/"
+           data-tag="2019"
+           data-author="" >
+            <span class="post-title" title="HTTP">HTTP</span>
+            <span class="post-date" title="2019-04-25 00:00:00">2019/04/25</span>
+        </a>
+        
+        
+        <a  class="全部文章 网络协议 "
+           href="/2019/04/13/%E7%BD%91%E7%BB%9C%E5%9F%BA%E7%A1%80-IP%E5%8D%8F%E8%AE%AE/"
+           data-tag="2019"
+           data-author="" >
+            <span class="post-title" title="IP">IP</span>
+            <span class="post-date" title="2019-04-13 00:00:00">2019/04/13</span>
+        </a>
+        
+        
+        <a  class="全部文章 网络协议 "
+           href="/2019/03/29/%E7%BD%91%E7%BB%9C%E5%9F%BA%E7%A1%80-VRRPv4/"
+           data-tag="2019"
+           data-author="" >
+            <span class="post-title" title="VRRPv4">VRRPv4</span>
+            <span class="post-date" title="2019-03-29 00:00:00">2019/03/29</span>
+        </a>
+        
+        
+        <a  class="全部文章 数字通信 "
+           href="/2019/03/19/%E8%B7%AF%E7%94%B1%E4%BA%A4%E6%8D%A2-MPLS/"
+           data-tag="2019"
+           data-author="" >
+            <span class="post-title" title="多协议标签交换—MPLS">多协议标签交换—MPLS</span>
+            <span class="post-date" title="2019-03-19 00:00:00">2019/03/19</span>
+        </a>
+        
+        
+        <a  class="全部文章 网络协议 "
+           href="/2019/03/16/%E7%BD%91%E7%BB%9C%E5%9F%BA%E7%A1%80-Ethernet%20II/"
+           data-tag="2019"
+           data-author="" >
+            <span class="post-title" title="Ethernet II">Ethernet II</span>
+            <span class="post-date" title="2019-03-16 00:00:00">2019/03/16</span>
+        </a>
+        
+        
+        <a  class="全部文章 网络协议 "
+           href="/2019/03/11/%E7%BD%91%E7%BB%9C%E5%9F%BA%E7%A1%80-DNS%E5%8D%8F%E8%AE%AE/"
+           data-tag="2019"
+           data-author="" >
+            <span class="post-title" title="DNS">DNS</span>
+            <span class="post-date" title="2019-03-11 00:00:00">2019/03/11</span>
+        </a>
+        
+        
+        <a  class="全部文章 网络协议 "
+           href="/2019/03/06/%E7%BD%91%E7%BB%9C%E5%9F%BA%E7%A1%80-%E5%8D%8F%E8%AE%AE%E5%8F%B7%E9%9B%86%E5%90%88/"
+           data-tag="2019"
+           data-author="" >
+            <span class="post-title" title="Internet协议号合集">Internet协议号合集</span>
+            <span class="post-date" title="2019-03-06 00:00:00">2019/03/06</span>
+        </a>
+        
+        
+        <a  class="全部文章 网络协议 "
+           href="/2019/03/03/%E7%BD%91%E7%BB%9C%E5%9F%BA%E7%A1%80-%E5%8D%8F%E8%AE%AE%E5%B0%81%E8%A3%85/"
+           data-tag="2019,基础"
+           data-author="" >
+            <span class="post-title" title="Etherenet II协议封装">Etherenet II协议封装</span>
+            <span class="post-date" title="2019-03-03 00:00:00">2019/03/03</span>
+        </a>
+        
+        
+        <a  class="全部文章 网络协议 "
+           href="/2019/03/01/%E7%BD%91%E7%BB%9C%E5%9F%BA%E7%A1%80-%E7%AB%AF%E5%8F%A3%E5%8F%B7%E9%9B%86/"
+           data-tag="2019"
+           data-author="" >
+            <span class="post-title" title="Internet端口合集">Internet端口合集</span>
+            <span class="post-date" title="2019-03-01 00:00:00">2019/03/01</span>
+        </a>
+        
+        
+        <a  class="全部文章 数字通信 "
+           href="/2019/02/15/%E8%B7%AF%E7%94%B1%E4%BA%A4%E6%8D%A2-DHCP/"
+           data-tag="2019"
+           data-author="" >
+            <span class="post-title" title="DHCP协议详解">DHCP协议详解</span>
+            <span class="post-date" title="2019-02-15 00:00:00">2019/02/15</span>
+        </a>
+        
+        
+        <a  class="全部文章 数字通信 "
+           href="/2019/02/10/%E8%B7%AF%E7%94%B1%E4%BA%A4%E6%8D%A2-OSPF%20v3/"
+           data-tag="2019"
+           data-author="" >
+            <span class="post-title" title="最短路径优先协议—OSPFv3">最短路径优先协议—OSPFv3</span>
+            <span class="post-date" title="2019-02-10 00:00:00">2019/02/10</span>
+        </a>
+        
+        
+        <a  class="全部文章 数字通信 "
+           href="/2019/02/05/%E8%B7%AF%E7%94%B1%E4%BA%A4%E6%8D%A2-OSPF%20v2/"
+           data-tag="2019"
+           data-author="" >
+            <span class="post-title" title="最短路径优先协议—OSPFv2">最短路径优先协议—OSPFv2</span>
+            <span class="post-date" title="2019-02-05 00:00:00">2019/02/05</span>
+        </a>
+        
+        
+        <a  class="全部文章 数字通信 "
+           href="/2019/01/30/%E8%B7%AF%E7%94%B1%E4%BA%A4%E6%8D%A2-BGP/"
+           data-tag="2019"
+           data-author="" >
+            <span class="post-title" title="边界网关协议—BGP">边界网关协议—BGP</span>
+            <span class="post-date" title="2019-01-30 00:00:00">2019/01/30</span>
+        </a>
+        
+        
+        <a  class="全部文章 网络协议 "
+           href="/2019/01/13/%E7%BD%91%E7%BB%9C%E5%9F%BA%E7%A1%80-TCP%E5%8D%8F%E8%AE%AE/"
+           data-tag="2019"
+           data-author="" >
+            <span class="post-title" title="TCP">TCP</span>
+            <span class="post-date" title="2019-01-13 00:00:00">2019/01/13</span>
+        </a>
+        
+        
+        <a  class="全部文章 数字通信 "
+           href="/2019/01/10/%E8%B7%AF%E7%94%B1%E4%BA%A4%E6%8D%A2-%E9%9D%99%E6%80%81%E8%B7%AF%E7%94%B1/"
+           data-tag="2019"
+           data-author="" >
+            <span class="post-title" title="路由策略&amp;策略路由">路由策略&amp;策略路由</span>
+            <span class="post-date" title="2019-01-10 00:00:00">2019/01/10</span>
+        </a>
+        
+        
+        <a  class="全部文章 数字通信 "
+           href="/2019/01/01/%E8%99%9A%E6%8B%9F%E5%8C%96-EXSI/"
+           data-tag="2019"
+           data-author="" >
+            <span class="post-title" title="虚拟化-EXSI">虚拟化-EXSI</span>
+            <span class="post-date" title="2019-01-01 00:00:00">2019/01/01</span>
+        </a>
+        
+        <div id="no-item-tips">
+
+        </div>
+    </nav>
+    <div id="outline-list">
+    </div>
+</div>
+
+    </div>
+    <div class="hide-list">
+        <div class="semicircle" data-title="切换全屏 快捷键 s">
+            <div class="brackets first"><</div>
+            <div class="brackets">&gt;</div>
+        </div>
+    </div>
+</aside>
+<div id="post">
+    <div class="pjax">
+        <article id="post-网络基础-DNS协议" class="article article-type-post" itemscope itemprop="blogPost">
+    
+        <h1 class="article-title">DNS</h1>
+    
+    <div class="article-meta">
+        
+        
+        
+        <span class="book">
+            <i class="iconfont icon-category"></i>
+            
+            
+            <a  data-rel="网络协议">网络协议</a>
+            
+        </span>
+        
+        
+        <span class="tag">
+            <i class="iconfont icon-tag"></i>
+            
+            <a class="color5">2019</a>
+            
+        </span>
+        
+    </div>
+    <div class="article-meta">
+        <!-- 修改了原始显示，原始显示更新日期为悬浮 -->
+        <!-- 
+            发布时间 : <time class="date" title='最后更新: 2023-10-22 22:57:13'>2019-03-11 00:00</time>
+         -->
+
+        
+            发布时间 : 2019-03-11 00:00</time>
+        <br>
+
+        
+    </div>
+    <div class="article-meta">
+        
+        
+        <span id="busuanzi_container_page_pv">
+            阅读 :<span id="busuanzi_value_page_pv">
+                <span class="count-comment">
+                    <span class="spinner">
+                      <div class="cube1"></div>
+                      <div class="cube2"></div>
+                    </span>
+                </span>
+            </span>
+        </span>
+        
+        
+    </div>
+    
+    <div class="toc-ref">
+    
+        <ol class="toc"><li class="toc-item toc-level-1"><a class="toc-link" href="#%E7%AE%80%E4%BB%8B"><span class="toc-text">简介</span></a></li><li class="toc-item toc-level-1"><a class="toc-link" href="#Flags"><span class="toc-text">Flags</span></a><ol class="toc-child"><li class="toc-item toc-level-3"><a class="toc-link" href="#%E5%A4%B4%E9%83%A8"><span class="toc-text">头部</span></a></li></ol></li></ol></li><li class="toc-item toc-level-1"><a class="toc-link" href="#Queruse"><span class="toc-text">Queruse</span></a><ol class="toc-child"><li class="toc-item toc-level-3"><a class="toc-link" href="#%E6%AD%A3%E6%96%87"><span class="toc-text">正文</span></a></li></ol></li></ol></li><li class="toc-item toc-level-1"><a class="toc-link" href="#%E8%B5%84%E6%BA%90%E8%AE%B0%E5%BD%95"><span class="toc-text">资源记录</span></a><ol class="toc-child"><li class="toc-item toc-level-2"><a class="toc-link" href="#%E8%B5%84%E6%BA%90%E8%AE%B0%E5%BD%95%E7%B1%BB%E5%9E%8B"><span class="toc-text">资源记录类型</span></a><ol class="toc-child"><li class="toc-item toc-level-3"><a class="toc-link" href="#A%E8%AE%B0%E5%BD%95"><span class="toc-text">A记录</span></a></li><li class="toc-item toc-level-3"><a class="toc-link" href="#NS%E8%AE%B0%E5%BD%95"><span class="toc-text">NS记录</span></a></li><li class="toc-item toc-level-3"><a class="toc-link" href="#SOA%E8%AE%B0%E5%BD%95"><span class="toc-text">SOA记录</span></a></li><li class="toc-item toc-level-3"><a class="toc-link" href="#MX%E8%AE%B0%E5%BD%95"><span class="toc-text">MX记录</span></a></li><li class="toc-item toc-level-3"><a class="toc-link" href="#Cname%E8%AE%B0%E5%BD%95"><span class="toc-text">Cname记录</span></a></li><li class="toc-item toc-level-3"><a class="toc-link" href="#SRV%E8%AE%B0%E5%BD%95"><span class="toc-text">SRV记录</span></a></li><li class="toc-item toc-level-3"><a class="toc-link" href="#SOA%E5%92%8CNS%E8%A7%A3%E9%87%8A"><span class="toc-text">SOA和NS解释</span></a></li></ol></li><li class="toc-item toc-level-2"><a class="toc-link" href="#Name-%E5%9F%9F%E5%90%8D"><span class="toc-text">Name(域名)</span></a></li></ol></li><li class="toc-item toc-level-1"><a class="toc-link" href="#DNS-ALG"><span class="toc-text">DNS-ALG</span></a></li><li class="toc-item toc-level-1"><a class="toc-link" href="#%E5%AE%89%E5%85%A8%E6%80%A7"><span class="toc-text">安全性</span></a></li></ol>
+    
+<style>
+    .left-col .switch-btn,
+    .left-col .switch-area {
+        display: none;
+    }
+    .toc-level-3 i,
+    .toc-level-3 ol {
+        display: none !important;
+    }
+</style>
+</div>
+    
+    <div class="article-entry" itemprop="articleBody">
+      
+        <h1 id="简介"><a href="#简介" class="headerlink" title="简介"></a>简介</h1><p>DNS报文格式：</p>
+<p><img src="/./images/DNS1.png"></p>
+<p>• 事务 ID：DNS 报文的 ID 标识。对于请求报文和其对应的应答报文，该字段的值是相同的。通过它可以区分 DNS 应答报文是对哪个请求进行响应的。</p>
+<p>• 标志：DNS 报文中的标志字段。</p>
+<p>• 问题计数：DNS 查询请求的数目。</p>
+<p>• 回答资源记录数：DNS 响应的数目。</p>
+<p>• 权威名称服务器计数：权威名称服务器的数目。</p>
+<p>• 附加资源记录数：额外的记录数目（权威名称服务器对应 IP 地址的数目）。</p>
+<p>根域–&gt;顶级域–&gt;二级域名–&gt;三级域名…………</p>
+<p><img src="/./images/DNS2.png"></p>
+<p>域名规则：</p>
+<p>  1、与大小写无关</p>
+<p>  2、各部分组成不能超过63个字节，整个路径不得超过255个字符</p>
+<p>  3、二级域名可以在不同的顶级域名下注册，例如：cto.com，cto.net</p>
+<p>DNS解析过程：</p>
+<p><img src="/./images/DNS3.png"></p>
+<h1 id="Flags"><a href="#Flags" class="headerlink" title="Flags"></a>Flags</h1><h3 id="头部"><a href="#头部" class="headerlink" title="头部"></a>头部</h3><ol>
+<li>会话标识（2字节）：是DNS报文的ID标识，对于请求报文和其对应的应答报文，这个字段是相同的，通过它可以区分DNS应答报文是哪个请求的响应</li>
+</ol>
+<p>2、 标志（2字节）</p>
+<p><img src="/./images/DNS4.png"></p>
+<table>
+<thead>
+<tr>
+<th>字段</th>
+<th>说明</th>
+</tr>
+</thead>
+<tbody><tr>
+<td>QR（Response）1bit</td>
+<td>查询请求&#x2F;响应的标志信息。０，查询请求１，响应</td>
+</tr>
+<tr>
+<td>opcode（4bit）</td>
+<td>操作码。0 表示标准查询；1 表示反向查询；2 表示服务器状态请求。</td>
+</tr>
+<tr>
+<td>AA（Authoritative）1bit</td>
+<td>授权应答，该字段在响应报文中有效。０，表示不是权威服务器。１，表示名称服务器是权威服务器.</td>
+</tr>
+<tr>
+<td>TC（Truncated）1bit</td>
+<td>表示可截断的(0使用udp&lt;512B，1使用tcp&gt;512B)</td>
+</tr>
+<tr>
+<td>RD（Recursion Desired）1bit</td>
+<td>表示期望递归,该字段能在一个查询中设置，并在响应中返回。该标志告诉名称服务器必须处理这个查询，这种方式被称为一个递归查询。如果该位为 0，且被请求的名称服务器没有一个授权回答，它将返回一个能解答该查询的其他名称服务器列表。这种方式被称为迭代查询。</td>
+</tr>
+<tr>
+<td>RA（Recursion Available）1bit</td>
+<td>表示可用递归，０服务器不支持递归查询１服务器支持递归查询</td>
+</tr>
+<tr>
+<td>Z</td>
+<td>保留字段，在所有的请求和应答报文中，它的值必须为 0。</td>
+</tr>
+<tr>
+<td>rcode（Reply code）4bit</td>
+<td>返回码字段，表示响应的差错状态。 ０，表示没有错误；１，表示报文格式错误，服务器不能理解请求的报文；２，表示域名服务器失败，因服务器的原因导致没办法处理这个请求；３，表示名字错误，只有对授权域名解析服务器有意义，指出解析的域名不存在；４，表示查询类型不支持，即域名服务器不支持查询类型；５，表示拒绝，一般是服务器由于设置的策略拒绝给出应答，如服务器不希望对某些请求者给出应答。</td>
+</tr>
+</tbody></table>
+<p>响应报文中TC&#x3D;1时报文长度超过512B，只返回前512B。服务器使用TCP重传允许反馈响应超过512B（DDOS使用）</p>
+<p>3、数量字段（总共8字节）：Questions、Answer RRs、Authority RRs、Additional RRs 各自表示后面的四个区域的数目。Questions表示查询问题区域节的数量，Answers表示回答区域的数量，Authoritative namesversers表示授权区域的数量，Additional recoreds表示附加区域的数量</p>
+<h1 id="Queruse"><a href="#Queruse" class="headerlink" title="Queruse"></a>Queruse</h1><h3 id="正文"><a href="#正文" class="headerlink" title="正文"></a>正文</h3><p>1、Queries区域</p>
+<p><img src="/./images/DNS5.png"></p>
+<p>• 查询名：一般为要查询的域名，有时也会是 IP 地址，用于反向查询。</p>
+<p>• 查询类型：DNS 查询请求的资源类型。通常查询类型为 A 类型，表示由域名获取对应的 IP 地址。</p>
+<p>• 查询类：地址类型，通常为互联网地址，值为 1。</p>
+<figure class="highlight plaintext"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br></pre></td><td class="code"><pre><span class="line">Domain Name System (query)                        #查询请求</span><br><span class="line">    Queries                                       #问题部分</span><br><span class="line">        baidu.com: type A, class IN</span><br><span class="line">            Name: baidu.com                       #查询名字段, 这里请求域名baidu.com</span><br><span class="line">            [Name Length: 9]</span><br><span class="line">            [Label Count: 2]</span><br><span class="line">            Type: A (Host Address) (1)            #查询类型字段, 这里为A类型</span><br><span class="line">            Class: IN (0x0001)                    #查询类字段, 这里为互联网地址</span><br></pre></td></tr></table></figure>
+
+<table>
+<thead>
+<tr>
+<th>类型</th>
+<th>标识符</th>
+<th>解释说明</th>
+</tr>
+</thead>
+<tbody><tr>
+<td>1</td>
+<td>A</td>
+<td>由域名获得IPv4地址</td>
+</tr>
+<tr>
+<td>2</td>
+<td>NS</td>
+<td>查询域名服务器</td>
+</tr>
+<tr>
+<td>5</td>
+<td>CNAME</td>
+<td>查询规范名称</td>
+</tr>
+<tr>
+<td>6</td>
+<td>SOA</td>
+<td>开始授权</td>
+</tr>
+<tr>
+<td>11</td>
+<td>WKS</td>
+<td>熟知服务</td>
+</tr>
+<tr>
+<td>12</td>
+<td>PTR</td>
+<td>把IP地址转换成域名</td>
+</tr>
+<tr>
+<td>13</td>
+<td>HINFO</td>
+<td>主机信息</td>
+</tr>
+<tr>
+<td>15</td>
+<td>MX</td>
+<td>邮件交换</td>
+</tr>
+<tr>
+<td>28</td>
+<td>AAAA</td>
+<td>由域名获得IPv6地址</td>
+</tr>
+<tr>
+<td>252</td>
+<td>AXFR</td>
+<td>传送整个区的请求</td>
+</tr>
+<tr>
+<td>255</td>
+<td>ANY</td>
+<td>对所有记录的请求</td>
+</tr>
+</tbody></table>
+<h1 id="资源记录"><a href="#资源记录" class="headerlink" title="资源记录"></a>资源记录</h1><p><img src="/./images/DNS7.png"></p>
+<p>• 域名：DNS 请求的域名。</p>
+<p>• 类型：资源记录的类型，与问题部分中的查询类型值是一样的。</p>
+<p>• 类：地址类型，与问题部分中的查询类值是一样的。</p>
+<p>• 生存时间：以秒为单位，表示资源记录的生命周期，一般用于当地址解析程序取出资源记录后决定保存及使用缓存数据的时间。它同时也可以表明该资源记录的稳定程度，稳定的信息会被分配一个很大的值。</p>
+<p>• 资源数据长度：资源数据的长度。</p>
+<p>• 资源数据：表示按查询段要求返回的相关资源记录的数据。</p>
+<p>(1)DNS 响应包的资源记录部分的字段信息，如图所示。</p>
+<p><img src="/./images/DNS6.png"></p>
+<p>其中，方框中标注的信息为 DNS 响应报文的资源记录部分信息。该部分信息主要分为三部分信息，即回答问题区域、权威名称服务器区域、附加信息区域，下面依次分析这三部分信息。</p>
+<ol start="2">
+<li>回答问题区域字段的资源记录部分信息如下：</li>
+</ol>
+<figure class="highlight plaintext"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br><span class="line">11</span><br><span class="line">12</span><br><span class="line">13</span><br><span class="line">14</span><br><span class="line">15</span><br></pre></td><td class="code"><pre><span class="line">Answers                                                      #“回答问题区域”字段</span><br><span class="line">    baidu.com: type A, class IN, addr 220.181.57.216         #资源记录部分</span><br><span class="line">        Name: baidu.com                                      #域名字段, 这里请求的域名为baidu.com</span><br><span class="line">        Type: A (Host Address) (1)                           #类型字段, 这里为A类型</span><br><span class="line">        Class: IN (0x0001)                                   #类字段</span><br><span class="line">        Time to live: 5                                      #生存时间</span><br><span class="line">        Data length: 4                                       #数据长度</span><br><span class="line">        Address: 220.181.57.216                              #资源数据, 这里为IP地址</span><br><span class="line">    baidu.com: type A, class IN, addr 123.125.115.110        #资源记录部分</span><br><span class="line">        Name: baidu.com</span><br><span class="line">        Type: A (Host Address) (1)</span><br><span class="line">        Class: IN (0x0001)</span><br><span class="line">        Time to live: 5</span><br><span class="line">        Data length: 4</span><br><span class="line">        Address: 123.125.115.110</span><br></pre></td></tr></table></figure>
+
+<ol start="3">
+<li>权威名称服务器区域字段的资源记录部分信息如下：</li>
+</ol>
+<figure class="highlight plaintext"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br><span class="line">11</span><br><span class="line">12</span><br><span class="line">13</span><br><span class="line">14</span><br><span class="line">15</span><br><span class="line">16</span><br><span class="line">17</span><br><span class="line">18</span><br><span class="line">19</span><br><span class="line">20</span><br><span class="line">21</span><br><span class="line">22</span><br><span class="line">23</span><br><span class="line">24</span><br><span class="line">25</span><br><span class="line">26</span><br><span class="line">27</span><br><span class="line">28</span><br><span class="line">29</span><br><span class="line">30</span><br><span class="line">31</span><br><span class="line">32</span><br><span class="line">33</span><br><span class="line">34</span><br><span class="line">35</span><br><span class="line">36</span><br></pre></td><td class="code"><pre><span class="line">Authoritative nameservers                               #“权威名称服务器区域”字段</span><br><span class="line">baidu.com: type NS, class IN, ns ns7.baidu.com      #资源记录部分</span><br><span class="line">Name: baidu.com</span><br><span class="line">Type: NS (authoritative Name Server) (2)        #类型字段, 这里为NS类型</span><br><span class="line">Class: IN (0x0001)</span><br><span class="line">Time to live: 5</span><br><span class="line">Data length: 6</span><br><span class="line">Name Server: ns7.baidu.com                      #权威名称服务器</span><br><span class="line">baidu.com: type NS, class IN, ns dns.baidu.com      #资源记录部分</span><br><span class="line">Name: baidu.com</span><br><span class="line">Type: NS (authoritative Name Server) (2)        #类型字段, 这里为NS类型</span><br><span class="line">Class: IN (0x0001)</span><br><span class="line">Time to live: 5</span><br><span class="line">Data length: 6</span><br><span class="line">Name Server: dns.baidu.com                      #权威名称服务器</span><br><span class="line">baidu.com: type NS, class IN, ns ns3.baidu.com      #资源记录部分</span><br><span class="line">Name: baidu.com</span><br><span class="line">Type: NS (authoritative Name Server) (2)</span><br><span class="line">Class: IN (0x0001)</span><br><span class="line">Time to live: 5</span><br><span class="line">Data length: 6</span><br><span class="line">Name Server: ns3.baidu.com                      #权威名称服务器</span><br><span class="line">baidu.com: type NS, class IN, ns ns4.baidu.com      #资源记录部分</span><br><span class="line">Name: baidu.com</span><br><span class="line">Type: NS (authoritative Name Server) (2)</span><br><span class="line">Class: IN (0x0001)</span><br><span class="line">Time to live: 5</span><br><span class="line">Data length: 6</span><br><span class="line">Name Server: ns4.baidu.com                      #权威名称服务器</span><br><span class="line">baidu.com: type NS, class IN, ns ns2.baidu.com      #资源记录部分</span><br><span class="line">Name: baidu.com</span><br><span class="line">Type: NS (authoritative Name Server) (2)</span><br><span class="line">Class: IN (0x0001)</span><br><span class="line">Time to live: 5</span><br><span class="line">Data length: 6</span><br><span class="line">Name Server: ns2.baidu.com                      #权威名称服务器</span><br></pre></td></tr></table></figure>
+
+<p>Name 的值为 baidu.com，表示 DNS 请求的域名为 baidu.com；类型为 NS，表示要获取该域名的权威名称服务器名称。Name Server 的值显示了该域名对应的权威名称服务器名称。这里总共获取到 5 个，如 ns7.baidu.com。</p>
+<ol start="4">
+<li>附加信息区域字段的资源记录部分信息如下</li>
+</ol>
+<figure class="highlight plaintext"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br><span class="line">11</span><br><span class="line">12</span><br><span class="line">13</span><br><span class="line">14</span><br><span class="line">15</span><br><span class="line">16</span><br><span class="line">17</span><br><span class="line">18</span><br><span class="line">19</span><br><span class="line">20</span><br><span class="line">21</span><br><span class="line">22</span><br><span class="line">23</span><br><span class="line">24</span><br><span class="line">25</span><br><span class="line">26</span><br><span class="line">27</span><br><span class="line">28</span><br><span class="line">29</span><br><span class="line">30</span><br><span class="line">31</span><br><span class="line">32</span><br><span class="line">33</span><br><span class="line">34</span><br><span class="line">35</span><br><span class="line">36</span><br></pre></td><td class="code"><pre><span class="line">Additional records                                            #“附加信息区域”字段</span><br><span class="line">    dns.baidu.com: type A, class IN, addr 202.108.22.220      #资源记录部分</span><br><span class="line">        Name: dns.baidu.com                                   #“权威名称服务器”名称</span><br><span class="line">        Type: A (Host Address) (1)                            #类型字段, 这里为A类型</span><br><span class="line">        Class: IN (0x0001)</span><br><span class="line">        Time to live: 5</span><br><span class="line">        Data length: 4</span><br><span class="line">        Address: 202.108.22.220                               #“权威名称服务器”的IP地址</span><br><span class="line">    ns2.baidu.com: type A, class IN, addr 61.135.165.235      #资源记录部分</span><br><span class="line">        Name: ns2.baidu.com                                   #“权威名称服务器”名称</span><br><span class="line">        Type: A (Host Address) (1)                            #类型字段, 这里为A类型</span><br><span class="line">        Class: IN (0x0001)</span><br><span class="line">        Time to live: 5</span><br><span class="line">        Data length: 4</span><br><span class="line">        Address: 61.135.165.235                               #“权威名称服务器”的IP地址</span><br><span class="line">    ns3.baidu.com: type A, class IN, addr 220.181.37.10       #资源记录部分</span><br><span class="line">        Name: ns3.baidu.com                                   #“权威名称服务器”名称</span><br><span class="line">        Type: A (Host Address) (1)                            #类型字段, 这里为A类型</span><br><span class="line">        Class: IN (0x0001)  </span><br><span class="line">        Time to live: 5</span><br><span class="line">        Data length: 4</span><br><span class="line">        Address: 220.181.37.10                                 #“权威名称服务器”的IP地址</span><br><span class="line">    ns4.baidu.com: type A, class IN, addr 220.181.38.10        #资源记录部分</span><br><span class="line">        Name: ns4.baidu.com                                    #“权威名称服务器”名称</span><br><span class="line">        Type: A (Host Address) (1)                             #类型字段, 这里为A类型</span><br><span class="line">        Class: IN (0x0001)</span><br><span class="line">        Time to live: 5</span><br><span class="line">        Data length: 4</span><br><span class="line">        Address: 220.181.38.10                                 #“权威名称服务器”的IP地址</span><br><span class="line">    ns7.baidu.com: type A, class IN, addr 180.76.76.92         #资源记录部分</span><br><span class="line">        Name: ns7.baidu.com                                    #“权威名称服务器”名称</span><br><span class="line">        Type: A (Host Address) (1)                             #类型字段, 这里为A类型</span><br><span class="line">        Class: IN (0x0001)</span><br><span class="line">        Time to live: 5</span><br><span class="line">        Data length: 4</span><br><span class="line">        Address: 180.76.76.92                                  #“权威名称服务器”的IP地址</span><br></pre></td></tr></table></figure>
+
+<p>Name 的值为“权威名称服务器”名称，Type 的值为 A，表示获取域名对应的 IP 地址；Address 的值显示了所有获取到的权威名称服务器对应的 IP 地址。</p>
+<p>例如，权威名称服务器名称 ns7.baidu.com 对应的 IP 地址为 180.76.76.92。</p>
+<h2 id="资源记录类型"><a href="#资源记录类型" class="headerlink" title="资源记录类型"></a>资源记录类型</h2><p>资源记录前的”IN“表示资源记录类型</p>
+<h3 id="A记录"><a href="#A记录" class="headerlink" title="A记录"></a>A记录</h3><p>​		A记录也称为主机记录，是使用最广泛的DNS记录，A记录的基本作用就是说明一个域名对应的IP是多少， 它是域名和IP地址的对应关系，表现形式为 <a target="_blank" rel="noopener" href="http://www.contoso.com/">www.contoso.com</a> 192.168.1.1 这就是一个A记录！A记录除了进行域名IP对应以外，还有一个高级用法，可以作为低成本的负载均衡的解决方案，比如说，<a target="_blank" rel="noopener" href="http://www.contoso.com/">www.contoso.com</a> 可以创建多个A记录，对应多台物理服务器的IP地址，可以实现基本的流量均衡！)</p>
+<h3 id="NS记录"><a href="#NS记录" class="headerlink" title="NS记录"></a>NS记录</h3><p>​		NS记录和SOA记录是任何一个DNS区域都不可或缺的两条记录，NS记录也叫名称服务器记录，用于说明这个区域有哪些DNS服务器负责解析，SOA记录说明负责解析的DNS服务器中哪一个是主服务器。因此，任何一个DNS区域都不可能缺少这两条记录。NS记录，说明了在这个区域里，有多少个服务器来承担解析的任务</p>
+<h3 id="SOA记录"><a href="#SOA记录" class="headerlink" title="SOA记录"></a>SOA记录</h3><p>​		NS记录说明了有多台服务器在进行解析，但哪一个才是主服务器呢，NS并没有说明，这个就要看SOA记录了，SOA名叫起始授权机构记录，SOA记录说明了在众多NS记录里那一台才是主要的服务器！</p>
+<h3 id="MX记录"><a href="#MX记录" class="headerlink" title="MX记录"></a>MX记录</h3><p>​		全称是邮件交换记录，在使用邮件服务器的时候，MX记录是无可或缺的，比如A用户向B用户发送一封邮件，那么他需要向ＤＮＳ查询Ｂ的MX记录，DNS在定位到了B的MX记录后反馈给A用户，然后Ａ用户把邮件投递到B用户的ＭＸ记录服务器里！</p>
+<h3 id="Cname记录"><a href="#Cname记录" class="headerlink" title="Cname记录"></a>Cname记录</h3><p>​			又叫别名记录，我们可以这么理解，我们小的时候都会有一个小名，长大了都是学名，那么正规来说学名的符合公安系统的，那个小名只是我们的一个代名词而已，这也存在一个好处，就是比暴漏自己，比如一个网站a.com 在发布的时候，他可以建立一个别名记录，把B.com发不出去，这样不容易被外在用户所察觉！达到隐藏自己的目的！</p>
+<h3 id="SRV记录"><a href="#SRV记录" class="headerlink" title="SRV记录"></a>SRV记录</h3><p>​		SRV记录是服务器资源记录的缩写，SRV记录是DNS记录中的新鲜面孔，在RFC2052中才对SRV记录进行了定义，因此很多老版本的DNS服务器并不支持SRV记录。那么SRV记录有什么用呢？SRV记录的作用是说明一个服务器能够提供什么样的服务！SRV记录在微软的Active Directory中有着重要地位，大家知道在NT4时代域和DNS并没有太多关系。但从Win2000开始，域就离不开DNS的帮助了，为什么呢？因为域内的计算机要依赖DNS的SRV记录来定位域控制器！表现形式为：—ldap._tcp.contoso.com 600 IN SRV 0 100 389 NS.contoso.com</p>
+<p>ladp: 是一个服务，该标识说明把这台服务器当做响应LDAP请求的服务器</p>
+<p>tcp：本服务使用的协议，可以是tcp，也可以是用户数据包协议《udp》</p>
+<p>contoso.com：此记录所值的域名</p>
+<p>600： 此记录默认生存时间（秒）</p>
+<p>IN： 标准DNS Internet类</p>
+<p>SRV：将这条记录标识为SRV记录</p>
+<p>0： 优先级，如果相同的服务有多条SRV记录，用户会尝试先连接优先级最低的记录</p>
+<p>100：负载平衡机制，多条SRV并且优先级也相同，那么用户会先尝试连接权重高的记录</p>
+<p>389：此服务使用的端口</p>
+<p>NS.contoso.com:提供此服务的主机</p>
+<p>7,PTR记录</p>
+<p>PTR记录也被称为指针记录，PTR记录是A记录的逆向记录，作用是把IP地址解析为域名。由于我们在前面提到过，DNS的反向区域负责从IP到域名的解析，因此如果要创建PTR记录，必须在反向区域中创建。</p>
+<h3 id="SOA和NS解释"><a href="#SOA和NS解释" class="headerlink" title="SOA和NS解释"></a>SOA和NS解释</h3><p>​		DNS服务器里有两个比较重要的记录。一个叫SOA记录（起始授权机构） 一个叫NS（Name Server）记录（域名服务器）关于这两个记录，很多文章都有解释，但是很多人还是很糊涂。我现在通俗的解释一下这两个记录是干什么的。如果理解有错误，欢迎高手来指正。</p>
+<p>​		SOA记录表明了DNS服务器之间的关系。SOA记录表明了谁是这个区域的所有者。比如51CTO.COM这个区域。一个DNS服务器安装后，需要创建一个区域，以后这个区域的查询解析，都是通过DNS服务器来完成的。现在来说一下所有者，我这里所说的所有者，就是谁对这个区域有修改权利。常见的DNS服务器只能创建一个标准区域，然后可以创建很多个辅助区域。标准区域是可以读写修改的。而辅助区域只能通过标准区域复制来完成，不能在辅助区域中进行修改。而创建标准区域的DNS就会有SOA记录，或者准确说SOA记录中的主机地址一定是这个标准区域的服务器IP地址。</p>
+<p><img src="/./images/DNS8.png"></p>
+<p>​		如果是两台集成了DNS的DC，实际上由于要求DNS区域可写，所以打破了单纯DNS服务器只能有一个标准区域的限制。所以两台DC都有SOA记录指向自己。</p>
+<p><img src="/./images/DNS9.png"></p>
+<p>​		NS记录实际上也是在DNS服务器之间，表明谁对某个区域有解释权，即权威DNS。大家都知道电信和网通都有很多的DNS服务器。这些服务器为我们上公网做域名解析提供了很多方便。但是这些DNS服务器有一个有意思的地方是这些DNS不存放任何区域，看上去更像是一个DNS CLIENT，它们被称为唯缓存DNS服务器。它们会缓存大量的解析地址，这样就会让你解析的时候选择它们会觉得很快。它们在查询的时候就会查询NS记录，通过这个记录就知道谁在负责比如51CTO.COM这个地域的管理工作。</p>
+<p>​		还有一种情况来说明NS记录的作用。比如你先在万网申请了一个域名ABC.COM。一般情况是万网的域名服务器替你来解析如WWW.ABC.COM这样的主机记录。如果你想自己架设一个DNS服务器，让这台服务器从今往后替代万网的DNS服务器解析，那么你就需要在你的DNS上设置NS记录，然后将万网域名管理系统中的NS记录改成你的DNSIP。这样以后就是你自己的DNS服务器负责提供解析了。即使万网的DNS服务器出现故障，别人仍然可以找到你。</p>
+<h2 id="Name-域名"><a href="#Name-域名" class="headerlink" title="Name(域名)"></a>Name(域名)</h2><p><img src="/./images/DNS11.png"></p>
+<p>1-域名（2字节或不定长）：它的格式和Queries区域的查询名字字段是一样的。有一点不同就是，当报文中域名重复出现的时候，该字段使用2个字节的偏移指针来表示。比如，在资源记录中，域名通常是查询问题部分的域名的重复，因此用2字节的指针来表示，具体格式是最前面的两个高位是 11，用于识别指针。其余的14位从DNS报文的开始处计数（从0开始），指出该报文中的相应字节数。一个典型的例子，<code>C00C</code>(1100000000001100，12正好是头部的长度，其正好指向Queries区域的查询名字字段)。</p>
+<p>2-查询类型：表明资源纪录的类型，见1.2节的查询类型表格所示 </p>
+<p>3-查询类：对于Internet信息，总是IN</p>
+<p>4-生存时间（TTL）：以秒为单位，表示的是资源记录的生命周期，一般用于当地址解析程序取出资源记录后决定保存及使用缓存数据的时间，它同时也可以表明该资源记录的稳定程度，极为稳定的信息会被分配一个很大的值（比如86400，这是一天的秒数）。</p>
+<p>5-资源数据：该字段是一个可变长字段，表示按照查询段的要求返回的相关资源记录的数据。可以是Address（表明查询报文想要的回应是一个IP地址）或者CNAME（表明查询报文想要的回应是一个规范主机名）等。</p>
+<h1 id="DNS-ALG"><a href="#DNS-ALG" class="headerlink" title="DNS-ALG"></a>DNS-ALG</h1><figure class="highlight plaintext"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br><span class="line">11</span><br><span class="line">12</span><br></pre></td><td class="code"><pre><span class="line">1、未开启DNS ALG</span><br><span class="line">①PC访问www.dp.com，并发起DNS请求</span><br><span class="line">②DNS Server应答，并返回域名与IP关系</span><br><span class="line">③PC向20.0.0.1发起请求</span><br><span class="line">④访问失败</span><br><span class="line"></span><br><span class="line">2、已开启DNS ALG</span><br><span class="line">①PC访问www.dp.com，并发起DNS请求</span><br><span class="line">②DNS Server应答，并返回域名与IP关系</span><br><span class="line">③设备收到DNS应答报文，并将20.0.0.1替换为192.168.0.254，即www.dp.com&lt;-&gt;192.168.0.254</span><br><span class="line">④PC向192.168.0.254发起请求</span><br><span class="line">⑤访问成功</span><br></pre></td></tr></table></figure>
+
+<h1 id="安全性"><a href="#安全性" class="headerlink" title="安全性"></a>安全性</h1><p>  <strong>①DNSSEC</strong></p>
+<p>​        仅提供真实性和完整性的校验，无法确保DNS流量通信的机密性。</p>
+<p>  <strong>②DNSCrypt</strong></p>
+<p>​        DNSCrypt是OpenDNS发布的加密DNS工具。与SSL将HTTP流量转换为HTTPS加密流量的原理相同，DNSCrypt将常规DNS流量转换为加密DNS流量，防止窃听和中间人攻击。</p>
+<p>​        DNSCrypt比DNSSEC的保密性更强；DNSCrypt既能加密DNS流量也能确保完整性。</p>
+<p>  <strong>③DNS over TLS （DoT）</strong></p>
+<p>​        端口853</p>
+<p>​        使用TCP作为基本的连接协议</p>
+<p>​        目前支持DNS over TLS 的客户端还不够多，主流浏览器还没有计划增加对DNS over TLS的支持</p>
+<p>  <strong>④DNS over HTTPS （DoH）</strong></p>
+<p>​        端口443</p>
+<p>​        HTTPS和HTTP&#x2F;2进行连接</p>
+<p>​        </p>
+
+      
+       <hr><span style="font-style: italic;color: gray;"> 转载请注明来源，欢迎对文章进行指正，联系邮箱 vou0515@gmail.com </span>
+    </div>
+</article>
+
+
+
+
+
+
+
+    
+
+
+
+
+    </div>
+    <div class="copyright">
+        <p class="footer-entry">
+    ©2023 closeto
+</p>
+<p class="footer-entry">Built with Hexo</p>
+
+    </div>
+    <div class="full-toc">
+        <button class="full" data-title="切换全屏 快捷键 s"><span class="min "></span></button>
+<a class="" id="rocket" ></a>
+
+    </div>
+</div>
+
+</body>
+<script src="/js/jquery.pjax.js?v=1.1.0" ></script>
+
+<script src="/js/script.js?v=1.1.0" ></script>
+<script>
+    var img_resize = 'default';
+    function initArticle() {
+        /*渲染对应的表格样式*/
+        
+            $("#post .pjax table").addClass("green_title");
+        
+
+        /*渲染打赏样式*/
+        
+
+        /*高亮代码块行号*/
+        
+
+        /*访问数量*/
+        
+        $.getScript("//busuanzi.ibruce.info/busuanzi/2.3/busuanzi.pure.mini.js");
+        
+
+        /*代码高亮，行号对齐*/
+        $('.pre-numbering').css('line-height',$('.has-numbering').css('line-height'));
+
+        
+        
+        /* 渲染*/
+        function HTMLDecode(text) {
+            var temp = document.createElement("div");
+            temp.innerHTML = text;
+            var output = temp.innerText || temp.textContent;
+            temp = null;
+            return output;
+        }
+        if (window.mermaid){
+            window.mermaid = null
+        }
+        $.getScript("//cdn.jsdelivr.net/npm/mermaid@8.4.2/dist/mermaid.min.js", function () {
+            var mermaidOptions = JSON.parse(HTMLDecode("{&#34;theme&#34;:&#34;default&#34;,&#34;startOnLoad&#34;:true,&#34;flowchart&#34;:{&#34;useMaxWidth&#34;:false,&#34;htmlLabels&#34;:true}}"))
+            if (window.mermaid) {
+                mermaid.initialize(mermaidOptions)
+                mermaid.contentLoaded()
+            }
+        })
+        
+    }
+
+    /*打赏页面隐藏与展示*/
+    
+
+</script>
+
+<!--加入行号的高亮代码块样式-->
+
+<!--自定义样式设置-->
+<style>
+    
+    
+    .nav {
+        width: 562px;
+    }
+    .nav.fullscreen {
+        margin-left: -562px;
+    }
+    .nav-left {
+        width: 140px;
+    }
+    
+    
+    @media screen and (max-width: 1468px) {
+        .nav {
+            width: 492px;
+        }
+        .nav.fullscreen {
+            margin-left: -492px;
+        }
+        .nav-left {
+            width: 100px;
+        }
+    }
+    
+    
+    @media screen and (max-width: 1024px) {
+        .nav {
+            width: 492px;
+            margin-left: -492px
+        }
+        .nav.fullscreen {
+            margin-left: 0;
+        }
+    }
+    
+    @media screen and (max-width: 426px) {
+        .nav {
+            width: 100%;
+        }
+        .nav-left {
+            width: 100%;
+        }
+    }
+    
+    
+    .nav-right .title-list nav a .post-title, .nav-right .title-list #local-search-result a .post-title {
+        color: #383636;
+    }
+    
+    
+    .nav-right .title-list nav a .post-date, .nav-right .title-list #local-search-result a .post-date {
+        color: #5e5e5f;
+    }
+    
+    
+    .nav-right nav a.hover, #local-search-result a.hover{
+        background-color: #e2e0e0;
+    }
+    
+    
+
+    /*列表样式*/
+    
+
+    /* 背景图样式 */
+    
+    
+
+
+    /*引用块样式*/
+    
+
+    /*文章列表背景图*/
+    
+
+    
+</style>
+
+
+
+
+
+
+
+</html>
