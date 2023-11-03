@@ -2,22 +2,26 @@
 <html>
 <head>
   <meta charset="utf-8">
-  <title>Linux信息收集 | 欢迎来到closeto的博客</title>
-  <meta name="keywords" content=" 2022 , 内网 , 渗透测试 , Linux ">
-  <meta name="description" content="Linux信息收集 | 欢迎来到closeto的博客">
+  <title>DNS服务器搭建 | 欢迎来到closeto的博客</title>
+  <meta name="keywords" content=" Linux , 2021 ">
+  <meta name="description" content="DNS服务器搭建 | 欢迎来到closeto的博客">
     <meta name="viewport" content="width=device-width, initial-scale=1, maximum-scale=1">
-<meta name="description" content="一、准备工作下载对应版本的内核文件    hostnamectl    Kernel官网下载地址：https:&#x2F;&#x2F;kernel.org&#x2F; 环境Centos9 &amp; 准备工作CentOS-Stream-9-latest-x86_64-dvd1-miniyum install -y gcc ncurses-devel *ncurses bison flex libelf-dev libelf-d">
+<meta name="description" content="DNS服务器进行压力测试推荐工具dnsperf Linux压力测试参考链接：https:&#x2F;&#x2F;blog.51cto.com&#x2F;topic&#x2F;dns-linux-ceshigongju.html 安装PS：不支持随机源地址 ​		apt install dnsperf dnsperf参数介绍： 1234567891011121314151617181920212223242526-f DNS传输的地址系列">
 <meta property="og:type" content="article">
-<meta property="og:title" content="Busybox搭建最小Linux">
-<meta property="og:url" content="https://closeto.github.io/2023/03/10/busybox%E6%90%AD%E5%BB%BA%E6%9C%80%E5%B0%8FLinux/index.html">
+<meta property="og:title" content="DNS服务器ddos测试">
+<meta property="og:url" content="https://closeto.github.io/2023/11/01/Linux%E7%9B%B8%E5%85%B3-DNS%E5%8E%8B%E5%8A%9B%E6%B5%8B%E8%AF%95/index.html">
 <meta property="og:site_name" content="欢迎来到closeto的博客">
-<meta property="og:description" content="一、准备工作下载对应版本的内核文件    hostnamectl    Kernel官网下载地址：https:&#x2F;&#x2F;kernel.org&#x2F; 环境Centos9 &amp; 准备工作CentOS-Stream-9-latest-x86_64-dvd1-miniyum install -y gcc ncurses-devel *ncurses bison flex libelf-dev libelf-d">
+<meta property="og:description" content="DNS服务器进行压力测试推荐工具dnsperf Linux压力测试参考链接：https:&#x2F;&#x2F;blog.51cto.com&#x2F;topic&#x2F;dns-linux-ceshigongju.html 安装PS：不支持随机源地址 ​		apt install dnsperf dnsperf参数介绍： 1234567891011121314151617181920212223242526-f DNS传输的地址系列">
 <meta property="og:locale" content="zh_CN">
-<meta property="article:published_time" content="2023-03-10T04:30:00.000Z">
+<meta property="og:image" content="https://closeto.github.io/2023/11/01/Linux%E7%9B%B8%E5%85%B3-DNS%E5%8E%8B%E5%8A%9B%E6%B5%8B%E8%AF%95/images/other02.png">
+<meta property="og:image" content="https://closeto.github.io/2023/11/01/Linux%E7%9B%B8%E5%85%B3-DNS%E5%8E%8B%E5%8A%9B%E6%B5%8B%E8%AF%95/images/other03.png">
+<meta property="og:image" content="https://closeto.github.io/2023/11/01/Linux%E7%9B%B8%E5%85%B3-DNS%E5%8E%8B%E5%8A%9B%E6%B5%8B%E8%AF%95/images/other01.png">
+<meta property="article:published_time" content="2023-10-31T16:00:00.000Z">
 <meta property="article:author" content="closeto">
 <meta property="article:tag" content="Linux">
 <meta property="article:tag" content="2023">
 <meta name="twitter:card" content="summary">
+<meta name="twitter:image" content="https://closeto.github.io/2023/11/01/Linux%E7%9B%B8%E5%85%B3-DNS%E5%8E%8B%E5%8A%9B%E6%B5%8B%E8%AF%95/images/other02.png">
 
 
 <link rel="icon" href="/img/ico.png">
@@ -102,7 +106,7 @@
     <li>
         <div class="all active" data-rel="全部文章">全部文章
             
-                <small>(65)</small>
+                <small>(69)</small>
             
         </div>
     </li>
@@ -159,7 +163,7 @@
         <div data-rel="Linux相关">
             
             Linux相关
-            <small>(1)</small>
+            <small>(5)</small>
         </div>
         
     </li>
@@ -243,7 +247,7 @@
         
     </div>
 </div>
-<input type="hidden" id="yelog_site_posts_number" value="65">
+<input type="hidden" id="yelog_site_posts_number" value="69">
 
 <div style="display: none">
     <span id="busuanzi_value_site_uv"></span>
@@ -362,11 +366,29 @@
         
         
         <a  class="全部文章 Linux相关 "
+           href="/2023/11/01/Linux%E7%9B%B8%E5%85%B3-DNS%E5%8E%8B%E5%8A%9B%E6%B5%8B%E8%AF%95/"
+           data-tag="Linux,2023"
+           data-author="" >
+            <span class="post-title" title="DNS服务器ddos测试">DNS服务器ddos测试</span>
+            <span class="post-date" title="2023-11-01 00:00:00">2023/11/01</span>
+        </a>
+        
+        
+        <a  class="全部文章 Linux相关 "
            href="/2023/03/10/busybox%E6%90%AD%E5%BB%BA%E6%9C%80%E5%B0%8FLinux/"
            data-tag="Linux,2023"
            data-author="" >
             <span class="post-title" title="Busybox搭建最小Linux">Busybox搭建最小Linux</span>
             <span class="post-date" title="2023-03-10 12:30:00">2023/03/10</span>
+        </a>
+        
+        
+        <a  class="全部文章 Linux相关 "
+           href="/2022/10/29/Linux%E7%9B%B8%E5%85%B3-%E7%BD%91%E5%8D%A1%E8%81%9A%E5%90%88/"
+           data-tag="Linux,2019"
+           data-author="" >
+            <span class="post-title" title="Linux多网卡聚合">Linux多网卡聚合</span>
+            <span class="post-date" title="2022-10-29 00:00:00">2022/10/29</span>
         </a>
         
         
@@ -425,7 +447,7 @@
         
         
         <a  class="全部文章 内网安全 "
-           href="/2022/02/19/Linux%E7%97%95%E8%BF%B9%E6%93%A6%E9%99%A4/"
+           href="/2022/02/19/Linux%E5%AE%89%E5%85%A8-%E7%97%95%E8%BF%B9%E6%93%A6%E9%99%A4/"
            data-tag="2022,内网,渗透测试,Linux"
            data-author="" >
             <span class="post-title" title="Linux痕迹擦除">Linux痕迹擦除</span>
@@ -452,7 +474,7 @@
         
         
         <a  class="全部文章 内网安全 "
-           href="/2022/02/13/Linux%E4%BF%A1%E6%81%AF%E6%94%B6%E9%9B%86/"
+           href="/2022/02/13/Linux%E5%AE%89%E5%85%A8-%E4%BF%A1%E6%81%AF%E6%94%B6%E9%9B%86/"
            data-tag="2022,内网,渗透测试,Linux"
            data-author="" >
             <span class="post-title" title="Linux信息收集">Linux信息收集</span>
@@ -748,6 +770,15 @@
         </a>
         
         
+        <a  class="全部文章 Linux相关 "
+           href="/2020/06/19/Linux%E7%9B%B8%E5%85%B3-DNS/"
+           data-tag="Linux,2021"
+           data-author="" >
+            <span class="post-title" title="DNS服务器搭建">DNS服务器搭建</span>
+            <span class="post-date" title="2020-06-19 00:00:00">2020/06/19</span>
+        </a>
+        
+        
         <a  class="全部文章 数字通信 "
            href="/2020/05/20/%E5%AE%89%E5%85%A8%E8%AE%BE%E5%A4%87%E4%BA%A4%E4%BB%98-DDOS-02/"
            data-tag="2020"
@@ -844,6 +875,15 @@
            data-author="" >
             <span class="post-title" title="Ethernet II">Ethernet II</span>
             <span class="post-date" title="2019-03-16 00:00:00">2019/03/16</span>
+        </a>
+        
+        
+        <a  class="全部文章 Linux相关 "
+           href="/2019/03/12/Linux%E7%9B%B8%E5%85%B3-HTTP/"
+           data-tag="Linux,2019"
+           data-author="" >
+            <span class="post-title" title="Linux搭建Web">Linux搭建Web</span>
+            <span class="post-date" title="2019-03-12 00:00:00">2019/03/12</span>
         </a>
         
         
@@ -963,9 +1003,9 @@
 </aside>
 <div id="post">
     <div class="pjax">
-        <article id="post-Linux信息收集" class="article article-type-post" itemscope itemprop="blogPost">
+        <article id="post-Linux相关-DNS" class="article article-type-post" itemscope itemprop="blogPost">
     
-        <h1 class="article-title">Linux信息收集</h1>
+        <h1 class="article-title">DNS服务器搭建</h1>
     
     <div class="article-meta">
         
@@ -975,7 +1015,7 @@
             <i class="iconfont icon-category"></i>
             
             
-            <a  data-rel="内网安全">内网安全</a>
+            <a  data-rel="Linux相关">Linux相关</a>
             
         </span>
         
@@ -983,13 +1023,9 @@
         <span class="tag">
             <i class="iconfont icon-tag"></i>
             
-            <a class="color5">2022</a>
-            
-            <a class="color3">内网</a>
-            
-            <a class="color5">渗透测试</a>
-            
             <a class="color1">Linux</a>
+            
+            <a class="color5">2021</a>
             
         </span>
         
@@ -997,11 +1033,11 @@
     <div class="article-meta">
         <!-- 修改了原始显示，原始显示更新日期为悬浮 -->
         <!-- 
-            发布时间 : <time class="date" title='最后更新: 2023-10-25 17:58:36'>2022-02-13 00:00</time>
+            发布时间 : <time class="date" title='最后更新: 2023-11-03 16:08:20'>2020-06-19 00:00</time>
          -->
 
         
-            发布时间 : 2022-02-13 00:00</time>
+            发布时间 : 2020-06-19 00:00</time>
         <br>
 
         
@@ -1025,7 +1061,7 @@
     
     <div class="toc-ref">
     
-        <ol class="toc"><li class="toc-item toc-level-1"><a class="toc-link" href="#Linux%E4%BF%A1%E6%81%AF%E6%94%B6%E9%9B%86"><span class="toc-text">Linux信息收集</span></a><ol class="toc-child"><li class="toc-item toc-level-3"><a class="toc-link" href="#%E7%B3%BB%E7%BB%9F%E4%BF%A1%E6%81%AF"><span class="toc-text">系统信息</span></a></li><li class="toc-item toc-level-3"><a class="toc-link" href="#%E7%94%A8%E6%88%B7%E4%BF%A1%E6%81%AF"><span class="toc-text">用户信息</span></a></li><li class="toc-item toc-level-3"><a class="toc-link" href="#%E7%A8%8B%E5%BA%8F%E4%BF%A1%E6%81%AF"><span class="toc-text">程序信息</span></a></li><li class="toc-item toc-level-3"><a class="toc-link" href="#%E9%98%B2%E7%81%AB%E5%A2%99%E4%BF%A1%E6%81%AF"><span class="toc-text">防火墙信息</span></a></li><li class="toc-item toc-level-3"><a class="toc-link" href="#%E7%BD%91%E7%BB%9C%E8%BF%9E%E6%8E%A5%E4%BF%A1%E6%81%AF"><span class="toc-text">网络连接信息</span></a></li><li class="toc-item toc-level-3"><a class="toc-link" href="#%E9%85%8D%E7%BD%AE%E4%BF%A1%E6%81%AF"><span class="toc-text">配置信息</span></a></li><li class="toc-item toc-level-3"><a class="toc-link" href="#%E8%99%9A%E6%8B%9F%E5%8C%96%E4%BF%A1%E6%81%AF"><span class="toc-text">虚拟化信息</span></a></li></ol></li></ol></li></ol>
+        <ol class="toc"><li class="toc-item toc-level-1"><a class="toc-link" href="#%E6%96%87%E4%BB%B6%E4%BB%8B%E7%BB%8D"><span class="toc-text">文件介绍</span></a></li><li class="toc-item toc-level-1"><a class="toc-link" href="#named%E5%AE%89%E8%A3%85"><span class="toc-text">named安装</span></a></li><li class="toc-item toc-level-1"><a class="toc-link" href="#etc"><span class="toc-text">&#x2F;etc&#x2F;</span></a><ol class="toc-child"><li class="toc-item toc-level-2"><a class="toc-link" href="#named-conf"><span class="toc-text">named.conf</span></a></li><li class="toc-item toc-level-2"><a class="toc-link" href="#named-conf%E5%AE%9E%E4%BE%8B"><span class="toc-text">named.conf实例</span></a></li><li class="toc-item toc-level-2"><a class="toc-link" href="#zones"><span class="toc-text">zones</span></a></li><li class="toc-item toc-level-2"><a class="toc-link" href="#zones%E7%A4%BA%E4%BE%8B"><span class="toc-text">zones示例</span></a></li></ol></li><li class="toc-item toc-level-1"><a class="toc-link" href="#var-named"><span class="toc-text">&#x2F;var&#x2F;named</span></a><ol class="toc-child"><li class="toc-item toc-level-2"><a class="toc-link" href="#%E5%8D%95%E8%A7%A3%E6%9E%90%E7%A4%BA%E4%BE%8B"><span class="toc-text">单解析示例</span></a></li><li class="toc-item toc-level-2"><a class="toc-link" href="#%E5%A4%9A%E8%A7%A3%E6%9E%90%E7%A4%BA%E4%BE%8B"><span class="toc-text">多解析示例</span></a></li></ol></li><li class="toc-item toc-level-1"><a class="toc-link" href="#DNS%E7%BB%B4%E6%8A%A4"><span class="toc-text">DNS维护</span></a><ol class="toc-child"><li class="toc-item toc-level-2"><a class="toc-link" href="#nsupdate"><span class="toc-text">nsupdate</span></a></li><li class="toc-item toc-level-2"><a class="toc-link" href="#%E9%9D%99%E6%80%81%E5%9F%9F%E5%92%8C%E5%8A%A8%E6%80%81%E5%9F%9F%E7%BB%B4%E6%8A%A4"><span class="toc-text">静态域和动态域维护</span></a></li><li class="toc-item toc-level-2"><a class="toc-link" href="#mdc%E8%BF%9C%E7%A8%8B%E7%AE%A1%E7%90%86"><span class="toc-text">mdc远程管理</span></a></li></ol></li></ol>
     
 <style>
     .left-col .switch-btn,
@@ -1041,22 +1077,54 @@
     
     <div class="article-entry" itemprop="articleBody">
       
-        <h1 id="Linux信息收集"><a href="#Linux信息收集" class="headerlink" title="Linux信息收集"></a>Linux信息收集</h1><h3 id="系统信息"><a href="#系统信息" class="headerlink" title="系统信息"></a>系统信息</h3><figure class="highlight plaintext"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br><span class="line">11</span><br><span class="line">12</span><br><span class="line">13</span><br><span class="line">14</span><br><span class="line">15</span><br><span class="line">16</span><br><span class="line">17</span><br><span class="line">18</span><br><span class="line">19</span><br><span class="line">20</span><br></pre></td><td class="code"><pre><span class="line">cat /etc/issue         #查看系统名称</span><br><span class="line">cat /etc/Lsb-release   #查看系统名称,版本号</span><br><span class="line">cat /etc/*release      #查看linux发行信息</span><br><span class="line">uname -an              #查看内核版本</span><br><span class="line">cat /proc/version      #查看内核信息</span><br><span class="line">cat /proc/cpuinfo      #查看cpu信息</span><br><span class="line"></span><br><span class="line">#查看文件系统</span><br><span class="line">df -a </span><br><span class="line"></span><br><span class="line">#查看系统日志</span><br><span class="line">sudo cat /var/log/syslog</span><br><span class="line"></span><br><span class="line">#查看命令记录</span><br><span class="line">cat /root/.bash_history</span><br><span class="line">cat ~/.bash_history</span><br><span class="line"></span><br><span class="line">hostname             #查看主机名</span><br><span class="line">env                  #打印系统环境信息</span><br><span class="line">cat /etc/shells      #显示可用的shell</span><br></pre></td></tr></table></figure>
+        <p>📌搭建本地演示环境中遇到主从DNS服务器搭建，故作此记录。</p>
+<h1 id="文件介绍"><a href="#文件介绍" class="headerlink" title="文件介绍"></a>文件介绍</h1><p><strong>1、bind配置文件&amp;资源区域错误排查手段：</strong><br>​    named-checkconf检查配置文件、named-checkzone 域名 &#x2F;var&#x2F;named&#x2F;named.xxx资源解析文件</p>
+<p>2、<strong>bind服务文件介绍：</strong></p>
+<p>​    &#x2F;etc&#x2F;named.conf                    主配置文件<br>​    &#x2F;etc&#x2F;named.rfc1912.zones      区域文件（可以存在多个）<br>​    &#x2F;var&#x2F;named&#x2F;                          资源区域文件<br>​    &#x2F;var&#x2F;named&#x2F;data&#x2F;                  存放区域文件的目录。用于定义域名对应的内网IP和配置</p>
+<p><strong>4、</strong>静态域和动态域的区分：</p>
+<p>​    静态域：&#x2F;etc&#x2F;named.区域文件中allow_update{none;};<br>​    动态域：&#x2F;etc&#x2F;named.区域文件中allow_update{ip_server;};</p>
+<h1 id="named安装"><a href="#named安装" class="headerlink" title="named安装"></a>named安装</h1><p><img src="/./images/fwq1.png" alt="DNS服务器解析流程"></p>
+<p><strong>1、安装Dns-server服务</strong>（安装后文件的属性为640，属组为named，id named查看）<br>​    yum install -y bind</p>
+<p><strong>2、安装后查看服务是否为”enable“</strong><br>​    systemctl list-unit-files | grep named</p>
+<p><strong>4、修改&#x2F;etc&#x2F;resolv.conf</strong>，新增如下配置（nameserver 本机IP）<br>  search 域名       #配置后ping主机名自动会加上域名<br>  nameserver x.x.x.x修改后重启生效–》在网卡配置中新增：<br>​      DNS1&#x3D;x.x.x.x  #dns服务器地址<br>​      PEERDNS&#x3D;no    #不自动获取dns地址（禁止获取dhcp分配的dns）</p>
+<p><strong>5、修改hostname为NS记录的名称</strong>，一般公网解析会用到，若是内网搭建dns服务器则忽略<br>​    例如：dns1.cto.com</p>
+<p><strong>6、区域配置文件zonefile，注意事项：</strong><br>​    a.宏定义（以$开头）<br>​        $TTL 60<br>​        $ORIGIN<br>​    b.注释（以；开头）</p>
+<p><strong>7、DNS主辅同步配置：</strong><br>​    a.DNS的版本必须小于等于主<br>​    b.主服务器named.conf中option字段里，配置：allow-transfer{ip;};、also-notify{ip;};<br>​    c.辅服务器named.conf中option字段里，配置：masterfile-format text;           #没有这个参数从主服务器传递过来的资源记录为乱码<br>​    d.辅服务器DNS的zone文件，type slave；masters {主服务器IP;};<br>​    e.启动辅服务器前，检查完全区域传送：dig -t AXFR 域名 @主服务器ip         #zone文件中file字段需改写“&#x2F;var&#x2F;named&#x2F;slaves&#x2F;zone_file”<br>​    f.辅服务器禁止修改DNS数据库文件</p>
+<p>查看named启动过程（故障排查）<br>named -g<br>当访问的域名为别名时，重定向到真实域名</p>
+<h1 id="etc"><a href="#etc" class="headerlink" title="&#x2F;etc&#x2F;"></a>&#x2F;etc&#x2F;</h1><p><strong>说明：</strong><strong>&#x2F;etc&#x2F;目录下的named*文件</strong></p>
+<p>仅适用于正解域，反解域同理</p>
+<h2 id="named-conf"><a href="#named-conf" class="headerlink" title="named.conf"></a>named.conf</h2><figure class="highlight plaintext"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br><span class="line">11</span><br><span class="line">12</span><br><span class="line">13</span><br><span class="line">14</span><br><span class="line">15</span><br><span class="line">16</span><br><span class="line">17</span><br><span class="line">18</span><br><span class="line">19</span><br><span class="line">20</span><br><span class="line">21</span><br><span class="line">22</span><br><span class="line">23</span><br><span class="line">24</span><br><span class="line">25</span><br><span class="line">26</span><br><span class="line">27</span><br><span class="line">28</span><br><span class="line">29</span><br><span class="line">30</span><br><span class="line">31</span><br><span class="line">32</span><br><span class="line">33</span><br><span class="line">34</span><br><span class="line">35</span><br><span class="line">36</span><br><span class="line">37</span><br><span class="line">38</span><br><span class="line">39</span><br><span class="line">40</span><br><span class="line">41</span><br><span class="line">42</span><br><span class="line">43</span><br><span class="line">44</span><br><span class="line">45</span><br><span class="line">46</span><br><span class="line">47</span><br><span class="line">48</span><br></pre></td><td class="code"><pre><span class="line">options &#123;</span><br><span class="line">        listen-on port 53 &#123; 192.168.64.12; &#125;;   #配置ipv4地址监听，监听地址192.168.64.12，也可以配置为any（不建议）</span><br><span class="line">        listen-on-v6 port 53 &#123; ::1; &#125;;       #是否开启ipv6监听</span><br><span class="line">        directory       &quot;/var/named&quot;;       #资源配置文件路径（目录一改，下列5行目录都需要变更）</span><br><span class="line">        dump-file       &quot;/var/named/data/cache_dump.db&quot;;      #资源配置文件路径</span><br><span class="line">        statistics-file &quot;/var/named/data/named_stats.txt&quot;;       #资源配置文件路径</span><br><span class="line">        memstatistics-file &quot;/var/named/data/named_mem_stats.txt&quot;;     #资源配置文件路径</span><br><span class="line">        recursing-file  &quot;/var/named/data/named.recursing&quot;;     #资源配置文件路径</span><br><span class="line">        secroots-file   &quot;/var/named/data/named.secroots&quot;;      #资源配置文件路径</span><br><span class="line">        allow-query     &#123; any; &#125;;           #允许请求的IP地址，可选：any、地址段、IP地址、</span><br><span class="line">        recursion yes;                         #配置递归查询（不会用到权威服务器，所以这里选择yes，开启递归查询）</span><br><span class="line">        dnssec-enable no;                   #dns安全设置，开启或关闭（自行选择yes或no，当出现问题后再排查）</span><br><span class="line">        dnssec-validation no;              #dns安全配置，对域名进行签名（自行选择yes或no，当出现问题后再排查）</span><br><span class="line"></span><br><span class="line"> #   allow-query-cache       &#123; any; &#125;;  #允许对请求进行缓存的地址（感觉可以不写这一行）</span><br><span class="line">       masterfile-format text；        #当有2台DNS服务器冗余时，辅助服务器配置该参数</span><br><span class="line">#            forward only;                      #对请求进行转发查询，first和only，可以不用设置</span><br><span class="line">                forwarders &#123;114.114.114.114;&#125;;  #本地未解析到的进行转发到指定DNS的IP地址</span><br><span class="line"></span><br><span class="line">        /* Path to ISC DLV key */</span><br><span class="line">        bindkeys-file &quot;/etc/named.root.key&quot;;</span><br><span class="line"></span><br><span class="line">        managed-keys-directory &quot;/var/named/dynamic&quot;;</span><br><span class="line"></span><br><span class="line">        pid-file &quot;/run/named/named.pid&quot;;</span><br><span class="line">        session-keyfile &quot;/run/named/session.key&quot;;</span><br><span class="line">&#125;;</span><br><span class="line"></span><br><span class="line">logging &#123;</span><br><span class="line">        channel default_debug &#123;</span><br><span class="line">                file &quot;data/named.run&quot;;    #日志文件目录/var/nmed/</span><br><span class="line">                severity dynamic;</span><br><span class="line">        &#125;;</span><br><span class="line">&#125;;</span><br><span class="line"></span><br><span class="line">zone &quot;cto.com&quot; IN &#123;           //设置转发的域名，当该服务器是公共DNS服务器时需要设置</span><br><span class="line">        type forward;             类型为转发：收到cto.com的域名请求时将转发到指定的服务器</span><br><span class="line">        forwarders &#123;192.168.64.11;192.168.64.12;&#125;;        //收到cto.com的域名请求时，转发到11和12这两台服务器</span><br><span class="line">&#125;;</span><br><span class="line"></span><br><span class="line">#zone &quot;.&quot; IN &#123;              #13台根域服务器的地址，可以注释掉</span><br><span class="line">#       type hint;            #注释掉之后，需要配置forward；反之不用配置forward</span><br><span class="line">#       file &quot;named.ca&quot;;</span><br><span class="line">#&#125;;</span><br><span class="line"></span><br><span class="line">include &quot;/etc/named.cto.com.zones&quot;;     #资源记录文件，该bind服务器是公共DNS服务器时不许要</span><br><span class="line">#include &quot;/etc/named.rfc1912.zones&quot;;            //当该DNS服务器为公共DNS服务器时不需要、若为用户DNS服务器则需要</span><br><span class="line">include &quot;/etc/named.root.key&quot;;</span><br></pre></td></tr></table></figure>
 
-<h3 id="用户信息"><a href="#用户信息" class="headerlink" title="用户信息"></a>用户信息</h3><figure class="highlight plaintext"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br><span class="line">11</span><br><span class="line">12</span><br><span class="line">13</span><br><span class="line">14</span><br><span class="line">15</span><br><span class="line">16</span><br></pre></td><td class="code"><pre><span class="line">whoami     #查看当前shell权限</span><br><span class="line">id         #查看当前用户的权限和所在的管理组</span><br><span class="line"></span><br><span class="line">#查看登录信息</span><br><span class="line">w</span><br><span class="line">who</span><br><span class="line">last       #登入过的用户信息</span><br><span class="line">lastlog    #显示系统中所有用户最近一次登录信息</span><br><span class="line"></span><br><span class="line">#查看账号信息</span><br><span class="line">cat /etc/sudoers</span><br><span class="line">cat /etc/group</span><br><span class="line">cat /etc/passwd</span><br><span class="line"></span><br><span class="line">#列出目前用户可执行与无法执行的指令</span><br><span class="line">sudo -l</span><br></pre></td></tr></table></figure>
+<h2 id="named-conf实例"><a href="#named-conf实例" class="headerlink" title="named.conf实例"></a>named.conf实例</h2><figure class="highlight plaintext"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br><span class="line">11</span><br><span class="line">12</span><br><span class="line">13</span><br><span class="line">14</span><br><span class="line">15</span><br><span class="line">16</span><br><span class="line">17</span><br><span class="line">18</span><br><span class="line">19</span><br><span class="line">20</span><br><span class="line">21</span><br><span class="line">22</span><br><span class="line">23</span><br><span class="line">24</span><br><span class="line">25</span><br><span class="line">26</span><br><span class="line">27</span><br><span class="line">28</span><br><span class="line">29</span><br><span class="line">30</span><br><span class="line">31</span><br><span class="line">32</span><br><span class="line">33</span><br><span class="line">34</span><br></pre></td><td class="code"><pre><span class="line">options &#123;</span><br><span class="line">        listen-on port 53 &#123; 192.168.64.12; &#125;;</span><br><span class="line">        listen-on-v6 port 53 &#123; ::1; &#125;;</span><br><span class="line">        directory       &quot;/var/named&quot;;</span><br><span class="line">        dump-file       &quot;/var/named/data/cache_dump.db&quot;;</span><br><span class="line">        statistics-file &quot;/var/named/data/named_stats.txt&quot;;</span><br><span class="line">        memstatistics-file &quot;/var/named/data/named_mem_stats.txt&quot;;</span><br><span class="line">        recursing-file  &quot;/var/named/data/named.recursing&quot;;</span><br><span class="line">        secroots-file   &quot;/var/named/data/named.secroots&quot;;</span><br><span class="line">        allow-query     &#123; any; &#125;;</span><br><span class="line">        recursion yes;</span><br><span class="line"></span><br><span class="line">        dnssec-enable no;</span><br><span class="line">        dnssec-validation no;</span><br><span class="line">        forwarders &#123;114.114.114.114;&#125;;</span><br><span class="line"></span><br><span class="line">        /* Path to ISC DLV key */</span><br><span class="line">        bindkeys-file &quot;/etc/named.root.key&quot;;</span><br><span class="line"></span><br><span class="line">        managed-keys-directory &quot;/var/named/dynamic&quot;;</span><br><span class="line"></span><br><span class="line">        pid-file &quot;/run/named/named.pid&quot;;</span><br><span class="line">        session-keyfile &quot;/run/named/session.key&quot;;</span><br><span class="line">&#125;;</span><br><span class="line"></span><br><span class="line">logging &#123;</span><br><span class="line">        channel default_debug &#123;</span><br><span class="line">                file &quot;data/named.run&quot;;</span><br><span class="line">                severity dynamic;</span><br><span class="line">        &#125;;</span><br><span class="line">&#125;;</span><br><span class="line"></span><br><span class="line">include &quot;/etc/named.cto.com.zones&quot;;</span><br><span class="line">include &quot;/etc/named.root.key&quot;;</span><br></pre></td></tr></table></figure>
 
-<h3 id="程序信息"><a href="#程序信息" class="headerlink" title="程序信息"></a>程序信息</h3><figure class="highlight plaintext"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br><span class="line">11</span><br><span class="line">12</span><br><span class="line">13</span><br><span class="line">14</span><br><span class="line">15</span><br><span class="line">16</span><br><span class="line">17</span><br><span class="line">18</span><br><span class="line">19</span><br><span class="line">20</span><br><span class="line">21</span><br><span class="line">22</span><br><span class="line">23</span><br><span class="line">24</span><br><span class="line">25</span><br><span class="line">26</span><br><span class="line">27</span><br><span class="line">28</span><br><span class="line">29</span><br><span class="line">30</span><br><span class="line">31</span><br></pre></td><td class="code"><pre><span class="line">#查看进程信息</span><br><span class="line">ps -ef  #标准格式显示</span><br><span class="line">ps aux  #BSD格式显示</span><br><span class="line"></span><br><span class="line">#资源占有情况</span><br><span class="line">top -c</span><br><span class="line"></span><br><span class="line">cat /etc/inetd.conf        #由inetd管理的服务列表</span><br><span class="line">cat /etc/xinetd.conf       #由xinetd管理的服务列表</span><br><span class="line"></span><br><span class="line">#查看安装的程序</span><br><span class="line">rpm -qa --last             #Redhat</span><br><span class="line">yum list | grep installed  #CentOS</span><br><span class="line">ls -l /etc/yum.repos.d/</span><br><span class="line">dpkg -l                    #Debian</span><br><span class="line">cat /etc/apt/sources.list  #Debian APT</span><br><span class="line">pkg_info                   #xBSD</span><br><span class="line">pkginfo                    #Solaris</span><br><span class="line">pacman -Q                  #Arch Linux</span><br><span class="line">emerge                     #Gentoo</span><br><span class="line"></span><br><span class="line"></span><br><span class="line">#查看计划任务</span><br><span class="line">crontab -l</span><br><span class="line">ls -al /etc/cron*</span><br><span class="line">cat /etc/cron.allow</span><br><span class="line">cat /etc/cron.deny</span><br><span class="line">cat /etc/crontab</span><br><span class="line"></span><br><span class="line">#查看开机启动项</span><br><span class="line">/etc/rc.d/init.d/</span><br></pre></td></tr></table></figure>
+<h2 id="zones"><a href="#zones" class="headerlink" title="zones"></a>zones</h2><figure class="highlight plaintext"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br><span class="line">11</span><br><span class="line">12</span><br><span class="line">13</span><br><span class="line">14</span><br><span class="line">15</span><br><span class="line">16</span><br><span class="line">17</span><br><span class="line">18</span><br><span class="line">19</span><br><span class="line">20</span><br><span class="line">21</span><br><span class="line">22</span><br><span class="line">23</span><br><span class="line">24</span><br><span class="line">25</span><br><span class="line">26</span><br><span class="line">27</span><br><span class="line">28</span><br><span class="line">29</span><br><span class="line">30</span><br><span class="line">31</span><br><span class="line">32</span><br><span class="line">33</span><br></pre></td><td class="code"><pre><span class="line">zone &quot;localhost.localdomain&quot; IN &#123;     #正向解析域名</span><br><span class="line">        type master;                            #类型hint=根域</span><br><span class="line">        file &quot;named.localhost&quot;;             #资源文件名称</span><br><span class="line">        allow-update &#123; none; &#125;;            #允许动态更新DNS的IP地址(允许对端更新本地的IP)，无allow-update则表示静态域</span><br><span class="line"></span><br><span class="line">#       file “/var/named/slaves/file_zones”;                           #当该区域为辅助区域时配置该类型正解域        </span><br><span class="line">#       masters &#123;192.168.64.11;&#125;;                                      #配置为slave时，就要配置masters地址</span><br><span class="line">#       allow-update &#123; 192.168.64.11;192.168.64.12; &#125;;      #slave区域没有该参数</span><br><span class="line">&#125;;</span><br><span class="line"></span><br><span class="line">zone &quot;localhost&quot; IN &#123;</span><br><span class="line">        type master;</span><br><span class="line">        file &quot;named.localhost&quot;;</span><br><span class="line">        allow-update &#123; none; &#125;;</span><br><span class="line">&#125;;</span><br><span class="line"></span><br><span class="line">zone &quot;1.0.0.0.0.0.0.0.0.0.0.0.0.0.0.0.0.0.0.0.0.0.0.0.0.0.0.0.0.0.0.0.ip6.arpa&quot; IN &#123;</span><br><span class="line">        type master;</span><br><span class="line">        file &quot;named.loopback&quot;;</span><br><span class="line">        allow-update &#123; none; &#125;;</span><br><span class="line">&#125;;</span><br><span class="line"></span><br><span class="line">zone &quot;1.0.0.127.in-addr.arpa&quot; IN &#123;      #反向解析</span><br><span class="line">        type master;</span><br><span class="line">        file &quot;named.loopback&quot;;</span><br><span class="line">        allow-update &#123; none; &#125;;</span><br><span class="line">&#125;;</span><br><span class="line"></span><br><span class="line">zone &quot;0.in-addr.arpa&quot; IN &#123;</span><br><span class="line">        type master;</span><br><span class="line">        file &quot;named.empty&quot;;</span><br><span class="line">        allow-update &#123; none; &#125;;</span><br><span class="line">&#125;;</span><br></pre></td></tr></table></figure>
 
-<h3 id="防火墙信息"><a href="#防火墙信息" class="headerlink" title="防火墙信息"></a>防火墙信息</h3><figure class="highlight plaintext"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br><span class="line">11</span><br><span class="line">12</span><br><span class="line">13</span><br><span class="line">14</span><br><span class="line">15</span><br></pre></td><td class="code"><pre><span class="line">####防护墙相关操作</span><br><span class="line">netsh firewall show state                      #防火墙状态</span><br><span class="line">netsh firewall show config                     #查看防火墙配置</span><br><span class="line">netsh advfirewall set allprofiles state off    #关闭防火墙（windows server 2003以后）</span><br><span class="line"></span><br><span class="line">####修改防火墙配置——允许某个程序连入</span><br><span class="line">netsh advfirewall firewall add rule name=&quot;pass xx&quot; dir=in action=allow  program=&quot;C:\xxx\xx.exe&quot;   </span><br><span class="line"></span><br><span class="line">####修改防火墙配置——允许某个程序外连</span><br><span class="line">netsh advfirewall firewall add rule name=&quot;pass xx&quot; dir=out action=allow program=&quot;C:\xxx\xx.exe&quot;   </span><br><span class="line"></span><br><span class="line">####修改防火墙配置——开启3389端口，允许改端口放行</span><br><span class="line">netsh advfirewall firewall add rule name=&quot;Remote Desktop&quot; protocol=TCP dir=in localport=3389 action=allow    </span><br><span class="line"></span><br><span class="line">PS：仅记录通用的可行的防火墙操作（适用于winserver2012、win10以后）</span><br></pre></td></tr></table></figure>
+<h2 id="zones示例"><a href="#zones示例" class="headerlink" title="zones示例"></a>zones示例</h2><figure class="highlight plaintext"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br><span class="line">11</span><br><span class="line">12</span><br><span class="line">13</span><br><span class="line">14</span><br><span class="line">15</span><br><span class="line">16</span><br><span class="line">17</span><br></pre></td><td class="code"><pre><span class="line">配置区域为master区域服务器</span><br><span class="line">zone &quot;cto.com&quot; IN &#123;     #正向解析</span><br><span class="line">        type master;          #表示为该区域的主服务器，hint表示根域服务器，肯定用不到</span><br><span class="line">#        masters &#123;192.168.64.11;&#125;;     #配置为slave时，就要配置masters地址</span><br><span class="line">        file &quot;named.cto.com&quot;;</span><br><span class="line">       allow-update &#123; 192.168.64.11;192.168.64.12; &#125;;      #slave区域没有该参数</span><br><span class="line">&#125;;</span><br><span class="line"></span><br><span class="line"></span><br><span class="line">配置区域为slave服务器</span><br><span class="line">zone &quot;cto.com&quot; IN &#123;     #正向解析</span><br><span class="line">        type slave;          #多台服务器时可以选择一台未slave，hint表示根域服务器，肯定用不到</span><br><span class="line">        masters &#123;192.168.64.11;&#125;;     #配置为slave时，就要配置masters地址</span><br><span class="line">        file &quot;named.cto.com&quot;;</span><br><span class="line">#       allow-update &#123; 192.168.64.11;192.168.64.12; &#125;;      #slave区域没有该参数</span><br><span class="line">&#125;;</span><br><span class="line"></span><br></pre></td></tr></table></figure>
 
-<h3 id="网络连接信息"><a href="#网络连接信息" class="headerlink" title="网络连接信息"></a>网络连接信息</h3><figure class="highlight plaintext"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br></pre></td><td class="code"><pre><span class="line">#查询本机IP信息</span><br><span class="line">ifconfig</span><br><span class="line">ip a</span><br><span class="line"></span><br><span class="line">#查看端口信息</span><br><span class="line">netstat -anpt</span><br><span class="line"></span><br><span class="line">#查看网卡配置</span><br><span class="line"> cat /etc/network/interfaces</span><br></pre></td></tr></table></figure>
+<h1 id="var-named"><a href="#var-named" class="headerlink" title="&#x2F;var&#x2F;named"></a>&#x2F;var&#x2F;named</h1><p>该目录下用于配置正反向解析文件</p>
+<p>&#x2F;var&#x2F;named&#x2F;named.cto.com，文件内容如下</p>
+<figure class="highlight plaintext"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br><span class="line">11</span><br><span class="line">12</span><br><span class="line">13</span><br></pre></td><td class="code"><pre><span class="line">$TTL 1D</span><br><span class="line">@       IN     SOA   域名.  管理员邮箱地址. (</span><br><span class="line">                                                    0       ; serial</span><br><span class="line">                                                    1D      ; refresh</span><br><span class="line">                                                    1H      ; retry</span><br><span class="line">                                                    1W      ; expire</span><br><span class="line">                                                    3H )    ; minimum     </span><br><span class="line"></span><br><span class="line">        IN        NS          负责域名的解析服务器1，可以为多台</span><br><span class="line">        IN        NS          负责域名的解析服务器2，可以为多台</span><br><span class="line">主机名       IN        A              IP地址</span><br><span class="line">主机名       IN        MX           IP地址</span><br><span class="line">主机名       IN        CNAME     IP地址</span><br></pre></td></tr></table></figure>
 
-<h3 id="配置信息"><a href="#配置信息" class="headerlink" title="配置信息"></a>配置信息</h3><figure class="highlight plaintext"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br><span class="line">11</span><br></pre></td><td class="code"><pre><span class="line">iptables –L   #查看防火墙配置（注意需要root权限）</span><br><span class="line">cat /etc/resolv.conf   #查看dns配置文件</span><br><span class="line">cat /etc/network/interfaces    #查看网卡配置文件</span><br><span class="line">cat /etc/apache2/apache2.conf   #查看apache配置文件</span><br><span class="line">cat /etc/my.conf               #mysql配置</span><br><span class="line"></span><br><span class="line">#查看suid文件</span><br><span class="line">find / -perm -u=s -type f 2&gt;/dev/null</span><br><span class="line"></span><br><span class="line">#最近五天的文件</span><br><span class="line">find / -ctime +1 -ctime -5</span><br></pre></td></tr></table></figure>
+<h2 id="单解析示例"><a href="#单解析示例" class="headerlink" title="单解析示例"></a>单解析示例</h2><figure class="highlight plaintext"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br><span class="line">11</span><br></pre></td><td class="code"><pre><span class="line">$TTL 1D</span><br><span class="line">@       IN SOA   cto.com. admin.cto.com (</span><br><span class="line">                                        0       ; serial</span><br><span class="line">                                        1D      ; refresh</span><br><span class="line">                                        1H      ; retry</span><br><span class="line">                                        1W      ; expire</span><br><span class="line">                                        3H )    ; minimum</span><br><span class="line">                NS             cto.com.       #域名后边必须有个“点”</span><br><span class="line">                A               192.168.64.11</span><br><span class="line">www A 192.168.64.11</span><br><span class="line">www.cto.com CNAME cto.com</span><br></pre></td></tr></table></figure>
 
-<h3 id="虚拟化信息"><a href="#虚拟化信息" class="headerlink" title="虚拟化信息"></a>虚拟化信息</h3><figure class="highlight plaintext"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br></pre></td><td class="code"><pre><span class="line">lsmod | grep -i &quot;vboxsf\|vboxguest&quot;</span><br><span class="line">lsmod | grep -i &quot;vmw_baloon\|vmxnet&quot;</span><br><span class="line">lsmod | grep -i &quot;xen-vbd\|xen-vnif&quot;</span><br><span class="line">lsmod | grep -i &quot;virtio_pci\|virtio_net&quot;</span><br><span class="line">lsmod | grep -i &quot;hv_vmbus\|hv_blkvsc\|hv_netvsc\|hv_utils\|hv_storvsc&quot;</span><br></pre></td></tr></table></figure>
+<h2 id="多解析示例"><a href="#多解析示例" class="headerlink" title="多解析示例"></a>多解析示例</h2><figure class="highlight plaintext"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br><span class="line">11</span><br><span class="line">12</span><br><span class="line">13</span><br><span class="line">14</span><br><span class="line">15</span><br><span class="line">16</span><br><span class="line">17</span><br></pre></td><td class="code"><pre><span class="line">$TTL 1D</span><br><span class="line">@       IN SOA   dns1.cto.com. mail.cto.com. (</span><br><span class="line">                                        0       ; serial</span><br><span class="line">                                        1D      ; refresh</span><br><span class="line">                                        1H      ; retry</span><br><span class="line">                                        1W      ; expire</span><br><span class="line">                                        3H )    ; minimum</span><br><span class="line"></span><br><span class="line">@ IN NS dns1.cto.com.     #表示主，后边必须加“点”</span><br><span class="line">  IN NS dns2.cto.com.</span><br><span class="line"></span><br><span class="line">dns1  IN A 192.168.64.11</span><br><span class="line">dns2  IN A 192.168.64.12</span><br><span class="line">www2  IN A 192.168.64.12</span><br><span class="line">#www2  IN CNAME www12 </span><br><span class="line">www   IN A 192.168.64.11</span><br><span class="line">#www1  IN CNAME www11</span><br></pre></td></tr></table></figure>
 
-
-
+<h1 id="DNS维护"><a href="#DNS维护" class="headerlink" title="DNS维护"></a>DNS维护</h1><h2 id="nsupdate"><a href="#nsupdate" class="headerlink" title="nsupdate"></a>nsupdate</h2><p><strong>DNS工具安装</strong>：yum install -y bind-utils<br>​nsupdate使用<br>​    &gt;server DNS_SERVER_IP<br>​    &gt;update add&#x2F;del cto.cto.com 60 A 1..2.3.4           #主机名.域名 TTL type IP_ADDR<br>​    &gt;send<br>​    &gt;<br>​    dig -t A cto.cto.com @DNS_server_IP +short<br>​    使用nsupdate新增记录，会新增文件&#x2F;var&#x2F;named&#x2F;资源区域.jnl<br>​              不会写入到资源区域文件，会产生动态文件xxx.jnl，不利于维护，不使用</p>
+<h2 id="静态域和动态域维护"><a href="#静态域和动态域维护" class="headerlink" title="静态域和动态域维护"></a>静态域和动态域维护</h2><p>​静态域：&#x2F;etc&#x2F;named&#x2F;zones下，无allow-update {dns服务器IP;};<br>​    主辅DNS同步：手动更新-然后-重启named<br>​            1、手动设置主服务器&#x2F;var&#x2F;named&#x2F;named*.zones文件中的serial，serial value+1<br>​            2、设置主&#x2F;辅服务器&#x2F;var&#x2F;named&#x2F;named*.zones文件中的refresh值，该值决定于多久重新从主DNS服务器获取资源记录<br>​动态域：&#x2F;etc&#x2F;named&#x2F;zones下，有allow-update {dns服务器IP;};<br>​    主辅DNS同步：自动更新，不需要重启named<br>​          nsupdate，该命令增加的资源记录会在生成&#x2F;var&#x2F;namd&#x2F;named.xxx.zone.jil文件，该文件内容不可读<br>​            &gt;server DNS_SERVER_IP<br>​            &gt;update add&#x2F;del cto.cto.com 60 A 1..2.3.4           #主机名.域名 TTL type IP_ADDR<br>​            &gt;send<br>​            &gt;quit<br>​              dig -t A cto.cto.com @DNS_server_IP +short</p>
+<h2 id="mdc远程管理"><a href="#mdc远程管理" class="headerlink" title="mdc远程管理"></a>mdc远程管理</h2><p><strong>配置rndc远程管理步骤–静态域</strong></p>
+<p>1、在服务端生成rndc-key （执行  rndc-confgen -r &#x2F;dev&#x2F;urandom）</p>
+<p>2、将生成的信息放在对应的文件目录中，删除&#x2F;etc&#x2F;rndc.key<br>​      End of named.conf中间的信息放在&#x2F;etc&#x2F;named.conf中option以外的位置，主DNS服务器配置即可，备DNS不用<br>​          server_ip：填写主DNS服务器IP<br>​          allow_ip ：填写主备DNS服务器IP<br>​      End of rndc.conf中间的信息放在创建的&#x2F;etc&#x2F;rndc.conf中，主备DNS服务器都需要<br>​          default_server：填写主DNS服务器的IP地址</p>
+<p>3、使用 rndc status查看服务状态是否running<br>​     rndc reload 域名   #获取域名更新（回显为zone reload queued表示更新成功，仅备机执行主机执行会报错）</p>
+<p>4、主DNS在&#x2F;var&#x2F;named&#x2F;下资源区域文件中添加解析规则后，变更serial的值</p>
+<p>5、备机上执行：<br>​      rndc reload 域名<br>​      dig -t A cto.cto.com @DNS_server&#x2F;slave_IP +short      #查看是否更新成功（主DNS不用重启named进程）</p>
+<p><strong>配置rndc远程管理步骤–动态域</strong></p>
+<p>1、在服务端生成rndc-key （执行  rndc-confgen -r &#x2F;dev&#x2F;urandom）</p>
+<p>2、将生成的信息放在对应的文件目录中，删除&#x2F;etc&#x2F;rndc.key<br>​End of named.conf中间的信息放在&#x2F;etc&#x2F;named.conf中option以外的位置，主DNS服务器配置即可，备DNS不用<br>​    server_ip：填写主DNS服务器IP<br>​    allow_ip ：填写主备DNS服务器IP<br>​End of rndc.conf中间的信息放在创建的&#x2F;etc&#x2F;rndc.conf中，主备DNS服务器都需要<br>​    default_server：填写主DNS服务器的IP地址</p>
+<p>3、使用 rndc status查看服务状态是否running<br>​     rndc reload 域名   #获取域名更新（回显为zone reload queued表示更新成功，仅备机执行主机执行会报错）</p>
+<p>4、主DNS在&#x2F;var&#x2F;named&#x2F;下资源区域文件中添加解析规则后，变更serial的值</p>
+<p>5、rndc freeze 域名      #先冻结域</p>
+<p>6、rndc thaw  域名       #解冻域名</p>
+<p>7、nsupdate    添加资源记录</p>
 
       
        <hr><span style="font-style: italic;color: gray;"> 转载请注明来源，欢迎对文章进行指正，联系邮箱 vou0515@gmail.com </span>

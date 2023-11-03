@@ -1,0 +1,1362 @@
+<!DOCTYPE html>
+<html>
+<head>
+  <meta charset="utf-8">
+  <title>Linux搭建Web | 欢迎来到closeto的博客</title>
+  <meta name="keywords" content=" Linux , 2019 ">
+  <meta name="description" content="Linux搭建Web | 欢迎来到closeto的博客">
+    <meta name="viewport" content="width=device-width, initial-scale=1, maximum-scale=1">
+<meta name="description" content="DNS服务器进行压力测试推荐工具dnsperf Linux压力测试参考链接：https:&#x2F;&#x2F;blog.51cto.com&#x2F;topic&#x2F;dns-linux-ceshigongju.html 安装PS：不支持随机源地址 ​		apt install dnsperf dnsperf参数介绍： 1234567891011121314151617181920212223242526-f DNS传输的地址系列">
+<meta property="og:type" content="article">
+<meta property="og:title" content="DNS服务器ddos测试">
+<meta property="og:url" content="https://closeto.github.io/2023/11/01/Linux%E7%9B%B8%E5%85%B3-DNS%E5%8E%8B%E5%8A%9B%E6%B5%8B%E8%AF%95/index.html">
+<meta property="og:site_name" content="欢迎来到closeto的博客">
+<meta property="og:description" content="DNS服务器进行压力测试推荐工具dnsperf Linux压力测试参考链接：https:&#x2F;&#x2F;blog.51cto.com&#x2F;topic&#x2F;dns-linux-ceshigongju.html 安装PS：不支持随机源地址 ​		apt install dnsperf dnsperf参数介绍： 1234567891011121314151617181920212223242526-f DNS传输的地址系列">
+<meta property="og:locale" content="zh_CN">
+<meta property="og:image" content="https://closeto.github.io/2023/11/01/Linux%E7%9B%B8%E5%85%B3-DNS%E5%8E%8B%E5%8A%9B%E6%B5%8B%E8%AF%95/images/other02.png">
+<meta property="og:image" content="https://closeto.github.io/2023/11/01/Linux%E7%9B%B8%E5%85%B3-DNS%E5%8E%8B%E5%8A%9B%E6%B5%8B%E8%AF%95/images/other03.png">
+<meta property="og:image" content="https://closeto.github.io/2023/11/01/Linux%E7%9B%B8%E5%85%B3-DNS%E5%8E%8B%E5%8A%9B%E6%B5%8B%E8%AF%95/images/other01.png">
+<meta property="article:published_time" content="2023-10-31T16:00:00.000Z">
+<meta property="article:author" content="closeto">
+<meta property="article:tag" content="Linux">
+<meta property="article:tag" content="2023">
+<meta name="twitter:card" content="summary">
+<meta name="twitter:image" content="https://closeto.github.io/2023/11/01/Linux%E7%9B%B8%E5%85%B3-DNS%E5%8E%8B%E5%8A%9B%E6%B5%8B%E8%AF%95/images/other02.png">
+
+
+<link rel="icon" href="/img/ico.png">
+
+<link href="/css/style.css?v=1.1.0" rel="stylesheet">
+
+<link href="/css/hl_theme/atom-light.css?v=1.1.0" rel="stylesheet">
+
+<link href="//cdn.jsdelivr.net/npm/animate.css@4.1.0/animate.min.css" rel="stylesheet">
+
+<script src="//cdn.jsdelivr.net/npm/jquery@3.5.1/dist/jquery.min.js"></script>
+<script src="/js/titleTip.js?v=1.1.0" ></script>
+
+<script src="//cdn.jsdelivr.net/npm/highlightjs@9.16.2/highlight.pack.min.js"></script>
+<script>
+    hljs.initHighlightingOnLoad();
+</script>
+
+<script src="//cdn.jsdelivr.net/npm/nprogress@0.2.0/nprogress.min.js"></script>
+
+
+
+<script src="/js/iconfont.js?v=1.1.0" ></script>
+
+<meta name="generator" content="Hexo 6.3.0"></head>
+<div style="display: none">
+  <input class="theme_disqus_on" value="false">
+  <input class="theme_preload_comment" value="">
+  <input class="theme_blog_path" value="">
+  <input id="theme_shortcut" value="true" />
+  <input id="theme_highlight_on" value="true" />
+  <input id="theme_code_copy" value="true" />
+</div>
+
+
+
+<body>
+<aside class="nav">
+    <div class="nav-left">
+        <a href="/"
+   class="avatar_target">
+    <img class="avatar"
+         src="/img/user.png"/>
+</a>
+<div class="author">
+    <span>closeto</span>
+</div>
+
+<div class="icon">
+    
+        
+            <a title="github"
+               href="https://github.com/closeto"
+               target="_blank">
+                
+                    <svg class="iconfont-svg" aria-hidden="true">
+                        <use xlink:href="#icon-github"></use>
+                    </svg>
+                
+            </a>
+        
+    
+        
+            <a title="email"
+               href="mailto:vou0515@gmail.com"
+               target="_blank">
+                
+                    <svg class="iconfont-svg" aria-hidden="true">
+                        <use xlink:href="#icon-email"></use>
+                    </svg>
+                
+            </a>
+        
+    
+</div>
+
+
+
+
+
+<ul>
+    <li>
+        <div class="all active" data-rel="全部文章">全部文章
+            
+                <small>(69)</small>
+            
+        </div>
+    </li>
+    
+        
+            
+                
+    <li>
+        <div data-rel="Web安全">
+            
+            Web安全
+            <small>(17)</small>
+        </div>
+        
+    </li>
+
+            
+        
+    
+        
+            
+                
+    <li>
+        <div data-rel="内网安全">
+            
+            内网安全
+            <small>(11)</small>
+        </div>
+        
+    </li>
+
+            
+        
+    
+        
+            
+                
+    <li>
+        <div data-rel="Windows相关">
+            
+            Windows相关
+            <small>(4)</small>
+        </div>
+        
+    </li>
+
+            
+        
+    
+        
+            
+                
+    <li>
+        <div data-rel="Linux相关">
+            
+            Linux相关
+            <small>(5)</small>
+        </div>
+        
+    </li>
+
+            
+        
+    
+        
+            
+                
+    <li>
+        <div data-rel="网络协议">
+            
+            网络协议
+            <small>(11)</small>
+        </div>
+        
+    </li>
+
+            
+        
+    
+        
+            
+                
+    <li>
+        <div data-rel="数字通信">
+            
+            数字通信
+            <small>(16)</small>
+        </div>
+        
+    </li>
+
+            
+        
+    
+        
+            
+                
+    <li>
+        <div data-rel="其它">
+            
+            其它
+            <small>(3)</small>
+        </div>
+        
+    </li>
+
+            
+        
+    
+        
+            
+                
+    <li>
+        <div data-rel="考证学习">
+            
+            考证学习
+            <small>(1)</small>
+        </div>
+        
+    </li>
+
+            
+        
+    
+</ul>
+<div class="left-bottom">
+    <div class="menus">
+        
+            
+    </div>
+    <div>
+        
+            <a class="about  "
+               target="_blank"
+                    
+               href="https://github.com/closeto">关于</a>
+        
+        
+    </div>
+</div>
+<input type="hidden" id="yelog_site_posts_number" value="69">
+
+<div style="display: none">
+    <span id="busuanzi_value_site_uv"></span>
+    <span id="busuanzi_value_site_pv"></span>
+</div>
+
+    </div>
+    <div class="nav-right">
+        <div class="friends-area">
+    <div class="friends-title">
+        友情链接
+        <i class="iconfont icon-left"></i>
+    </div>
+    <div class="friends-content">
+        <ul>
+            
+            <li><a target="_blank" href="/url">名字列表</a></li>
+            
+        </ul>
+    </div>
+</div>
+        <div class="title-list">
+    <div class="right-top">
+        <div id="default-panel">
+            <i class="iconfont icon-search" data-title="搜索 快捷键 i"></i>
+            <div class="right-title">全部文章</div>
+            <i class="iconfont icon-file-tree" data-title="切换到大纲视图 快捷键 w"></i>
+        </div>
+        <div id="search-panel">
+            <i class="iconfont icon-left" data-title="返回"></i>
+            <input id="local-search-input" autocomplete="off"/>
+            <label class="border-line" for="input"></label>
+            <i class="iconfont icon-case-sensitive" data-title="大小写敏感"></i>
+            <i class="iconfont icon-tag" data-title="标签"></i>
+        </div>
+        <div id="outline-panel" style="display: none">
+            <div class="right-title">大纲</div>
+            <i class="iconfont icon-list" data-title="切换到文章列表"></i>
+        </div>
+    </div>
+
+    <div class="tags-list">
+    <input id="tag-search" />
+    <div class="tag-wrapper">
+        
+            <li class="article-tag-list-item">
+                <i class="iconfont icon-tag"></i><a>2019</a>
+            </li>
+        
+            <li class="article-tag-list-item">
+                <i class="iconfont icon-tag"></i><a>2020</a>
+            </li>
+        
+            <li class="article-tag-list-item">
+                <i class="iconfont icon-tag"></i><a>2021</a>
+            </li>
+        
+            <li class="article-tag-list-item">
+                <i class="iconfont icon-tag"></i><a>2022</a>
+            </li>
+        
+            <li class="article-tag-list-item">
+                <i class="iconfont icon-tag"></i><a>2023</a>
+            </li>
+        
+            <li class="article-tag-list-item">
+                <i class="iconfont icon-tag"></i><a>基础</a>
+            </li>
+        
+            <li class="article-tag-list-item">
+                <i class="iconfont icon-tag"></i><a>内网</a>
+            </li>
+        
+            <li class="article-tag-list-item">
+                <i class="iconfont icon-tag"></i><a>软考</a>
+            </li>
+        
+            <li class="article-tag-list-item">
+                <i class="iconfont icon-tag"></i><a>渗透测试</a>
+            </li>
+        
+            <li class="article-tag-list-item">
+                <i class="iconfont icon-tag"></i><a>文件格式</a>
+            </li>
+        
+            <li class="article-tag-list-item">
+                <i class="iconfont icon-tag"></i><a>中级</a>
+            </li>
+        
+            <li class="article-tag-list-item">
+                <i class="iconfont icon-tag"></i><a>Bin</a>
+            </li>
+        
+            <li class="article-tag-list-item">
+                <i class="iconfont icon-tag"></i><a>Linux</a>
+            </li>
+        
+            <li class="article-tag-list-item">
+                <i class="iconfont icon-tag"></i><a>ShellCode</a>
+            </li>
+        
+            <li class="article-tag-list-item">
+                <i class="iconfont icon-tag"></i><a>Web</a>
+            </li>
+        
+            <li class="article-tag-list-item">
+                <i class="iconfont icon-tag"></i><a>Windows</a>
+            </li>
+        
+    </div>
+
+</div>
+
+    
+    <nav id="title-list-nav">
+        
+        
+        <a  class="全部文章 Linux相关 "
+           href="/2023/11/01/Linux%E7%9B%B8%E5%85%B3-DNS%E5%8E%8B%E5%8A%9B%E6%B5%8B%E8%AF%95/"
+           data-tag="Linux,2023"
+           data-author="" >
+            <span class="post-title" title="DNS服务器ddos测试">DNS服务器ddos测试</span>
+            <span class="post-date" title="2023-11-01 00:00:00">2023/11/01</span>
+        </a>
+        
+        
+        <a  class="全部文章 Linux相关 "
+           href="/2023/03/10/busybox%E6%90%AD%E5%BB%BA%E6%9C%80%E5%B0%8FLinux/"
+           data-tag="Linux,2023"
+           data-author="" >
+            <span class="post-title" title="Busybox搭建最小Linux">Busybox搭建最小Linux</span>
+            <span class="post-date" title="2023-03-10 12:30:00">2023/03/10</span>
+        </a>
+        
+        
+        <a  class="全部文章 Linux相关 "
+           href="/2022/10/29/Linux%E7%9B%B8%E5%85%B3-%E7%BD%91%E5%8D%A1%E8%81%9A%E5%90%88/"
+           data-tag="Linux,2019"
+           data-author="" >
+            <span class="post-title" title="Linux多网卡聚合">Linux多网卡聚合</span>
+            <span class="post-date" title="2022-10-29 00:00:00">2022/10/29</span>
+        </a>
+        
+        
+        <a  class="全部文章 其它 "
+           href="/2022/07/19/Nginx%E6%97%A5%E5%BF%97%E6%A0%BC%E5%BC%8F/"
+           data-tag="2022"
+           data-author="" >
+            <span class="post-title" title="Nginx日志格式">Nginx日志格式</span>
+            <span class="post-date" title="2022-07-19 00:00:00">2022/07/19</span>
+        </a>
+        
+        
+        <a  class="全部文章 其它 "
+           href="/2022/05/07/UTF-8%E9%9D%9E%E6%9C%80%E7%9F%AD%E5%BD%A2%E5%BC%8F&%E7%BC%96%E7%A0%81%E5%AE%89%E5%85%A8%E9%97%AE%E9%A2%98/"
+           data-tag="2022"
+           data-author="" >
+            <span class="post-title" title="UTF8编码安全">UTF8编码安全</span>
+            <span class="post-date" title="2022-05-07 00:00:00">2022/05/07</span>
+        </a>
+        
+        
+        <a  class="全部文章 Windows相关 "
+           href="/2022/04/10/ShellCode%E5%85%A5%E9%97%A8%E5%88%B0%E6%94%BE%E5%BC%83%E2%80%94%E7%9B%B8%E9%81%87/"
+           data-tag="2022,ShellCode,Bin"
+           data-author="" >
+            <span class="post-title" title="ShellCode入门到放弃—相遇">ShellCode入门到放弃—相遇</span>
+            <span class="post-date" title="2022-04-10 19:30:00">2022/04/10</span>
+        </a>
+        
+        
+        <a  class="全部文章 Windows相关 "
+           href="/2022/04/10/PE%E6%96%87%E4%BB%B6%E6%A0%BC%E5%BC%8F%E2%80%94%E7%AE%80%E4%BB%8B/"
+           data-tag="2022,文件格式"
+           data-author="" >
+            <span class="post-title" title="PE文件格式—简介">PE文件格式—简介</span>
+            <span class="post-date" title="2022-04-10 10:48:36">2022/04/10</span>
+        </a>
+        
+        
+        <a  class="全部文章 内网安全 "
+           href="/2022/03/10/%E5%86%85%E7%BD%91%E6%B8%97%E9%80%8F-Redis%E6%9C%AA%E6%8E%88%E6%9D%83/"
+           data-tag="2022,内网,渗透测试"
+           data-author="" >
+            <span class="post-title" title="Redis未授权">Redis未授权</span>
+            <span class="post-date" title="2022-03-10 14:30:00">2022/03/10</span>
+        </a>
+        
+        
+        <a  class="全部文章 内网安全 "
+           href="/2022/03/01/WL%E7%AB%AF%E5%8F%A3%E6%B5%81%E9%87%8F%E8%BD%AC%E5%8F%91/"
+           data-tag="2022,内网,Windows"
+           data-author="" >
+            <span class="post-title" title="WL端口流量转发">WL端口流量转发</span>
+            <span class="post-date" title="2022-03-01 00:00:00">2022/03/01</span>
+        </a>
+        
+        
+        <a  class="全部文章 内网安全 "
+           href="/2022/02/19/Linux%E5%AE%89%E5%85%A8-%E7%97%95%E8%BF%B9%E6%93%A6%E9%99%A4/"
+           data-tag="2022,内网,渗透测试,Linux"
+           data-author="" >
+            <span class="post-title" title="Linux痕迹擦除">Linux痕迹擦除</span>
+            <span class="post-date" title="2022-02-19 00:00:00">2022/02/19</span>
+        </a>
+        
+        
+        <a  class="全部文章 内网安全 "
+           href="/2022/02/18/Windows%E7%97%95%E8%BF%B9%E6%93%A6%E9%99%A4/"
+           data-tag="2022,内网,渗透测试,Windows"
+           data-author="" >
+            <span class="post-title" title="Windows痕迹擦除">Windows痕迹擦除</span>
+            <span class="post-date" title="2022-02-18 00:00:00">2022/02/18</span>
+        </a>
+        
+        
+        <a  class="全部文章 内网安全 "
+           href="/2022/02/14/Windows%E4%BF%A1%E6%81%AF%E6%94%B6%E9%9B%86/"
+           data-tag="2022,内网,渗透测试,Windows"
+           data-author="" >
+            <span class="post-title" title="Windows信息收集">Windows信息收集</span>
+            <span class="post-date" title="2022-02-14 00:00:00">2022/02/14</span>
+        </a>
+        
+        
+        <a  class="全部文章 内网安全 "
+           href="/2022/02/13/Linux%E5%AE%89%E5%85%A8-%E4%BF%A1%E6%81%AF%E6%94%B6%E9%9B%86/"
+           data-tag="2022,内网,渗透测试,Linux"
+           data-author="" >
+            <span class="post-title" title="Linux信息收集">Linux信息收集</span>
+            <span class="post-date" title="2022-02-13 00:00:00">2022/02/13</span>
+        </a>
+        
+        
+        <a  class="全部文章 Windows相关 "
+           href="/2022/01/18/ShellCode%E5%85%A5%E9%97%A8%E5%88%B0%E6%94%BE%E5%BC%83%E2%80%94%E7%9B%B8%E5%BC%83/"
+           data-tag="2022,ShellCode,Bin"
+           data-author="" >
+            <span class="post-title" title="ShellCode入门到放弃—相弃">ShellCode入门到放弃—相弃</span>
+            <span class="post-date" title="2022-01-18 17:30:00">2022/01/18</span>
+        </a>
+        
+        
+        <a  class="全部文章 考证学习 "
+           href="/2022/01/18/%E8%BD%AF%E8%80%83%E4%B8%AD%E7%BA%A7%E2%80%94%E4%BF%A1%E6%81%AF%E5%AE%89%E5%85%A8%E5%B7%A5%E7%A8%8B%E5%B8%88/"
+           data-tag="2023,软考,中级"
+           data-author="" >
+            <span class="post-title" title="软考中级—信息安全工程师">软考中级—信息安全工程师</span>
+            <span class="post-date" title="2022-01-18 14:30:00">2022/01/18</span>
+        </a>
+        
+        
+        <a  class="全部文章 Windows相关 "
+           href="/2022/01/15/ShellCode%E5%85%A5%E9%97%A8%E5%88%B0%E6%94%BE%E5%BC%83%E2%80%94%E7%9B%B8%E7%9F%A5/"
+           data-tag="2022,ShellCode,Bin"
+           data-author="" >
+            <span class="post-title" title="ShellCode入门到放弃—相知">ShellCode入门到放弃—相知</span>
+            <span class="post-date" title="2022-01-15 12:12:12">2022/01/15</span>
+        </a>
+        
+        
+        <a  class="全部文章 内网安全 "
+           href="/2021/11/19/%E5%86%85%E7%BD%91%E6%B8%97%E9%80%8F-Linux%E6%8F%90%E6%9D%83/"
+           data-tag="内网,渗透测试,2021"
+           data-author="" >
+            <span class="post-title" title="Linux提权">Linux提权</span>
+            <span class="post-date" title="2021-11-19 14:30:00">2021/11/19</span>
+        </a>
+        
+        
+        <a  class="全部文章 内网安全 "
+           href="/2021/11/10/%E5%86%85%E7%BD%91%E6%B8%97%E9%80%8F_%E5%AF%86%E7%A0%81%E6%8F%90%E5%8F%96/"
+           data-tag="内网,渗透测试,2021"
+           data-author="" >
+            <span class="post-title" title="终端管理工具密码获取">终端管理工具密码获取</span>
+            <span class="post-date" title="2021-11-10 14:30:00">2021/11/10</span>
+        </a>
+        
+        
+        <a  class="全部文章 内网安全 "
+           href="/2021/11/04/%E5%86%85%E7%BD%91%E6%B8%97%E9%80%8F-Linux%E5%8F%8D%E5%BC%B9Shell/"
+           data-tag="内网,渗透测试,2021"
+           data-author="" >
+            <span class="post-title" title="Linux反弹Shell">Linux反弹Shell</span>
+            <span class="post-date" title="2021-11-04 14:30:00">2021/11/04</span>
+        </a>
+        
+        
+        <a  class="全部文章 内网安全 "
+           href="/2021/10/19/%E5%86%85%E7%BD%91%E5%AE%89%E5%85%A8-%E6%B5%81%E9%87%8F%E7%89%B9%E5%BE%81NPS%E3%80%81FRP/"
+           data-tag="内网,渗透测试,2021"
+           data-author="" >
+            <span class="post-title" title="流量特征NPS、FRP">流量特征NPS、FRP</span>
+            <span class="post-date" title="2021-10-19 14:30:00">2021/10/19</span>
+        </a>
+        
+        
+        <a  class="全部文章 内网安全 "
+           href="/2021/09/10/%E5%86%85%E7%BD%91%E5%AE%89%E5%85%A8-docker%E6%9C%AA%E6%8E%88%E6%9D%83/"
+           data-tag="内网,渗透测试,2021"
+           data-author="" >
+            <span class="post-title" title="docker未授权">docker未授权</span>
+            <span class="post-date" title="2021-09-10 14:30:00">2021/09/10</span>
+        </a>
+        
+        
+        <a  class="全部文章 Web安全 "
+           href="/2021/07/25/web%E5%AE%89%E5%85%A8-Xpath%E6%B3%A8%E5%85%A5/"
+           data-tag="2021,Web"
+           data-author="" >
+            <span class="post-title" title="Xpath注入">Xpath注入</span>
+            <span class="post-date" title="2021-07-25 00:00:00">2021/07/25</span>
+        </a>
+        
+        
+        <a  class="全部文章 Web安全 "
+           href="/2021/07/16/Web%E5%AE%89%E5%85%A8-SQL%E6%B3%A8%E5%85%A5/"
+           data-tag="2021,Web"
+           data-author="" >
+            <span class="post-title" title="SQL注入">SQL注入</span>
+            <span class="post-date" title="2021-07-16 00:00:00">2021/07/16</span>
+        </a>
+        
+        
+        <a  class="全部文章 Web安全 "
+           href="/2021/06/19/Web%E5%AE%89%E5%85%A8-%E6%96%87%E4%BB%B6%E4%B8%8A%E4%BC%A0%E6%BC%8F%E6%B4%9E/"
+           data-tag="2021,Web"
+           data-author="" >
+            <span class="post-title" title="文件上传漏洞">文件上传漏洞</span>
+            <span class="post-date" title="2021-06-19 00:00:00">2021/06/19</span>
+        </a>
+        
+        
+        <a  class="全部文章 Web安全 "
+           href="/2021/06/08/Web%E5%AE%89%E5%85%A8-PHP%E5%BA%8F%E5%88%97%E5%8C%96&%E5%8F%8D%E5%BA%8F%E5%88%97%E5%8C%96/"
+           data-tag="2021,Web"
+           data-author="" >
+            <span class="post-title" title="PHP序列化与反序列化">PHP序列化与反序列化</span>
+            <span class="post-date" title="2021-06-08 00:00:00">2021/06/08</span>
+        </a>
+        
+        
+        <a  class="全部文章 Web安全 "
+           href="/2021/06/04/Web%E5%AE%89%E5%85%A8-SSI%E6%B3%A8%E5%85%A5/"
+           data-tag="2021,Web"
+           data-author="" >
+            <span class="post-title" title="SSI注入">SSI注入</span>
+            <span class="post-date" title="2021-06-04 00:00:00">2021/06/04</span>
+        </a>
+        
+        
+        <a  class="全部文章 "
+           href="/2021/06/02/docker%E5%B8%B8%E7%94%A8%E5%91%BD%E4%BB%A4/"
+           data-tag="Linux,2021"
+           data-author="" >
+            <span class="post-title" title="Docker常用命令">Docker常用命令</span>
+            <span class="post-date" title="2021-06-02 00:00:00">2021/06/02</span>
+        </a>
+        
+        
+        <a  class="全部文章 Web安全 "
+           href="/2021/05/25/Web%E5%AE%89%E5%85%A8-%E6%96%87%E4%BB%B6%E5%8C%85%E5%90%AB%E6%BC%8F%E6%B4%9E/"
+           data-tag="2021,Web"
+           data-author="" >
+            <span class="post-title" title="文件包含漏洞">文件包含漏洞</span>
+            <span class="post-date" title="2021-05-25 00:00:00">2021/05/25</span>
+        </a>
+        
+        
+        <a  class="全部文章 Web安全 "
+           href="/2021/04/19/Web%E5%AE%89%E5%85%A8-%E8%B6%8A%E6%9D%83/"
+           data-tag="2021,Web"
+           data-author="" >
+            <span class="post-title" title="越权">越权</span>
+            <span class="post-date" title="2021-04-19 00:00:00">2021/04/19</span>
+        </a>
+        
+        
+        <a  class="全部文章 Web安全 "
+           href="/2021/04/06/Web%E5%AE%89%E5%85%A8-Xxe/"
+           data-tag="2021,Web"
+           data-author="" >
+            <span class="post-title" title="XXE">XXE</span>
+            <span class="post-date" title="2021-04-06 00:00:00">2021/04/06</span>
+        </a>
+        
+        
+        <a  class="全部文章 Web安全 "
+           href="/2021/04/05/Web%E5%AE%89%E5%85%A8-%E6%96%87%E4%BB%B6%E4%B8%8B%E8%BD%BD%E8%AF%BB%E5%8F%96%E6%BC%8F%E6%B4%9E/"
+           data-tag="2021,Web"
+           data-author="" >
+            <span class="post-title" title="文件下载漏洞">文件下载漏洞</span>
+            <span class="post-date" title="2021-04-05 00:00:00">2021/04/05</span>
+        </a>
+        
+        
+        <a  class="全部文章 其它 "
+           href="/2021/04/02/%E5%B8%B8%E7%94%A8%E6%AD%A3%E5%88%99%E8%A1%A8%E8%BE%BE%E5%BC%8F/"
+           data-tag="2021"
+           data-author="" >
+            <span class="post-title" title="常用正则表达式">常用正则表达式</span>
+            <span class="post-date" title="2021-04-02 00:00:00">2021/04/02</span>
+        </a>
+        
+        
+        <a  class="全部文章 Web安全 "
+           href="/2021/03/25/Web%E5%AE%89%E5%85%A8-Nginx%E5%AE%89%E5%85%A8/"
+           data-tag="2021,Web"
+           data-author="" >
+            <span class="post-title" title="Apache安全">Apache安全</span>
+            <span class="post-date" title="2021-03-25 00:00:00">2021/03/25</span>
+        </a>
+        
+        
+        <a  class="全部文章 Web安全 "
+           href="/2021/03/19/Web%E5%AE%89%E5%85%A8-LDAP%E6%B3%A8%E5%85%A5/"
+           data-tag="2021,Web"
+           data-author="" >
+            <span class="post-title" title="LDAP注入">LDAP注入</span>
+            <span class="post-date" title="2021-03-19 00:00:00">2021/03/19</span>
+        </a>
+        
+        
+        <a  class="全部文章 Web安全 "
+           href="/2021/03/13/Web%E5%AE%89%E5%85%A8-CSR&SSRF/"
+           data-tag="2021,Web"
+           data-author="" >
+            <span class="post-title" title="CSRF &amp; SSRF">CSRF &amp; SSRF</span>
+            <span class="post-date" title="2021-03-13 00:00:00">2021/03/13</span>
+        </a>
+        
+        
+        <a  class="全部文章 Web安全 "
+           href="/2021/03/09/Web%E5%AE%89%E5%85%A8-CRLF/"
+           data-tag="2021,Web"
+           data-author="" >
+            <span class="post-title" title="CLRF">CLRF</span>
+            <span class="post-date" title="2021-03-09 00:00:00">2021/03/09</span>
+        </a>
+        
+        
+        <a  class="全部文章 Web安全 "
+           href="/2021/03/06/Web%E5%AE%89%E5%85%A8-Apache%E5%AE%89%E5%85%A8/"
+           data-tag="2021,Web"
+           data-author="" >
+            <span class="post-title" title="Apache安全">Apache安全</span>
+            <span class="post-date" title="2021-03-06 00:00:00">2021/03/06</span>
+        </a>
+        
+        
+        <a  class="全部文章 Web安全 "
+           href="/2021/03/03/Web%E5%AE%89%E5%85%A8-IIS%E5%AE%89%E5%85%A8/"
+           data-tag="2021,Web"
+           data-author="" >
+            <span class="post-title" title="IIS安全">IIS安全</span>
+            <span class="post-date" title="2021-03-03 00:00:00">2021/03/03</span>
+        </a>
+        
+        
+        <a  class="全部文章 Web安全 "
+           href="/2021/02/27/Web%E5%AE%89%E5%85%A8-XSS/"
+           data-tag="2021,Web"
+           data-author="" >
+            <span class="post-title" title="XSS">XSS</span>
+            <span class="post-date" title="2021-02-27 00:00:00">2021/02/27</span>
+        </a>
+        
+        
+        <a  class="全部文章 Web安全 "
+           href="/2021/02/10/Web%E5%AE%89%E5%85%A8-%E4%B8%80%E5%8F%A5%E8%AF%9D%E6%9C%A8%E9%A9%AC/"
+           data-tag="2021,Web"
+           data-author="" >
+            <span class="post-title" title="一句话木马">一句话木马</span>
+            <span class="post-date" title="2021-02-10 00:00:00">2021/02/10</span>
+        </a>
+        
+        
+        <a  class="全部文章 数字通信 "
+           href="/2020/08/25/%E8%B7%AF%E7%94%B1%E4%BA%A4%E6%8D%A2-VXLAN-04/"
+           data-tag="2020"
+           data-author="" >
+            <span class="post-title" title="虚拟扩展局域网-VXLAN-04">虚拟扩展局域网-VXLAN-04</span>
+            <span class="post-date" title="2020-08-25 00:00:00">2020/08/25</span>
+        </a>
+        
+        
+        <a  class="全部文章 数字通信 "
+           href="/2020/08/20/%E8%B7%AF%E7%94%B1%E4%BA%A4%E6%8D%A2-VXLAN-03/"
+           data-tag="2020"
+           data-author="" >
+            <span class="post-title" title="虚拟扩展局域网-VXLAN-03">虚拟扩展局域网-VXLAN-03</span>
+            <span class="post-date" title="2020-08-20 00:00:00">2020/08/20</span>
+        </a>
+        
+        
+        <a  class="全部文章 数字通信 "
+           href="/2020/08/15/%E8%B7%AF%E7%94%B1%E4%BA%A4%E6%8D%A2-VXLAN-02/"
+           data-tag="2020"
+           data-author="" >
+            <span class="post-title" title="虚拟扩展局域网-VXLAN-02">虚拟扩展局域网-VXLAN-02</span>
+            <span class="post-date" title="2020-08-15 00:00:00">2020/08/15</span>
+        </a>
+        
+        
+        <a  class="全部文章 数字通信 "
+           href="/2020/08/10/%E8%B7%AF%E7%94%B1%E4%BA%A4%E6%8D%A2-VXLAN-01/"
+           data-tag="2020"
+           data-author="" >
+            <span class="post-title" title="虚拟扩展局域网-VXLAN-01">虚拟扩展局域网-VXLAN-01</span>
+            <span class="post-date" title="2020-08-10 00:00:00">2020/08/10</span>
+        </a>
+        
+        
+        <a  class="全部文章 数字通信 "
+           href="/2020/07/25/%E5%AE%89%E5%85%A8%E8%AE%BE%E5%A4%87%E4%BA%A4%E4%BB%98-Load%20Balance/"
+           data-tag="2020"
+           data-author="" >
+            <span class="post-title" title="Load Blance">Load Blance</span>
+            <span class="post-date" title="2020-07-25 00:00:00">2020/07/25</span>
+        </a>
+        
+        
+        <a  class="全部文章 Linux相关 "
+           href="/2020/06/19/Linux%E7%9B%B8%E5%85%B3-DNS/"
+           data-tag="Linux,2021"
+           data-author="" >
+            <span class="post-title" title="DNS服务器搭建">DNS服务器搭建</span>
+            <span class="post-date" title="2020-06-19 00:00:00">2020/06/19</span>
+        </a>
+        
+        
+        <a  class="全部文章 数字通信 "
+           href="/2020/05/20/%E5%AE%89%E5%85%A8%E8%AE%BE%E5%A4%87%E4%BA%A4%E4%BB%98-DDOS-02/"
+           data-tag="2020"
+           data-author="" >
+            <span class="post-title" title="Anti-ddos_02">Anti-ddos_02</span>
+            <span class="post-date" title="2020-05-20 00:00:00">2020/05/20</span>
+        </a>
+        
+        
+        <a  class="全部文章 数字通信 "
+           href="/2020/05/15/%E5%AE%89%E5%85%A8%E8%AE%BE%E5%A4%87%E4%BA%A4%E4%BB%98-DDOS-01/"
+           data-tag="2020"
+           data-author="" >
+            <span class="post-title" title="Anti-ddos_01">Anti-ddos_01</span>
+            <span class="post-date" title="2020-05-15 00:00:00">2020/05/15</span>
+        </a>
+        
+        
+        <a  class="全部文章 数字通信 "
+           href="/2019/12/21/%E5%AE%89%E5%85%A8%E8%AE%BE%E5%A4%87%E4%BA%A4%E4%BB%98-VPN/"
+           data-tag="2019"
+           data-author="" >
+            <span class="post-title" title="VPN">VPN</span>
+            <span class="post-date" title="2019-12-21 00:00:00">2019/12/21</span>
+        </a>
+        
+        
+        <a  class="全部文章 数字通信 "
+           href="/2019/11/20/%E5%AE%89%E5%85%A8%E8%AE%BE%E5%A4%87%E4%BA%A4%E4%BB%98-FW/"
+           data-tag="2019"
+           data-author="" >
+            <span class="post-title" title="FireWalld">FireWalld</span>
+            <span class="post-date" title="2019-11-20 00:00:00">2019/11/20</span>
+        </a>
+        
+        
+        <a  class="全部文章 网络协议 "
+           href="/2019/06/16/%E7%BD%91%E7%BB%9C%E5%9F%BA%E7%A1%80-ipv6%E8%BF%87%E6%B8%A1%E6%8A%80%E6%9C%AF/"
+           data-tag="2019"
+           data-author="" >
+            <span class="post-title" title="IPv6过度技术">IPv6过度技术</span>
+            <span class="post-date" title="2019-06-16 00:00:00">2019/06/16</span>
+        </a>
+        
+        
+        <a  class="全部文章 网络协议 "
+           href="/2019/05/19/%E7%BD%91%E7%BB%9C%E5%9F%BA%E7%A1%80-SOCK5/"
+           data-tag="2019"
+           data-author="" >
+            <span class="post-title" title="SOCK5">SOCK5</span>
+            <span class="post-date" title="2019-05-19 00:00:00">2019/05/19</span>
+        </a>
+        
+        
+        <a  class="全部文章 网络协议 "
+           href="/2019/04/25/%E7%BD%91%E7%BB%9C%E5%9F%BA%E7%A1%80-HTTP%E5%8D%8F%E8%AE%AE/"
+           data-tag="2019"
+           data-author="" >
+            <span class="post-title" title="HTTP">HTTP</span>
+            <span class="post-date" title="2019-04-25 00:00:00">2019/04/25</span>
+        </a>
+        
+        
+        <a  class="全部文章 网络协议 "
+           href="/2019/04/13/%E7%BD%91%E7%BB%9C%E5%9F%BA%E7%A1%80-IP%E5%8D%8F%E8%AE%AE/"
+           data-tag="2019"
+           data-author="" >
+            <span class="post-title" title="IP">IP</span>
+            <span class="post-date" title="2019-04-13 00:00:00">2019/04/13</span>
+        </a>
+        
+        
+        <a  class="全部文章 网络协议 "
+           href="/2019/03/29/%E7%BD%91%E7%BB%9C%E5%9F%BA%E7%A1%80-VRRPv4/"
+           data-tag="2019"
+           data-author="" >
+            <span class="post-title" title="VRRPv4">VRRPv4</span>
+            <span class="post-date" title="2019-03-29 00:00:00">2019/03/29</span>
+        </a>
+        
+        
+        <a  class="全部文章 数字通信 "
+           href="/2019/03/19/%E8%B7%AF%E7%94%B1%E4%BA%A4%E6%8D%A2-MPLS/"
+           data-tag="2019"
+           data-author="" >
+            <span class="post-title" title="多协议标签交换—MPLS">多协议标签交换—MPLS</span>
+            <span class="post-date" title="2019-03-19 00:00:00">2019/03/19</span>
+        </a>
+        
+        
+        <a  class="全部文章 网络协议 "
+           href="/2019/03/16/%E7%BD%91%E7%BB%9C%E5%9F%BA%E7%A1%80-Ethernet%20II/"
+           data-tag="2019"
+           data-author="" >
+            <span class="post-title" title="Ethernet II">Ethernet II</span>
+            <span class="post-date" title="2019-03-16 00:00:00">2019/03/16</span>
+        </a>
+        
+        
+        <a  class="全部文章 Linux相关 "
+           href="/2019/03/12/Linux%E7%9B%B8%E5%85%B3-HTTP/"
+           data-tag="Linux,2019"
+           data-author="" >
+            <span class="post-title" title="Linux搭建Web">Linux搭建Web</span>
+            <span class="post-date" title="2019-03-12 00:00:00">2019/03/12</span>
+        </a>
+        
+        
+        <a  class="全部文章 网络协议 "
+           href="/2019/03/11/%E7%BD%91%E7%BB%9C%E5%9F%BA%E7%A1%80-DNS%E5%8D%8F%E8%AE%AE/"
+           data-tag="2019"
+           data-author="" >
+            <span class="post-title" title="DNS">DNS</span>
+            <span class="post-date" title="2019-03-11 00:00:00">2019/03/11</span>
+        </a>
+        
+        
+        <a  class="全部文章 网络协议 "
+           href="/2019/03/06/%E7%BD%91%E7%BB%9C%E5%9F%BA%E7%A1%80-%E5%8D%8F%E8%AE%AE%E5%8F%B7%E9%9B%86%E5%90%88/"
+           data-tag="2019"
+           data-author="" >
+            <span class="post-title" title="Internet协议号合集">Internet协议号合集</span>
+            <span class="post-date" title="2019-03-06 00:00:00">2019/03/06</span>
+        </a>
+        
+        
+        <a  class="全部文章 网络协议 "
+           href="/2019/03/03/%E7%BD%91%E7%BB%9C%E5%9F%BA%E7%A1%80-%E5%8D%8F%E8%AE%AE%E5%B0%81%E8%A3%85/"
+           data-tag="2019,基础"
+           data-author="" >
+            <span class="post-title" title="Etherenet II协议封装">Etherenet II协议封装</span>
+            <span class="post-date" title="2019-03-03 00:00:00">2019/03/03</span>
+        </a>
+        
+        
+        <a  class="全部文章 网络协议 "
+           href="/2019/03/01/%E7%BD%91%E7%BB%9C%E5%9F%BA%E7%A1%80-%E7%AB%AF%E5%8F%A3%E5%8F%B7%E9%9B%86/"
+           data-tag="2019"
+           data-author="" >
+            <span class="post-title" title="Internet端口合集">Internet端口合集</span>
+            <span class="post-date" title="2019-03-01 00:00:00">2019/03/01</span>
+        </a>
+        
+        
+        <a  class="全部文章 数字通信 "
+           href="/2019/02/15/%E8%B7%AF%E7%94%B1%E4%BA%A4%E6%8D%A2-DHCP/"
+           data-tag="2019"
+           data-author="" >
+            <span class="post-title" title="DHCP协议详解">DHCP协议详解</span>
+            <span class="post-date" title="2019-02-15 00:00:00">2019/02/15</span>
+        </a>
+        
+        
+        <a  class="全部文章 数字通信 "
+           href="/2019/02/10/%E8%B7%AF%E7%94%B1%E4%BA%A4%E6%8D%A2-OSPF%20v3/"
+           data-tag="2019"
+           data-author="" >
+            <span class="post-title" title="最短路径优先协议—OSPFv3">最短路径优先协议—OSPFv3</span>
+            <span class="post-date" title="2019-02-10 00:00:00">2019/02/10</span>
+        </a>
+        
+        
+        <a  class="全部文章 数字通信 "
+           href="/2019/02/05/%E8%B7%AF%E7%94%B1%E4%BA%A4%E6%8D%A2-OSPF%20v2/"
+           data-tag="2019"
+           data-author="" >
+            <span class="post-title" title="最短路径优先协议—OSPFv2">最短路径优先协议—OSPFv2</span>
+            <span class="post-date" title="2019-02-05 00:00:00">2019/02/05</span>
+        </a>
+        
+        
+        <a  class="全部文章 数字通信 "
+           href="/2019/01/30/%E8%B7%AF%E7%94%B1%E4%BA%A4%E6%8D%A2-BGP/"
+           data-tag="2019"
+           data-author="" >
+            <span class="post-title" title="边界网关协议—BGP">边界网关协议—BGP</span>
+            <span class="post-date" title="2019-01-30 00:00:00">2019/01/30</span>
+        </a>
+        
+        
+        <a  class="全部文章 网络协议 "
+           href="/2019/01/13/%E7%BD%91%E7%BB%9C%E5%9F%BA%E7%A1%80-TCP%E5%8D%8F%E8%AE%AE/"
+           data-tag="2019"
+           data-author="" >
+            <span class="post-title" title="TCP">TCP</span>
+            <span class="post-date" title="2019-01-13 00:00:00">2019/01/13</span>
+        </a>
+        
+        
+        <a  class="全部文章 数字通信 "
+           href="/2019/01/10/%E8%B7%AF%E7%94%B1%E4%BA%A4%E6%8D%A2-%E9%9D%99%E6%80%81%E8%B7%AF%E7%94%B1/"
+           data-tag="2019"
+           data-author="" >
+            <span class="post-title" title="路由策略&amp;策略路由">路由策略&amp;策略路由</span>
+            <span class="post-date" title="2019-01-10 00:00:00">2019/01/10</span>
+        </a>
+        
+        
+        <a  class="全部文章 数字通信 "
+           href="/2019/01/01/%E8%99%9A%E6%8B%9F%E5%8C%96-EXSI/"
+           data-tag="2019"
+           data-author="" >
+            <span class="post-title" title="虚拟化-EXSI">虚拟化-EXSI</span>
+            <span class="post-date" title="2019-01-01 00:00:00">2019/01/01</span>
+        </a>
+        
+        <div id="no-item-tips">
+
+        </div>
+    </nav>
+    <div id="outline-list">
+    </div>
+</div>
+
+    </div>
+    <div class="hide-list">
+        <div class="semicircle" data-title="切换全屏 快捷键 s">
+            <div class="brackets first"><</div>
+            <div class="brackets">&gt;</div>
+        </div>
+    </div>
+</aside>
+<div id="post">
+    <div class="pjax">
+        <article id="post-Linux相关-HTTP" class="article article-type-post" itemscope itemprop="blogPost">
+    
+        <h1 class="article-title">Linux搭建Web</h1>
+    
+    <div class="article-meta">
+        
+        
+        
+        <span class="book">
+            <i class="iconfont icon-category"></i>
+            
+            
+            <a  data-rel="Linux相关">Linux相关</a>
+            
+        </span>
+        
+        
+        <span class="tag">
+            <i class="iconfont icon-tag"></i>
+            
+            <a class="color1">Linux</a>
+            
+            <a class="color5">2019</a>
+            
+        </span>
+        
+    </div>
+    <div class="article-meta">
+        <!-- 修改了原始显示，原始显示更新日期为悬浮 -->
+        <!-- 
+            发布时间 : <time class="date" title='最后更新: 2023-11-03 16:08:20'>2019-03-12 00:00</time>
+         -->
+
+        
+            发布时间 : 2019-03-12 00:00</time>
+        <br>
+
+        
+    </div>
+    <div class="article-meta">
+        
+        
+        <span id="busuanzi_container_page_pv">
+            阅读 :<span id="busuanzi_value_page_pv">
+                <span class="count-comment">
+                    <span class="spinner">
+                      <div class="cube1"></div>
+                      <div class="cube2"></div>
+                    </span>
+                </span>
+            </span>
+        </span>
+        
+        
+    </div>
+    
+    <div class="toc-ref">
+    
+        <ol class="toc"><li class="toc-item toc-level-1"><a class="toc-link" href="#Tomcat"><span class="toc-text">Tomcat</span></a><ol class="toc-child"><li class="toc-item toc-level-2"><a class="toc-link" href="#%E7%BD%91%E7%AB%99%E7%AE%A1%E7%90%86"><span class="toc-text">网站管理</span></a></li></ol></li><li class="toc-item toc-level-1"><a class="toc-link" href="#Apache"><span class="toc-text">Apache</span></a><ol class="toc-child"><li class="toc-item toc-level-2"><a class="toc-link" href="#%E5%90%AF%E7%94%A8SSL"><span class="toc-text">启用SSL</span></a></li><li class="toc-item toc-level-2"><a class="toc-link" href="#%E7%94%9F%E6%88%90SSL%E8%AF%81%E4%B9%A6"><span class="toc-text">生成SSL证书</span></a></li></ol></li><li class="toc-item toc-level-1"><a class="toc-link" href="#Nginx"><span class="toc-text">Nginx</span></a><ol class="toc-child"><li class="toc-item toc-level-2"><a class="toc-link" href="#%E8%AF%81%E4%B9%A6%E7%94%9F%E6%88%90"><span class="toc-text">证书生成</span></a></li><li class="toc-item toc-level-2"><a class="toc-link" href="#SSL%E5%8D%95%E5%90%91%E8%AE%A4%E8%AF%81"><span class="toc-text">SSL单向认证</span></a></li><li class="toc-item toc-level-2"><a class="toc-link" href="#%E5%8F%8C%E5%90%91%E8%AE%A4%E8%AF%81-%E5%8D%95%E4%B8%AA"><span class="toc-text">双向认证-单个</span></a></li><li class="toc-item toc-level-2"><a class="toc-link" href="#SSL%E5%8F%8C%E5%90%91%E8%AE%A4%E8%AF%81-%E5%A4%9A%E4%B8%AA"><span class="toc-text">SSL双向认证-多个</span></a></li></ol></li></ol>
+    
+<style>
+    .left-col .switch-btn,
+    .left-col .switch-area {
+        display: none;
+    }
+    .toc-level-3 i,
+    .toc-level-3 ol {
+        display: none !important;
+    }
+</style>
+</div>
+    
+    <div class="article-entry" itemprop="articleBody">
+      
+        <p>项目遇到搭建某网站，故学习Web服务器搭建。</p>
+<h1 id="Tomcat"><a href="#Tomcat" class="headerlink" title="Tomcat"></a>Tomcat</h1><p><strong>①判断是否安装有tomcat相关服务</strong></p>
+<p>​        systemctl status tomcat.service     或者      systemctl status tomcat</p>
+<p><strong>②安装Tomcat</strong></p>
+<p>​        yum install -y tomcat   &#x2F;&#x2F;主程序</p>
+<p>​        yum install tomcat-webapps tomcat-admin-webapps     &#x2F;&#x2F;默认浏览器管理界面</p>
+<p><strong>③启动Tomcat、判断Tomcat的运行状态</strong></p>
+<p>​        systemctl start tomcat          &#x2F;&#x2F;启动Tomcat程序</p>
+<p>​        systemctl status tomcat       &#x2F;&#x2F;查看Tomcat启动后的状态</p>
+<p><strong>④关闭防火墙（可选）</strong></p>
+<p>​        systemctl stop firewalld        &#x2F;&#x2F;临时关闭防火墙</p>
+<p>​        systemctl status firewalld     &#x2F;&#x2F;查看防火墙状态</p>
+<p>​        systemctl disable firewalld   &#x2F;&#x2F;禁止开机自启防火墙</p>
+<p><strong>④默认配置简介：</strong></p>
+<p>​        默认访问界面：IP:8080</p>
+<p>​        yum安装的安装目录位置“</p>
+<p><strong>&#x2F;usr&#x2F;share&#x2F;tomcat</strong></p>
+<p><strong>Tomcat目录简介</strong></p>
+<p>​				“&#x2F;usr&#x2F;share&#x2F;tomcat”				yum安装的默认目录位置</p>
+<p>​				webapps&#x2F;														网站(管理)目录				</p>
+<h2 id="网站管理"><a href="#网站管理" class="headerlink" title="网站管理"></a>网站管理</h2><p>创建Tomcat管理员账户<br><strong>①进入conf目录，打开文件tomcat-users.xml</strong><br>将”<!-- xxxx-->“前后的注释去掉保留xxx<br>或在 <tomcat-users> 标签下添加<role rolename="manager-gui"/> \n <user username="root" password="root" roles="manager-gui"/></p>
+<p><strong>②重启tomcat程序</strong><br>systemctl restart tomcat</p>
+<h1 id="Apache"><a href="#Apache" class="headerlink" title="Apache"></a>Apache</h1><p>Apache安装直接使用	yum install httpd -y	即可<br>Apache可以对用户、源地址等进行认证，认证后方可访问目录</p>
+<h2 id="启用SSL"><a href="#启用SSL" class="headerlink" title="启用SSL"></a>启用SSL</h2><p>vi &#x2F;etc&#x2F;httpd&#x2F;conf&#x2F;httpd.conf，修改Allowoverride为all</p>
+<p><img src="/./images/fwq2.png" alt="修改配置文件"></p>
+<p><strong>cd &#x2F;var&#x2F;www&#x2F;html</strong><br>创建隐藏认证文件，添加如下内容：vi .htaccess </p>
+<figure class="highlight plaintext"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br></pre></td><td class="code"><pre><span class="line">#用户验证配置文件</span><br><span class="line">authuserfile		/var/www/html/.httppasswd</span><br><span class="line">#认证方式</span><br><span class="line">authtype		basic</span><br><span class="line">#title信息</span><br><span class="line">authname		“请输入用户名和密码”</span><br><span class="line">#限制仅有效用户可以访问</span><br><span class="line">require			valid-user</span><br></pre></td></tr></table></figure>
+
+<p><strong>cd &#x2F;var&#x2F;www&#x2F;</strong><br>创建.httppasswd账户‘ct’和密码‘空格’文件：htpasswd  .httppasswd ct<br>不加‘-c’参数<br><img src="/./images/fwq3.png"></p>
+<p>cd &#x2F;var&#x2F;www&#x2F;html<br>echo “Apache站点认证测试” &gt; &#x2F;var&#x2F;www&#x2F;html&#x2F;index.html</p>
+<h2 id="生成SSL证书"><a href="#生成SSL证书" class="headerlink" title="生成SSL证书"></a>生成SSL证书</h2><p><strong>方法一</strong><br>yum install mod_ssl<br>yum install openssl openssl-devel</p>
+<p>创建私钥<br>    openssl genrsa -out server.key 2048</p>
+<p>创建证书申请文件<br>    openssl req -new -key server.key -out server.csr</p>
+<p>创建有效时间为10年的自签名证书<br>    openssl x509 -req -in server.csr -out server.crt -signkey server.key -days 3650</p>
+<p><strong>方法二</strong><br>创建时不加密码<br>    openssl genrsa -out server.key 2048<br>    openssl req -new -x509 -days 3650 -key server.key -out server.crt -subject</p>
+<p>【修改自建证书】<br>vi &#x2F;etc&#x2F;httpd&#x2F;conf.d&#x2F;ssl.conf 修改途中的证书和私钥</p>
+<h1 id="Nginx"><a href="#Nginx" class="headerlink" title="Nginx"></a>Nginx</h1><h2 id="证书生成"><a href="#证书生成" class="headerlink" title="证书生成"></a>证书生成</h2><p>官网		<a target="_blank" rel="noopener" href="http://nginx.org/download/">http://nginx.org/download/</a><br><strong>Country Name					服务器&#x2F;客户端证书与CA必须相同</strong><br><em>Organization Name 		服务器&#x2F;客户端证书与CA必须相同</em>*<br>Common Name (eg, your name or your server’s hostname) []:域名或IP地址，服务器&#x2F;客户端证书与CA不能相同</p>
+<p><img src="/./images/fwq4.png" alt="SSL证书生成"></p>
+<p>.key文件：密钥文件，SSL证书的私钥就包含在其中；</p>
+<p>.csr文件：这个文件里面包含着证书的公钥和其他一些公司信息，通过请求签名之后就可以直接生出证书；</p>
+<p>.crt文件：该文件中也包含了证书的公钥、签名信息以及根据不同类型证书携带不同的认证信息，如IP等（该文件在有些机构、系统中也可能表现为.cert后缀）；</p>
+<p>.pem文件：该文件相对比较少见，里面包含着证书的私钥以及部分证书信息。</p>
+<p>der,cer文件一般是二进制格式的，只放证书，不含私钥</p>
+<p>crt文件可能是二进制的，也可能是文本格式的，应该以文本格式居多，功能同der&#x2F;cer</p>
+<p>pem文件一般是文本格式的，可以放证书或者私钥，或者两者都有</p>
+<p>pem如果只含私钥的话，一般用.key扩展名，而且可以有密码保护</p>
+<p>pfx,p12文件是二进制格式，同时含私钥和证书，通常有保护密码</p>
+<h2 id="SSL单向认证"><a href="#SSL单向认证" class="headerlink" title="SSL单向认证"></a>SSL单向认证</h2><p><strong>【单向认证-仅验证服务器是否正规&#x2F;合法】</strong></p>
+<p>yum -y install gcc-c++ pcre-devel zlib-devel openssl-devel </p>
+<p>wget <a target="_blank" rel="noopener" href="http://nginx.org/download/nginx-1.9.9.tar.gz">http://nginx.org/download/nginx-1.9.9.tar.gz</a></p>
+<p>tar zxvf nginx-1.9.9.tar.gz</p>
+<p>cd nginx-1.9.9</p>
+<p>.&#x2F;configure –prefix&#x3D;&#x2F;usr&#x2F;local&#x2F;nginx –with-http_ssl_module</p>
+<p>make &amp;&amp; make install</p>
+<p><strong>生成服务端私钥</strong></p>
+<p>openssl genrsa -out server.key 1024</p>
+<p><strong>生成服务端公钥证书</strong></p>
+<p>openssl req -new -x509 -key server.key -out server.crt -days 3650</p>
+<p>配置文件中增加</p>
+<p>​    ssl_certificate      ..&#x2F;ssl&#x2F;server.crt;  # server公钥证书</p>
+<p>​    ssl_certificate_key  ..&#x2F;ssl&#x2F;server.key;  # server私钥</p>
+<p>启动nginx</p>
+<p>​	nginx </p>
+<p>​	nginx -s reload</p>
+<p>​	nginx -s stop</p>
+<img src="./images/fwq5.png" alt="图例" style="zoom:67%;" />
+
+<h2 id="双向认证-单个"><a href="#双向认证-单个" class="headerlink" title="双向认证-单个"></a>双向认证-单个</h2><p><strong>【双向认证-服务器和客户端互相认证对方是否正规&#x2F;合法】</strong></p>
+<p>服务器端密钥生成同前，配置文件中只需要加入客户端密钥</p>
+<p><strong>单个客户端双向校验</strong></p>
+<p>【client密钥生成】</p>
+<p># 生成客户端证书私钥</p>
+<p>openssl genrsa -out client.key 1024</p>
+<p># 生成客户端公钥证书</p>
+<p>openssl req -new -x509 -key client.key -out client.crt -days 3650</p>
+<p># 生客户端p12格式证书，需要输入一个密码，选一个好记的，比如123456</p>
+<p>openssl pkcs12 -export -clcerts -in client.crt -inkey client.key -out client.p12</p>
+<p>​	client公私钥两个文件合成得到一个p12文件，p12文件主要用于客户端</p>
+<p>config配置文件增加</p>
+<p>​    ssl_client_certificate ..&#x2F;clientcrt&#x2F;clientA.crt;  	 # client公钥证书</p>
+<p>​    ssl_verify_client on; 												 # 开启客户端证书验证</p>
+<img src="./images/fwq6.png" alt="图例" style="zoom:80%;" />
+
+<h2 id="SSL双向认证-多个"><a href="#SSL双向认证-多个" class="headerlink" title="SSL双向认证-多个"></a>SSL双向认证-多个</h2><p><img src="/./images/fwq11.png"></p>
+<p>【<strong>根证书的域名信息Common Name这个字段和客户端证书、服务器端证书不能一样</strong>】</p>
+<p><strong>生成root根证书</strong></p>
+<figure class="highlight plaintext"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br></pre></td><td class="code"><pre><span class="line"># 创建根证书私钥</span><br><span class="line">	openssl genrsa -out root.key 1024</span><br><span class="line">	</span><br><span class="line"># 创建根证书请求文件</span><br><span class="line">	openssl req -new -key root.key -out root.csr</span><br><span class="line">	</span><br><span class="line"># 创建根证书</span><br><span class="line">	openssl x509 -req -in root.csr -out root.crt -signkey root.key -CAcreateserial -days 3650</span><br></pre></td></tr></table></figure>
+
+<p><strong>生成服务端证书</strong></p>
+<figure class="highlight plaintext"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br></pre></td><td class="code"><pre><span class="line"># 生成服务器端证书私钥</span><br><span class="line">openssl genrsa -out server.key 1024</span><br><span class="line"></span><br><span class="line"># 生成服务器证书请求文件</span><br><span class="line">openssl req -new -key server.key -out server.csr</span><br><span class="line"></span><br><span class="line"># 生成服务器端公钥证书，并使用ca证书进行签发</span><br><span class="line">openssl x509 -req -in server.csr -out server.crt -signkey server.key -CA root.crt -CAkey root.key -CAcreateserial -days 3650</span><br></pre></td></tr></table></figure>
+
+<p><strong>生成服务端证书</strong></p>
+<figure class="highlight plaintext"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br><span class="line">11</span><br></pre></td><td class="code"><pre><span class="line"># 生成客户端证书私钥</span><br><span class="line">openssl genrsa -out client.key 1024</span><br><span class="line"></span><br><span class="line"># 生成客户端证书请求文件</span><br><span class="line">openssl req -new -key client.key -out client.csr</span><br><span class="line"></span><br><span class="line"># 生成客户端证书，并使用ca证书签发</span><br><span class="line">openssl x509 -req -in client.csr -out client.crt -signkey client.key -CA root.crt -CAkey root.key -CAcreateserial -days 3650</span><br><span class="line"></span><br><span class="line"># 生客户端p12格式证书，需要输入一个密码，选一个好记的，比如123456</span><br><span class="line">openssl pkcs12 -export -in client.crt -inkey client.key -out client_p12.p12 -name testuser -chain -CAfile ca.crt </span><br></pre></td></tr></table></figure>
+
+<p><strong>配置文件中修改如下</strong></p>
+<figure class="highlight plaintext"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br><span class="line">11</span><br><span class="line">12</span><br></pre></td><td class="code"><pre><span class="line">ssl_certificate      ../ssl/server.crt;  # server公钥证书</span><br><span class="line"></span><br><span class="line">ssl_certificate_key  ../ssl/server.key;  # server私钥</span><br><span class="line"></span><br><span class="line">ssl_client_certificate ../ssl/root.crt;  # 根证书，可以验证所有它颁发的客户端证书</span><br><span class="line"></span><br><span class="line">ssl_verify_client on;  # 开启客户端证书验证</span><br><span class="line"></span><br><span class="line">ssl_protocols SSLv2 SSLv3 TLSv1 TLSv1.1 TLSv1.2 TLSv1.3;	#TSL协议版本</span><br><span class="line"></span><br><span class="line">#TSL加密方式</span><br><span class="line">ssl_ciphers ECDHE-RSA-AES128-GCM-SHA256:HIGH:!aNULL:!MD5:!RC4:!DHE;</span><br></pre></td></tr></table></figure>
+
+<p><strong>【导入证书注意事项】</strong></p>
+<img src="./images/fwq9.png" alt="导入证书注意事项" style="zoom:80%;" />
+
+<img src="./images/fwq10.png" alt="导入证书注意事项" style="zoom:67%;" />
+
+<p><strong>未安装证书</strong></p>
+<img src="./images/fwq7.png" alt="未安装证书" style="zoom:80%;" />
+
+<p><strong>安装证书</strong></p>
+<p><img src="/./images/fwq8.png" alt="安装证书"></p>
+
+      
+       <hr><span style="font-style: italic;color: gray;"> 转载请注明来源，欢迎对文章进行指正，联系邮箱 vou0515@gmail.com </span>
+    </div>
+</article>
+
+
+
+
+
+
+
+    
+
+
+
+
+    </div>
+    <div class="copyright">
+        <p class="footer-entry">
+    ©2023 closeto
+</p>
+<p class="footer-entry">Built with Hexo</p>
+
+    </div>
+    <div class="full-toc">
+        <button class="full" data-title="切换全屏 快捷键 s"><span class="min "></span></button>
+<a class="" id="rocket" ></a>
+
+    </div>
+</div>
+
+</body>
+<script src="/js/jquery.pjax.js?v=1.1.0" ></script>
+
+<script src="/js/script.js?v=1.1.0" ></script>
+<script>
+    var img_resize = 'default';
+    function initArticle() {
+        /*渲染对应的表格样式*/
+        
+            $("#post .pjax table").addClass("green_title");
+        
+
+        /*渲染打赏样式*/
+        
+
+        /*高亮代码块行号*/
+        
+
+        /*访问数量*/
+        
+        $.getScript("//busuanzi.ibruce.info/busuanzi/2.3/busuanzi.pure.mini.js");
+        
+
+        /*代码高亮，行号对齐*/
+        $('.pre-numbering').css('line-height',$('.has-numbering').css('line-height'));
+
+        
+        
+        /* 渲染*/
+        function HTMLDecode(text) {
+            var temp = document.createElement("div");
+            temp.innerHTML = text;
+            var output = temp.innerText || temp.textContent;
+            temp = null;
+            return output;
+        }
+        if (window.mermaid){
+            window.mermaid = null
+        }
+        $.getScript("//cdn.jsdelivr.net/npm/mermaid@8.4.2/dist/mermaid.min.js", function () {
+            var mermaidOptions = JSON.parse(HTMLDecode("{&#34;theme&#34;:&#34;default&#34;,&#34;startOnLoad&#34;:true,&#34;flowchart&#34;:{&#34;useMaxWidth&#34;:false,&#34;htmlLabels&#34;:true}}"))
+            if (window.mermaid) {
+                mermaid.initialize(mermaidOptions)
+                mermaid.contentLoaded()
+            }
+        })
+        
+    }
+
+    /*打赏页面隐藏与展示*/
+    
+
+</script>
+
+<!--加入行号的高亮代码块样式-->
+
+<!--自定义样式设置-->
+<style>
+    
+    
+    .nav {
+        width: 562px;
+    }
+    .nav.fullscreen {
+        margin-left: -562px;
+    }
+    .nav-left {
+        width: 140px;
+    }
+    
+    
+    @media screen and (max-width: 1468px) {
+        .nav {
+            width: 492px;
+        }
+        .nav.fullscreen {
+            margin-left: -492px;
+        }
+        .nav-left {
+            width: 100px;
+        }
+    }
+    
+    
+    @media screen and (max-width: 1024px) {
+        .nav {
+            width: 492px;
+            margin-left: -492px
+        }
+        .nav.fullscreen {
+            margin-left: 0;
+        }
+    }
+    
+    @media screen and (max-width: 426px) {
+        .nav {
+            width: 100%;
+        }
+        .nav-left {
+            width: 100%;
+        }
+    }
+    
+    
+    .nav-right .title-list nav a .post-title, .nav-right .title-list #local-search-result a .post-title {
+        color: #383636;
+    }
+    
+    
+    .nav-right .title-list nav a .post-date, .nav-right .title-list #local-search-result a .post-date {
+        color: #5e5e5f;
+    }
+    
+    
+    .nav-right nav a.hover, #local-search-result a.hover{
+        background-color: #e2e0e0;
+    }
+    
+    
+
+    /*列表样式*/
+    
+
+    /* 背景图样式 */
+    
+    
+
+
+    /*引用块样式*/
+    
+
+    /*文章列表背景图*/
+    
+
+    
+</style>
+
+
+
+
+
+
+
+</html>
