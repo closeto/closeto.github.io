@@ -1031,7 +1031,7 @@
     <div class="article-meta">
         <!-- 修改了原始显示，原始显示更新日期为悬浮 -->
         <!-- 
-            发布时间 : <time class="date" title='最后更新: 2023-11-03 16:08:20'>2020-07-25 00:00</time>
+            发布时间 : <time class="date" title='最后更新: 2023-11-05 16:34:14'>2020-07-25 00:00</time>
          -->
 
         
@@ -1079,12 +1079,12 @@
 <p><strong>✏✒使用注意事项✒✏</strong><br>        0、调度算法（轮询、最小链接数、策略调度…）<br>        1、真实服务地址池（ip、端口、url）<br>        2、虚拟IP（也称VIP，对外提供服务的地址）<br>        3、健康检查（ping、端口、url……）<br>        4、会话保持（源、目、端口、url……）<br>        5、可选（内容调度、SSL卸载、SNAT…………）</p>
 <h1 id="组网模式"><a href="#组网模式" class="headerlink" title="组网模式"></a>组网模式</h1><h2 id="单臂部署（有网关）"><a href="#单臂部署（有网关）" class="headerlink" title="单臂部署（有网关）"></a>单臂部署（有网关）</h2><p>PS：网关在负载均衡上</p>
 <p>1、直接配置配置即可（虚拟IP、服务器、健康检测、会话保持等）<br>2、任意流量均经过LB设备</p>
-<img src="./images/aqsb79.png" alt="单臂有网关" style="zoom:80%;" />
+<img src="/./images/aqsb79.png" alt="单臂有网关" style="zoom:80%;" />
 
 <h2 id="单臂部署（无网关）"><a href="#单臂部署（无网关）" class="headerlink" title="单臂部署（无网关）"></a>单臂部署（无网关）</h2><p>PS：网关在下层交换机上<br>**<font color=red>注意</font><strong>：<br>        1、该情况一般是跨三层负载，</strong><font color=orange>需要配置源NAT</font>**；<br>        2、仅访问服务器的流量经过LB设备；</p>
-<img src="./images/aqsb78.png" alt="单臂无网关" style="zoom: 67%;" />
+<img src="/./images/aqsb78.png" alt="单臂无网关" style="zoom: 67%;" />
 
-<h2 id="📌三角组网"><a href="#📌三角组网" class="headerlink" title="📌三角组网"></a>📌三角组网</h2><img src="./images/aqsb76.png" alt="示意图" style="zoom:80%;" />
+<h2 id="📌三角组网"><a href="#📌三角组网" class="headerlink" title="📌三角组网"></a>📌三角组网</h2><img src="/./images/aqsb76.png" alt="示意图" style="zoom:80%;" />
 
 <p>​    1、服务器设置loopback地址为提供服务的VIP地址，并关闭IPV4-ARP冲突检测<br>​    2、负载均衡器配置三角模式、健康检测对象为VIP地址、关闭会话状态检测</p>
 <p>三角组网来回路径不一致，无法建立完整的TCP状态，<font color=red>不支持应用层的负载（七层）,适用于大流量情况下</font></p>
@@ -1099,7 +1099,7 @@
 
 <p>保存后执行：sysctl -p</p>
 <h2 id="串接部署"><a href="#串接部署" class="headerlink" title="串接部署"></a>串接部署</h2><p><strong>和单臂一样有两种方式</strong></p>
-<img src="./images/aqsb77.png" alt="串接部署" style="zoom:80%;" />
+<img src="/./images/aqsb77.png" alt="串接部署" style="zoom:80%;" />
 
 <h1 id="负载均衡算法"><a href="#负载均衡算法" class="headerlink" title="负载均衡算法"></a>负载均衡算法</h1><p><strong>1.轮询调度</strong></p>
 <p>​		调度器通过外部请求的顺序轮流的分配到集群中的真实服务器上，对每台服务器都是均等的。但是这样调度器不会考虑服务器上实际的连接数和系统负载，导致服务器处理请求慢，系统负载增大。</p>
@@ -1144,7 +1144,7 @@
 <p>​        推送页面：自定义、服务器维护中、证书不可信、302重定向、HTTP重定向（重定向用在ssl卸载中）</p>
 <h2 id="SSL卸载"><a href="#SSL卸载" class="headerlink" title="SSL卸载"></a>SSL卸载</h2><p>SSL卸载作用：减轻客户端对服务器的压力，客户端直接与LB进行https交互，而LB与服务器进行http交互</p>
 <p>证书种类：<br>​	1、PKCS12格式：公钥和私钥在一个文件，需要密码<br>​	2、证书与密钥分离：公钥和私钥两个文件，私钥需要密码才能导入<br>​	3、证书链：例如 二级证书、三级证书打包到一个文件夹里边</p>
-<h2 id="IP-AnyCast"><a href="#IP-AnyCast" class="headerlink" title="IP AnyCast"></a>IP AnyCast</h2><img src="./images/aqsb82.png" alt="示意图" style="zoom:80%;" />
+<h2 id="IP-AnyCast"><a href="#IP-AnyCast" class="headerlink" title="IP AnyCast"></a>IP AnyCast</h2><img src="/./images/aqsb82.png" alt="示意图" style="zoom:80%;" />
 
 <p>背景：<br>        <strong>DNS领域的多点部署大多采用IP Anycast＋BGP方式，IP Anycast＋BGP技术只有在适当的领域和范围内才能发挥它的最大优势。</strong><br>        Internet 不断发展，上网人群数量增加，多数服务在使用单节点提供服务的情况下，无论服务器性能还是接入带宽都不足以承载大量的用户服务请求; 此外，服务的高可用性也逐渐被重视。考虑到这些因素，企业在部署服务的时候首先会想到在多个物理位置、多个运营商网络中部署相同的服务，以解决上述问题。<br>        在 IP 网络上，通过一个 Anycast 地址标识一组提供特定服务的主机，同时服务访问方并不关心提供服务的具体是哪一台主机，访问该地址的报文可以被 IP 网络路由到这一组目标中的任何一台主机上，它提供的是一种无状态的、尽力而为的服务。<br>使用场景：<br>        企业在部署服务的时候首先会想到在多个物理位置、多个运营商网络中部署相同的服务，不同客户端将访问不同目的主机，此过程对客户端透明，从而实现了目的主机的负载均衡。当任意目的主机接入的网络出现故障，导致该目的主机不可达时，客户端请求可以在无人为干预的情况下自动被路由到目前可达的最近目的主机，在一定程度上为目标主机提供了冗余性。因为 Anycast 利用路由度量到“最近”的目的主机，提高了客户端响应速度。</p>
 <p>示例：（现网中使用BGP）</p>
