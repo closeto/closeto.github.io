@@ -1,0 +1,1389 @@
+<!DOCTYPE html>
+<html>
+<head>
+  <meta charset="utf-8">
+  <title>再封装.deb包 | 欢迎来到closeto的博客</title>
+  <meta name="keywords" content=" 2023 ">
+  <meta name="description" content="再封装.deb包 | 欢迎来到closeto的博客">
+    <meta name="viewport" content="width=device-width, initial-scale=1, maximum-scale=1">
+<meta name="description" content="0x00 创建.deb​		首先要了解.deb的文件架构，其中DEBIAN&#x2F;目录下的contorl必须要有，其它文件可有可无。.deb文件中的目录就是安装后文件所在的目录，这里放在usr&#x2F;bin中，那么安装后就在**&#x2F;usr&#x2F;bin目录下创建的my-demo.deb文件目录结构如下：:point_right:包名my-demo、可执行程序demo**:poi">
+<meta property="og:type" content="article">
+<meta property="og:title" content="从零创建.deb包">
+<meta property="og:url" content="https://closeto.github.io/2023/11/20/Linux%E7%9B%B8%E5%85%B3_%E5%88%9B%E5%BB%BA.deb%E5%8C%85/index.html">
+<meta property="og:site_name" content="欢迎来到closeto的博客">
+<meta property="og:description" content="0x00 创建.deb​		首先要了解.deb的文件架构，其中DEBIAN&#x2F;目录下的contorl必须要有，其它文件可有可无。.deb文件中的目录就是安装后文件所在的目录，这里放在usr&#x2F;bin中，那么安装后就在**&#x2F;usr&#x2F;bin目录下创建的my-demo.deb文件目录结构如下：:point_right:包名my-demo、可执行程序demo**:poi">
+<meta property="og:locale" content="zh_CN">
+<meta property="og:image" content="https://closeto.github.io/images/yjxy44.png">
+<meta property="og:image" content="https://closeto.github.io/images/yjxy45.png">
+<meta property="og:image" content="https://closeto.github.io/images/yjxy46.png">
+<meta property="og:image" content="https://closeto.github.io/images/yjxy47.png">
+<meta property="og:image" content="https://closeto.github.io/images/yjxy48.png">
+<meta property="og:image" content="https://closeto.github.io/images/yjxy49.png">
+<meta property="og:image" content="https://closeto.github.io/images/yjxy50.png">
+<meta property="og:image" content="https://closeto.github.io/images/yjxy51.png">
+<meta property="article:published_time" content="2023-11-19T16:00:00.000Z">
+<meta property="article:author" content="closeto">
+<meta property="article:tag" content="2023">
+<meta name="twitter:card" content="summary">
+<meta name="twitter:image" content="https://closeto.github.io/images/yjxy44.png">
+
+
+<link rel="icon" href="/img/ico.png">
+
+<link href="/css/style.css?v=1.1.0" rel="stylesheet">
+
+<link href="/css/hl_theme/atom-light.css?v=1.1.0" rel="stylesheet">
+
+<link href="//cdn.jsdelivr.net/npm/animate.css@4.1.0/animate.min.css" rel="stylesheet">
+
+<script src="//cdn.jsdelivr.net/npm/jquery@3.5.1/dist/jquery.min.js"></script>
+<script src="/js/titleTip.js?v=1.1.0" ></script>
+
+<script src="//cdn.jsdelivr.net/npm/highlightjs@9.16.2/highlight.pack.min.js"></script>
+<script>
+    hljs.initHighlightingOnLoad();
+</script>
+
+<script src="//cdn.jsdelivr.net/npm/nprogress@0.2.0/nprogress.min.js"></script>
+
+
+
+<script src="/js/iconfont.js?v=1.1.0" ></script>
+
+<meta name="generator" content="Hexo 6.3.0"></head>
+<div style="display: none">
+  <input class="theme_disqus_on" value="false">
+  <input class="theme_preload_comment" value="">
+  <input class="theme_blog_path" value="">
+  <input id="theme_shortcut" value="true" />
+  <input id="theme_highlight_on" value="true" />
+  <input id="theme_code_copy" value="true" />
+</div>
+
+
+
+<body>
+<aside class="nav">
+    <div class="nav-left">
+        <a href="/"
+   class="avatar_target">
+    <img class="avatar"
+         src="/img/user.png"/>
+</a>
+<div class="author">
+    <span>closeto</span>
+</div>
+
+<div class="icon">
+    
+        
+            <a title="github"
+               href="https://github.com/closeto"
+               target="_blank">
+                
+                    <svg class="iconfont-svg" aria-hidden="true">
+                        <use xlink:href="#icon-github"></use>
+                    </svg>
+                
+            </a>
+        
+    
+        
+            <a title="email"
+               href="mailto:vou0515@gmail.com"
+               target="_blank">
+                
+                    <svg class="iconfont-svg" aria-hidden="true">
+                        <use xlink:href="#icon-email"></use>
+                    </svg>
+                
+            </a>
+        
+    
+</div>
+
+
+
+
+
+<ul>
+    <li>
+        <div class="all active" data-rel="全部文章">全部文章
+            
+                <small>(75)</small>
+            
+        </div>
+    </li>
+    
+        
+            
+                
+    <li>
+        <div data-rel="Web安全">
+            
+            Web安全
+            <small>(17)</small>
+        </div>
+        
+    </li>
+
+            
+        
+    
+        
+            
+                
+    <li>
+        <div data-rel="内网安全">
+            
+            内网安全
+            <small>(11)</small>
+        </div>
+        
+    </li>
+
+            
+        
+    
+        
+            
+                
+    <li>
+        <div data-rel="应急响应">
+            
+            应急响应
+            <small>(5)</small>
+        </div>
+        
+    </li>
+
+            
+        
+    
+        
+            
+                
+    <li>
+        <div data-rel="Windows相关">
+            
+            Windows相关
+            <small>(4)</small>
+        </div>
+        
+    </li>
+
+            
+        
+    
+        
+            
+                
+    <li>
+        <div data-rel="Linux相关">
+            
+            Linux相关
+            <small>(5)</small>
+        </div>
+        
+    </li>
+
+            
+        
+    
+        
+            
+                
+    <li>
+        <div data-rel="网络协议">
+            
+            网络协议
+            <small>(11)</small>
+        </div>
+        
+    </li>
+
+            
+        
+    
+        
+            
+                
+    <li>
+        <div data-rel="数字通信">
+            
+            数字通信
+            <small>(16)</small>
+        </div>
+        
+    </li>
+
+            
+        
+    
+        
+            
+                
+    <li>
+        <div data-rel="随心随想">
+            
+            随心随想
+            <small>(1)</small>
+        </div>
+        
+    </li>
+
+            
+        
+    
+        
+            
+                
+    <li>
+        <div data-rel="其它">
+            
+            其它
+            <small>(3)</small>
+        </div>
+        
+    </li>
+
+            
+        
+    
+        
+            
+                
+    <li>
+        <div data-rel="考证学习">
+            
+            考证学习
+            <small>(1)</small>
+        </div>
+        
+    </li>
+
+            
+        
+    
+</ul>
+<div class="left-bottom">
+    <div class="menus">
+        
+            
+    </div>
+    <div>
+        
+            <a class="about  "
+               target="_blank"
+                    
+               href="https://github.com/closeto">关于</a>
+        
+        
+    </div>
+</div>
+<input type="hidden" id="yelog_site_posts_number" value="75">
+
+<div style="display: none">
+    <span id="busuanzi_value_site_uv"></span>
+    <span id="busuanzi_value_site_pv"></span>
+</div>
+
+    </div>
+    <div class="nav-right">
+        <div class="friends-area">
+    <div class="friends-title">
+        友情链接
+        <i class="iconfont icon-left"></i>
+    </div>
+    <div class="friends-content">
+        <ul>
+            
+            <li><a target="_blank" href="/url">名字列表</a></li>
+            
+        </ul>
+    </div>
+</div>
+        <div class="title-list">
+    <div class="right-top">
+        <div id="default-panel">
+            <i class="iconfont icon-search" data-title="搜索 快捷键 i"></i>
+            <div class="right-title">全部文章</div>
+            <i class="iconfont icon-file-tree" data-title="切换到大纲视图 快捷键 w"></i>
+        </div>
+        <div id="search-panel">
+            <i class="iconfont icon-left" data-title="返回"></i>
+            <input id="local-search-input" autocomplete="off"/>
+            <label class="border-line" for="input"></label>
+            <i class="iconfont icon-case-sensitive" data-title="大小写敏感"></i>
+            <i class="iconfont icon-tag" data-title="标签"></i>
+        </div>
+        <div id="outline-panel" style="display: none">
+            <div class="right-title">大纲</div>
+            <i class="iconfont icon-list" data-title="切换到文章列表"></i>
+        </div>
+    </div>
+
+    <div class="tags-list">
+    <input id="tag-search" />
+    <div class="tag-wrapper">
+        
+            <li class="article-tag-list-item">
+                <i class="iconfont icon-tag"></i><a>2019</a>
+            </li>
+        
+            <li class="article-tag-list-item">
+                <i class="iconfont icon-tag"></i><a>2020</a>
+            </li>
+        
+            <li class="article-tag-list-item">
+                <i class="iconfont icon-tag"></i><a>2021</a>
+            </li>
+        
+            <li class="article-tag-list-item">
+                <i class="iconfont icon-tag"></i><a>2022</a>
+            </li>
+        
+            <li class="article-tag-list-item">
+                <i class="iconfont icon-tag"></i><a>2023</a>
+            </li>
+        
+            <li class="article-tag-list-item">
+                <i class="iconfont icon-tag"></i><a>基础</a>
+            </li>
+        
+            <li class="article-tag-list-item">
+                <i class="iconfont icon-tag"></i><a>内网</a>
+            </li>
+        
+            <li class="article-tag-list-item">
+                <i class="iconfont icon-tag"></i><a>软考</a>
+            </li>
+        
+            <li class="article-tag-list-item">
+                <i class="iconfont icon-tag"></i><a>渗透测试</a>
+            </li>
+        
+            <li class="article-tag-list-item">
+                <i class="iconfont icon-tag"></i><a>文件格式</a>
+            </li>
+        
+            <li class="article-tag-list-item">
+                <i class="iconfont icon-tag"></i><a>中级</a>
+            </li>
+        
+            <li class="article-tag-list-item">
+                <i class="iconfont icon-tag"></i><a>Bin</a>
+            </li>
+        
+            <li class="article-tag-list-item">
+                <i class="iconfont icon-tag"></i><a>Linux</a>
+            </li>
+        
+            <li class="article-tag-list-item">
+                <i class="iconfont icon-tag"></i><a>ShellCode</a>
+            </li>
+        
+            <li class="article-tag-list-item">
+                <i class="iconfont icon-tag"></i><a>Web</a>
+            </li>
+        
+            <li class="article-tag-list-item">
+                <i class="iconfont icon-tag"></i><a>Windows</a>
+            </li>
+        
+    </div>
+
+</div>
+
+    
+    <nav id="title-list-nav">
+        
+        
+        <a  class="全部文章 应急响应 "
+           href="/2023/11/25/Linux%E7%9B%B8%E5%85%B3_%E5%86%8D%E5%B0%81%E8%A3%85.deb%E5%8C%85/"
+           data-tag="2023"
+           data-author="" >
+            <span class="post-title" title="再封装.deb包">再封装.deb包</span>
+            <span class="post-date" title="2023-11-25 00:00:00">2023/11/25</span>
+        </a>
+        
+        
+        <a  class="全部文章 应急响应 "
+           href="/2023/11/25/%E5%BA%94%E6%80%A5%E5%93%8D%E5%BA%94-.deb%E6%96%87%E4%BB%B6/"
+           data-tag="2023"
+           data-author="" >
+            <span class="post-title" title="Debian包详解">Debian包详解</span>
+            <span class="post-date" title="2023-11-25 00:00:00">2023/11/25</span>
+        </a>
+        
+        
+        <a  class="全部文章 应急响应 "
+           href="/2023/11/20/Linux%E7%9B%B8%E5%85%B3_%E5%88%9B%E5%BB%BA.deb%E5%8C%85/"
+           data-tag="2023"
+           data-author="" >
+            <span class="post-title" title="从零创建.deb包">从零创建.deb包</span>
+            <span class="post-date" title="2023-11-20 00:00:00">2023/11/20</span>
+        </a>
+        
+        
+        <a  class="全部文章 应急响应 "
+           href="/2023/11/16/%E5%BA%94%E6%80%A5%E5%93%8D%E5%BA%94-Microsoft%20Macro/"
+           data-tag="2023"
+           data-author="" >
+            <span class="post-title" title="深度剖析MS Macro">深度剖析MS Macro</span>
+            <span class="post-date" title="2023-11-16 00:00:00">2023/11/16</span>
+        </a>
+        
+        
+        <a  class="全部文章 随心随想 "
+           href="/2023/11/04/%E9%9A%8F%E5%BF%83-%E7%BB%93%E6%9E%84%E5%8C%96%E6%80%9D%E7%BB%B4/"
+           data-tag="2023"
+           data-author="" >
+            <span class="post-title" title="结构化思维思考">结构化思维思考</span>
+            <span class="post-date" title="2023-11-04 00:00:00">2023/11/04</span>
+        </a>
+        
+        
+        <a  class="全部文章 Linux相关 "
+           href="/2023/11/01/Linux%E7%9B%B8%E5%85%B3-DNS%E5%8E%8B%E5%8A%9B%E6%B5%8B%E8%AF%95/"
+           data-tag="Linux,2023"
+           data-author="" >
+            <span class="post-title" title="DNS服务器ddos测试">DNS服务器ddos测试</span>
+            <span class="post-date" title="2023-11-01 00:00:00">2023/11/01</span>
+        </a>
+        
+        
+        <a  class="全部文章 应急响应 "
+           href="/2023/10/17/%E5%BA%94%E6%80%A5%E5%93%8D%E5%BA%94-YARA/"
+           data-tag="2023"
+           data-author="" >
+            <span class="post-title" title="YARA">YARA</span>
+            <span class="post-date" title="2023-10-17 00:00:00">2023/10/17</span>
+        </a>
+        
+        
+        <a  class="全部文章 Linux相关 "
+           href="/2023/03/10/busybox%E6%90%AD%E5%BB%BA%E6%9C%80%E5%B0%8FLinux/"
+           data-tag="Linux,2023"
+           data-author="" >
+            <span class="post-title" title="Busybox搭建最小Linux">Busybox搭建最小Linux</span>
+            <span class="post-date" title="2023-03-10 12:30:00">2023/03/10</span>
+        </a>
+        
+        
+        <a  class="全部文章 Linux相关 "
+           href="/2022/10/29/Linux%E7%9B%B8%E5%85%B3-%E7%BD%91%E5%8D%A1%E8%81%9A%E5%90%88/"
+           data-tag="Linux,2019"
+           data-author="" >
+            <span class="post-title" title="Linux多网卡聚合">Linux多网卡聚合</span>
+            <span class="post-date" title="2022-10-29 00:00:00">2022/10/29</span>
+        </a>
+        
+        
+        <a  class="全部文章 其它 "
+           href="/2022/07/19/Nginx%E6%97%A5%E5%BF%97%E6%A0%BC%E5%BC%8F/"
+           data-tag="2022"
+           data-author="" >
+            <span class="post-title" title="Nginx日志格式">Nginx日志格式</span>
+            <span class="post-date" title="2022-07-19 00:00:00">2022/07/19</span>
+        </a>
+        
+        
+        <a  class="全部文章 其它 "
+           href="/2022/05/07/UTF-8%E9%9D%9E%E6%9C%80%E7%9F%AD%E5%BD%A2%E5%BC%8F&%E7%BC%96%E7%A0%81%E5%AE%89%E5%85%A8%E9%97%AE%E9%A2%98/"
+           data-tag="2022"
+           data-author="" >
+            <span class="post-title" title="UTF8编码安全">UTF8编码安全</span>
+            <span class="post-date" title="2022-05-07 00:00:00">2022/05/07</span>
+        </a>
+        
+        
+        <a  class="全部文章 Windows相关 "
+           href="/2022/04/10/ShellCode%E5%85%A5%E9%97%A8%E5%88%B0%E6%94%BE%E5%BC%83%E2%80%94%E7%9B%B8%E9%81%87/"
+           data-tag="2022,ShellCode,Bin"
+           data-author="" >
+            <span class="post-title" title="ShellCode入门到放弃—相遇">ShellCode入门到放弃—相遇</span>
+            <span class="post-date" title="2022-04-10 19:30:00">2022/04/10</span>
+        </a>
+        
+        
+        <a  class="全部文章 Windows相关 "
+           href="/2022/04/10/PE%E6%96%87%E4%BB%B6%E6%A0%BC%E5%BC%8F%E2%80%94%E7%AE%80%E4%BB%8B/"
+           data-tag="2022,文件格式"
+           data-author="" >
+            <span class="post-title" title="PE文件格式—简介">PE文件格式—简介</span>
+            <span class="post-date" title="2022-04-10 10:48:36">2022/04/10</span>
+        </a>
+        
+        
+        <a  class="全部文章 内网安全 "
+           href="/2022/03/10/%E5%86%85%E7%BD%91%E6%B8%97%E9%80%8F-Redis%E6%9C%AA%E6%8E%88%E6%9D%83/"
+           data-tag="2022,内网,渗透测试"
+           data-author="" >
+            <span class="post-title" title="Redis未授权">Redis未授权</span>
+            <span class="post-date" title="2022-03-10 14:30:00">2022/03/10</span>
+        </a>
+        
+        
+        <a  class="全部文章 内网安全 "
+           href="/2022/03/01/WL%E7%AB%AF%E5%8F%A3%E6%B5%81%E9%87%8F%E8%BD%AC%E5%8F%91/"
+           data-tag="2022,内网,Windows"
+           data-author="" >
+            <span class="post-title" title="WL端口流量转发">WL端口流量转发</span>
+            <span class="post-date" title="2022-03-01 00:00:00">2022/03/01</span>
+        </a>
+        
+        
+        <a  class="全部文章 内网安全 "
+           href="/2022/02/19/Linux%E5%AE%89%E5%85%A8-%E7%97%95%E8%BF%B9%E6%93%A6%E9%99%A4/"
+           data-tag="2022,内网,渗透测试,Linux"
+           data-author="" >
+            <span class="post-title" title="Linux痕迹擦除">Linux痕迹擦除</span>
+            <span class="post-date" title="2022-02-19 00:00:00">2022/02/19</span>
+        </a>
+        
+        
+        <a  class="全部文章 内网安全 "
+           href="/2022/02/18/Windows%E7%97%95%E8%BF%B9%E6%93%A6%E9%99%A4/"
+           data-tag="2022,内网,渗透测试,Windows"
+           data-author="" >
+            <span class="post-title" title="Windows痕迹擦除">Windows痕迹擦除</span>
+            <span class="post-date" title="2022-02-18 00:00:00">2022/02/18</span>
+        </a>
+        
+        
+        <a  class="全部文章 内网安全 "
+           href="/2022/02/14/Windows%E4%BF%A1%E6%81%AF%E6%94%B6%E9%9B%86/"
+           data-tag="2022,内网,渗透测试,Windows"
+           data-author="" >
+            <span class="post-title" title="Windows信息收集">Windows信息收集</span>
+            <span class="post-date" title="2022-02-14 00:00:00">2022/02/14</span>
+        </a>
+        
+        
+        <a  class="全部文章 内网安全 "
+           href="/2022/02/13/Linux%E5%AE%89%E5%85%A8-%E4%BF%A1%E6%81%AF%E6%94%B6%E9%9B%86/"
+           data-tag="2022,内网,渗透测试,Linux"
+           data-author="" >
+            <span class="post-title" title="Linux信息收集">Linux信息收集</span>
+            <span class="post-date" title="2022-02-13 00:00:00">2022/02/13</span>
+        </a>
+        
+        
+        <a  class="全部文章 Windows相关 "
+           href="/2022/01/18/ShellCode%E5%85%A5%E9%97%A8%E5%88%B0%E6%94%BE%E5%BC%83%E2%80%94%E7%9B%B8%E5%BC%83/"
+           data-tag="2022,ShellCode,Bin"
+           data-author="" >
+            <span class="post-title" title="ShellCode入门到放弃—相弃">ShellCode入门到放弃—相弃</span>
+            <span class="post-date" title="2022-01-18 17:30:00">2022/01/18</span>
+        </a>
+        
+        
+        <a  class="全部文章 考证学习 "
+           href="/2022/01/18/%E8%BD%AF%E8%80%83%E4%B8%AD%E7%BA%A7%E2%80%94%E4%BF%A1%E6%81%AF%E5%AE%89%E5%85%A8%E5%B7%A5%E7%A8%8B%E5%B8%88/"
+           data-tag="2023,软考,中级"
+           data-author="" >
+            <span class="post-title" title="软考中级—信息安全工程师">软考中级—信息安全工程师</span>
+            <span class="post-date" title="2022-01-18 14:30:00">2022/01/18</span>
+        </a>
+        
+        
+        <a  class="全部文章 Windows相关 "
+           href="/2022/01/15/ShellCode%E5%85%A5%E9%97%A8%E5%88%B0%E6%94%BE%E5%BC%83%E2%80%94%E7%9B%B8%E7%9F%A5/"
+           data-tag="2022,ShellCode,Bin"
+           data-author="" >
+            <span class="post-title" title="ShellCode入门到放弃—相知">ShellCode入门到放弃—相知</span>
+            <span class="post-date" title="2022-01-15 12:12:12">2022/01/15</span>
+        </a>
+        
+        
+        <a  class="全部文章 内网安全 "
+           href="/2021/11/19/%E5%86%85%E7%BD%91%E6%B8%97%E9%80%8F-Linux%E6%8F%90%E6%9D%83/"
+           data-tag="内网,渗透测试,2021"
+           data-author="" >
+            <span class="post-title" title="Linux提权">Linux提权</span>
+            <span class="post-date" title="2021-11-19 14:30:00">2021/11/19</span>
+        </a>
+        
+        
+        <a  class="全部文章 内网安全 "
+           href="/2021/11/10/%E5%86%85%E7%BD%91%E6%B8%97%E9%80%8F_%E5%AF%86%E7%A0%81%E6%8F%90%E5%8F%96/"
+           data-tag="内网,渗透测试,2021"
+           data-author="" >
+            <span class="post-title" title="终端管理工具密码获取">终端管理工具密码获取</span>
+            <span class="post-date" title="2021-11-10 14:30:00">2021/11/10</span>
+        </a>
+        
+        
+        <a  class="全部文章 内网安全 "
+           href="/2021/11/04/%E5%86%85%E7%BD%91%E6%B8%97%E9%80%8F-Linux%E5%8F%8D%E5%BC%B9Shell/"
+           data-tag="内网,渗透测试,2021"
+           data-author="" >
+            <span class="post-title" title="Linux反弹Shell">Linux反弹Shell</span>
+            <span class="post-date" title="2021-11-04 14:30:00">2021/11/04</span>
+        </a>
+        
+        
+        <a  class="全部文章 内网安全 "
+           href="/2021/10/19/%E5%86%85%E7%BD%91%E5%AE%89%E5%85%A8-%E6%B5%81%E9%87%8F%E7%89%B9%E5%BE%81NPS%E3%80%81FRP/"
+           data-tag="内网,渗透测试,2021"
+           data-author="" >
+            <span class="post-title" title="流量特征NPS、FRP">流量特征NPS、FRP</span>
+            <span class="post-date" title="2021-10-19 14:30:00">2021/10/19</span>
+        </a>
+        
+        
+        <a  class="全部文章 内网安全 "
+           href="/2021/09/10/%E5%86%85%E7%BD%91%E5%AE%89%E5%85%A8-docker%E6%9C%AA%E6%8E%88%E6%9D%83/"
+           data-tag="内网,渗透测试,2021"
+           data-author="" >
+            <span class="post-title" title="docker未授权">docker未授权</span>
+            <span class="post-date" title="2021-09-10 14:30:00">2021/09/10</span>
+        </a>
+        
+        
+        <a  class="全部文章 Web安全 "
+           href="/2021/07/25/web%E5%AE%89%E5%85%A8-Xpath%E6%B3%A8%E5%85%A5/"
+           data-tag="2021,Web"
+           data-author="" >
+            <span class="post-title" title="Xpath注入">Xpath注入</span>
+            <span class="post-date" title="2021-07-25 00:00:00">2021/07/25</span>
+        </a>
+        
+        
+        <a  class="全部文章 Web安全 "
+           href="/2021/07/16/Web%E5%AE%89%E5%85%A8-SQL%E6%B3%A8%E5%85%A5/"
+           data-tag="2021,Web"
+           data-author="" >
+            <span class="post-title" title="SQL注入">SQL注入</span>
+            <span class="post-date" title="2021-07-16 00:00:00">2021/07/16</span>
+        </a>
+        
+        
+        <a  class="全部文章 Web安全 "
+           href="/2021/06/19/Web%E5%AE%89%E5%85%A8-%E6%96%87%E4%BB%B6%E4%B8%8A%E4%BC%A0%E6%BC%8F%E6%B4%9E/"
+           data-tag="2021,Web"
+           data-author="" >
+            <span class="post-title" title="文件上传漏洞">文件上传漏洞</span>
+            <span class="post-date" title="2021-06-19 00:00:00">2021/06/19</span>
+        </a>
+        
+        
+        <a  class="全部文章 Web安全 "
+           href="/2021/06/08/Web%E5%AE%89%E5%85%A8-PHP%E5%BA%8F%E5%88%97%E5%8C%96&%E5%8F%8D%E5%BA%8F%E5%88%97%E5%8C%96/"
+           data-tag="2021,Web"
+           data-author="" >
+            <span class="post-title" title="PHP序列化与反序列化">PHP序列化与反序列化</span>
+            <span class="post-date" title="2021-06-08 00:00:00">2021/06/08</span>
+        </a>
+        
+        
+        <a  class="全部文章 Web安全 "
+           href="/2021/06/04/Web%E5%AE%89%E5%85%A8-SSI%E6%B3%A8%E5%85%A5/"
+           data-tag="2021,Web"
+           data-author="" >
+            <span class="post-title" title="SSI注入">SSI注入</span>
+            <span class="post-date" title="2021-06-04 00:00:00">2021/06/04</span>
+        </a>
+        
+        
+        <a  class="全部文章 "
+           href="/2021/06/02/docker%E5%B8%B8%E7%94%A8%E5%91%BD%E4%BB%A4/"
+           data-tag="Linux,2021"
+           data-author="" >
+            <span class="post-title" title="Docker常用命令">Docker常用命令</span>
+            <span class="post-date" title="2021-06-02 00:00:00">2021/06/02</span>
+        </a>
+        
+        
+        <a  class="全部文章 Web安全 "
+           href="/2021/05/25/Web%E5%AE%89%E5%85%A8-%E6%96%87%E4%BB%B6%E5%8C%85%E5%90%AB%E6%BC%8F%E6%B4%9E/"
+           data-tag="2021,Web"
+           data-author="" >
+            <span class="post-title" title="文件包含漏洞">文件包含漏洞</span>
+            <span class="post-date" title="2021-05-25 00:00:00">2021/05/25</span>
+        </a>
+        
+        
+        <a  class="全部文章 Web安全 "
+           href="/2021/04/19/Web%E5%AE%89%E5%85%A8-%E8%B6%8A%E6%9D%83/"
+           data-tag="2021,Web"
+           data-author="" >
+            <span class="post-title" title="越权">越权</span>
+            <span class="post-date" title="2021-04-19 00:00:00">2021/04/19</span>
+        </a>
+        
+        
+        <a  class="全部文章 Web安全 "
+           href="/2021/04/06/Web%E5%AE%89%E5%85%A8-Xxe/"
+           data-tag="2021,Web"
+           data-author="" >
+            <span class="post-title" title="XXE">XXE</span>
+            <span class="post-date" title="2021-04-06 00:00:00">2021/04/06</span>
+        </a>
+        
+        
+        <a  class="全部文章 Web安全 "
+           href="/2021/04/05/Web%E5%AE%89%E5%85%A8-%E6%96%87%E4%BB%B6%E4%B8%8B%E8%BD%BD%E8%AF%BB%E5%8F%96%E6%BC%8F%E6%B4%9E/"
+           data-tag="2021,Web"
+           data-author="" >
+            <span class="post-title" title="文件下载漏洞">文件下载漏洞</span>
+            <span class="post-date" title="2021-04-05 00:00:00">2021/04/05</span>
+        </a>
+        
+        
+        <a  class="全部文章 其它 "
+           href="/2021/04/02/%E5%B8%B8%E7%94%A8%E6%AD%A3%E5%88%99%E8%A1%A8%E8%BE%BE%E5%BC%8F/"
+           data-tag="2021"
+           data-author="" >
+            <span class="post-title" title="常用正则表达式">常用正则表达式</span>
+            <span class="post-date" title="2021-04-02 00:00:00">2021/04/02</span>
+        </a>
+        
+        
+        <a  class="全部文章 Web安全 "
+           href="/2021/03/25/Web%E5%AE%89%E5%85%A8-Nginx%E5%AE%89%E5%85%A8/"
+           data-tag="2021,Web"
+           data-author="" >
+            <span class="post-title" title="Apache安全">Apache安全</span>
+            <span class="post-date" title="2021-03-25 00:00:00">2021/03/25</span>
+        </a>
+        
+        
+        <a  class="全部文章 Web安全 "
+           href="/2021/03/19/Web%E5%AE%89%E5%85%A8-LDAP%E6%B3%A8%E5%85%A5/"
+           data-tag="2021,Web"
+           data-author="" >
+            <span class="post-title" title="LDAP注入">LDAP注入</span>
+            <span class="post-date" title="2021-03-19 00:00:00">2021/03/19</span>
+        </a>
+        
+        
+        <a  class="全部文章 Web安全 "
+           href="/2021/03/13/Web%E5%AE%89%E5%85%A8-CSR&SSRF/"
+           data-tag="2021,Web"
+           data-author="" >
+            <span class="post-title" title="CSRF &amp; SSRF">CSRF &amp; SSRF</span>
+            <span class="post-date" title="2021-03-13 00:00:00">2021/03/13</span>
+        </a>
+        
+        
+        <a  class="全部文章 Web安全 "
+           href="/2021/03/09/Web%E5%AE%89%E5%85%A8-CRLF/"
+           data-tag="2021,Web"
+           data-author="" >
+            <span class="post-title" title="CLRF">CLRF</span>
+            <span class="post-date" title="2021-03-09 00:00:00">2021/03/09</span>
+        </a>
+        
+        
+        <a  class="全部文章 Web安全 "
+           href="/2021/03/06/Web%E5%AE%89%E5%85%A8-Apache%E5%AE%89%E5%85%A8/"
+           data-tag="2021,Web"
+           data-author="" >
+            <span class="post-title" title="Apache安全">Apache安全</span>
+            <span class="post-date" title="2021-03-06 00:00:00">2021/03/06</span>
+        </a>
+        
+        
+        <a  class="全部文章 Web安全 "
+           href="/2021/03/03/Web%E5%AE%89%E5%85%A8-IIS%E5%AE%89%E5%85%A8/"
+           data-tag="2021,Web"
+           data-author="" >
+            <span class="post-title" title="IIS安全">IIS安全</span>
+            <span class="post-date" title="2021-03-03 00:00:00">2021/03/03</span>
+        </a>
+        
+        
+        <a  class="全部文章 Web安全 "
+           href="/2021/02/27/Web%E5%AE%89%E5%85%A8-XSS/"
+           data-tag="2021,Web"
+           data-author="" >
+            <span class="post-title" title="XSS">XSS</span>
+            <span class="post-date" title="2021-02-27 00:00:00">2021/02/27</span>
+        </a>
+        
+        
+        <a  class="全部文章 Web安全 "
+           href="/2021/02/10/Web%E5%AE%89%E5%85%A8-%E4%B8%80%E5%8F%A5%E8%AF%9D%E6%9C%A8%E9%A9%AC/"
+           data-tag="2021,Web"
+           data-author="" >
+            <span class="post-title" title="一句话木马">一句话木马</span>
+            <span class="post-date" title="2021-02-10 00:00:00">2021/02/10</span>
+        </a>
+        
+        
+        <a  class="全部文章 数字通信 "
+           href="/2020/08/25/%E8%B7%AF%E7%94%B1%E4%BA%A4%E6%8D%A2-VXLAN-04/"
+           data-tag="2020"
+           data-author="" >
+            <span class="post-title" title="虚拟扩展局域网-VXLAN-04">虚拟扩展局域网-VXLAN-04</span>
+            <span class="post-date" title="2020-08-25 00:00:00">2020/08/25</span>
+        </a>
+        
+        
+        <a  class="全部文章 数字通信 "
+           href="/2020/08/20/%E8%B7%AF%E7%94%B1%E4%BA%A4%E6%8D%A2-VXLAN-03/"
+           data-tag="2020"
+           data-author="" >
+            <span class="post-title" title="虚拟扩展局域网-VXLAN-03">虚拟扩展局域网-VXLAN-03</span>
+            <span class="post-date" title="2020-08-20 00:00:00">2020/08/20</span>
+        </a>
+        
+        
+        <a  class="全部文章 数字通信 "
+           href="/2020/08/15/%E8%B7%AF%E7%94%B1%E4%BA%A4%E6%8D%A2-VXLAN-02/"
+           data-tag="2020"
+           data-author="" >
+            <span class="post-title" title="虚拟扩展局域网-VXLAN-02">虚拟扩展局域网-VXLAN-02</span>
+            <span class="post-date" title="2020-08-15 00:00:00">2020/08/15</span>
+        </a>
+        
+        
+        <a  class="全部文章 数字通信 "
+           href="/2020/08/10/%E8%B7%AF%E7%94%B1%E4%BA%A4%E6%8D%A2-VXLAN-01/"
+           data-tag="2020"
+           data-author="" >
+            <span class="post-title" title="虚拟扩展局域网-VXLAN-01">虚拟扩展局域网-VXLAN-01</span>
+            <span class="post-date" title="2020-08-10 00:00:00">2020/08/10</span>
+        </a>
+        
+        
+        <a  class="全部文章 数字通信 "
+           href="/2020/07/25/%E5%AE%89%E5%85%A8%E8%AE%BE%E5%A4%87%E4%BA%A4%E4%BB%98-Load%20Balance/"
+           data-tag="2020"
+           data-author="" >
+            <span class="post-title" title="Load Blance">Load Blance</span>
+            <span class="post-date" title="2020-07-25 00:00:00">2020/07/25</span>
+        </a>
+        
+        
+        <a  class="全部文章 Linux相关 "
+           href="/2020/06/19/Linux%E7%9B%B8%E5%85%B3-DNS/"
+           data-tag="Linux,2021"
+           data-author="" >
+            <span class="post-title" title="DNS服务器搭建">DNS服务器搭建</span>
+            <span class="post-date" title="2020-06-19 00:00:00">2020/06/19</span>
+        </a>
+        
+        
+        <a  class="全部文章 数字通信 "
+           href="/2020/05/20/%E5%AE%89%E5%85%A8%E8%AE%BE%E5%A4%87%E4%BA%A4%E4%BB%98-DDOS-02/"
+           data-tag="2020"
+           data-author="" >
+            <span class="post-title" title="Anti-ddos_02">Anti-ddos_02</span>
+            <span class="post-date" title="2020-05-20 00:00:00">2020/05/20</span>
+        </a>
+        
+        
+        <a  class="全部文章 数字通信 "
+           href="/2020/05/15/%E5%AE%89%E5%85%A8%E8%AE%BE%E5%A4%87%E4%BA%A4%E4%BB%98-DDOS-01/"
+           data-tag="2020"
+           data-author="" >
+            <span class="post-title" title="Anti-ddos_01">Anti-ddos_01</span>
+            <span class="post-date" title="2020-05-15 00:00:00">2020/05/15</span>
+        </a>
+        
+        
+        <a  class="全部文章 数字通信 "
+           href="/2019/12/21/%E5%AE%89%E5%85%A8%E8%AE%BE%E5%A4%87%E4%BA%A4%E4%BB%98-VPN/"
+           data-tag="2019"
+           data-author="" >
+            <span class="post-title" title="VPN">VPN</span>
+            <span class="post-date" title="2019-12-21 00:00:00">2019/12/21</span>
+        </a>
+        
+        
+        <a  class="全部文章 数字通信 "
+           href="/2019/11/20/%E5%AE%89%E5%85%A8%E8%AE%BE%E5%A4%87%E4%BA%A4%E4%BB%98-FW/"
+           data-tag="2019"
+           data-author="" >
+            <span class="post-title" title="FireWalld">FireWalld</span>
+            <span class="post-date" title="2019-11-20 00:00:00">2019/11/20</span>
+        </a>
+        
+        
+        <a  class="全部文章 网络协议 "
+           href="/2019/06/16/%E7%BD%91%E7%BB%9C%E5%9F%BA%E7%A1%80-ipv6%E8%BF%87%E6%B8%A1%E6%8A%80%E6%9C%AF/"
+           data-tag="2019"
+           data-author="" >
+            <span class="post-title" title="IPv6过度技术">IPv6过度技术</span>
+            <span class="post-date" title="2019-06-16 00:00:00">2019/06/16</span>
+        </a>
+        
+        
+        <a  class="全部文章 网络协议 "
+           href="/2019/05/19/%E7%BD%91%E7%BB%9C%E5%9F%BA%E7%A1%80-SOCK5/"
+           data-tag="2019"
+           data-author="" >
+            <span class="post-title" title="SOCK5">SOCK5</span>
+            <span class="post-date" title="2019-05-19 00:00:00">2019/05/19</span>
+        </a>
+        
+        
+        <a  class="全部文章 网络协议 "
+           href="/2019/04/25/%E7%BD%91%E7%BB%9C%E5%9F%BA%E7%A1%80-HTTP%E5%8D%8F%E8%AE%AE/"
+           data-tag="2019"
+           data-author="" >
+            <span class="post-title" title="HTTP">HTTP</span>
+            <span class="post-date" title="2019-04-25 00:00:00">2019/04/25</span>
+        </a>
+        
+        
+        <a  class="全部文章 网络协议 "
+           href="/2019/04/13/%E7%BD%91%E7%BB%9C%E5%9F%BA%E7%A1%80-IP%E5%8D%8F%E8%AE%AE/"
+           data-tag="2019"
+           data-author="" >
+            <span class="post-title" title="IP">IP</span>
+            <span class="post-date" title="2019-04-13 00:00:00">2019/04/13</span>
+        </a>
+        
+        
+        <a  class="全部文章 网络协议 "
+           href="/2019/03/29/%E7%BD%91%E7%BB%9C%E5%9F%BA%E7%A1%80-VRRPv4/"
+           data-tag="2019"
+           data-author="" >
+            <span class="post-title" title="VRRPv4">VRRPv4</span>
+            <span class="post-date" title="2019-03-29 00:00:00">2019/03/29</span>
+        </a>
+        
+        
+        <a  class="全部文章 数字通信 "
+           href="/2019/03/19/%E8%B7%AF%E7%94%B1%E4%BA%A4%E6%8D%A2-MPLS/"
+           data-tag="2019"
+           data-author="" >
+            <span class="post-title" title="多协议标签交换—MPLS">多协议标签交换—MPLS</span>
+            <span class="post-date" title="2019-03-19 00:00:00">2019/03/19</span>
+        </a>
+        
+        
+        <a  class="全部文章 网络协议 "
+           href="/2019/03/16/%E7%BD%91%E7%BB%9C%E5%9F%BA%E7%A1%80-Ethernet%20II/"
+           data-tag="2019"
+           data-author="" >
+            <span class="post-title" title="Ethernet II">Ethernet II</span>
+            <span class="post-date" title="2019-03-16 00:00:00">2019/03/16</span>
+        </a>
+        
+        
+        <a  class="全部文章 Linux相关 "
+           href="/2019/03/12/Linux%E7%9B%B8%E5%85%B3-HTTP/"
+           data-tag="Linux,2019"
+           data-author="" >
+            <span class="post-title" title="Linux搭建Web">Linux搭建Web</span>
+            <span class="post-date" title="2019-03-12 00:00:00">2019/03/12</span>
+        </a>
+        
+        
+        <a  class="全部文章 网络协议 "
+           href="/2019/03/11/%E7%BD%91%E7%BB%9C%E5%9F%BA%E7%A1%80-DNS%E5%8D%8F%E8%AE%AE/"
+           data-tag="2019"
+           data-author="" >
+            <span class="post-title" title="DNS">DNS</span>
+            <span class="post-date" title="2019-03-11 00:00:00">2019/03/11</span>
+        </a>
+        
+        
+        <a  class="全部文章 网络协议 "
+           href="/2019/03/06/%E7%BD%91%E7%BB%9C%E5%9F%BA%E7%A1%80-%E5%8D%8F%E8%AE%AE%E5%8F%B7%E9%9B%86%E5%90%88/"
+           data-tag="2019"
+           data-author="" >
+            <span class="post-title" title="Internet协议号合集">Internet协议号合集</span>
+            <span class="post-date" title="2019-03-06 00:00:00">2019/03/06</span>
+        </a>
+        
+        
+        <a  class="全部文章 网络协议 "
+           href="/2019/03/03/%E7%BD%91%E7%BB%9C%E5%9F%BA%E7%A1%80-%E5%8D%8F%E8%AE%AE%E5%B0%81%E8%A3%85/"
+           data-tag="2019,基础"
+           data-author="" >
+            <span class="post-title" title="Etherenet II协议封装">Etherenet II协议封装</span>
+            <span class="post-date" title="2019-03-03 00:00:00">2019/03/03</span>
+        </a>
+        
+        
+        <a  class="全部文章 网络协议 "
+           href="/2019/03/01/%E7%BD%91%E7%BB%9C%E5%9F%BA%E7%A1%80-%E7%AB%AF%E5%8F%A3%E5%8F%B7%E9%9B%86/"
+           data-tag="2019"
+           data-author="" >
+            <span class="post-title" title="Internet端口合集">Internet端口合集</span>
+            <span class="post-date" title="2019-03-01 00:00:00">2019/03/01</span>
+        </a>
+        
+        
+        <a  class="全部文章 数字通信 "
+           href="/2019/02/15/%E8%B7%AF%E7%94%B1%E4%BA%A4%E6%8D%A2-DHCP/"
+           data-tag="2019"
+           data-author="" >
+            <span class="post-title" title="DHCP协议详解">DHCP协议详解</span>
+            <span class="post-date" title="2019-02-15 00:00:00">2019/02/15</span>
+        </a>
+        
+        
+        <a  class="全部文章 数字通信 "
+           href="/2019/02/10/%E8%B7%AF%E7%94%B1%E4%BA%A4%E6%8D%A2-OSPF%20v3/"
+           data-tag="2019"
+           data-author="" >
+            <span class="post-title" title="最短路径优先协议—OSPFv3">最短路径优先协议—OSPFv3</span>
+            <span class="post-date" title="2019-02-10 00:00:00">2019/02/10</span>
+        </a>
+        
+        
+        <a  class="全部文章 数字通信 "
+           href="/2019/02/05/%E8%B7%AF%E7%94%B1%E4%BA%A4%E6%8D%A2-OSPF%20v2/"
+           data-tag="2019"
+           data-author="" >
+            <span class="post-title" title="最短路径优先协议—OSPFv2">最短路径优先协议—OSPFv2</span>
+            <span class="post-date" title="2019-02-05 00:00:00">2019/02/05</span>
+        </a>
+        
+        
+        <a  class="全部文章 数字通信 "
+           href="/2019/01/30/%E8%B7%AF%E7%94%B1%E4%BA%A4%E6%8D%A2-BGP/"
+           data-tag="2019"
+           data-author="" >
+            <span class="post-title" title="边界网关协议—BGP">边界网关协议—BGP</span>
+            <span class="post-date" title="2019-01-30 00:00:00">2019/01/30</span>
+        </a>
+        
+        
+        <a  class="全部文章 网络协议 "
+           href="/2019/01/13/%E7%BD%91%E7%BB%9C%E5%9F%BA%E7%A1%80-TCP%E5%8D%8F%E8%AE%AE/"
+           data-tag="2019"
+           data-author="" >
+            <span class="post-title" title="TCP">TCP</span>
+            <span class="post-date" title="2019-01-13 00:00:00">2019/01/13</span>
+        </a>
+        
+        
+        <a  class="全部文章 数字通信 "
+           href="/2019/01/10/%E8%B7%AF%E7%94%B1%E4%BA%A4%E6%8D%A2-%E9%9D%99%E6%80%81%E8%B7%AF%E7%94%B1/"
+           data-tag="2019"
+           data-author="" >
+            <span class="post-title" title="路由策略&amp;策略路由">路由策略&amp;策略路由</span>
+            <span class="post-date" title="2019-01-10 00:00:00">2019/01/10</span>
+        </a>
+        
+        
+        <a  class="全部文章 数字通信 "
+           href="/2019/01/01/%E8%99%9A%E6%8B%9F%E5%8C%96-EXSI/"
+           data-tag="2019"
+           data-author="" >
+            <span class="post-title" title="虚拟化-EXSI">虚拟化-EXSI</span>
+            <span class="post-date" title="2019-01-01 00:00:00">2019/01/01</span>
+        </a>
+        
+        <div id="no-item-tips">
+
+        </div>
+    </nav>
+    <div id="outline-list">
+    </div>
+</div>
+
+    </div>
+    <div class="hide-list">
+        <div class="semicircle" data-title="切换全屏 快捷键 s">
+            <div class="brackets first"><</div>
+            <div class="brackets">&gt;</div>
+        </div>
+    </div>
+</aside>
+<div id="post">
+    <div class="pjax">
+        <article id="post-Linux相关_再封装.deb包" class="article article-type-post" itemscope itemprop="blogPost">
+    
+        <h1 class="article-title">再封装.deb包</h1>
+    
+    <div class="article-meta">
+        
+        
+        
+        <span class="book">
+            <i class="iconfont icon-category"></i>
+            
+            
+            <a  data-rel="应急响应">应急响应</a>
+            
+        </span>
+        
+        
+        <span class="tag">
+            <i class="iconfont icon-tag"></i>
+            
+            <a class="color5">2023</a>
+            
+        </span>
+        
+    </div>
+    <div class="article-meta">
+        <!-- 修改了原始显示，原始显示更新日期为悬浮 -->
+        <!-- 
+            发布时间 : <time class="date" title='最后更新: 2023-11-28 19:01:20'>2023-11-25 00:00</time>
+         -->
+
+        
+            发布时间 : 2023-11-25 00:00</time>
+        <br>
+
+        
+    </div>
+    <div class="article-meta">
+        
+        
+        <span id="busuanzi_container_page_pv">
+            阅读 :<span id="busuanzi_value_page_pv">
+                <span class="count-comment">
+                    <span class="spinner">
+                      <div class="cube1"></div>
+                      <div class="cube2"></div>
+                    </span>
+                </span>
+            </span>
+        </span>
+        
+        
+    </div>
+    
+    <div class="toc-ref">
+    
+        <ol class="toc"><li class="toc-item toc-level-1"><a class="toc-link" href="#%E2%85%A0%E3%80%81%E7%8E%AF%E5%A2%83%E5%87%86%E5%A4%87"><span class="toc-text">Ⅰ、环境准备</span></a></li><li class="toc-item toc-level-1"><a class="toc-link" href="#%E2%85%A1%E3%80%81%E5%88%9B%E5%BB%BA%E5%BF%85%E8%A6%81%E6%96%87%E4%BB%B6"><span class="toc-text">Ⅱ、创建必要文件</span></a></li><li class="toc-item toc-level-1"><a class="toc-link" href="#%E2%85%A2%E3%80%81%E5%8F%82%E8%80%83%E4%BF%A1%E6%81%AF"><span class="toc-text">Ⅲ、参考信息</span></a></li></ol>
+    
+<style>
+    .left-col .switch-btn,
+    .left-col .switch-area {
+        display: none;
+    }
+    .toc-level-3 i,
+    .toc-level-3 ol {
+        display: none !important;
+    }
+</style>
+</div>
+    
+    <div class="article-entry" itemprop="articleBody">
+      
+        <p><font color=red><strong>源码封装deb</strong></font>以<strong>htop</strong>为例<a target="_blank" rel="noopener" href="https://github.com/htop-dev/htop">https://github.com/htop-dev/htop</a></p>
+<h1 id="Ⅰ、环境准备"><a href="#Ⅰ、环境准备" class="headerlink" title="Ⅰ、环境准备"></a>Ⅰ、环境准备</h1><figure class="highlight plaintext"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br><span class="line">11</span><br><span class="line">12</span><br></pre></td><td class="code"><pre><span class="line">Ubuntu or Debian</span><br><span class="line"></span><br><span class="line"># 安装打包环境</span><br><span class="line">sudo apt-get install devscripts</span><br><span class="line">sudo apt-get install debhelper</span><br><span class="line"></span><br><span class="line"># 下载htop源码</span><br><span class="line">git clone https://github.com/hishamhm/htop.git</span><br><span class="line"></span><br><span class="line"># 解压文件并进入文件夹</span><br><span class="line">unzip htop-master.zip</span><br><span class="line">mv htop-master htop</span><br></pre></td></tr></table></figure>
+
+<h1 id="Ⅱ、创建必要文件"><a href="#Ⅱ、创建必要文件" class="headerlink" title="Ⅱ、创建必要文件"></a>Ⅱ、创建必要文件</h1><p>打包好后在<strong>debian</strong>目录下生成的文件目录:pushpin:<code>share目录下的内容自动生成的</code><br>:accept:修改图标、help信息在源码中修改即可（源码中没有则在share目录下新增对应文件可自定义）</p>
+<figure class="highlight plaintext"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br><span class="line">11</span><br><span class="line">12</span><br><span class="line">13</span><br><span class="line">14</span><br><span class="line">15</span><br><span class="line">16</span><br><span class="line">17</span><br><span class="line">18</span><br><span class="line">19</span><br><span class="line">20</span><br><span class="line">21</span><br><span class="line">22</span><br><span class="line">23</span><br><span class="line">24</span><br><span class="line">25</span><br><span class="line">26</span><br></pre></td><td class="code"><pre><span class="line">root@remnux:~# tree htop/debian/</span><br><span class="line">hithere/debian/</span><br><span class="line">├── changelog</span><br><span class="line">├── compat</span><br><span class="line">├── control</span><br><span class="line">├── hithere</span><br><span class="line">│   ├── DEBIAN</span><br><span class="line">│   │   ├── control</span><br><span class="line">│   │   └── md5sums</span><br><span class="line">│   └── usr</span><br><span class="line">│       ├── bin</span><br><span class="line">│       │   └── htop</span><br><span class="line">│       └── share</span><br><span class="line">│           ├── applications 桌面应用程序</span><br><span class="line">│           │   └── htop.desktop</span><br><span class="line">│           ├── doc 许软件许可信息等</span><br><span class="line">│           │   └── hithere</span><br><span class="line">│           │       └── changelog.Debian.gz</span><br><span class="line">│           ├── man	帮助信息</span><br><span class="line">│           │   └── man1</span><br><span class="line">│           │       └── htop.1.gz</span><br><span class="line">│           └── pixmaps 图标文件</span><br><span class="line">│               └── htop.png</span><br><span class="line"></span><br><span class="line">└── rules</span><br><span class="line"></span><br></pre></td></tr></table></figure>
+
+
+
+<p>1、在&#96;&#96;htop&#96;文件中创建<strong>debian</strong> &amp; &amp;  &amp;<br><font color=orange><strong>htop</strong>为deb包的根目录</font></p>
+<figure class="highlight plaintext"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br></pre></td><td class="code"><pre><span class="line">cd htop</span><br><span class="line"></span><br><span class="line"># 创建debian文件夹以及必要文件control、rules</span><br><span class="line">mkdir debian</span><br></pre></td></tr></table></figure>
+
+
+
+<p>2、 创建<strong>changelog</strong>文件内容如下（自定义）<br>        在htop目录下执行：dch –create -v 1.0-1 –package htop</p>
+<figure class="highlight plaintext"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br></pre></td><td class="code"><pre><span class="line">htop (1.0-1) UNRELEASED; urgency=low</span><br><span class="line"></span><br><span class="line">  * Initial release. (Closes: #XXXXXX)</span><br><span class="line"></span><br><span class="line"> -- Lars Wirzenius &lt;liw@liw.fi&gt;  Thu, 18 Nov 2010 17:25:32 +0000</span><br></pre></td></tr></table></figure>
+
+
+
+<p>3、创建<strong>control</strong>文件内容如下：Source、Package必要</p>
+<figure class="highlight plaintext"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br><span class="line">11</span><br><span class="line">12</span><br></pre></td><td class="code"><pre><span class="line">Source: htop</span><br><span class="line">Maintainer: Lars Wirzenius &lt;liw@liw.fi&gt;</span><br><span class="line">Section: misc</span><br><span class="line">Priority: optional</span><br><span class="line">Standards-Version: 4.6.2</span><br><span class="line">Build-Depends: debhelper-compat (= 13)</span><br><span class="line"></span><br><span class="line">Package: htop</span><br><span class="line">Architecture: any</span><br><span class="line">Depends: $&#123;shlibs:Depends&#125;, $&#123;misc:Depends&#125;</span><br><span class="line">Description: greet user</span><br><span class="line"> hithere greets the user, or the world.</span><br></pre></td></tr></table></figure>
+
+<p><font color=gray>字段说明：</font><br>        <font color=gray>Build-Depends: 等号后必须为<code>=</code>，要么新增<strong>compat</strong>文件执行debhelper版本</font><br>        <font color=gray>Description：结尾必须为<code>.</code></font></p>
+<p>4、新增<strong>compat</strong>文件内容如下</p>
+<figure class="highlight plaintext"><table><tr><td class="gutter"><pre><span class="line">1</span><br></pre></td><td class="code"><pre><span class="line">9</span><br></pre></td></tr></table></figure>
+
+<p>表示强制使用<strong>debhelper</strong> v9</p>
+<p>5、创建<strong>rules</strong>文件内容如下：<br>:heavy_exclamation_mark:注意：<font color=red>此空格为<code>tab</code></font><br>将编译后的二进制文件<strong>安装至&#x2F;usr目录</strong></p>
+<figure class="highlight makefile"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br></pre></td><td class="code"><pre><span class="line"><span class="comment">#!/usr/bin/make -f</span></span><br><span class="line"><span class="section">%:</span></span><br><span class="line">        dh <span class="variable">$@</span></span><br><span class="line"></span><br><span class="line"><span class="section">override_dh_auto_install:</span></span><br><span class="line">        <span class="variable">$(MAKE)</span> DESTDIR=$<span class="variable">$(pwd)</span>/debian/htop prefix=/usr install</span><br></pre></td></tr></table></figure>
+
+
+
+<p>6、创建<strong>format</strong>文件内容如下：<br>        在 debian&#x2F;source&#x2F;format</p>
+<figure class="highlight plaintext"><table><tr><td class="gutter"><pre><span class="line">1</span><br></pre></td><td class="code"><pre><span class="line">3.0 (quilt)</span><br></pre></td></tr></table></figure>
+
+<p><strong>1.0 格式：</strong><br>        原始、未修改的源代码。<br>        没有 <code>debian/patches</code> 目录。</p>
+<p><strong>3.0 (quilt) 格式：</strong><br>        支持 Quilt 补丁管理。<br>        包含 <code>debian/patches</code> 目录，其中包含 Quilt 补丁文件。<br>        可以使用 <code>quilt push</code> 和 <code>quilt pop</code> 等命令管理补丁。</p>
+<p><strong>3.0 (native) 格式：</strong><br>        类似于 <code>3.0 (quilt)</code>，但是没有 <code>debian/patches</code> 目录。<br>        通常用于原生（非修改过的）软件包。</p>
+<p>7、编译</p>
+<figure class="highlight plaintext"><table><tr><td class="gutter"><pre><span class="line">1</span><br></pre></td><td class="code"><pre><span class="line">debuild -us -uc</span><br></pre></td></tr></table></figure>
+
+
+
+<p>8、错误忽略</p>
+<figure class="highlight plaintext"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br><span class="line">11</span><br><span class="line">12</span><br><span class="line">13</span><br><span class="line">14</span><br><span class="line">15</span><br><span class="line">16</span><br><span class="line">17</span><br></pre></td><td class="code"><pre><span class="line">dpkg-buildpackage: info: full upload; Debian-native package (full source is included)</span><br><span class="line">Now running lintian hithere_1.0-1_amd64.changes ...</span><br><span class="line">warning: the authors of lintian do not recommend running it with root privileges!</span><br><span class="line">E: hithere changes: changed-by-address-is-root-user root &lt;root@remnux&gt;</span><br><span class="line">E: hithere changes: changed-by-address-is-root-user root &lt;root@remnux&gt;</span><br><span class="line">E: hithere changes: changed-by-address-malformed root &lt;root@remnux&gt;</span><br><span class="line">E: hithere: debian-changelog-file-contains-invalid-email-address root@remnux</span><br><span class="line">E: hithere source: malformed-debian-changelog-version 1.0-1 (for native)</span><br><span class="line">E: hithere: no-copyright-file</span><br><span class="line">E: hithere source: package-uses-debhelper-but-lacks-build-depends</span><br><span class="line">W: hithere source: missing-debian-source-format</span><br><span class="line">W: hithere: new-package-should-close-itp-bug</span><br><span class="line">W: hithere source: newer-standards-version 4.6.2 (current is 4.5.0)</span><br><span class="line">W: hithere source: no-debian-copyright-in-source</span><br><span class="line">W: hithere source: package-uses-deprecated-debhelper-compat-version 9</span><br><span class="line">W: hithere: wrong-bug-number-in-closes l3:#XXXXXX</span><br><span class="line">Finished running lintian.</span><br></pre></td></tr></table></figure>
+
+<p><img src="/./images/yjxy52.png" alt="可忽略"></p>
+<h1 id="Ⅲ、参考信息"><a href="#Ⅲ、参考信息" class="headerlink" title="Ⅲ、参考信息"></a>Ⅲ、参考信息</h1><p><a target="_blank" rel="noopener" href="https://wiki.debian.org/Packaging/Intro">https://wiki.debian.org/Packaging/Intro</a></p>
+<p><a target="_blank" rel="noopener" href="https://www.debian.org/doc/manuals/debmake-doc/ch05.en.html#name-version">https://www.debian.org/doc/manuals/debmake-doc/ch05.en.html#name-version</a></p>
+
+      
+       <hr><span style="font-style: italic;color: gray;"> 转载请注明来源，欢迎对文章进行指正，联系邮箱 vou0515@gmail.com </span>
+    </div>
+</article>
+
+
+
+
+
+
+
+    
+
+
+
+
+    </div>
+    <div class="copyright">
+        <p class="footer-entry">
+    ©2023 closeto
+</p>
+<p class="footer-entry">Built with Hexo</p>
+
+    </div>
+    <div class="full-toc">
+        <button class="full" data-title="切换全屏 快捷键 s"><span class="min "></span></button>
+<a class="" id="rocket" ></a>
+
+    </div>
+</div>
+
+</body>
+<script src="/js/jquery.pjax.js?v=1.1.0" ></script>
+
+<script src="/js/script.js?v=1.1.0" ></script>
+<script>
+    var img_resize = 'default';
+    function initArticle() {
+        /*渲染对应的表格样式*/
+        
+            $("#post .pjax table").addClass("green_title");
+        
+
+        /*渲染打赏样式*/
+        
+
+        /*高亮代码块行号*/
+        
+
+        /*访问数量*/
+        
+        $.getScript("//busuanzi.ibruce.info/busuanzi/2.3/busuanzi.pure.mini.js");
+        
+
+        /*代码高亮，行号对齐*/
+        $('.pre-numbering').css('line-height',$('.has-numbering').css('line-height'));
+
+        
+        
+        /* 渲染*/
+        function HTMLDecode(text) {
+            var temp = document.createElement("div");
+            temp.innerHTML = text;
+            var output = temp.innerText || temp.textContent;
+            temp = null;
+            return output;
+        }
+        if (window.mermaid){
+            window.mermaid = null
+        }
+        $.getScript("//cdn.jsdelivr.net/npm/mermaid@8.4.2/dist/mermaid.min.js", function () {
+            var mermaidOptions = JSON.parse(HTMLDecode("{&#34;theme&#34;:&#34;default&#34;,&#34;startOnLoad&#34;:true,&#34;flowchart&#34;:{&#34;useMaxWidth&#34;:false,&#34;htmlLabels&#34;:true}}"))
+            if (window.mermaid) {
+                mermaid.initialize(mermaidOptions)
+                mermaid.contentLoaded()
+            }
+        })
+        
+    }
+
+    /*打赏页面隐藏与展示*/
+    
+
+</script>
+
+<!--加入行号的高亮代码块样式-->
+
+<!--自定义样式设置-->
+<style>
+    
+    
+    .nav {
+        width: 562px;
+    }
+    .nav.fullscreen {
+        margin-left: -562px;
+    }
+    .nav-left {
+        width: 140px;
+    }
+    
+    
+    @media screen and (max-width: 1468px) {
+        .nav {
+            width: 492px;
+        }
+        .nav.fullscreen {
+            margin-left: -492px;
+        }
+        .nav-left {
+            width: 100px;
+        }
+    }
+    
+    
+    @media screen and (max-width: 1024px) {
+        .nav {
+            width: 492px;
+            margin-left: -492px
+        }
+        .nav.fullscreen {
+            margin-left: 0;
+        }
+    }
+    
+    @media screen and (max-width: 426px) {
+        .nav {
+            width: 100%;
+        }
+        .nav-left {
+            width: 100%;
+        }
+    }
+    
+    
+    .nav-right .title-list nav a .post-title, .nav-right .title-list #local-search-result a .post-title {
+        color: #383636;
+    }
+    
+    
+    .nav-right .title-list nav a .post-date, .nav-right .title-list #local-search-result a .post-date {
+        color: #5e5e5f;
+    }
+    
+    
+    .nav-right nav a.hover, #local-search-result a.hover{
+        background-color: #e2e0e0;
+    }
+    
+    
+
+    /*列表样式*/
+    
+
+    /* 背景图样式 */
+    
+    
+
+
+    /*引用块样式*/
+    
+
+    /*文章列表背景图*/
+    
+
+    
+</style>
+
+
+
+
+
+
+
+</html>

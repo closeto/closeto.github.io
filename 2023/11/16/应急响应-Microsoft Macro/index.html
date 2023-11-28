@@ -6,20 +6,26 @@
   <meta name="keywords" content=" 2023 ">
   <meta name="description" content="深度剖析MS Macro | 欢迎来到closeto的博客">
     <meta name="viewport" content="width=device-width, initial-scale=1, maximum-scale=1">
-<meta name="description" content="结构化思维的意义：能够更加简单化、明确化的面对问题 例如：在面对一个问题时可以将问题的 流程逐步分析 &amp; 细化，可以帮助自身更好掌控 &amp; 解决一个问题  由此，将思维转换成一下，将结构化思维运用到项目中的例子可以为：👇">
+<meta name="description" content="0x00 创建.deb​		首先要了解.deb的文件架构，其中DEBIAN&#x2F;目录下的contorl必须要有，其它文件可有可无。.deb文件中的目录就是安装后文件所在的目录，这里放在usr&#x2F;bin中，那么安装后就在**&#x2F;usr&#x2F;bin目录下创建的my-demo.deb文件目录结构如下：:point_right:包名my-demo、可执行程序demo**:poi">
 <meta property="og:type" content="article">
-<meta property="og:title" content="结构化思维思考">
-<meta property="og:url" content="https://closeto.github.io/2023/11/04/%E9%9A%8F%E5%BF%83-%E7%BB%93%E6%9E%84%E5%8C%96%E6%80%9D%E7%BB%B4/index.html">
+<meta property="og:title" content="从零创建.deb包">
+<meta property="og:url" content="https://closeto.github.io/2023/11/20/Linux%E7%9B%B8%E5%85%B3_%E5%88%9B%E5%BB%BA.deb%E5%8C%85/index.html">
 <meta property="og:site_name" content="欢迎来到closeto的博客">
-<meta property="og:description" content="结构化思维的意义：能够更加简单化、明确化的面对问题 例如：在面对一个问题时可以将问题的 流程逐步分析 &amp; 细化，可以帮助自身更好掌控 &amp; 解决一个问题  由此，将思维转换成一下，将结构化思维运用到项目中的例子可以为：👇">
+<meta property="og:description" content="0x00 创建.deb​		首先要了解.deb的文件架构，其中DEBIAN&#x2F;目录下的contorl必须要有，其它文件可有可无。.deb文件中的目录就是安装后文件所在的目录，这里放在usr&#x2F;bin中，那么安装后就在**&#x2F;usr&#x2F;bin目录下创建的my-demo.deb文件目录结构如下：:point_right:包名my-demo、可执行程序demo**:poi">
 <meta property="og:locale" content="zh_CN">
-<meta property="og:image" content="https://closeto.github.io/images/other05.png">
-<meta property="og:image" content="https://closeto.github.io/images/other04.png">
-<meta property="article:published_time" content="2023-11-03T16:00:00.000Z">
+<meta property="og:image" content="https://closeto.github.io/images/yjxy44.png">
+<meta property="og:image" content="https://closeto.github.io/images/yjxy45.png">
+<meta property="og:image" content="https://closeto.github.io/images/yjxy46.png">
+<meta property="og:image" content="https://closeto.github.io/images/yjxy47.png">
+<meta property="og:image" content="https://closeto.github.io/images/yjxy48.png">
+<meta property="og:image" content="https://closeto.github.io/images/yjxy49.png">
+<meta property="og:image" content="https://closeto.github.io/images/yjxy50.png">
+<meta property="og:image" content="https://closeto.github.io/images/yjxy51.png">
+<meta property="article:published_time" content="2023-11-19T16:00:00.000Z">
 <meta property="article:author" content="closeto">
 <meta property="article:tag" content="2023">
 <meta name="twitter:card" content="summary">
-<meta name="twitter:image" content="https://closeto.github.io/images/other05.png">
+<meta name="twitter:image" content="https://closeto.github.io/images/yjxy44.png">
 
 
 <link rel="icon" href="/img/ico.png">
@@ -104,7 +110,7 @@
     <li>
         <div class="all active" data-rel="全部文章">全部文章
             
-                <small>(72)</small>
+                <small>(75)</small>
             
         </div>
     </li>
@@ -146,7 +152,7 @@
         <div data-rel="应急响应">
             
             应急响应
-            <small>(2)</small>
+            <small>(5)</small>
         </div>
         
     </li>
@@ -275,7 +281,7 @@
         
     </div>
 </div>
-<input type="hidden" id="yelog_site_posts_number" value="72">
+<input type="hidden" id="yelog_site_posts_number" value="75">
 
 <div style="display: none">
     <span id="busuanzi_value_site_uv"></span>
@@ -391,6 +397,33 @@
 
     
     <nav id="title-list-nav">
+        
+        
+        <a  class="全部文章 应急响应 "
+           href="/2023/11/25/Linux%E7%9B%B8%E5%85%B3_%E5%86%8D%E5%B0%81%E8%A3%85.deb%E5%8C%85/"
+           data-tag="2023"
+           data-author="" >
+            <span class="post-title" title="再封装.deb包">再封装.deb包</span>
+            <span class="post-date" title="2023-11-25 00:00:00">2023/11/25</span>
+        </a>
+        
+        
+        <a  class="全部文章 应急响应 "
+           href="/2023/11/25/%E5%BA%94%E6%80%A5%E5%93%8D%E5%BA%94-.deb%E6%96%87%E4%BB%B6/"
+           data-tag="2023"
+           data-author="" >
+            <span class="post-title" title="Debian包详解">Debian包详解</span>
+            <span class="post-date" title="2023-11-25 00:00:00">2023/11/25</span>
+        </a>
+        
+        
+        <a  class="全部文章 应急响应 "
+           href="/2023/11/20/Linux%E7%9B%B8%E5%85%B3_%E5%88%9B%E5%BB%BA.deb%E5%8C%85/"
+           data-tag="2023"
+           data-author="" >
+            <span class="post-title" title="从零创建.deb包">从零创建.deb包</span>
+            <span class="post-date" title="2023-11-20 00:00:00">2023/11/20</span>
+        </a>
         
         
         <a  class="全部文章 应急响应 "
